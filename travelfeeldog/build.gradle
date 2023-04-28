@@ -27,6 +27,9 @@ dependencies {
     //DB
     runtimeOnly 'com.mysql:mysql-connector-j'
 
+    //infra
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
     // Common
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
