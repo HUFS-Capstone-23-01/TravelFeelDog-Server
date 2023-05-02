@@ -39,3 +39,8 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+
+bootJar{
+    archiveFileName = "TravelFeelDog.jar"
+}
