@@ -35,9 +35,14 @@ public class AwsS3ImageService {
         this.imageRepository = imageRepository;
     }
 
-    // Create new image object and upload file to S3 bucket
-    @Transactional
-    public ImageDto uploadImageFile(MultipartFile file, String folderName) throws IOException {
+    /**
+     *
+     * @param file
+     * @param folderName
+     * @return s3ImageURL
+     * @throws IOException
+     */
+    public String uploadImageOnly(MultipartFile file, String folderName) throws IOException {
         if (!folderExists(folderName)) {
             // Create a new folder in the S3 bucket
             createFolder(folderName);
@@ -50,14 +55,52 @@ public class AwsS3ImageService {
         String key = folderName + "/" + fileName;
         PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, key, inputStream, metadata);
         amazonS3.putObject(putObjectRequest);
-        String fileUrl = amazonS3.getUrl(bucketName, key).toString();
+        return amazonS3.getUrl(bucketName, key).toString();
+    }
+    /**
+     *
+     * @param files
+     * @param folderName
+     * @return List<ImageDto>
+     * @throws IOException
+     */
+    public List<ImageDto> uploadImagesOnly(MultipartFile[] files, String folderName) {
+        if (!folderExists(folderName)) {
+            // Create a new folder in the S3 bucket
+            createFolder(folderName);
+        }
+        return Arrays.stream(files)
+                .map(file -> {
+                    try {
+                        return uploadSingleImage(file, folderName);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .collect(Collectors.toList());
+    }
+    public ImageDto uploadSingleImage(MultipartFile file, String folderName) throws IOException {
+        return new ImageDto(uploadMakeS3Image(file,folderName));
+    }
+    private S3Image uploadMakeS3Image(MultipartFile file, String folderName) throws IOException {
+        String fileUrl = uploadImageOnly(file,folderName);
+        String fileName = file.getOriginalFilename();
         S3Image image = new S3Image();
         image.setFolderName(folderName);
         image.setFileName(fileName);
         image.setFileType(file.getContentType());
         image.setFileUrl(fileUrl);
-        image = imageRepository.save(image);
+        return image;
+    }
+    @Transactional
+    public ImageDto uploadImageFile(MultipartFile file, String folderName) throws IOException {
+        S3Image image=uploadMakeS3Image(file,folderName);
+        image = imageSave(image);
         return new ImageDto(image);
+    }
+    @Transactional
+    public S3Image imageSave(S3Image image){
+        return imageRepository.save(image);
     }
     @Transactional
     public List<ImageDto> uploadImageFiles(MultipartFile[] files, String folderName) {
