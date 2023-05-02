@@ -1,6 +1,55 @@
 package travelfeeldog.domain.place.model;
 
+import static javax.persistence.FetchType.LAZY;
+
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import travelfeeldog.domain.category.model.Category;
+import travelfeeldog.domain.facility.model.Facility;
+import travelfeeldog.domain.location.model.Location;
+import travelfeeldog.domain.review.model.Review;
 import travelfeeldog.global.common.model.BaseTimeEntity;
 
+
+@DynamicInsert
+@Setter
+@Getter
+@Entity
 public class Place extends BaseTimeEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="palce_id")
+    private Long id;
+    @Column(name="palce_name")
+    private String name;
+    @Column(name="palce_decsribe")
+    private String describe;
+    @ColumnDefault("0")
+    @Column(name="palce_view_count")
+    private int viewCount;
+    @OneToMany(mappedBy = "place" ,cascade = CascadeType.PERSIST)
+    @JoinColumn(name="facility_id")
+    private List<Facility> facilities = new ArrayList<>();
+    @ManyToOne(fetch = LAZY,cascade= CascadeType.PERSIST)
+    @JoinColumn(name="category_id")
+    private Category category;
+    @ManyToOne(fetch = LAZY,cascade= CascadeType.PERSIST)
+    @JoinColumn(name="location_id")
+    private Location location;
+    @OneToMany(mappedBy = "place" ,cascade = CascadeType.PERSIST)
+    @JoinColumn(name="review_id")
+    private List<Review> reviews = new ArrayList<>();
 }

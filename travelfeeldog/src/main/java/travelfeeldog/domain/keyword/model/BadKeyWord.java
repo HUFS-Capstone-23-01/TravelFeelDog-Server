@@ -1,4 +1,4 @@
-package travelfeeldog.domain.review.model;
+package travelfeeldog.domain.keyword.model;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -12,20 +12,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
-import travelfeeldog.domain.place.model.Place;
-import travelfeeldog.global.common.model.BaseTimeEntity;
+import travelfeeldog.domain.category.model.Category;
 
 @Setter
 @Getter
 @Entity
-public class Review extends BaseTimeEntity {
+public class BadKeyWord extends BaseKeyWordEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="review_id")
+    @Column(name="bad_key_word_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY,cascade= CascadeType.PERSIST)
-    @JoinColumn(name="place_id")
-    private Place place;
-
+    @JoinColumn(name="category_id")
+    private Category category;
 }

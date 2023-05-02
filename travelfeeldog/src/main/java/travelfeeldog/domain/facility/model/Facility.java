@@ -1,4 +1,4 @@
-package travelfeeldog.domain.review.model;
+package travelfeeldog.domain.facility.model;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -13,19 +13,21 @@ import javax.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 import travelfeeldog.domain.place.model.Place;
-import travelfeeldog.global.common.model.BaseTimeEntity;
 
 @Setter
 @Getter
 @Entity
-public class Review extends BaseTimeEntity {
+public class Facility {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="review_id")
+    @Column(name="facility_id")
     private Long id;
+
+    private String name;
 
     @ManyToOne(fetch = LAZY,cascade= CascadeType.PERSIST)
     @JoinColumn(name="place_id")
     private Place place;
+
 
 }
