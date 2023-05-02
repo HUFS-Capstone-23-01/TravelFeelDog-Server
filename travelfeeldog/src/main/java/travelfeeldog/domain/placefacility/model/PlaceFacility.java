@@ -10,10 +10,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import lombok.Getter;
+import lombok.Setter;
 import travelfeeldog.domain.facility.model.Facility;
 import travelfeeldog.domain.place.model.Place;
-
 @Entity
+@Getter @Setter
 public class PlaceFacility {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
