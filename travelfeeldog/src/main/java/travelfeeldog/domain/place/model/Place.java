@@ -40,16 +40,19 @@ public class Place extends BaseTimeEntity {
     @ColumnDefault("0")
     @Column(name="palce_view_count")
     private int viewCount;
+
     @OneToMany(mappedBy = "place" ,cascade = CascadeType.PERSIST)
-    @JoinColumn(name="facility_id")
     private List<Facility> facilities = new ArrayList<>();
+
+    @OneToMany(mappedBy = "place" ,cascade = CascadeType.PERSIST)
+    private List<Review> reviews = new ArrayList<>();
+
     @ManyToOne(fetch = LAZY,cascade= CascadeType.PERSIST)
     @JoinColumn(name="category_id")
     private Category category;
+
     @ManyToOne(fetch = LAZY,cascade= CascadeType.PERSIST)
     @JoinColumn(name="location_id")
     private Location location;
-    @OneToMany(mappedBy = "place" ,cascade = CascadeType.PERSIST)
-    @JoinColumn(name="review_id")
-    private List<Review> reviews = new ArrayList<>();
+
 }
