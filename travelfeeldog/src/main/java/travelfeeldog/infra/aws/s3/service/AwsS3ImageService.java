@@ -92,6 +92,7 @@ public class AwsS3ImageService {
         image.setFileUrl(fileUrl);
         return image;
     }
+    @Transactional
     public ImageDto uploadImageFile(MultipartFile file, String folderName) throws IOException {
         S3Image image=uploadMakeS3Image(file,folderName);
         image = imageSave(image);
