@@ -21,17 +21,18 @@ import org.hibernate.annotations.DynamicInsert;
 import travelfeeldog.domain.category.model.Category;
 import travelfeeldog.domain.facility.model.Facility;
 import travelfeeldog.domain.location.model.Location;
+import travelfeeldog.domain.placefacility.model.PlaceFacility;
 import travelfeeldog.domain.review.model.Review;
 import travelfeeldog.global.common.model.BaseTimeEntity;
 
 
 @DynamicInsert
-@Setter
-@Getter
 @Entity
+@Table(name ="places")
+@Getter @Setter
 public class Place extends BaseTimeEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="place_id")
     private Long id;
     @Column(name="place_name")
@@ -49,7 +50,7 @@ public class Place extends BaseTimeEntity {
     @Column(name="place_longitude")
     private float longitude;
     @OneToMany(mappedBy = "place" ,cascade = CascadeType.PERSIST)
-    private List<Facility> facilities = new ArrayList<>();
+    private List<PlaceFacility> placeFacilities = new ArrayList<>();
 
     @OneToMany(mappedBy = "place" ,cascade = CascadeType.PERSIST)
     private List<Review> reviews = new ArrayList<>();
@@ -61,5 +62,23 @@ public class Place extends BaseTimeEntity {
     @ManyToOne(fetch = LAZY,cascade= CascadeType.PERSIST)
     @JoinColumn(name="location_id")
     private Location location;
+/*
+    public void setCategory(Category category) {
+        this.category=category;
+        category.getPlaces().add(this);
+    }
+    public void setLocation(Location location) {
+        this.location = location;
+        location.getPlaces().add(this);
+    }
+    public void addReview(Review review){
+        reviews.add(review);
+        review.setPlace(this);
+    }
+    public void addFacility(Facility facility){
+        facilities.add(facility);
+        facility.setPlace(this);
+    }
 
+ */
 }

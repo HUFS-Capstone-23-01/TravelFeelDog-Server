@@ -1,5 +1,6 @@
-package travelfeeldog.domain.place.application;
+package travelfeeldog.domain.place.service;
 
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,13 +19,16 @@ public class PlaceService {
         return placeRepository.save(new Place());
     }
     @Transactional
-    public Place updatePlace(Place givenPlace){
+    public Place changeCategory(Place givenPlace){
         Place place = placeRepository.findById(givenPlace.getId()).get();
         place.setCategory(givenPlace.getCategory());
         return place;
     }
-    public Place findOneByPlaceId(Long placeId){
+    public Place getOneByPlaceId(Long placeId){
         return placeRepository.findById(placeId).get();
+    }
+    public List<Place> getAllPlaces(Long placeId){
+        return placeRepository.findAll();
     }
 
 }
