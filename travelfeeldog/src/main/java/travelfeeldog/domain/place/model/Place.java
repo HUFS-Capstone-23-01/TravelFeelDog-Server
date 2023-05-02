@@ -41,11 +41,13 @@ public class Place extends BaseTimeEntity {
     @ColumnDefault("0")
     @Column(name="place_view_count")
     private Integer viewCount;
-
     @ColumnDefault("'example.com'")
     @Column(name="place_thumbnail_image")
     private String thumbnailImageUrl;
-
+    @Column(name="place_latitude")
+    private float latitude;
+    @Column(name="place_longitude")
+    private float longitude;
     @OneToMany(mappedBy = "place" ,cascade = CascadeType.PERSIST)
     private List<Facility> facilities = new ArrayList<>();
 
