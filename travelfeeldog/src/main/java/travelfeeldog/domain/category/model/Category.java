@@ -28,7 +28,6 @@ public class Category {
     private String name;
 
     @OneToMany(mappedBy = "category" ,cascade = CascadeType.PERSIST)
-    @JoinColumn(name="place_id")
     private List<Place> places = new ArrayList<>();
 
     @OneToMany(mappedBy = "category" ,cascade = CascadeType.PERSIST)
