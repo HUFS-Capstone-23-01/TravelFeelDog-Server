@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -26,5 +28,17 @@ public abstract class BaseTimeEntity implements Serializable {
     private LocalDateTime updatedDateTime;
 
     protected BaseTimeEntity(){}
+
+    @PrePersist
+    public void prePersist(){
+        LocalDateTime now = LocalDateTime.now();
+        createdDateTime = now;
+        updatedDateTime = now;
+    }
+
+    @PreUpdate
+    public void preUpdate(){
+        updatedDateTime = LocalDateTime.now();
+    }
 
 }
