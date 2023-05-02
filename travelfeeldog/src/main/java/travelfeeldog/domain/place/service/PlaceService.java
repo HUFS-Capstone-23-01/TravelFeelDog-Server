@@ -1,5 +1,6 @@
 package travelfeeldog.domain.place.application;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,15 @@ public class PlaceService {
     @Transactional
     public Place savePlace(){
         return placeRepository.save(new Place());
+    }
+    @Transactional
+    public Place updatePlace(Place givenPlace){
+        Place place = placeRepository.findById(givenPlace.getId()).get();
+        place.setCategory(givenPlace.getCategory());
+        return place;
+    }
+    public Place findOneByPlaceId(Long placeId){
+        return placeRepository.findById(placeId).get();
     }
 
 }
