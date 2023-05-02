@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
@@ -30,16 +31,20 @@ import travelfeeldog.global.common.model.BaseTimeEntity;
 @Entity
 public class Place extends BaseTimeEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="palce_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="place_id")
     private Long id;
-    @Column(name="palce_name")
+    @Column(name="place_name")
     private String name;
-    @Column(name="palce_decsribe")
+    @Column(name="place_decsribe")
     private String describe;
     @ColumnDefault("0")
-    @Column(name="palce_view_count")
-    private int viewCount;
+    @Column(name="place_view_count")
+    private Integer viewCount;
+
+    @ColumnDefault("'example.com'")
+    @Column(name="place_thumbnail_image")
+    private String thumbnailImageUrl;
 
     @OneToMany(mappedBy = "place" ,cascade = CascadeType.PERSIST)
     private List<Facility> facilities = new ArrayList<>();
