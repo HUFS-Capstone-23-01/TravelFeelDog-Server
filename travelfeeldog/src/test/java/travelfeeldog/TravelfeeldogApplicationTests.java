@@ -1,4 +1,4 @@
-package woowahangongdol.travelfeeldog;
+package travelfeeldog;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
