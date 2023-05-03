@@ -88,6 +88,7 @@ public class AwsS3ImageService {
         S3Image image = new S3Image();
         image.setFolderName(folderName);
         image.setFileName(fileName);
+        image.setFileSize(file.getSize());
         image.setFileType(file.getContentType());
         image.setFileUrl(fileUrl);
         return image;
