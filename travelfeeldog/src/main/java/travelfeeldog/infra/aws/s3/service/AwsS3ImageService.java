@@ -1,39 +1,37 @@
 package travelfeeldog.infra.aws.s3.service;
 
-import com.amazonaws.services.s3.model.S3ObjectSummary;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ByteArrayInputStream;
+
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.transaction.annotation.Transactional;
+
+import travelfeeldog.infra.aws.s3.model.S3Image;
 import travelfeeldog.infra.aws.s3.dao.AwsS3ImageRepository;
 import travelfeeldog.infra.aws.s3.dto.AwsS3ImageDtos.ImageDto;
-import travelfeeldog.infra.aws.s3.model.S3Image;
+
 @Transactional(readOnly = true)
 @Service
 public class AwsS3ImageService {
     private final AmazonS3 amazonS3;
-
     private final AwsS3ImageRepository imageRepository;
-
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
-
-    // Constructor injection of dependencies
     public AwsS3ImageService(AmazonS3 amazonS3, AwsS3ImageRepository imageRepository) {
         this.amazonS3 = amazonS3;
         this.imageRepository = imageRepository;
     }
-
     /**
      *
      * @param file
@@ -43,7 +41,6 @@ public class AwsS3ImageService {
      */
     public String uploadImageOnly(MultipartFile file, String folderName) throws IOException {
         if (doesNotExistFolder(folderName)) {
-            // Create a new folder in the S3 bucket
             createFolder(folderName);
         }
         String fileName = file.getOriginalFilename();
@@ -65,7 +62,6 @@ public class AwsS3ImageService {
      */
     public List<ImageDto> uploadImagesOnly(MultipartFile[] files, String folderName) {
         if (doesNotExistFolder(folderName)) {
-            // Create a new folder in the S3 bucket
             createFolder(folderName);
         }
         return Arrays.stream(files)
@@ -99,7 +95,7 @@ public class AwsS3ImageService {
         return new ImageDto(image);
     }
     @Transactional
-    public S3Image imageSave(S3Image image){
+    public S3Image imageSave(S3Image image) {
         return imageRepository.save(image);
     }
     @Transactional
