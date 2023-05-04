@@ -1,4 +1,4 @@
-package travelfeeldog.infra.aws.s3.service;
+package travelfeeldog.infra.aws.s3;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;

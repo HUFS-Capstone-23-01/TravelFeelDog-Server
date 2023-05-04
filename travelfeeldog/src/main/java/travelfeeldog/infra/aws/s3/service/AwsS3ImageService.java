@@ -7,7 +7,6 @@ import java.io.InputStream;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,7 +42,7 @@ public class AwsS3ImageService {
      * @throws IOException
      */
     public String uploadImageOnly(MultipartFile file, String folderName) throws IOException {
-        if (!folderExists(folderName)) {
+        if (doesNotExistFolder(folderName)) {
             // Create a new folder in the S3 bucket
             createFolder(folderName);
         }
@@ -65,7 +64,7 @@ public class AwsS3ImageService {
      * @throws IOException
      */
     public List<ImageDto> uploadImagesOnly(MultipartFile[] files, String folderName) {
-        if (!folderExists(folderName)) {
+        if (doesNotExistFolder(folderName)) {
             // Create a new folder in the S3 bucket
             createFolder(folderName);
         }
@@ -105,8 +104,7 @@ public class AwsS3ImageService {
     }
     @Transactional
     public List<ImageDto> uploadImageFiles(MultipartFile[] files, String folderName) {
-        if (!folderExists(folderName)) {
-            // Create a new folder in the S3 bucket
+        if (doesNotExistFolder(folderName)) {
             createFolder(folderName);
         }
         return Arrays.stream(files)
@@ -119,8 +117,6 @@ public class AwsS3ImageService {
                 })
                 .collect(Collectors.toList());
     }
-
-    // Delete image file from S3 bucket and object from database
     @Transactional
     public void deleteImage(Long id) {
         S3Image image = imageRepository.findById(id)
@@ -128,27 +124,19 @@ public class AwsS3ImageService {
         amazonS3.deleteObject(bucketName, image.getFileName());
         imageRepository.delete(image);
     }
-
     public ImageDto getImageById(Long id) {
         S3Image image = imageRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Image not found for id: " + id));
         return new ImageDto(image);
     }
-
     private void createFolder(String folderName) {
         InputStream stream = null;
         try {
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentLength(0);
-            // Create an empty input stream
             stream = new ByteArrayInputStream(new byte[0]);
-            // Set content type to directory
             metadata.setContentType("application/x-directory");
-
-            // Set folder name as key
             String key = folderName + "/";
-
-            // Put object with empty content to create folder
             PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, key, stream, metadata);
             amazonS3.putObject(putObjectRequest);
         } catch (Exception e) {
@@ -163,8 +151,10 @@ public class AwsS3ImageService {
             }
         }
     }
-    private boolean folderExists(String folderName) {
-        List<S3ObjectSummary> objects = amazonS3.listObjects(bucketName, folderName).getObjectSummaries();
-        return objects.stream().anyMatch(s -> s.getKey().startsWith(folderName + "/"));
+    private boolean doesNotExistFolder(String folderName) {
+        return amazonS3.listObjects(bucketName, folderName)
+                .getObjectSummaries()
+                .stream()
+                .noneMatch(s -> s.getKey().startsWith(folderName + "/"));
     }
 }
