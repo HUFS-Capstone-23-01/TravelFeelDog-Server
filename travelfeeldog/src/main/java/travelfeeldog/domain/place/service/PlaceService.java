@@ -1,6 +1,7 @@
 package travelfeeldog.domain.place.service;
 
 import java.util.List;
+import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +21,7 @@ public class PlaceService {
     private final CategoryRepository categoryRepository;
     private final LocationRepository locationRepository;
     @Transactional
-    public Place addNewPlace(PlacePostRequestDto placePostRequestDto){
+    public Place addNewPlace(PlacePostRequestDto placePostRequestDto) {
         Place place = new Place();
         place.setName(placePostRequestDto.getName());
         place.setDescribe(placePostRequestDto.getDescribe());
@@ -28,22 +29,30 @@ public class PlaceService {
         place.setAddress(placePostRequestDto.getAddress());
         place.setLatitude(placePostRequestDto.getLatitude());
         place.setLongitude(placePostRequestDto.getLongitude());
+
         Category category = categoryRepository.findByName(placePostRequestDto.getCategoryName());
         place.setCategory(category);
+
         Location location = locationRepository.findByName(placePostRequestDto.getLocationName());
         place.setLocation(location);
+
         return placeRepository.save(place);
     }
+
     @Transactional
-    public Place changeCategory(Place givenPlace){
-        Place place = placeRepository.findById(givenPlace.getId()).get();
+    public Place changeCategory(Place givenPlace) {
+        Place place = placeRepository.findById(givenPlace.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Place not found with ID: " + givenPlace.getId()));
         place.setCategory(givenPlace.getCategory());
         return place;
     }
-    public Place getOneByPlaceId(Long placeId){
-        return placeRepository.findById(placeId).get();
+
+    public Place getOneByPlaceId(Long placeId) {
+        return placeRepository.findById(placeId)
+                .orElseThrow(() -> new EntityNotFoundException("Place not found with ID: " + placeId));
     }
-    public List<Place> getAllPlaces(){
+
+    public List<Place> getAllPlaces() {
         return placeRepository.findAll();
     }
 
