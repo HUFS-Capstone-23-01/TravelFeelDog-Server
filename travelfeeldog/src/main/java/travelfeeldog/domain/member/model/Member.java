@@ -8,8 +8,10 @@ import javax.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import travelfeeldog.global.common.model.BaseTimeEntity;
 @Getter
+@Setter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseTimeEntity {
@@ -19,6 +21,37 @@ public class Member extends BaseTimeEntity {
     @Column(name = "member_id", length = 64) //pk
     private Long id;
 
-    @Column(name = "nick_name", length = 100)
+    @Column(name = "member_nickname", unique = true, length = 100)
     private String nickName;
+
+    @Column(name = "member_level", length = 100)
+    private int level;
+    @Column(name = "member_exp", length = 100)
+    private int exp;
+    @Column(name = "member_image_url", length = 100)
+    private String imageUrl;
+    @Column(name = "member_token", unique = true, length = 100)
+    private String token;
+
+    private Member(Long id,
+                   String nickName,
+                   int level,
+                   int exp,
+                   String imageUrl,
+                   String token) {
+        this.id = id;
+        this.nickName = nickName;
+        this.level = level;
+        this.exp = exp;
+        this.imageUrl = imageUrl;
+        this.token = token;
+    }
+    public static Member create(Long id,
+                                String nickName,
+                                int level,
+                                int exp,
+                                String imageUrl,
+                                String token) {
+        return new Member(id, nickName, level, exp, imageUrl, token);
+    }
 }
