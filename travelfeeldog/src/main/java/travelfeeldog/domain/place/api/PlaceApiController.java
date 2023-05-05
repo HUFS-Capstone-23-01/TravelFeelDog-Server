@@ -18,27 +18,26 @@ import travelfeeldog.global.common.dto.ApiResponse;
 @RestController
 @RequestMapping("/place")
 @RequiredArgsConstructor
-public class PlaceApi {
+public class PlaceApiController {
 
     private final PlaceService placeService;
 
     @PostMapping(produces = "application/json;charset=UTF-8")
-    public ApiResponse addNewPlace(@RequestBody PlacePostRequestDto request){
+    public ApiResponse<Place> addNewPlace(@RequestBody PlacePostRequestDto request) {
         return ApiResponse.success(placeService.addNewPlace(request));
     }
 
-    @GetMapping(value ="/all",produces = "application/json;charset=UTF-8")
-    public ApiResponse getAllPlace() {
+    @GetMapping(value = "/all", produces = "application/json;charset=UTF-8")
+    public ApiResponse<List<PlaceDetailDto>> getAllPlaces() {
         List<PlaceDetailDto> placeDetailResponse = placeService.getAllPlaces().stream()
                 .map(PlaceDetailDto::new)
                 .collect(Collectors.toList());
         return ApiResponse.success(placeDetailResponse);
     }
 
-    @GetMapping(value = "/{placeId}")
-    public ApiResponse getPlaceDetailInfo(@PathVariable Long placeId) {
+    @GetMapping(value = "/{placeId}", produces = "application/json;charset=UTF-8")
+    public ApiResponse<PlaceDetailDto> getPlaceDetailInfo(@PathVariable Long placeId) {
         PlaceDetailDto placeDetailDto = new PlaceDetailDto(placeService.getOneByPlaceId(placeId));
         return ApiResponse.success(placeDetailDto);
     }
-
 }
