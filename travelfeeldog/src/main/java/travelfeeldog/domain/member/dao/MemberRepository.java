@@ -31,7 +31,7 @@ public class MemberRepository {
 
     public Optional<Member> findByToken(String token) {
         try {
-            Member member = em.createQuery("SELECT m FROM Member m WHERE m.token = :token", Member.class)
+            Member member = em.createQuery("SELECT m FROM Member m WHERE m.memberToken = :token", Member.class)
                     .setParameter("token", token)
                     .getSingleResult();
             return Optional.of(member);
@@ -42,7 +42,7 @@ public class MemberRepository {
 
     public Optional<Member> findByNickName(String nickName) {
         try {
-            Member member = em.createQuery("SELECT m FROM Member m WHERE m.nickName = :nickName", Member.class)
+            Member member = em.createQuery("SELECT m FROM Member m WHERE m.memberNickName = :nickName", Member.class)
                     .setParameter("nickName", nickName)
                     .getSingleResult();
             return Optional.of(member);
@@ -53,7 +53,7 @@ public class MemberRepository {
 
     public Optional<Member> findById(int id) {
         try {
-            Member member = em.createQuery("SELECT m FROM Member m WHERE m.id = :id", Member.class)
+            Member member = em.createQuery("SELECT m FROM Member m WHERE m.memberId = :id", Member.class)
                     .setParameter("id", id)
                     .getSingleResult();
             return Optional.of(member);
@@ -69,7 +69,7 @@ public class MemberRepository {
 
     public Member updateMemberImageUrl(String memberToken, String newUrl) {
         Member member = findByToken(memberToken).get();
-        member.setImageUrl(newUrl);
+        member.setMemberImageUrl(newUrl);
         em.merge(member);
         return member;
     }
@@ -79,20 +79,20 @@ public class MemberRepository {
         findByNickName(newNick).ifPresent(m -> {
             throw new IllegalStateException("이미 존재하는 닉네임입니다.");
         });
-        member.setNickName(newNick);
+        member.setMemberNickName(newNick);
         em.merge(member);
         return member;
     }
 
     public Member updateExpAndLevel(String memberToken, int addingExp) {
         Member member = findByToken(memberToken).get();
-        int changedExp = member.getExp() + addingExp;
+        int changedExp = member.getMemberExp() + addingExp;
         if (changedExp / 40 == 0) {
-            member.setExp(changedExp);
+            member.setMemberExp(changedExp);
         } else {
-            member.setExp(changedExp % 40);
-            int newLevel = member.getLevel() + 1;
-            member.setLevel(newLevel);
+            member.setMemberExp(changedExp % 40);
+            int newLevel = member.getMemberLevel() + 1;
+            member.setMemberLevel(newLevel);
         }
         em.merge(member);
         return member;
