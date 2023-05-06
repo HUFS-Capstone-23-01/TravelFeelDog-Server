@@ -23,7 +23,7 @@ public class MemberApiController {
 
     @PostMapping(produces = "application/json;charset=UTF-8")
     public ApiResponse postMember(@RequestBody MemberPostRequestDto request) throws Exception {
-        Member savedMember = memberService.saveMember(request.getNickName(), request.getImageUrl(), request.getToken());
+        Member savedMember = memberService.saveMember(request.getMemberNickName(), request.getMemberImageUrl(), request.getFirebaseToken());
         return ApiResponse.success(new MemberResponse(savedMember));
     }
 
@@ -57,8 +57,8 @@ public class MemberApiController {
     @PutMapping(value = "/profile/image", produces = "application/json;charset=UTF-8")
     public ApiResponse putMemberImage(@RequestHeader("Authorization") String firebaseToken, @RequestParam("file") MultipartFile file) {
         if (memberService.isTokenExist(firebaseToken)) {
-            String imageUrl = fileService.uplodaFile(file).getFileUrl();
-            Member result = memberService.updateImageUrl(firebaseToken, imageUrl);
+            String profileImageUrl = fileService.uplodaFile(file).getFileUrl();
+            Member result = memberService.updateImageUrl(firebaseToken, profileImageUrl);
             return ApiResponse.success(result);
         } else {
             return ApiResponse.invaildToken(false);

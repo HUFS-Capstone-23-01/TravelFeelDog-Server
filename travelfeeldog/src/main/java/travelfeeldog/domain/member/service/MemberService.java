@@ -22,39 +22,39 @@ public class MemberService {
     }
 
     @Transactional
-    public void deleteMember(String token) {
-        memberRepository.deleteMember(token);
+    public void deleteMember(String firebaseToken) {
+        memberRepository.deleteMember(firebaseToken);
     }
 
     @Transactional
-    public Member updateImageUrl(String token, String imageUrl) {
-        return memberRepository.updateMemberImageUrl(token, imageUrl);
+    public Member updateImageUrl(String firebaseToken, String imageUrl) {
+        return memberRepository.updateMemberImageUrl(firebaseToken, imageUrl);
     }
 
     @Transactional
-    public Member updateNickName(String token, String nickName) {
-        return memberRepository.updateNickName(token, nickName);
+    public Member updateNickName(String firebaseToken, String nickName) {
+        return memberRepository.updateNickName(firebaseToken, nickName);
     }
 
     @Transactional
-    public Member updateExpAndLevel(String token, int addExp) {
-        return memberRepository.updateExpAndLevel(token, addExp);
+    public Member updateExpAndLevel(String firebaseToken, int addExpValue) {
+        return memberRepository.updateExpAndLevel(firebaseToken, addExpValue);
     }
 
     public boolean isNickRedundant(String nickName) {
         return memberRepository.findByNickName(nickName).isPresent();
     }
 
-    public boolean isTokenExist(String token) {
-        return memberRepository.findByToken(token).isPresent();
+    public boolean isTokenExist(String firebaseToken) {
+        return memberRepository.findByToken(firebaseToken).isPresent();
     }
 
-    public Member findById(int id) {
-        return memberRepository.findById(id).orElseThrow(() -> new RuntimeException("Member not found"));
+    public Member findById(int memberId) {
+        return memberRepository.findById(memberId).orElseThrow(() -> new RuntimeException("Member not found"));
     }
 
-    public Member findByToken(String token) {
-        return memberRepository.findByToken(token).orElseThrow(() -> new RuntimeException("Member not found"));
+    public Member findByToken(String firebaseToken) {
+        return memberRepository.findByToken(firebaseToken).orElseThrow(() -> new RuntimeException("Member not found"));
     }
 
     public List<Member> getAll() {

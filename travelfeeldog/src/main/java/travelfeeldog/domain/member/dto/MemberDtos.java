@@ -14,39 +14,39 @@ public class MemberDtos {
     @NonNull
     @NoArgsConstructor
     public static class MemberPostRequestDto {
-        String nickName;
-        String imageUrl;
-        String token;
+        String memberNickName;
+        String memberImageUrl;
+        String firebaseToken;
     }
 
     @Data
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class MemberResponse {
-        private Long id;
-        private String nickName;
-        private int level;
-        private int exp;
-        private String imageUrl;
-        private String token;
+        private Long memberId;
+        private String memberNickName;
+        private int memberLevel;
+        private int memberExp;
+        private String memberImageUrl;
+        private String memberToken;
 
         public MemberResponse(Member member) {
             this(
-                    member.getId(),
-                    member.getNickName(),
-                    member.getLevel(),
-                    member.getExp(),
-                    member.getImageUrl(),
-                    member.getToken()
+                    member.getMemberId(),
+                    member.getMemberNickName(),
+                    member.getMemberLevel(),
+                    member.getMemberExp(),
+                    member.getMemberImageUrl(),
+                    member.getMemberToken()
             );
         }
 
-        public MemberResponse(Long memberId, String nickName, int level, int exp, String imageUrl, String token) {
-            this.id = memberId;
-            this.nickName = nickName;
-            this.level = level;
-            this.exp = exp;
-            this.imageUrl = imageUrl;
-            this.token = token;
+        public MemberResponse(Long memberId, String memberNickName, int memberLevel, int memberExp, String memberImageUrl, String memberToken) {
+            this.memberId = memberId;
+            this.memberNickName = memberNickName;
+            this.memberLevel = memberLevel;
+            this.memberExp = memberExp;
+            this.memberImageUrl = memberImageUrl;
+            this.memberToken = memberToken;
         }
     }
 }
