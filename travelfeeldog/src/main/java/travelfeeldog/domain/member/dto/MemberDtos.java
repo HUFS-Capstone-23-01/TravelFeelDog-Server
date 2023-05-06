@@ -1,36 +1,23 @@
 package travelfeeldog.domain.member.dto;
-import lombok.*;
+
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import travelfeeldog.domain.member.model.Member;
 
-
+@Data
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberDtos {
 
     @Data
-    @NonNull //@NotNull과의 차이?? : @NotNull은 @Valid 통해서 검증, @NonNull은 null들어오면 NPE 발생
+    @NonNull
     @NoArgsConstructor
-    public static class MemberPostRequestDto { //DB에 insert시 사용
-        Long id;
+    public static class MemberPostRequestDto {
         String nickName;
-        int level;
-        int exp;
         String imageUrl;
         String token;
     }
-
-/* 필요시 작성 예정 Get/Put/
-    public static class MemberRequestDto {
-
-    }
-    public static class MemberRequestDto {
-
-    }
-    public static class MemberRequestDto {
-
-    }
-    public static class MemberRequestDto {
-
-    }
-*/
 
     @Data
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -43,7 +30,14 @@ public class MemberDtos {
         private String token;
 
         public MemberResponse(Member member) {
-            this(member.getId(), member.getNickName(), member.getLevel(), member.getExp(), member.getImageUrl(), member.getToken());
+            this(
+                    member.getId(),
+                    member.getNickName(),
+                    member.getLevel(),
+                    member.getExp(),
+                    member.getImageUrl(),
+                    member.getToken()
+            );
         }
 
         public MemberResponse(Long memberId, String nickName, int level, int exp, String imageUrl, String token) {
@@ -55,9 +49,4 @@ public class MemberDtos {
             this.token = token;
         }
     }
-    //GET 값 하나씩
-
-    //Response class
-
-
 }
