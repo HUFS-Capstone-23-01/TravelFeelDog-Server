@@ -14,11 +14,9 @@ public class PlaceDtos {
     public static class PlacePostRequestDto{
         private String name;
         private String describe;
-        private String thumbnailImageUrl;
         private String address;
         private float latitude;
         private float longitude;
-
         private String locationName;
         private String categoryName;
         private List<String> facilityNames;

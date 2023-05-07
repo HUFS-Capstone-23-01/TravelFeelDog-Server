@@ -1,5 +1,6 @@
 package travelfeeldog.domain.place.service;
 
+import java.io.File;
 import java.util.List;
 import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,6 @@ public class PlaceService {
         Place place = new Place();
         place.setName(placePostRequestDto.getName());
         place.setDescribe(placePostRequestDto.getDescribe());
-        place.setThumbNailImageUrl(placePostRequestDto.getThumbnailImageUrl());
         place.setAddress(placePostRequestDto.getAddress());
         place.setLatitude(placePostRequestDto.getLatitude());
         place.setLongitude(placePostRequestDto.getLongitude());
@@ -40,12 +40,21 @@ public class PlaceService {
     }
 
     @Transactional
-    public Place changeCategory(Place givenPlace) {
-        Place place = placeRepository.findById(givenPlace.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Place not found with ID: " + givenPlace.getId()));
-        place.setCategory(givenPlace.getCategory());
+    public Place changeCategory(Long placeId,String categoryName) {
+        Place place = placeRepository.findById(placeId)
+                .orElseThrow(() -> new EntityNotFoundException("Place not found with ID"));
+        place.setCategory(categoryRepository.findByName(categoryName));
         return place;
     }
+    @Transactional
+    public Place changeImageUrl(Long placeId,String imageUrl) {
+        Place place = placeRepository.findById(placeId)
+                .orElseThrow(() -> new EntityNotFoundException("Place not found with ID"));
+        place.setThumbNailImageUrl(imageUrl);
+        return place;
+    }
+
+
 
     public Place getOneByPlaceId(Long placeId) {
         return placeRepository.findById(placeId)
