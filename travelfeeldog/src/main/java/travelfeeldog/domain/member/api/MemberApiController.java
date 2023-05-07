@@ -1,5 +1,6 @@
 package travelfeeldog.domain.member.api;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,6 +14,7 @@ import travelfeeldog.domain.member.dto.MemberDtos.MemberResponse;
 import travelfeeldog.domain.member.model.Member;
 import travelfeeldog.domain.member.service.MemberService;
 import travelfeeldog.global.common.dto.ApiResponse;
+import travelfeeldog.infra.aws.s3.service.AwsS3ImageService;
 
 
 @RestController
@@ -20,10 +22,11 @@ import travelfeeldog.global.common.dto.ApiResponse;
 @RequiredArgsConstructor
 public class MemberApiController {
     private final MemberService memberService;
+    private final AwsS3ImageService awsS3ImageService;
 
     @PostMapping(produces = "application/json;charset=UTF-8")
     public ApiResponse postMember(@RequestBody MemberPostRequestDto request) throws Exception {
-        Member savedMember = memberService.saveMember(request.getMemberNickName(), request.getMemberImageUrl(), request.getFirebaseToken());
+        Member savedMember = memberService.saveMember(request.getMemberNickName(), request.getFirebaseToken());
         return ApiResponse.success(new MemberResponse(savedMember));
     }
 
@@ -57,16 +60,20 @@ public class MemberApiController {
     @PutMapping(value = "/profile/image", produces = "application/json;charset=UTF-8")
     public ApiResponse putMemberImage(@RequestHeader("Authorization") String firebaseToken, @RequestParam("file") MultipartFile file) {
         if (memberService.isTokenExist(firebaseToken)) {
-            String profileImageUrl = fileService.uplodaFile(file).getFileUrl();
-            Member result = memberService.updateImageUrl(firebaseToken, profileImageUrl);
-            return ApiResponse.success(result);
+            try {
+                String profileImageUrl = awsS3ImageService.uploadImageOnly(file, "member");
+                Member result = memberService.updateImageUrl(firebaseToken, profileImageUrl);
+                return ApiResponse.success(result);
+            } catch (IOException e) {
+                return ApiResponse.success(false);
+            }
         } else {
             return ApiResponse.invaildToken(false);
         }
     }
 
     @PutMapping(value = "/profile/nick", produces = "application/json;charset=UTF-8")
-    public ApiResponse putMemberNickName(@RequestHeader("Authorization") String firebaseToken, @RequestParam("nickname") String newNickName) {
+    public ApiResponse putMemberNickName(@RequestHeader("Authorization") String firebaseToken, @RequestParam("nickName") String newNickName) {
         if (memberService.isTokenExist(firebaseToken)) {
             Member result = memberService.updateNickName(firebaseToken, newNickName);
             return ApiResponse.success(result);

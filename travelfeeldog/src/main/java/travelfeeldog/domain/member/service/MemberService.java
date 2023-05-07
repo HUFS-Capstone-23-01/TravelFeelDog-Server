@@ -16,8 +16,8 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Member saveMember(String nickName, String imageUrl, String token) {
-        return memberRepository.saveMember(nickName, 1, 0, imageUrl, token)
+    public Member saveMember(String nickName, String token) {
+        return memberRepository.saveMember(nickName, 1, 0, "baseImageUrl", token)
                 .orElseThrow(() -> new RuntimeException("Member not saved"));
     }
 
