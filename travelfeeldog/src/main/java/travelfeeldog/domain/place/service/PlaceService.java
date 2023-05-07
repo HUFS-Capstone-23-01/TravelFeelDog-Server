@@ -53,9 +53,6 @@ public class PlaceService {
         place.setThumbNailImageUrl(imageUrl);
         return place;
     }
-
-
-
     public Place getOneByPlaceId(Long placeId) {
         return placeRepository.findById(placeId)
                 .orElseThrow(() -> new EntityNotFoundException("Place not found with ID: " + placeId));
