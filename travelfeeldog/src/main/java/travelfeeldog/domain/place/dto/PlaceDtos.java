@@ -30,9 +30,6 @@ public class PlaceDtos {
         private String address;
         private float latitude;
         private float longitude;
-
-        private String locationName;
-        private String categoryName;
         private List<String> facilityNames;
         public PlaceDetailDto(Place place){
             this.name =place.getName();
@@ -42,8 +39,6 @@ public class PlaceDtos {
             this.address = place.getAddress();
             this.latitude = place.getLatitude();
             this.longitude = place.getLongitude();
-            this.locationName = place.getLocation().getName();
-            this.categoryName = place.getCategory().getName();
             this.facilityNames = place.getPlaceFacilities().stream().map(pf -> pf.getFacility().getName())
                     .collect(Collectors.toList());
         }

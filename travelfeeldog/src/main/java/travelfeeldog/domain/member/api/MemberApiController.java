@@ -54,16 +54,16 @@ public class MemberApiController {
         }
     }
 
-    @PutMapping(value = "/profile/image", produces = "application/json;charset=UTF-8")
-    public ApiResponse putMemberImage(@RequestHeader("Authorization") String firebaseToken, @RequestParam("file") MultipartFile file) {
-        if (memberService.isTokenExist(firebaseToken)) {
-            String profileImageUrl = fileService.uplodaFile(file).getFileUrl();
-            Member result = memberService.updateImageUrl(firebaseToken, profileImageUrl);
-            return ApiResponse.success(result);
-        } else {
-            return ApiResponse.invaildToken(false);
-        }
-    }
+//    @PutMapping(value = "/profile/image", produces = "application/json;charset=UTF-8")
+//    public ApiResponse putMemberImage(@RequestHeader("Authorization") String firebaseToken, @RequestParam("file") MultipartFile file) {
+//        if (memberService.isTokenExist(firebaseToken)) {
+//            String profileImageUrl = fileService.uplodaFile(file).getFileUrl();
+//            Member result = memberService.updateImageUrl(firebaseToken, profileImageUrl);
+//            return ApiResponse.success(result);
+//        } else {
+//            return ApiResponse.invaildToken(false);
+//        }
+//    }
 
     @PutMapping(value = "/profile/nick", produces = "application/json;charset=UTF-8")
     public ApiResponse putMemberNickName(@RequestHeader("Authorization") String firebaseToken, @RequestParam("nickname") String newNickName) {
