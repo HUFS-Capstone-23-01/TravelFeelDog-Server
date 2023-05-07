@@ -1,7 +1,7 @@
 package travelfeeldog.domain.category.api;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import travelfeeldog.domain.category.dto.CategoryDtos.CategoryResponseDto;
 import travelfeeldog.domain.category.dto.CategoryDtos.RequestCategoryDto;
 import travelfeeldog.domain.category.model.Category;
 import travelfeeldog.domain.category.service.CategoryService;
@@ -24,11 +25,15 @@ public class CategoryApiController {
     private final CategoryService categoryService;
 
     @GetMapping(value = "/all", produces = "application/json;charset=UTF-8")
-    public ApiResponse<List<Category>> getAllCategories() {
+    public ApiResponse<List<CategoryResponseDto>> getAllCategories() {
         List<Category> categories = categoryService.getAllCategories();
-        return ApiResponse.success(categories);
+        return ApiResponse.success(categories.stream().map(CategoryResponseDto::new).collect(Collectors.toList()));
     }
-
+    @GetMapping(value = "/all/names", produces = "application/json;charset=UTF-8")
+    public ApiResponse<List<String>> getAllCategoryNames() {
+        List<Category> categories = categoryService.getAllCategories();
+        return ApiResponse.success(categories.stream().map(Category::getName).collect(Collectors.toList()));
+    }
     @PostMapping(consumes = "application/json", produces = "application/json;charset=UTF-8")
     public ApiResponse<Category> createCategory(@RequestBody RequestCategoryDto request) {
         Category createdCategory = categoryService.saveCategory(request);
