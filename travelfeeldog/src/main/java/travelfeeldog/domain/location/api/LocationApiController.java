@@ -30,9 +30,9 @@ public class LocationApiController {
         List<Location> locations = locationService.getAllLocations();
         return ApiResponse.success(locations);
     }
-    @GetMapping(value = "/{id}", produces = "application/json;charset=UTF-8")
-    public ApiResponse<Location> getLocationById(@PathVariable Long id) {
-        Optional<Location> location = locationService.getLocationById(id);
+    @GetMapping(value = "/{locationId}", produces = "application/json;charset=UTF-8")
+    public ApiResponse<Location> getLocationById(@PathVariable Long locationId) {
+        Optional<Location> location = locationService.getLocationById(locationId);
         return location.map(value -> ApiResponse.success(value)).orElseGet(() -> ApiResponse.error(HttpStatus.NOT_FOUND));
     }
 
@@ -49,15 +49,15 @@ public class LocationApiController {
         return ApiResponse.success(createdLocation);
     }
 
-    @PutMapping(value = "/{id}", consumes = "application/json", produces = "application/json;charset=UTF-8")
-    public ApiResponse<Void> updateLocation(@PathVariable Long id,@RequestBody Location location) {
-        locationService.updateLocation(id, location);
+    @PutMapping(value = "/{locationId}", consumes = "application/json", produces = "application/json;charset=UTF-8")
+    public ApiResponse<Void> updateLocation(@PathVariable Long locationId,@RequestBody Location location) {
+        locationService.updateLocation(locationId, location);
         return ApiResponse.success(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping(value = "/{id}", produces = "application/json;charset=UTF-8")
-    public ApiResponse<Void> deleteLocation(@PathVariable Long id) {
-        locationService.deleteLocation(id);
+    @DeleteMapping(value = "/{locationId}", produces = "application/json;charset=UTF-8")
+    public ApiResponse<Void> deleteLocation(@PathVariable Long locationId) {
+        locationService.deleteLocation(locationId);
         return ApiResponse.success(HttpStatus.NO_CONTENT);
     }
 }
