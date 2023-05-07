@@ -2,6 +2,7 @@ package travelfeeldog.domain.location.service;
 
 import java.util.List;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import travelfeeldog.domain.location.dao.LocationRepository;
@@ -10,8 +11,9 @@ import travelfeeldog.domain.location.model.Location;
 
 @Transactional(readOnly = true)
 @Service
+@RequiredArgsConstructor
 public class LocationService {
-    private LocationRepository locationRepository;
+    private final LocationRepository locationRepository;
 
     public List<Location> getAllLocations() {
         return locationRepository.findAll();
