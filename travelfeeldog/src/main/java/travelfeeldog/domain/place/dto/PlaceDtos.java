@@ -24,6 +24,7 @@ public class PlaceDtos {
     @Data
     @NoArgsConstructor
     public static class PlaceDetailDto{
+        private Long id;
         private String name;
         private String describe;
         private String thumbNailImageUrl;
@@ -32,6 +33,7 @@ public class PlaceDtos {
         private float longitude;
         private List<String> facilityNames;
         public PlaceDetailDto(Place place){
+            this.id=place.getId();
             this.name =place.getName();
             this.name = place.getName();
             this.describe = place.getDescribe();

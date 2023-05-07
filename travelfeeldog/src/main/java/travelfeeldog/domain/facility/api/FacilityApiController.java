@@ -34,8 +34,8 @@ public class FacilityApiController {
         return ApiResponse.success(facilities);
     }
 
-    @GetMapping(value = "/names",produces = "application/json;charset=UTF-8")
-    public ApiResponse<List<Facility>> getFacilitiesByNames(@RequestParam List<String> names) {
+    @GetMapping(produces = "application/json;charset=UTF-8")
+    public ApiResponse<List<Facility>> getFacilitiesByNames(@RequestParam("names") List<String> names) {
         List<Facility> facilities = facilityService.getFacilitiesByNames(names);
         return ApiResponse.success(facilities);
     }
