@@ -36,14 +36,14 @@ public class LocationApiController {
         return location.map(value -> ApiResponse.success(value)).orElseGet(() -> ApiResponse.error(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping(value = "/", produces = "application/json;charset=UTF-8")
+    @GetMapping(produces = "application/json;charset=UTF-8")
     public ApiResponse<Location> getLocationByName(@RequestParam("name") String name) {
         Location location = locationService.getLocationByName(name);
         return location != null ? ApiResponse.success(location)
                 : ApiResponse.error(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping(value = "/", consumes = "application/json", produces = "application/json;charset=UTF-8")
+    @PostMapping(consumes = "application/json", produces = "application/json;charset=UTF-8")
     public ApiResponse<Location> createLocation(@RequestBody RequestLocationDto request) {
         Location createdLocation = locationService.createLocation(request);
         return ApiResponse.success(createdLocation);

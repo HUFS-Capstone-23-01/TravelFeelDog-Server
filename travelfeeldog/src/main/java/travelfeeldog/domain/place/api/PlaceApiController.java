@@ -30,7 +30,7 @@ public class PlaceApiController {
     private final PlaceService placeService;
     private final AwsS3ImageService awsS3ImageService;
     @PostMapping(produces = "application/json;charset=UTF-8")
-    public ApiResponse<Place> addNewPlace(@RequestBody PlacePostRequestDto request) {
+    public ApiResponse<PlaceDetailDto> addNewPlace(@RequestBody PlacePostRequestDto request) {
         return ApiResponse.success(placeService.addNewPlace(request));
     }
 

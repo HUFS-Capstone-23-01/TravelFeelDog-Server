@@ -11,6 +11,7 @@ import travelfeeldog.domain.category.model.Category;
 import travelfeeldog.domain.location.dao.LocationRepository;
 import travelfeeldog.domain.location.model.Location;
 import travelfeeldog.domain.place.dao.PlaceRepository;
+import travelfeeldog.domain.place.dto.PlaceDtos.PlaceDetailDto;
 import travelfeeldog.domain.place.dto.PlaceDtos.PlacePostRequestDto;
 import travelfeeldog.domain.place.model.Place;
 
@@ -22,7 +23,7 @@ public class PlaceService {
     private final CategoryRepository categoryRepository;
     private final LocationRepository locationRepository;
     @Transactional
-    public Place addNewPlace(PlacePostRequestDto placePostRequestDto) {
+    public PlaceDetailDto addNewPlace(PlacePostRequestDto placePostRequestDto) {
         Place place = new Place();
         place.setName(placePostRequestDto.getName());
         place.setDescribe(placePostRequestDto.getDescribe());
@@ -35,8 +36,8 @@ public class PlaceService {
 
         Location location = locationRepository.findByName(placePostRequestDto.getLocationName());
         place.setLocation(location);
-
-        return placeRepository.save(place);
+        placeRepository.save(place);
+        return new PlaceDetailDto(place);
     }
 
     @Transactional

@@ -29,7 +29,7 @@ public class CategoryApiController {
         return ApiResponse.success(categories);
     }
 
-    @PostMapping(value = "/", consumes = "application/json", produces = "application/json;charset=UTF-8")
+    @PostMapping(consumes = "application/json", produces = "application/json;charset=UTF-8")
     public ApiResponse<Category> createCategory(@RequestBody RequestCategoryDto request) {
         Category createdCategory = categoryService.saveCategory(request);
         return ApiResponse.success(createdCategory);
