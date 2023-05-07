@@ -28,25 +28,25 @@ public class FacilityApiController {
         return ApiResponse.success(facility);
     }
 
-    @GetMapping("/ids")
+    @GetMapping(value = "/ids",produces = "application/json;charset=UTF-8")
     public ApiResponse<List<Facility>> getFacilitiesByIds(@RequestParam List<Long> ids) {
         List<Facility> facilities = facilityService.getFacilitiesByIds(ids);
         return ApiResponse.success(facilities);
     }
 
-    @GetMapping("/names")
+    @GetMapping(value = "/names",produces = "application/json;charset=UTF-8")
     public ApiResponse<List<Facility>> getFacilitiesByNames(@RequestParam List<String> names) {
         List<Facility> facilities = facilityService.getFacilitiesByNames(names);
         return ApiResponse.success(facilities);
     }
 
-    @GetMapping
+    @GetMapping(value = "/all",produces = "application/json;charset=UTF-8")
     public ApiResponse<List<Facility>> getAllFacilities() {
         List<Facility> facilities = facilityService.getAllFacilities();
         return ApiResponse.success(facilities);
     }
 
-    @PostMapping
+    @PostMapping(produces = "application/json;charset=UTF-8")
     public ApiResponse<Facility> createFacility(@RequestBody String facilityName) {
         Facility facility = facilityService.createFacility(facilityName);
         return ApiResponse.success(facility);
