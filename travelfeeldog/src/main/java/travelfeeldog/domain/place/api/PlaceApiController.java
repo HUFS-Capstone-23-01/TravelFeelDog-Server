@@ -44,7 +44,7 @@ public class PlaceApiController {
 
     @GetMapping(value = "/{placeId}", produces = "application/json;charset=UTF-8")
     public ApiResponse<PlaceDetailDto> getPlaceDetailInfo(@PathVariable Long placeId) {
-        PlaceDetailDto placeDetailDto = new PlaceDetailDto(placeService.getOneByPlaceId(placeId));
+        PlaceDetailDto placeDetailDto = new PlaceDetailDto(placeService.getPlaceById(placeId));
         return ApiResponse.success(placeDetailDto);
     }
     @PutMapping(value = "/image",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
