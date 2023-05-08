@@ -46,7 +46,7 @@ public class Review extends BaseTimeEntity {
     @Column(name="review_additional_script")
     private String additionalScript;
     @Enumerated(EnumType.STRING)
-    private RecommendStatus recommendStatus;
+    private RecommendStatus recommendStatus; //GOOD,IDK,BAD
     @ManyToOne(fetch = LAZY,cascade= CascadeType.PERSIST)
     @JoinColumn(name="place_id")
     private Place place;
