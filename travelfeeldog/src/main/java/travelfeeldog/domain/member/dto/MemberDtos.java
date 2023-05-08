@@ -15,7 +15,6 @@ public class MemberDtos {
     @NoArgsConstructor
     public static class MemberPostRequestDto {
         String nickName;
-        String imageUrl;
         String firebaseToken;
     }
 
