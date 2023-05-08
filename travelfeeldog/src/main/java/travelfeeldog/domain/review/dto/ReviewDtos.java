@@ -47,9 +47,9 @@ public class ReviewDtos {
         private String additionalScript;
 
         public ReviewPageResponseDto(Review review) {
-            memberImageUrl = review.getMember().getMemberImageUrl();
-            memberLevel = review.getMember().getMemberLevel();
-            memberNickname = review.getMember().getMemberNickName();
+            memberImageUrl = review.getMember().getImageUrl();
+            memberLevel = review.getMember().getLevel();
+            memberNickname = review.getMember().getNickName();
             createdDateTime = review.getCreatedDateTime();
             recommendStatus = review.getRecommendStatus().toString();
             additionalScript =review.getAdditionalScript();

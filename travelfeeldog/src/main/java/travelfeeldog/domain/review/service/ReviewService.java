@@ -83,8 +83,8 @@ public class ReviewService {
     }
 
     public List<ReviewMemberPageResponseDto> getReviewsByMemberId(String token) {
-        Long memberId = memberService.findByToken(token).getMemberId();
-        return reviewRepository.findByMember_memberId(memberId).stream()
+        Long memberId = memberService.findByToken(token).getId();
+        return reviewRepository.findByMemberId(memberId).stream()
                 .map(ReviewMemberPageResponseDto::new)
                 .collect(Collectors.toList());
     }
