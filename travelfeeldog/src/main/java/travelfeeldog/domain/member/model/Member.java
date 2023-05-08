@@ -40,13 +40,13 @@ public class Member extends BaseTimeEntity{
     @Column(name = "member_token", unique = true, length = 100)
     private String token;
 
-    @OneToMany(mappedBy = "feed_like_id")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
     private List<FeedLike> feedLikes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "scrab_id")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
     private List<Scrab> scrabs = new ArrayList<>();
 
-    @OneToMany(mappedBy = "review_id")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
     private List<Review> reviews = new ArrayList<>();
 
     private Member(String nickName,
