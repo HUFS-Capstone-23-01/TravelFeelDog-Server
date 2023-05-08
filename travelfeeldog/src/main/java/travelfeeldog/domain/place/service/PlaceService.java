@@ -16,6 +16,8 @@ import travelfeeldog.domain.place.dto.PlaceDtos.PlaceDetailDto;
 import travelfeeldog.domain.place.dto.PlaceDtos.PlacePostRequestDto;
 import travelfeeldog.domain.place.model.Place;
 import travelfeeldog.domain.place.model.PlaceStatic;
+import travelfeeldog.domain.review.dto.ReviewDtos.ReviewPostRequestDto;
+import travelfeeldog.domain.review.model.RecommendStatus;
 
 @Transactional(readOnly = true)
 @Service
@@ -69,5 +71,13 @@ public class PlaceService {
     public List<Place> getAllPlaces() {
         return placeRepository.findAll();
     }
-
+    @Transactional
+    public void addPlaceStatic(ReviewPostRequestDto requestDto) {
+        PlaceStatic placeStatic = placeStaticRepository.findByPlaceId(requestDto.getPlaceId());
+        int[] dogNumbers = new int[3];
+        dogNumbers[0] = requestDto.getSmallDogNumber();
+        dogNumbers[1] = requestDto.getMediumDogNumber();
+        dogNumbers[2] = requestDto.getLargeDogNumber();
+        placeStatic.countAndUpdateResult(dogNumbers,requestDto.getRecommendStatus());
+    }
 }
