@@ -1,10 +1,16 @@
 package travelfeeldog.domain.review.model;
 
+import static javax.persistence.FetchType.LAZY;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 
 @Entity
 public class ReviewImage {
@@ -12,4 +18,9 @@ public class ReviewImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="review_image_id")
     private Long id;
+    private String imageUrl;
+    @ManyToOne(fetch = LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name="review_id")
+    private Review review;
+
 }

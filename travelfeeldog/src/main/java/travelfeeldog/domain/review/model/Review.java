@@ -52,4 +52,6 @@ public class Review extends BaseTimeEntity {
     private List<ReviewGoodKeyWord> reviewGoodKeyWords = new ArrayList<>();
     @OneToMany (mappedBy = "review",cascade = CascadeType.PERSIST)
     private List<ReviewBadKeyWord> reviewBadKeyWords = new ArrayList<>();
+    @OneToMany (mappedBy = "review",cascade = CascadeType.ALL)
+    private List<ReviewImage> reviewImages = new ArrayList<>();
 }
