@@ -57,4 +57,17 @@ public class Member extends BaseTimeEntity{
                                 String memberToken) {
         return new Member(memberNickName, memberLevel, memberExp, memberImageUrl, memberToken);
     }
+
+    //==연관관계 메소드==//
+    public boolean updateExpAndLevel(int addingExp) {
+        int changedExp = this.memberExp + addingExp;
+        if (changedExp / 40 == 0) {
+            this.memberExp = changedExp;
+            return false;
+        } else {
+            this.memberExp = changedExp % 40;
+            this.memberLevel = this.memberExp + 1;
+        }
+        return true;
+    }
 }
