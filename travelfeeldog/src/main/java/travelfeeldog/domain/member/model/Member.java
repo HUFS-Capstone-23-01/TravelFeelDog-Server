@@ -77,7 +77,7 @@ public class Member extends BaseTimeEntity{
             return false;
         } else {
             this.exp = changedExp % 40;
-            this.level = this.exp + 1;
+            this.level = this.level + 1;
         }
         return true;
     }

@@ -49,8 +49,8 @@ public class MemberService {
         return memberRepository.findByToken(firebaseToken).isPresent();
     }
 
-    public Member findById(Long memberId) {
-        return memberRepository.findById(memberId).orElseThrow(() -> new RuntimeException("Member not found"));
+    public Member findByNickName(String nickName) {
+        return memberRepository.findByNickName(nickName).orElseThrow(() -> new RuntimeException("Member not found"));
     }
 
     public Member findByToken(String firebaseToken) {

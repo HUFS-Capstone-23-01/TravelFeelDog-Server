@@ -82,28 +82,29 @@ public class MemberApiController {
     }
 
     @PutMapping(value = "/profile/expAndLevel", produces = "application/json;charset=UTF-8")
-    public ApiResponse putMemberExpAndLevel(@RequestParam MemberPutExpDto memberPutExpDto) {
+    public ApiResponse putMemberExpAndLevel(@RequestBody MemberPutExpDto memberPutExpDto) {
         if (memberService.isTokenExist(memberPutExpDto.getFirebaseToken())) {
-            Member result = memberService.updateExpAndLevel(memberPutExpDto.getFirebaseToken(), memberPutExpDto.getAddingValue());
+            int addingValue = Integer.parseInt(memberPutExpDto.getAddingValue());
+            Member result = memberService.updateExpAndLevel(memberPutExpDto.getFirebaseToken(), addingValue);
             return ApiResponse.success(new MemberResponse(result));
         } else {
             return ApiResponse.invaildToken(false);
         }
     }
 
-    @PostMapping(value = "/valid", produces = "application/json;charset=UTF-8")
+    @GetMapping(value = "/valid", produces = "application/json;charset=UTF-8")
     public ApiResponse checkMemberTokenValid(@RequestHeader("Authorization") String firebaseToken) {
-        return ApiResponse.invaildToken(memberService.isTokenExist(firebaseToken));
+        return ApiResponse.success(memberService.isTokenExist(firebaseToken));
     }
 
-    @PostMapping(value = "/profile/nick/valid", produces = "application/json;charset=UTF-8")
-    public ApiResponse checkNickRedundant(@RequestHeader("Authorization") String newNickName) {
-        return ApiResponse.invaildToken(memberService.isNickRedundant(newNickName));
+    @GetMapping(value = "/profile/nick/valid", produces = "application/json;charset=UTF-8")
+    public ApiResponse checkNickRedundant(@RequestBody MemberGetNickDto memberGetNickDto) {
+        return ApiResponse.success(memberService.isNickRedundant(memberGetNickDto.getNickName()));
     }
 
     @GetMapping(value = "/findNick",produces = "application/json;charset=UTF-8")
-    public ApiResponse findById(@RequestBody MemberGetIdDto memberGetIdDto) {
-        Member result = memberService.findById(memberGetIdDto.getId());
+    public ApiResponse GetMemberByNick(@RequestBody MemberGetNickDto memberGetNickDto) {
+        Member result = memberService.findByNickName(memberGetNickDto.getNickName());
         return ApiResponse.success(new MemberResponse(result));
     }
 }

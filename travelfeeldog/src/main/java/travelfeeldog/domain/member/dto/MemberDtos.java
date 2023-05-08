@@ -15,7 +15,6 @@ public class MemberDtos {
     @NoArgsConstructor
     public static class MemberPostRequestDto {
         String nickName;
-        String imageUrl;
         String firebaseToken;
     }
 
@@ -30,13 +29,18 @@ public class MemberDtos {
     @Data
     @NonNull
     @NoArgsConstructor
-    public static class MemberGetIdDto { Long id; }
+    public static class MemberGetIdDto { String id; }
+
+    @Data
+    @NonNull
+    @NoArgsConstructor
+    public static class MemberGetNickDto { String nickName; }
 
     @Data
     @NonNull
     @NoArgsConstructor
     public static class MemberPutExpDto {
-        int addingValue;
+        String addingValue;
         String firebaseToken;
     }
 
