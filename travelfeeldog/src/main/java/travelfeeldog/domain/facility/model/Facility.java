@@ -1,7 +1,5 @@
 package travelfeeldog.domain.facility.model;
 
-import static javax.persistence.FetchType.LAZY;
-
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.FetchType;
@@ -24,6 +22,6 @@ public class Facility {
     @Column(name="facility_id")
     private Long id;
     private String name;
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy ="facility" ,cascade = CascadeType.REMOVE)
     private List<PlaceFacility> placeFacilities =new ArrayList<>();
 }

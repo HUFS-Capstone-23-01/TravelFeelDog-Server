@@ -11,6 +11,7 @@ import javax.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import travelfeeldog.domain.review.model.RecommendStatus;
 
 @Getter @Setter
 @Entity
@@ -48,5 +49,23 @@ public class PlaceStatic {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "place_id")
     private Place place;
+
+    public void countAndUpdateResult(int[] dogNumbers, RecommendStatus recommendStatus) {
+        switch (recommendStatus) {
+            case GOOD -> {
+                setReviewCountGood(getReviewCountGood() + 1);
+                setSmallDogGoodTotal(getSmallDogGoodTotal() + dogNumbers[0]);
+                setMediumDogGoodTotal(getMediumDogGoodTotal() + dogNumbers[1]);
+                setLargeDogGoodTotal(getLargeDogGoodTotal() + dogNumbers[2]);
+            }
+            case IDK -> setReviewCountIdk(getReviewCountIdk() + 1);
+            case BAD -> {
+                setReviewCountBad(getReviewCountBad() + 1);
+                setSmallDogBadTotal(getSmallDogBadTotal() + dogNumbers[0]);
+                setMediumDogBadTotal(getMediumDogBadTotal() + dogNumbers[1]);
+                setLargeDogBadTotal(getLargeDogBadTotal() + dogNumbers[2]);
+            }
+        }
+    }
 
 }

@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -41,7 +43,10 @@ public class Review extends BaseTimeEntity {
     @Column(name="larger_dog_number")
     private int largeDogNumber;
 
+    @Column(name="review_additional_script")
     private String additionalScript;
+    @Enumerated(EnumType.STRING)
+    private RecommendStatus recommendStatus;
     @ManyToOne(fetch = LAZY,cascade= CascadeType.PERSIST)
     @JoinColumn(name="place_id")
     private Place place;
