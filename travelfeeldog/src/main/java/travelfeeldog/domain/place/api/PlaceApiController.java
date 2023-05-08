@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import travelfeeldog.domain.place.dto.PlaceDtos.PlaceDetailDto;
 import travelfeeldog.domain.place.dto.PlaceDtos.PlacePostRequestDto;
+import travelfeeldog.domain.place.dto.PlaceDtos.PlaceResponseDetailDto;
 import travelfeeldog.domain.place.model.Place;
 import travelfeeldog.domain.place.service.PlaceService;
 import travelfeeldog.global.common.dto.ApiResponse;
@@ -33,7 +34,6 @@ public class PlaceApiController {
     public ApiResponse<PlaceDetailDto> addNewPlace(@RequestBody PlacePostRequestDto request) {
         return ApiResponse.success(placeService.addNewPlace(request));
     }
-
     @GetMapping(value = "/all", produces = "application/json;charset=UTF-8")
     public ApiResponse<List<PlaceDetailDto>> getAllPlaces() {
         List<PlaceDetailDto> placeDetailResponse = placeService.getAllPlaces().stream()
@@ -41,10 +41,9 @@ public class PlaceApiController {
                 .collect(Collectors.toList());
         return ApiResponse.success(placeDetailResponse);
     }
-
     @GetMapping(value = "/{placeId}", produces = "application/json;charset=UTF-8")
-    public ApiResponse<PlaceDetailDto> getPlaceDetailInfo(@PathVariable Long placeId) {
-        PlaceDetailDto placeDetailDto = new PlaceDetailDto(placeService.getPlaceById(placeId));
+    public ApiResponse<PlaceResponseDetailDto> getPlaceDetailInfo(@PathVariable Long placeId) {
+        PlaceResponseDetailDto placeDetailDto =placeService.getPlaceDetailById(placeId);
         return ApiResponse.success(placeDetailDto);
     }
     @PutMapping(value = "/image",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})

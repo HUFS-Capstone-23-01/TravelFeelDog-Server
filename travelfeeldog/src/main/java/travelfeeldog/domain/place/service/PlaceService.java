@@ -14,6 +14,7 @@ import travelfeeldog.domain.place.dao.PlaceRepository;
 import travelfeeldog.domain.place.dao.PlaceStaticRepository;
 import travelfeeldog.domain.place.dto.PlaceDtos.PlaceDetailDto;
 import travelfeeldog.domain.place.dto.PlaceDtos.PlacePostRequestDto;
+import travelfeeldog.domain.place.dto.PlaceDtos.PlaceResponseDetailDto;
 import travelfeeldog.domain.place.model.Place;
 import travelfeeldog.domain.place.model.PlaceStatic;
 import travelfeeldog.domain.review.dto.ReviewDtos.ReviewPostRequestDto;
@@ -65,7 +66,12 @@ public class PlaceService {
         return placeRepository.findById(placeId)
                 .orElseThrow(() -> new EntityNotFoundException("Place not found with ID: " + placeId));
     }
-
+    public PlaceResponseDetailDto getPlaceDetailById(Long placeId) {
+        Place place = placeRepository.findById(placeId)
+                .orElseThrow(() -> new EntityNotFoundException("Place not found with ID: " + placeId));
+        PlaceStatic placeStatic = placeStaticRepository.findByPlaceId(placeId);
+        return new PlaceResponseDetailDto(place,placeStatic);
+    }
     public List<Place> getAllPlaces() {
         return placeRepository.findAll();
     }
