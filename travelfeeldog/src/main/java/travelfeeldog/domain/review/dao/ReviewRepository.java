@@ -10,7 +10,7 @@ import travelfeeldog.domain.review.model.Review;
 public interface ReviewRepository extends JpaRepository<Review,Long> {
     List<Review> findByPlaceId(Long placeId);
 
-    List<Review> findByMember_memberId(Long memberId);
+    List<Review> findByMemberId(Long memberId);
     List<Review> findByRecommendStatus(RecommendStatus recommendStatus);
     List<Review> findAllByOrderByCreatedDateTimeDesc();
     List<Review> findBySmallDogNumberGreaterThan(int i);
