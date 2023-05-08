@@ -51,7 +51,7 @@ public class MemberRepository {
         }
     }
 
-    public Optional<Member> findById(int id) {
+    public Optional<Member> findById(Long id) {
         try {
             Member member = em.createQuery("SELECT m FROM Member m WHERE m.memberId = :id", Member.class)
                     .setParameter("id", id)
@@ -86,14 +86,6 @@ public class MemberRepository {
 
     public Member updateExpAndLevel(String memberToken, int addingExp) {
         Member member = findByToken(memberToken).get();
-        int changedExp = member.getMemberExp() + addingExp;
-        if (changedExp / 40 == 0) {
-            member.setMemberExp(changedExp);
-        } else {
-            member.setMemberExp(changedExp % 40);
-            int newLevel = member.getMemberLevel() + 1;
-            member.setMemberLevel(newLevel);
-        }
         em.merge(member);
         return member;
     }

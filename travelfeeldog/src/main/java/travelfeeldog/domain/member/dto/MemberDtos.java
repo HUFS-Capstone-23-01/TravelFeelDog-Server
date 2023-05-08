@@ -20,6 +20,27 @@ public class MemberDtos {
     }
 
     @Data
+    @NonNull
+    @NoArgsConstructor
+    public static class MemberPutNickNameDto {
+        String nickName;
+        String firebaseToken;
+    }
+
+    @Data
+    @NonNull
+    @NoArgsConstructor
+    public static class MemberGetIdDto { Long memberId; }
+
+    @Data
+    @NonNull
+    @NoArgsConstructor
+    public static class MemberPutExpDto {
+        int addingValue;
+        String firebaseToken;
+    }
+
+    @Data
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class MemberResponse {
         private Long memberId;

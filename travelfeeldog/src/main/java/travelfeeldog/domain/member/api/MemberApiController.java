@@ -9,8 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 
-import travelfeeldog.domain.member.dto.MemberDtos.MemberPostRequestDto;
-import travelfeeldog.domain.member.dto.MemberDtos.MemberResponse;
+import travelfeeldog.domain.member.dto.MemberDtos.*;
 import travelfeeldog.domain.member.model.Member;
 import travelfeeldog.domain.member.service.MemberService;
 import travelfeeldog.global.common.dto.ApiResponse;
@@ -63,7 +62,7 @@ public class MemberApiController {
             try {
                 String profileImageUrl = awsS3ImageService.uploadImageOnly(file, "member");
                 Member result = memberService.updateImageUrl(firebaseToken, profileImageUrl);
-                return ApiResponse.success(result);
+                return ApiResponse.success(new MemberResponse(result));
             } catch (IOException e) {
                 return ApiResponse.success(false);
             }
@@ -73,9 +72,9 @@ public class MemberApiController {
     }
 
     @PutMapping(value = "/profile/nick", produces = "application/json;charset=UTF-8")
-    public ApiResponse putMemberNickName(@RequestHeader("Authorization") String firebaseToken, @RequestParam("nickName") String newNickName) {
-        if (memberService.isTokenExist(firebaseToken)) {
-            Member result = memberService.updateNickName(firebaseToken, newNickName);
+    public ApiResponse putMemberNickName(@RequestBody MemberPutNickNameDto memberPutNickNameDto) {
+        if (memberService.isTokenExist(memberPutNickNameDto.getFirebaseToken())) {
+            Member result = memberService.updateNickName(memberPutNickNameDto.getFirebaseToken(), memberPutNickNameDto.getNickName());
             return ApiResponse.success(result);
         } else {
             return ApiResponse.invaildToken(false);
@@ -83,10 +82,10 @@ public class MemberApiController {
     }
 
     @PutMapping(value = "/profile/expAndLevel", produces = "application/json;charset=UTF-8")
-    public ApiResponse putMemberExpAndLevel(@RequestHeader("Authorization") String firebaseToken, @RequestParam("expValue") int expForAdd) {
-        if (memberService.isTokenExist(firebaseToken)) {
-            Member result = memberService.updateExpAndLevel(firebaseToken, expForAdd);
-            return ApiResponse.success(result);
+    public ApiResponse putMemberExpAndLevel(@RequestParam MemberPutExpDto memberPutExpDto) {
+        if (memberService.isTokenExist(memberPutExpDto.getFirebaseToken())) {
+            Member result = memberService.updateExpAndLevel(memberPutExpDto.getFirebaseToken(), memberPutExpDto.getAddingValue());
+            return ApiResponse.success(new MemberResponse(result));
         } else {
             return ApiResponse.invaildToken(false);
         }
@@ -100,5 +99,11 @@ public class MemberApiController {
     @PostMapping(value = "/profile/nick/valid", produces = "application/json;charset=UTF-8")
     public ApiResponse checkNickRedundant(@RequestHeader("Authorization") String newNickName) {
         return ApiResponse.invaildToken(memberService.isNickRedundant(newNickName));
+    }
+
+    @GetMapping(value = "/findNick",produces = "application/json;charset=UTF-8")
+    public ApiResponse findById(@RequestBody MemberGetIdDto memberGetIdDto) {
+        Member result = memberService.findById(memberGetIdDto.getMemberId());
+        return ApiResponse.success(new MemberResponse(result));
     }
 }

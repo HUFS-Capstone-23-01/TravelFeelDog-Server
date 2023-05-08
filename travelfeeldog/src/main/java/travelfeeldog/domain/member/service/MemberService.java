@@ -49,7 +49,7 @@ public class MemberService {
         return memberRepository.findByToken(firebaseToken).isPresent();
     }
 
-    public Member findById(int memberId) {
+    public Member findById(Long memberId) {
         return memberRepository.findById(memberId).orElseThrow(() -> new RuntimeException("Member not found"));
     }
 
