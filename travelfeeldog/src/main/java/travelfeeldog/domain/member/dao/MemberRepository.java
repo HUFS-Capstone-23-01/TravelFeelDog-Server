@@ -86,6 +86,7 @@ public class MemberRepository {
 
     public Member updateExpAndLevel(String memberToken, int addingExp) {
         Member member = findByToken(memberToken).get();
+        member.updateExpAndLevel(addingExp);
         em.merge(member);
         return member;
     }
