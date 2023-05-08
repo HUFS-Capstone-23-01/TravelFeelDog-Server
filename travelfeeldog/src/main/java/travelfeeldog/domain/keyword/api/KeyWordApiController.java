@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import travelfeeldog.domain.keyword.dto.KeyWordDtos.KeyWordResponseByCategoryDto;
 import travelfeeldog.domain.keyword.dto.KeyWordDtos.KeyWordResponseDto;
 import travelfeeldog.domain.keyword.service.KeyWordService;
+import travelfeeldog.global.common.dto.ApiResponse;
+
 @RestController
 @RequestMapping("/keyword")
 @RequiredArgsConstructor
@@ -43,6 +46,10 @@ public class KeyWordApiController {
     public ResponseEntity<List<KeyWordResponseDto>> getAllBadKeyWords() {
         List<KeyWordResponseDto> badKeyWords = keyWordService.getAllBadKeyWords();
         return ResponseEntity.ok(badKeyWords);
+    }
+    @GetMapping(value = "/{categoryId}", produces = "application/json;charset=UTF-8")
+    ApiResponse<KeyWordResponseByCategoryDto> getAllKeyWordsByCategory(@PathVariable Long categoryId){
+        return ApiResponse.success(keyWordService.getAllKeyWordsByCategory(categoryId));
     }
 }
 

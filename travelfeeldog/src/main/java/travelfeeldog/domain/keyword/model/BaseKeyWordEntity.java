@@ -8,6 +8,5 @@ import lombok.Setter;
 @Getter @Setter
 @MappedSuperclass
 public abstract class BaseKeyWordEntity {
-    @Column(name="key_word")
-    private String keyWord;
+    private String keyWordName;
 }
