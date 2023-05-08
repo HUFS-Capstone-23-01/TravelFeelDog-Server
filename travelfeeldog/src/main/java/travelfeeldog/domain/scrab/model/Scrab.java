@@ -1,4 +1,4 @@
-package travelfeeldog.scrab.model;
+package travelfeeldog.domain.scrab.model;
 
 import lombok.AccessLevel;
 import lombok.Getter;
