@@ -21,52 +21,52 @@ public class Member extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id", length = 64)
-    private Long memberId;
+    private Long id;
 
     @Column(name = "member_nickname", unique = true, length = 100)
-    private String memberNickName;
+    private String nickName;
 
     @Column(name = "member_level", length = 100)
-    private int memberLevel;
+    private int level;
 
     @Column(name = "member_exp", length = 100)
-    private int memberExp;
+    private int exp;
 
     @Column(name = "member_image_url", length = 100)
-    private String memberImageUrl;
+    private String imageUrl;
 
     @Column(name = "member_token", unique = true, length = 100)
-    private String memberToken;
+    private String token;
 
-    private Member(String memberNickName,
-                   int memberLevel,
-                   int memberExp,
-                   String memberImageUrl,
-                   String memberToken) {
-        this.memberNickName = memberNickName;
-        this.memberLevel = memberLevel;
-        this.memberExp = memberExp;
-        this.memberImageUrl = memberImageUrl;
-        this.memberToken = memberToken;
+    private Member(String nickName,
+                   int level,
+                   int exp,
+                   String imageUrl,
+                   String token) {
+        this.nickName = nickName;
+        this.level = level;
+        this.exp = exp;
+        this.imageUrl = imageUrl;
+        this.token = token;
     }
 
-    public static Member create(String memberNickName,
-                                int memberLevel,
-                                int memberExp,
-                                String memberImageUrl,
-                                String memberToken) {
-        return new Member(memberNickName, memberLevel, memberExp, memberImageUrl, memberToken);
+    public static Member create(String nickName,
+                                int level,
+                                int exp,
+                                String imageUrl,
+                                String token) {
+        return new Member(nickName, level, exp, imageUrl, token);
     }
 
     //==연관관계 메소드==//
     public boolean updateExpAndLevel(int addingExp) {
-        int changedExp = this.memberExp + addingExp;
+        int changedExp = this.exp + addingExp;
         if (changedExp / 40 == 0) {
-            this.memberExp = changedExp;
+            this.exp = changedExp;
             return false;
         } else {
-            this.memberExp = changedExp % 40;
-            this.memberLevel = this.memberExp + 1;
+            this.exp = changedExp % 40;
+            this.level = this.exp + 1;
         }
         return true;
     }

@@ -14,8 +14,8 @@ public class MemberDtos {
     @NonNull
     @NoArgsConstructor
     public static class MemberPostRequestDto {
-        String memberNickName;
-        String memberImageUrl;
+        String nickName;
+        String imageUrl;
         String firebaseToken;
     }
 
@@ -30,7 +30,7 @@ public class MemberDtos {
     @Data
     @NonNull
     @NoArgsConstructor
-    public static class MemberGetIdDto { Long memberId; }
+    public static class MemberGetIdDto { Long id; }
 
     @Data
     @NonNull
@@ -43,31 +43,31 @@ public class MemberDtos {
     @Data
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class MemberResponse {
-        private Long memberId;
-        private String memberNickName;
-        private int memberLevel;
-        private int memberExp;
-        private String memberImageUrl;
-        private String memberToken;
+        private Long id;
+        private String nickName;
+        private int level;
+        private int exp;
+        private String imageUrl;
+        private String token;
 
         public MemberResponse(Member member) {
             this(
-                    member.getMemberId(),
-                    member.getMemberNickName(),
-                    member.getMemberLevel(),
-                    member.getMemberExp(),
-                    member.getMemberImageUrl(),
-                    member.getMemberToken()
+                    member.getId(),
+                    member.getNickName(),
+                    member.getLevel(),
+                    member.getExp(),
+                    member.getImageUrl(),
+                    member.getToken()
             );
         }
 
-        public MemberResponse(Long memberId, String memberNickName, int memberLevel, int memberExp, String memberImageUrl, String memberToken) {
-            this.memberId = memberId;
-            this.memberNickName = memberNickName;
-            this.memberLevel = memberLevel;
-            this.memberExp = memberExp;
-            this.memberImageUrl = memberImageUrl;
-            this.memberToken = memberToken;
+        public MemberResponse(Long id, String nickName, int level, int exp, String imageUrl, String token) {
+            this.id = id;
+            this.nickName = nickName;
+            this.level = level;
+            this.exp = exp;
+            this.imageUrl = imageUrl;
+            this.token = token;
         }
     }
 }

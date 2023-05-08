@@ -25,7 +25,7 @@ public class MemberApiController {
 
     @PostMapping(produces = "application/json;charset=UTF-8")
     public ApiResponse postMember(@RequestBody MemberPostRequestDto request) throws Exception {
-        Member savedMember = memberService.saveMember(request.getMemberNickName(), request.getFirebaseToken());
+        Member savedMember = memberService.saveMember(request.getNickName(), request.getFirebaseToken());
         return ApiResponse.success(new MemberResponse(savedMember));
     }
 
@@ -103,7 +103,7 @@ public class MemberApiController {
 
     @GetMapping(value = "/findNick",produces = "application/json;charset=UTF-8")
     public ApiResponse findById(@RequestBody MemberGetIdDto memberGetIdDto) {
-        Member result = memberService.findById(memberGetIdDto.getMemberId());
+        Member result = memberService.findById(memberGetIdDto.getId());
         return ApiResponse.success(new MemberResponse(result));
     }
 }
