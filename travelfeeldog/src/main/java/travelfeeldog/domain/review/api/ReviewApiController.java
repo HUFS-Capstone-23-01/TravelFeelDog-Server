@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import travelfeeldog.domain.review.dto.ReviewDtos.ReviewMemberPageResponseDto;
 import travelfeeldog.domain.review.dto.ReviewDtos.ReviewPageResponseDto;
@@ -21,14 +22,14 @@ import travelfeeldog.global.common.dto.ApiResponse;
 @RequiredArgsConstructor
 public class ReviewApiController {
     private final ReviewService reviewService;
-    @GetMapping(produces = "application/json;charset=UTF-8")
+    @GetMapping(value = "/test",produces = "application/json;charset=UTF-8")
     public ApiResponse<List<ReviewMemberPageResponseDto>> getAllReviews() {
         List<ReviewMemberPageResponseDto> reviews = reviewService.getAllReviews();
         return ApiResponse.success(reviews);
     }
 
     @GetMapping(value = "/{reviewId}",produces = "application/json;charset=UTF-8")
-    public ApiResponse<ReviewMemberPageResponseDto> getReviewById(@PathVariable Long reviewId) {
+    public ApiResponse<ReviewMemberPageResponseDto> getReviewByReviewId(@PathVariable Long reviewId,@RequestHeader("Authorization") String token) {
         ReviewMemberPageResponseDto review = reviewService.getReviewById(reviewId);
         return ApiResponse.success(review);
     }
@@ -40,14 +41,19 @@ public class ReviewApiController {
     }
 
     @DeleteMapping(value = "/{reviewId}",produces = "application/json;charset=UTF-8")
-    public ApiResponse<Void> deleteReviewById(@PathVariable Long id) {
-        reviewService.deleteReviewById(id);
+    public ApiResponse<Void> deleteReviewById(@PathVariable Long reviewId , @RequestHeader("Authorization") String token) {
+        reviewService.deleteReviewById(reviewId);
         return ApiResponse.success(null);
     }
 
     @GetMapping(value = "/places/{placeId}",produces = "application/json;charset=UTF-8")
-    public ApiResponse<List<ReviewPageResponseDto>> getReviewsByPlaceId(@PathVariable Long placeId) {
+    public ApiResponse<List<ReviewPageResponseDto>> getReviewsByPlaceId(@PathVariable Long placeId,@RequestHeader("Authorization") String token) {
         List<ReviewPageResponseDto> reviews = reviewService.getReviewsByPlaceId(placeId);
+        return ApiResponse.success(reviews);
+    }
+    @GetMapping(produces = "application/json;charset=UTF-8")
+    public ApiResponse<List<ReviewPageResponseDto>> getReviewsByQuery(@RequestParam("request") String request, @RequestHeader("Authorization") String token) {
+        List<ReviewPageResponseDto> reviews = reviewService.getReviewsByQuery(request);
         return ApiResponse.success(reviews);
     }
 

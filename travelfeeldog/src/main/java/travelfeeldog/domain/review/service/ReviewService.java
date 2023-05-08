@@ -6,6 +6,7 @@ import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.yaml.snakeyaml.util.EnumUtils;
 import travelfeeldog.domain.member.model.Member;
 import travelfeeldog.domain.member.service.MemberService;
 import travelfeeldog.domain.place.model.Place;
@@ -15,6 +16,7 @@ import travelfeeldog.domain.review.dao.ReviewRepository;
 import travelfeeldog.domain.review.dto.ReviewDtos.ReviewMemberPageResponseDto;
 import travelfeeldog.domain.review.dto.ReviewDtos.ReviewPageResponseDto;
 import travelfeeldog.domain.review.dto.ReviewDtos.ReviewPostRequestDto;
+import travelfeeldog.domain.review.model.RecommendStatus;
 import travelfeeldog.domain.review.model.Review;
 import travelfeeldog.domain.review.model.ReviewImage;
 
@@ -73,10 +75,16 @@ public class ReviewService {
                 .map(ReviewPageResponseDto::new)
                 .collect(Collectors.toList());
     }
+    public List<ReviewPageResponseDto> getReviewsByQuery(String request) {
+        List<Review> reviews = "TIME".equalsIgnoreCase(request)
+                ? reviewRepository.findAllByOrderByCreatedDateTimeDesc()
+                : reviewRepository.findByRecommendStatus(RecommendStatus.valueOf(request.toUpperCase()));
+        return reviews.stream().map(ReviewPageResponseDto::new).collect(Collectors.toList());
+    }
 
     public List<ReviewMemberPageResponseDto> getReviewsByMemberId(String token) {
         Long memberId = memberService.findByToken(token).getMemberId();
-        return reviewRepository.findByMemberId(memberId).stream()
+        return reviewRepository.findByMember_memberId(memberId).stream()
                 .map(ReviewMemberPageResponseDto::new)
                 .collect(Collectors.toList());
     }
