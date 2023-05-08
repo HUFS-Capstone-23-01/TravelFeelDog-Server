@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import travelfeeldog.domain.tag.model.Tag;
 import travelfeeldog.global.common.model.BaseTimeEntity;
 
 import javax.persistence.*;

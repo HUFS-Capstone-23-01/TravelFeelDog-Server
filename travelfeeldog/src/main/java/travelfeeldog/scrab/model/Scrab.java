@@ -1,9 +1,10 @@
-package travelfeeldog.domain.feed.model;
+package travelfeeldog.scrab.model;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import travelfeeldog.domain.feed.model.Feed;
 import travelfeeldog.domain.member.model.Member;
 import travelfeeldog.global.common.model.BaseTimeEntity;
 
