@@ -41,8 +41,11 @@ public class Place extends BaseTimeEntity {
     private String describe;
     @ColumnDefault("0")
     @Column(name="place_view_count")
-    private Integer viewCount;
-    @ColumnDefault("'example.com'")
+    private int viewCount;
+    @ColumnDefault("0")
+    @Column(name="place_review_count")
+    private int reviewCount;
+    @ColumnDefault("'https://tavelfeeldog.s3.ap-northeast-2.amazonaws.com/base/pic1.JPG'")
     @Column(name="place_thumbnail_image")
     private String thumbNailImageUrl;
     @Column(name="place_latitude")
