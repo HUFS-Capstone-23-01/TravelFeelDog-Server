@@ -2,6 +2,7 @@ package travelfeeldog.domain.location.api;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import travelfeeldog.domain.location.dto.LocationDtos.RequestLocationDto;
+import travelfeeldog.domain.location.dto.LocationDtos.ResponseLocationDto;
 import travelfeeldog.domain.location.model.Location;
 import travelfeeldog.domain.location.service.LocationService;
 import travelfeeldog.global.common.dto.ApiResponse;
@@ -26,14 +28,15 @@ public class LocationApiController {
     private final LocationService locationService;
 
     @GetMapping(value = "/all", produces = "application/json;charset=UTF-8")
-    public ApiResponse<List<Location>> getAllLocations() {
-        List<Location> locations = locationService.getAllLocations();
+    public ApiResponse<List<ResponseLocationDto>> getAllLocations() {
+        List<ResponseLocationDto> locations = locationService.getAllLocations().stream().map(ResponseLocationDto::new).collect(
+                Collectors.toList());
         return ApiResponse.success(locations);
     }
     @GetMapping(value = "/{locationId}", produces = "application/json;charset=UTF-8")
-    public ApiResponse<Location> getLocationById(@PathVariable Long locationId) {
-        Optional<Location> location = locationService.getLocationById(locationId);
-        return location.map(value -> ApiResponse.success(value)).orElseGet(() -> ApiResponse.error(HttpStatus.NOT_FOUND));
+    public ApiResponse<ResponseLocationDto> getLocationById(@PathVariable Long locationId) {
+        Location location = locationService.getLocationById(locationId);
+        return ApiResponse.success(new ResponseLocationDto(location));
     }
 
     @GetMapping(produces = "application/json;charset=UTF-8")
@@ -47,12 +50,6 @@ public class LocationApiController {
     public ApiResponse<Location> createLocation(@RequestBody RequestLocationDto request) {
         Location createdLocation = locationService.createLocation(request);
         return ApiResponse.success(createdLocation);
-    }
-
-    @PutMapping(value = "/{locationId}", consumes = "application/json", produces = "application/json;charset=UTF-8")
-    public ApiResponse<Void> updateLocation(@PathVariable Long locationId,@RequestBody Location location) {
-        locationService.updateLocation(locationId, location);
-        return ApiResponse.success(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping(value = "/{locationId}", produces = "application/json;charset=UTF-8")

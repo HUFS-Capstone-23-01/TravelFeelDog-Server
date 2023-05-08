@@ -2,10 +2,8 @@ package travelfeeldog.domain.place.dto;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.persistence.Column;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 import travelfeeldog.domain.place.model.Place;
 import travelfeeldog.domain.place.model.PlaceStatic;
 
@@ -55,11 +53,11 @@ public class PlaceDtos {
         private String name;
         private String describe;
         private String thumbNailImageUrl;
+        private List<String> facilityNames;
         private String address;
         private float latitude;
         private float longitude;
         private int reviewCountBad;
-
         private int reviewCountGood;
         private int reviewCountIdk;
         private int smallDogGoodTotal;
@@ -68,9 +66,8 @@ public class PlaceDtos {
         private int mediumDogBadTotal;
         private int largeDogGoodTotal;
         private int largeDogBadTotal;
-        private List<String> facilityNames;
         public PlaceResponseDetailDto(Place place, PlaceStatic placeStatic){
-            this.id=place.getId();
+            this.id = place.getId();
             this.name =place.getName();
             this.name = place.getName();
             this.describe = place.getDescribe();
