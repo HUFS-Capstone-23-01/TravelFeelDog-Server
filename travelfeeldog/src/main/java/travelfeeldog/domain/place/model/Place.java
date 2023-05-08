@@ -73,20 +73,4 @@ public class Place extends BaseTimeEntity {
 
     @OneToOne(mappedBy = "place", cascade = CascadeType.ALL)
     private PlaceStatic placeStatic;
-/*
-
-    public void setLocation(Location location) {
-        this.location = location;
-        location.getPlaces().add(this);
-    }
-    public void addReview(Review review){
-        reviews.add(review);
-        review.setPlace(this);
-    }
-    public void addFacility(Facility facility){
-        facilities.add(facility);
-        facility.setPlace(this);
-    }
-
- */
 }

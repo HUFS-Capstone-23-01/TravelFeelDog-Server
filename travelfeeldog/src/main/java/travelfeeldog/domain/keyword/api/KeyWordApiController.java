@@ -11,11 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import travelfeeldog.domain.keyword.dto.KeyWordDtos.KeyWordResponseDto;
-import travelfeeldog.domain.keyword.model.BadKeyWord;
-import travelfeeldog.domain.keyword.model.GoodKeyWord;
 import travelfeeldog.domain.keyword.service.KeyWordService;
 @RestController
-@RequestMapping("/keywords")
+@RequestMapping("/keyword")
 @RequiredArgsConstructor
 public class KeyWordApiController {
     private final KeyWordService keyWordService;
