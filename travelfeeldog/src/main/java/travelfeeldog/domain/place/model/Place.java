@@ -7,12 +7,14 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -41,8 +43,11 @@ public class Place extends BaseTimeEntity {
     private String describe;
     @ColumnDefault("0")
     @Column(name="place_view_count")
-    private Integer viewCount;
-    @ColumnDefault("'example.com'")
+    private int viewCount;
+    @ColumnDefault("0")
+    @Column(name="place_review_count")
+    private int reviewCount;
+    @ColumnDefault("'https://tavelfeeldog.s3.ap-northeast-2.amazonaws.com/base/pic1.JPG'")
     @Column(name="place_thumbnail_image")
     private String thumbNailImageUrl;
     @Column(name="place_latitude")
@@ -51,6 +56,7 @@ public class Place extends BaseTimeEntity {
     private float longitude;
     @Column(name="place_address")
     private String address;
+
     @OneToMany(mappedBy = "place" ,cascade = CascadeType.PERSIST)
     private List<PlaceFacility> placeFacilities = new ArrayList<>();
 
@@ -65,6 +71,8 @@ public class Place extends BaseTimeEntity {
     @JoinColumn(name="location_id")
     private Location location;
 
+    @OneToOne(mappedBy = "place", cascade = CascadeType.ALL)
+    private PlaceStatic placeStatic;
 /*
 
     public void setLocation(Location location) {
