@@ -3,11 +3,13 @@ package travelfeeldog.domain.review.dto;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import travelfeeldog.domain.member.model.Member;
 import travelfeeldog.domain.review.model.RecommendStatus;
 import travelfeeldog.domain.review.model.Review;
+import travelfeeldog.domain.review.model.ReviewImage;
 
 public class ReviewDtos {
     @Data
@@ -45,6 +47,7 @@ public class ReviewDtos {
         private String recommendStatus;
         private LocalDateTime createdDateTime;
         private String additionalScript;
+        private List<String> imageUrls ;
 
         public ReviewPageResponseDto(Review review) {
             memberImageUrl = review.getMember().getImageUrl();
@@ -53,6 +56,7 @@ public class ReviewDtos {
             createdDateTime = review.getCreatedDateTime();
             recommendStatus = review.getRecommendStatus().toString();
             additionalScript =review.getAdditionalScript();
+            imageUrls = review.getReviewImages().stream().map(ReviewImage::getImageUrl).collect(Collectors.toList());
         }
     }
     @Data
@@ -62,11 +66,13 @@ public class ReviewDtos {
         private String recommendStatus;
         private LocalDateTime createdDateTime;
         private String additionalScript;
+        private List<String> imageUrls ;
         public ReviewMemberPageResponseDto(Review review) {
             placeName = review.getPlace().getName();
             createdDateTime = review.getCreatedDateTime();
             recommendStatus = review.getRecommendStatus().toString();
             additionalScript =review.getAdditionalScript();
+            imageUrls = review.getReviewImages().stream().map(ReviewImage::getImageUrl).collect(Collectors.toList());
         }
     }
 }
