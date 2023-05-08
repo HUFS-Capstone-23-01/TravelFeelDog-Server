@@ -1,16 +1,18 @@
 package travelfeeldog.domain.member.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import travelfeeldog.domain.FeedLike.model.FeedLike;
+import travelfeeldog.domain.review.model.Review;
+import travelfeeldog.domain.scrab.model.Scrab;
 import travelfeeldog.global.common.model.BaseTimeEntity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -37,6 +39,15 @@ public class Member extends BaseTimeEntity{
 
     @Column(name = "member_token", unique = true, length = 100)
     private String token;
+
+    @OneToMany(mappedBy = "feed_like_id")
+    private List<FeedLike> feedLikes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "scrab_id")
+    private List<Scrab> scrabs = new ArrayList<>();
+
+    @OneToMany(mappedBy = "review_id")
+    private List<Review> reviews = new ArrayList<>();
 
     private Member(String nickName,
                    int level,
