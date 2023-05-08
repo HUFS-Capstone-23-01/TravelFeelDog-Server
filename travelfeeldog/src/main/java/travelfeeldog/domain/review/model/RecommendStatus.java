@@ -1,5 +1,6 @@
 package travelfeeldog.domain.review.model;
 
+
 public enum RecommendStatus {
-    GOOD,IDK,BAD
+    GOOD,IDK,BAD;
 }

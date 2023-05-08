@@ -17,8 +17,6 @@ import travelfeeldog.domain.place.dto.PlaceDtos.PlacePostRequestDto;
 import travelfeeldog.domain.place.model.Place;
 import travelfeeldog.domain.place.model.PlaceStatic;
 import travelfeeldog.domain.review.dto.ReviewDtos.ReviewPostRequestDto;
-import travelfeeldog.domain.review.model.RecommendStatus;
-
 @Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
