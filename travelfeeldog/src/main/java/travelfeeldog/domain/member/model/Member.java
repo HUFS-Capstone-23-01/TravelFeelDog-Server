@@ -22,22 +22,22 @@ public class Member extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_id", length = 64)
+    @Column(name = "member_id")
     private Long id;
 
-    @Column(name = "member_nickname", unique = true, length = 100)
+    @Column(name = "member_nickname", unique = true)
     private String nickName;
 
-    @Column(name = "member_level", length = 100)
+    @Column(name = "member_level")
     private int level;
 
-    @Column(name = "member_exp", length = 100)
+    @Column(name = "member_exp")
     private int exp;
 
     @Column(name = "member_image_url", length = 100)
     private String imageUrl;
 
-    @Column(name = "member_token", unique = true, length = 100)
+    @Column(name = "member_token", unique = true)
     private String token;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
