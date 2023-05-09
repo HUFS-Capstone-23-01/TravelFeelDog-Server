@@ -34,6 +34,13 @@ public class PlaceApiController {
     public ApiResponse<PlaceDetailDto> addNewPlace(@RequestBody PlacePostRequestDto request) {
         return ApiResponse.success(placeService.addNewPlace(request));
     }
+    @PutMapping(value = "/image",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ApiResponse updatePlaceImageUrl(@RequestParam("placeId") Long placeId,
+                                           @RequestParam("file") MultipartFile file) throws IOException {
+        String imageUrl = awsS3ImageService.uploadImageOnly(file,"place");
+        Place place = placeService.changeImageUrl(placeId,imageUrl);
+        return  ApiResponse.success(new PlaceDetailDto(place));
+    }
     @GetMapping(value = "/all", produces = "application/json;charset=UTF-8")
     public ApiResponse<List<PlaceDetailDto>> getAllPlaces() {
         List<PlaceDetailDto> placeDetailResponse = placeService.getAllPlaces().stream()
@@ -42,15 +49,8 @@ public class PlaceApiController {
         return ApiResponse.success(placeDetailResponse);
     }
     @GetMapping(value = "/{placeId}", produces = "application/json;charset=UTF-8")
-    public ApiResponse<PlaceResponseDetailDto> getPlaceDetailInfo(@PathVariable Long placeId) {
+    public ApiResponse<PlaceResponseDetailDto> getPlaceDetailInfo(@PathVariable Long placeId,@RequestHeader("Authorization") String token) {
         PlaceResponseDetailDto placeDetailDto =placeService.getPlaceDetailById(placeId);
         return ApiResponse.success(placeDetailDto);
-    }
-    @PutMapping(value = "/image",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ApiResponse updatePlaceImageUrl(@RequestParam("placeId") Long placeId,
-                                           @RequestParam("file") MultipartFile file) throws IOException {
-        String imageUrl = awsS3ImageService.uploadImageOnly(file,"place");
-        Place place = placeService.changeImageUrl(placeId,imageUrl);
-        return  ApiResponse.success(new PlaceDetailDto(place));
     }
 }
