@@ -29,6 +29,9 @@ public class ApiResponse<T> {
     public static <T> ApiResponse<T> success(HttpStatus httpStatus) {
         return new ApiResponse(new ApiResponseHeader(httpStatus.value(), httpStatus.getReasonPhrase()), null);
     }
+    public static <T> ApiResponse<T> success(HttpStatus httpStatus,T body) {
+        return new ApiResponse(new ApiResponseHeader(httpStatus.value(), httpStatus.getReasonPhrase()), body);
+    }
     public static <T> ApiResponse<T> error(int code , String message) {
         return new ApiResponse(new ApiResponseHeader(code, message),null);
     }
