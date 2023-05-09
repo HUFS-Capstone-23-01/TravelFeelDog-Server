@@ -26,7 +26,7 @@ public class MemberApiController {
     private final AwsS3ImageService awsS3ImageService;
 
     @PostMapping(produces = "application/json;charset=UTF-8")
-    public ApiResponse postMember(@RequestBody MemberPostRequestDto request) throws Exception {
+    public ApiResponse postMember(@Valid @RequestBody MemberPostRequestDto request) throws Exception {
         Member savedMember = memberService.saveMember(request.getNickName(), request.getFirebaseToken());
         return ApiResponse.success(new MemberResponse(savedMember));
     }
@@ -39,7 +39,7 @@ public class MemberApiController {
     }
 
     @GetMapping(produces = "application/json;charset=UTF-8")
-    public ApiResponse getMemberByToken(@Valid @RequestHeader("Authorization") String firebaseToken) {
+    public ApiResponse getMemberByToken(@RequestHeader("Authorization") String firebaseToken) {
         if (memberService.isTokenExist(firebaseToken)) {
             Member member = memberService.findByToken(firebaseToken);
             return ApiResponse.success(new MemberResponse(member));
