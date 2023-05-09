@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import travelfeeldog.domain.member.model.Member;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -15,6 +16,7 @@ public class MemberDtos {
     @NoArgsConstructor
     public static class MemberPostRequestDto {
         @NotBlank(message = "NickName value is Empty or just Blank")
+        @Size(min = 2, max = 16, message = "닉네임은 2~16자리로 입력해주세요.")
         String nickName;
         @NotBlank(message = "Token value is Empty or just Blank")
         String firebaseToken;
@@ -24,6 +26,7 @@ public class MemberDtos {
     @NoArgsConstructor
     public static class MemberPutNickNameDto {
         @NotBlank(message = "NickName value is Empty or just Blank")
+        @Size(min = 2, max = 16, message = "닉네임은 2~16자리로 입력해주세요.")
         String nickName;
         @NotBlank(message = "Token value is Empty or just Blank")
         String firebaseToken;
@@ -36,6 +39,7 @@ public class MemberDtos {
 
     @Data
     @NotBlank(message = "NickName value is Empty or just Blank")
+    @Size(min = 2, max = 16, message = "닉네임은 2~16자리로 입력해주세요.")
     @NoArgsConstructor
     public static class MemberGetNickDto { String nickName; }
 
