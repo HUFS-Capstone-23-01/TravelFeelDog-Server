@@ -24,5 +24,11 @@ public class ReviewImage {
     @ManyToOne(fetch = LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name="review_id")
     private Review review;
+    public ReviewImage() {
 
+    }
+    public  ReviewImage(Review review,String imageUrl){
+        this.review=review;
+        this.imageUrl = imageUrl;
+    }
 }

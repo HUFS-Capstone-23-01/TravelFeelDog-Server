@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -57,6 +58,21 @@ public class Review extends BaseTimeEntity {
     private List<ReviewGoodKeyWord> reviewGoodKeyWords = new ArrayList<>();
     @OneToMany (mappedBy = "review",cascade = CascadeType.PERSIST)
     private List<ReviewBadKeyWord> reviewBadKeyWords = new ArrayList<>();
-    @OneToMany (mappedBy = "review",cascade = CascadeType.ALL)
+    @OneToMany (mappedBy = "review",cascade = CascadeType.ALL, orphanRemoval = true, fetch = LAZY)
     private List<ReviewImage> reviewImages = new ArrayList<>();
+    public Review() {
+
+    }
+    public Review(Member member, Place place, String additionalScript, RecommendStatus recommendStatus,
+                  int smallDogNumber, int mediumDogNumber, int largeDogNumber) {
+        this.member = member;
+        this.place = place;
+        this.additionalScript = additionalScript;
+        this.recommendStatus = recommendStatus;
+        this.smallDogNumber = smallDogNumber;
+        this.mediumDogNumber = mediumDogNumber;
+        this.largeDogNumber = largeDogNumber;
+        this.reviewImages = new ArrayList<>();
+    }
+
 }
