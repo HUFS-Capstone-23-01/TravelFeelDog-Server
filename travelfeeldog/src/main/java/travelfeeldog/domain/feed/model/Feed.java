@@ -17,23 +17,23 @@ public class Feed extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "feed_id", length = 64)
+    @Column(name = "feed_id")
     private Long feedId;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Column(name = "feed_like", length = 100)
+    @Column(name = "feed_like")
     private int feedLike;
 
-    @Column(name = "feed_scrap", length = 100)
+    @Column(name = "feed_scrap")
     private int feedScrap;
 
-    @Column(name = "feed_title", length = 64)
+    @Column(name = "feed_title")
     private String feedTitle;
 
-    @Column(name = "feed_body", length = 500)
+    @Column(name = "feed_body")
     private String feedBody;
 
 }
