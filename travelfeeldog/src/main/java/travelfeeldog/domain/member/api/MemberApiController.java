@@ -15,6 +15,8 @@ import travelfeeldog.domain.member.service.MemberService;
 import travelfeeldog.global.common.dto.ApiResponse;
 import travelfeeldog.infra.aws.s3.service.AwsS3ImageService;
 
+import javax.validation.Valid;
+
 
 @RestController
 @RequestMapping(value = "/member")
@@ -37,7 +39,7 @@ public class MemberApiController {
     }
 
     @GetMapping(produces = "application/json;charset=UTF-8")
-    public ApiResponse getMemberByToken(@RequestHeader("Authorization") String firebaseToken) {
+    public ApiResponse getMemberByToken(@Valid @RequestHeader("Authorization") String firebaseToken) {
         if (memberService.isTokenExist(firebaseToken)) {
             Member member = memberService.findByToken(firebaseToken);
             return ApiResponse.success(new MemberResponse(member));
@@ -57,7 +59,7 @@ public class MemberApiController {
     }
 
     @PutMapping(value = "/profile/image", produces = "application/json;charset=UTF-8")
-    public ApiResponse putMemberImage(@RequestHeader("Authorization") String firebaseToken, @RequestParam("file") MultipartFile file) {
+    public ApiResponse putMemberImage(@RequestHeader("Authorization") String firebaseToken, @Valid @RequestParam("file") MultipartFile file) {
         if (memberService.isTokenExist(firebaseToken)) {
             try {
                 String profileImageUrl = awsS3ImageService.uploadImageOnly(file, "member");
@@ -72,7 +74,7 @@ public class MemberApiController {
     }
 
     @PutMapping(value = "/profile/nick", produces = "application/json;charset=UTF-8")
-    public ApiResponse putMemberNickName(@RequestBody MemberPutNickNameDto memberPutNickNameDto) {
+    public ApiResponse putMemberNickName(@Valid @RequestBody MemberPutNickNameDto memberPutNickNameDto) {
         if (memberService.isTokenExist(memberPutNickNameDto.getFirebaseToken())) {
             Member result = memberService.updateNickName(memberPutNickNameDto.getFirebaseToken(), memberPutNickNameDto.getNickName());
             return ApiResponse.success(result);
@@ -82,7 +84,7 @@ public class MemberApiController {
     }
 
     @PutMapping(value = "/profile/expAndLevel", produces = "application/json;charset=UTF-8")
-    public ApiResponse putMemberExpAndLevel(@RequestBody MemberPutExpDto memberPutExpDto) {
+    public ApiResponse putMemberExpAndLevel(@Valid @RequestBody MemberPutExpDto memberPutExpDto) {
         if (memberService.isTokenExist(memberPutExpDto.getFirebaseToken())) {
             int addingValue = Integer.parseInt(memberPutExpDto.getAddingValue());
             Member result = memberService.updateExpAndLevel(memberPutExpDto.getFirebaseToken(), addingValue);
@@ -98,12 +100,12 @@ public class MemberApiController {
     }
 
     @GetMapping(value = "/profile/nick/valid", produces = "application/json;charset=UTF-8")
-    public ApiResponse checkNickRedundant(@RequestBody MemberGetNickDto memberGetNickDto) {
+    public ApiResponse checkNickRedundant(@Valid @RequestBody MemberGetNickDto memberGetNickDto) {
         return ApiResponse.success(memberService.isNickRedundant(memberGetNickDto.getNickName()));
     }
 
     @GetMapping(value = "/findNick",produces = "application/json;charset=UTF-8")
-    public ApiResponse GetMemberByNick(@RequestBody MemberGetNickDto memberGetNickDto) {
+    public ApiResponse GetMemberByNick(@Valid @RequestBody MemberGetNickDto memberGetNickDto) {
         Member result = memberService.findByNickName(memberGetNickDto.getNickName());
         return ApiResponse.success(new MemberResponse(result));
     }

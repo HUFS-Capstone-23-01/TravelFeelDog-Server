@@ -3,44 +3,52 @@ package travelfeeldog.domain.member.dto;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import travelfeeldog.domain.member.model.Member;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberDtos {
 
     @Data
-    @NonNull
     @NoArgsConstructor
     public static class MemberPostRequestDto {
+        @NotBlank(message = "NickName value is Empty or just Blank")
+        @Size(min = 2, max = 16, message = "닉네임은 2~16자리로 입력해주세요.")
         String nickName;
+        @NotBlank(message = "Token value is Empty or just Blank")
         String firebaseToken;
     }
 
     @Data
-    @NonNull
     @NoArgsConstructor
     public static class MemberPutNickNameDto {
+        @NotBlank(message = "NickName value is Empty or just Blank")
+        @Size(min = 2, max = 16, message = "닉네임은 2~16자리로 입력해주세요.")
         String nickName;
+        @NotBlank(message = "Token value is Empty or just Blank")
         String firebaseToken;
     }
 
     @Data
-    @NonNull
+    @NotBlank(message = "Id value for found is Empty or just Blank")
     @NoArgsConstructor
     public static class MemberGetIdDto { String id; }
 
     @Data
-    @NonNull
+    @NotBlank(message = "NickName value is Empty or just Blank")
+    @Size(min = 2, max = 16, message = "닉네임은 2~16자리로 입력해주세요.")
     @NoArgsConstructor
     public static class MemberGetNickDto { String nickName; }
 
     @Data
-    @NonNull
     @NoArgsConstructor
     public static class MemberPutExpDto {
+        @NotBlank(message = "value for add is Empty or just Blank")
         String addingValue;
+        @NotBlank(message = "Token value is Empty or just Blank")
         String firebaseToken;
     }
 
