@@ -9,6 +9,16 @@ import travelfeeldog.domain.place.model.PlaceStatic;
 
 
 public class PlaceDtos {
+    @Data
+    @NoArgsConstructor
+    public static class PlaceSearchResponseDetailDto<T>{
+        public T data;
+        public List<String> goodKeyWords;
+        public PlaceSearchResponseDetailDto(T data,List<String >request){
+            this.data = data;
+            this.goodKeyWords =request;
+        }
+    }
 
     @Data
     @NoArgsConstructor
