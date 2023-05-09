@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import travelfeeldog.domain.category.dao.CategoryRepository;
@@ -15,6 +16,8 @@ import travelfeeldog.domain.place.dao.PlaceStaticRepository;
 import travelfeeldog.domain.place.dto.PlaceDtos.PlaceDetailDto;
 import travelfeeldog.domain.place.dto.PlaceDtos.PlacePostRequestDto;
 import travelfeeldog.domain.place.dto.PlaceDtos.PlaceResponseDetailDto;
+import travelfeeldog.domain.place.dto.PlaceDtos.PlaceSearchResponseDetailDto;
+import travelfeeldog.domain.place.dto.PlaceSearchResponseDto;
 import travelfeeldog.domain.place.model.Place;
 import travelfeeldog.domain.place.model.PlaceStatic;
 import travelfeeldog.domain.review.dto.ReviewDtos.ReviewPostRequestDto;
@@ -84,4 +87,10 @@ public class PlaceService {
         dogNumbers[2] = requestDto.getLargeDogNumber();
         placeStatic.countAndUpdateResult(dogNumbers,requestDto.getRecommendStatus());
     }
+//    public List<PlaceSearchResponseDetailDto> placeSearch(String locationName,
+//                                                          String categoryName,
+//                                                          String goodKeywordName){
+//        List<PlaceSearchResponseDto> result = placeRepository.findByNameAndLocationAndCategoryAndKeyWord(locationName, categoryName,goodKeywordName);
+//
+//    }
 }
