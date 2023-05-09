@@ -39,7 +39,7 @@ public class MemberApiController {
     }
 
     @GetMapping(produces = "application/json;charset=UTF-8")
-    public ApiResponse getMemberByToken(@Valid @RequestHeader("Authorization") String firebaseToken) {
+    public ApiResponse getMemberByToken(@RequestHeader("Authorization") String firebaseToken) {
         if (memberService.isTokenExist(firebaseToken)) {
             Member member = memberService.findByToken(firebaseToken);
             return ApiResponse.success(new MemberResponse(member));
