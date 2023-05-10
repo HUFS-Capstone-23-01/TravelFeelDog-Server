@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import travelfeeldog.domain.place.dto.PlaceDtos.PlaceDetailDto;
 import travelfeeldog.domain.place.dto.PlaceDtos.PlacePostRequestDto;
 import travelfeeldog.domain.place.dto.PlaceDtos.PlaceResponseDetailDto;
+import travelfeeldog.domain.place.dto.PlaceDtos.PlaceResponseRecommendDetailDto;
 import travelfeeldog.domain.place.model.Place;
 import travelfeeldog.domain.place.service.PlaceService;
 import travelfeeldog.global.common.dto.ApiResponse;
@@ -47,6 +48,12 @@ public class PlaceApiController {
                 .map(PlaceDetailDto::new)
                 .collect(Collectors.toList());
         return ApiResponse.success(placeDetailResponse);
+    }
+    @GetMapping(value = "/recommend", produces = "application/json;charset=UTF-8")
+    public ApiResponse<List<PlaceResponseRecommendDetailDto>> geRecommendPlaces(@RequestParam("categoryName") String categoryName,
+                                                                                @RequestParam("locationName") String locationName,
+                                                                                @RequestHeader("Authorization") String token) {
+        return ApiResponse.success(placeService.getResponseRecommend(categoryName,locationName,token));
     }
     @GetMapping(value = "/{placeId}", produces = "application/json;charset=UTF-8")
     public ApiResponse<PlaceResponseDetailDto> getPlaceDetailInfo(@PathVariable Long placeId,@RequestHeader("Authorization") String token) {
