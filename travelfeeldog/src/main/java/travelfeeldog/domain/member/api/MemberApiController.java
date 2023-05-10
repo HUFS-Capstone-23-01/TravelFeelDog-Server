@@ -2,6 +2,7 @@ package travelfeeldog.domain.member.api;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.*;
@@ -106,7 +107,11 @@ public class MemberApiController {
 
     @GetMapping(value = "/findNick",produces = "application/json;charset=UTF-8")
     public ApiResponse GetMemberByNick(@RequestParam("nickName") String nickName) {
-        Member result = memberService.findByNickName(nickName);
-        return ApiResponse.success(new MemberResponse(result));
+        try {
+            Member result = memberService.findByNickName(nickName).get();
+            return ApiResponse.success(new MemberResponse(result));
+        } catch (NoSuchElementException e) {
+            return ApiResponse.success(false);
+        }
     }
 }
