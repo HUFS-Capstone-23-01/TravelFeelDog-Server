@@ -12,6 +12,7 @@ import travelfeeldog.domain.place.model.Place;
 @Repository
 public interface PlaceRepository extends JpaRepository<Place,Long> {
     Place findByName(String name);
+    List<Place> findPlacesByLocationNameAndCategoryName(String categoryName, String locationName);
     @Query("SELECT DISTINCT new travelfeeldog.domain.place.dto.PlaceSearchResponseDto(p.id,p.thumbNailImageUrl,p.name,p.address,ps.reviewCountGood)" +
             "FROM Place p " +
             "JOIN p.placeStatic ps " +

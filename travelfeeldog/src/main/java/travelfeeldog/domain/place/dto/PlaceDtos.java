@@ -19,7 +19,18 @@ public class PlaceDtos {
             this.goodKeyWords =request;
         }
     }
-
+    @Data
+    @NoArgsConstructor
+    public static class PlaceResponseRecommendDetailDto{
+        private Long id;
+        private String name;
+        private String thumbNailImageUrl;
+        public PlaceResponseRecommendDetailDto(Place place){
+            this.id =place.getId();
+            this.name = place.getName();
+            this.thumbNailImageUrl = place.getThumbNailImageUrl();
+        }
+    }
     @Data
     @NoArgsConstructor
     public static class PlacePostRequestDto{

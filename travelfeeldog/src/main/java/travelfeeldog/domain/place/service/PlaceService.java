@@ -7,15 +7,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import travelfeeldog.domain.category.dao.CategoryRepository;
 import travelfeeldog.domain.category.model.Category;
 import travelfeeldog.domain.location.dao.LocationRepository;
 import travelfeeldog.domain.location.model.Location;
+import travelfeeldog.domain.member.service.MemberService;
 import travelfeeldog.domain.place.dao.PlaceRepository;
 import travelfeeldog.domain.place.dao.PlaceStaticRepository;
 import travelfeeldog.domain.place.dto.PlaceDtos.PlaceDetailDto;
 import travelfeeldog.domain.place.dto.PlaceDtos.PlacePostRequestDto;
 import travelfeeldog.domain.place.dto.PlaceDtos.PlaceResponseDetailDto;
+import travelfeeldog.domain.place.dto.PlaceDtos.PlaceResponseRecommendDetailDto;
 import travelfeeldog.domain.place.dto.PlaceDtos.PlaceSearchResponseDetailDto;
 import travelfeeldog.domain.place.dto.PlaceSearchResponseDto;
 import travelfeeldog.domain.place.model.Place;
@@ -29,6 +33,7 @@ public class PlaceService {
     private final CategoryRepository categoryRepository;
     private final LocationRepository locationRepository;
     private final PlaceStaticRepository placeStaticRepository;
+    private final MemberService memberService;
     @Transactional
     public PlaceDetailDto addNewPlace(PlacePostRequestDto placePostRequestDto) {
         Place place = new Place();
@@ -87,10 +92,8 @@ public class PlaceService {
         dogNumbers[2] = requestDto.getLargeDogNumber();
         placeStatic.countAndUpdateResult(dogNumbers,requestDto.getRecommendStatus());
     }
-//    public List<PlaceSearchResponseDetailDto> placeSearch(String locationName,
-//                                                          String categoryName,
-//                                                          String goodKeywordName){
-//        List<PlaceSearchResponseDto> result = placeRepository.findByNameAndLocationAndCategoryAndKeyWord(locationName, categoryName,goodKeywordName);
-//
-//    }
+    public List<PlaceResponseRecommendDetailDto> getResponseRecommend(String categoryName, String locationName, String token) {
+        memberService.findByToken(token);
+        return placeRepository.findPlacesByLocationNameAndCategoryName(categoryName,locationName).stream().map(PlaceResponseRecommendDetailDto::new).toList();
+    }
 }
