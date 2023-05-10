@@ -1,6 +1,8 @@
 package travelfeeldog.domain.member.service;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,8 +51,8 @@ public class MemberService {
         return memberRepository.findByToken(firebaseToken).isPresent();
     }
 
-    public Member findByNickName(String nickName) {
-        return memberRepository.findByNickName(nickName).orElseThrow(() -> new RuntimeException("Member not found"));
+    public Optional<Member> findByNickName(String nickName) {
+        return memberRepository.findByNickName(nickName);
     }
 
     public Member findByToken(String firebaseToken) {
