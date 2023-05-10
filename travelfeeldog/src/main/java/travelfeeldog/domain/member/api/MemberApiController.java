@@ -45,7 +45,7 @@ public class MemberApiController {
             Member member = memberService.findByToken(firebaseToken);
             return ApiResponse.success(new MemberResponse(member));
         } else {
-            return ApiResponse.invaildToken(false);
+            return ApiResponse.invaildToken(null);
         }
     }
 
