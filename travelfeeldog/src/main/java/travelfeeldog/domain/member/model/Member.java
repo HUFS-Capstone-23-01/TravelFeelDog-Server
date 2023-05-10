@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import travelfeeldog.domain.FeedLike.model.FeedLike;
+import travelfeeldog.domain.feed.model.Feed;
 import travelfeeldog.domain.review.model.Review;
 import travelfeeldog.domain.scrab.model.Scrab;
 import travelfeeldog.global.common.model.BaseTimeEntity;
@@ -34,20 +35,23 @@ public class Member extends BaseTimeEntity{
     @Column(name = "member_exp")
     private int exp;
 
-    @Column(name = "member_image_url", length = 100)
+    @Column(name = "member_image_url")
     private String imageUrl;
 
     @Column(name = "member_token", unique = true)
     private String token;
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FeedLike> feedLikes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Scrab> scrabs = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Feed> feeds = new ArrayList<>();
 
     private Member(String nickName,
                    int level,
@@ -80,5 +84,21 @@ public class Member extends BaseTimeEntity{
             this.level = this.level + 1;
         }
         return true;
+    }
+    public void addFeedLike(FeedLike feedLike) {
+        feedLikes.add(feedLike);
+        feedLike.setMember(this);
+    }
+    public void addScrab(Scrab scrab) {
+        scrabs.add(scrab);
+        scrab.setMember(this);
+    }
+    public void addReview(Review review) {
+        reviews.add(review);
+        review.setMember(this);
+    }
+    public void addFeed(Feed feed) {
+        feeds.add(feed);
+        feed.setMember(this);
     }
 }
