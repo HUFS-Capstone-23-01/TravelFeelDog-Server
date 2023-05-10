@@ -100,13 +100,13 @@ public class MemberApiController {
     }
 
     @GetMapping(value = "/profile/nick/valid", produces = "application/json;charset=UTF-8")
-    public ApiResponse checkNickRedundant(@Valid @RequestBody MemberGetNickDto memberGetNickDto) {
-        return ApiResponse.success(memberService.isNickRedundant(memberGetNickDto.getNickName()));
+    public ApiResponse checkNickRedundant(@RequestParam("nickName") String nickName) {
+        return ApiResponse.success(memberService.isNickRedundant(nickName));
     }
 
     @GetMapping(value = "/findNick",produces = "application/json;charset=UTF-8")
-    public ApiResponse GetMemberByNick(@Valid @RequestBody MemberGetNickDto memberGetNickDto) {
-        Member result = memberService.findByNickName(memberGetNickDto.getNickName());
+    public ApiResponse GetMemberByNick(@RequestParam("nickName") String nickName) {
+        Member result = memberService.findByNickName(nickName);
         return ApiResponse.success(new MemberResponse(result));
     }
 }
