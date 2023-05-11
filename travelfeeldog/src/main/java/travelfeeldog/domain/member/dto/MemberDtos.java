@@ -45,6 +45,17 @@ public class MemberDtos {
 
     @Data
     @NoArgsConstructor
+    public static class MemberResponseExpDto {
+        String exp;
+
+        public MemberResponseExpDto(int exp) {
+            this.exp = String.valueOf(exp);
+        }
+    }
+
+
+    @Data
+    @NoArgsConstructor
     public static class MemberPutExpDto {
         @NotBlank(message = "value for add is Empty or just Blank")
         String addingValue;
