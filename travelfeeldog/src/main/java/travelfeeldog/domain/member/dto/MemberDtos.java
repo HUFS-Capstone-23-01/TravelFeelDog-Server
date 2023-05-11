@@ -46,10 +46,12 @@ public class MemberDtos {
     @Data
     @NoArgsConstructor
     public static class MemberResponseExpDto {
+        String level;
         String exp;
 
-        public MemberResponseExpDto(int exp) {
-            this.exp = String.valueOf(exp);
+        public MemberResponseExpDto(Member member) {
+            this.level = String.valueOf(member.getLevel());
+            this.exp = String.valueOf(member.getExp());
         }
     }
 
