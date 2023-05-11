@@ -76,11 +76,11 @@ public class Member extends BaseTimeEntity{
     //==연관관계 메소드==//
     public boolean updateExpAndLevel(int addingExp) {
         int changedExp = this.exp + addingExp;
-        if (changedExp / 40 == 0) {
+        if (changedExp / 100 == 0) {
             this.exp = changedExp;
             return false;
         } else {
-            this.exp = changedExp % 40;
+            this.exp = changedExp % 100;
             this.level = this.level + 1;
         }
         return true;
