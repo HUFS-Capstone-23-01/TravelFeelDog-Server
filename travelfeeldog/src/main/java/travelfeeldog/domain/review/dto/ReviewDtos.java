@@ -62,12 +62,14 @@ public class ReviewDtos {
     @Data
     @NoArgsConstructor
     public static class ReviewMemberPageResponseDto{
+        private Long id;
         private String placeName;
         private String recommendStatus;
         private LocalDateTime createdDateTime;
         private String additionalScript;
         private List<String> imageUrls ;
         public ReviewMemberPageResponseDto(Review review) {
+            id = review.getId();
             placeName = review.getPlace().getName();
             createdDateTime = review.getCreatedDateTime();
             recommendStatus = review.getRecommendStatus().toString();
