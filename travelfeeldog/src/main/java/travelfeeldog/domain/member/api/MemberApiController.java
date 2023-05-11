@@ -119,7 +119,7 @@ public class MemberApiController {
     public ApiResponse GetMemberExp(@RequestHeader("Authorization") String firebaseToken) {
         try {
             Member current = memberService.findByToken(firebaseToken);
-            return ApiResponse.success(new MemberResponseExpDto(current.getExp()));
+            return ApiResponse.success(new MemberResponseExpDto(current));
         } catch (RuntimeException e){
             return ApiResponse.invaildToken(false);
         }
