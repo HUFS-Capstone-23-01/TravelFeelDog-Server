@@ -73,6 +73,7 @@ public class PlaceDtos {
         private Long id;
         private String name;
         private String describe;
+        private int reviewCount;
         private String thumbNailImageUrl;
         private List<String> facilityNames;
         private String address;
@@ -92,6 +93,7 @@ public class PlaceDtos {
             this.name =place.getName();
             this.name = place.getName();
             this.describe = place.getDescribe();
+            this.reviewCount = place.getReviewCount();
             this.thumbNailImageUrl = place.getThumbNailImageUrl();
             this.address = place.getAddress();
             this.latitude = place.getLatitude();
