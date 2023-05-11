@@ -114,4 +114,10 @@ public class MemberApiController {
             return ApiResponse.success(false);
         }
     }
+
+    @GetMapping(value = "/profile/getexp", produces = "application/json;charset=UTF-8")
+    public ApiResponse GetMemberExp(@RequestHeader("Authorization") String firebaseToken) {
+        Member current = memberService.findByToken(firebaseToken);
+        return ApiResponse.success(new MemberResponseExpDto(current.getExp()));
+    }
 }
