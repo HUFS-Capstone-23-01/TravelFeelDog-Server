@@ -20,10 +20,10 @@ public class LocationService {
         return locationRepository.findAll();
     }
     public Location getLocationById(Long id) {
-        return locationRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Place not found with ID: " + id));
+        return locationRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Location not found with ID: " + id));
     }
     public Location getLocationByName(String name) {
-        return locationRepository.findByName(name);
+        return locationRepository.findByName(name).orElseThrow(() -> new EntityNotFoundException("Location not found with name: " + name));
     }
     @Transactional
     public Location createLocation(RequestLocationDto request) {

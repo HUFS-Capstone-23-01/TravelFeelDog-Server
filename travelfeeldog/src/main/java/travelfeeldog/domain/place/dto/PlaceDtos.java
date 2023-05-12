@@ -12,12 +12,23 @@ import travelfeeldog.domain.review.dto.ReviewDtos.SingleDescriptionAndNickNameDt
 public class PlaceDtos {
     @Data
     @NoArgsConstructor
-    public static class PlaceSearchResponseDetailDto<T>{
-        public T data;
+    public static class PlaceSearchResponseDto{
+        private Long id;
+        private String thumbNailImageUrl;
+        private String name;
+        private String address;
+        private int likes;
         public List<String> goodKeyWords;
-        public PlaceSearchResponseDetailDto(T data,List<String >request){
-            this.data = data;
-            this.goodKeyWords =request;
+        public PlaceSearchResponseDto(Place place) {
+            this.id = place.getId();
+            this.thumbNailImageUrl = place.getThumbNailImageUrl();
+            this.name = place.getName();
+            this.address = place.getAddress();
+            this.likes = place.getPlaceStatic().getReviewCountGood();
+            this.goodKeyWords = place.getReviews().stream()
+                    .flatMap(review -> review.getReviewGoodKeyWords().stream())
+                    .map(goodKeyWord -> goodKeyWord.getGoodKeyWord().getKeyWordName())
+                    .collect(Collectors.toList());
         }
     }
     @Data
@@ -86,6 +97,7 @@ public class PlaceDtos {
     @NoArgsConstructor
     public static class PlaceResponseDetailDto{
         private Long id;
+        private Long categoryId;
         private String name;
         private String describe;
         private int reviewCount;
@@ -105,6 +117,7 @@ public class PlaceDtos {
         private int largeDogBadTotal;
         public PlaceResponseDetailDto(Place place, PlaceStatic placeStatic){
             this.id = place.getId();
+            this.categoryId = place.getCategory().getId();
             this.name =place.getName();
             this.name = place.getName();
             this.describe = place.getDescribe();
