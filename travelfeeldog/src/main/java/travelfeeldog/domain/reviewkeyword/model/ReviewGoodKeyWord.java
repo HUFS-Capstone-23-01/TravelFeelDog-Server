@@ -12,7 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
-import travelfeeldog.domain.keyword.model.BadKeyWord;
 import travelfeeldog.domain.keyword.model.GoodKeyWord;
 import travelfeeldog.domain.review.model.Review;
 
@@ -31,4 +30,12 @@ public class ReviewGoodKeyWord {
     @ManyToOne(fetch = LAZY,cascade= CascadeType.PERSIST)
     @JoinColumn(name="good_key_word_id")
     private GoodKeyWord goodKeyWord;
+    public ReviewGoodKeyWord(Review review , GoodKeyWord goodKeyWord){
+        this.review=review;
+        this.goodKeyWord = goodKeyWord;
+    }
+
+    public ReviewGoodKeyWord() {
+
+    }
 }

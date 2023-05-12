@@ -2,6 +2,7 @@ package travelfeeldog.domain.keyword.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import travelfeeldog.domain.category.model.Category;
@@ -19,7 +20,12 @@ public class KeyWordService {
     private final BadKeyWordRepository badKeyWordRepository;
     private final GoodKeyWordRepository goodKeyWordRepository;
     private final CategoryService categoryService;
-
+    public GoodKeyWord getGoodKeyWordById(Long id){
+        return goodKeyWordRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("not found with ID: " + id));
+    }
+    public BadKeyWord getBadKeyWordById(Long id){
+        return badKeyWordRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("not found with ID: " + id));
+    }
     public KeyWordResponseDto saveBadKeyWord(String keyWord,String categoryName) {
         BadKeyWord badKeyWord = new BadKeyWord();
         Category category = categoryService.getCategoryByName(categoryName);

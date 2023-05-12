@@ -32,5 +32,12 @@ public class ReviewBadKeyWord{
     @JoinColumn(name="bad_key_word_id")
     private BadKeyWord badKeyWord;
 
+    public ReviewBadKeyWord(Review review ,BadKeyWord bad){
+        this.review=review;
+        this.badKeyWord = bad;
+    }
 
+    public ReviewBadKeyWord() {
+
+    }
 }

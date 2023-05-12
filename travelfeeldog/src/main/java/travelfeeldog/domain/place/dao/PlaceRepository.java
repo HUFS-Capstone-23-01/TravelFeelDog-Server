@@ -13,34 +13,46 @@ public interface PlaceRepository extends JpaRepository<Place,Long> {
     Place findByName(String name);
     @Query("SELECT p " +
             "FROM Place p " +
-            "JOIN p.location l " +
-            "JOIN p.category c " +
-            "JOIN p.reviews r " +
+            "JOIN fetch p.location l " +
+            "JOIN fetch p.category c " +
+            "JOIN fetch p.reviews r " +
             "WHERE " +
-            "l.name = :locationName " +
-            "AND c.name = :categoryName ")
+            "c.name = :categoryName " +
+            "AND l.name = :locationName ")
     List<Place> findPlacesByLocationNameAndCategoryName(String categoryName, String locationName);
-    @Query("SELECT p " +
+
+
+    @Query("SELECT DISTINCT p " +
             "FROM Place p " +
-            "JOIN p.placeStatic ps " +
-            "JOIN p.location l " +
-            "JOIN p.category c " +
-            "JOIN p.reviews r " +
-            "JOIN r.reviewGoodKeyWords gk " +
-            "JOIN gk.goodKeyWord gkw " +
-            "WHERE " +
-            "l.name = :locationName " +
-            "AND c.name = :categoryName " +
-            "AND ( gkw.keyWordName = :goodKeywordName " +
-            "OR p.name = :goodKeywordName )")
-    List<Place> findByNameAndLocationAndCategoryAndKeyWord(
+            "JOIN fetch p.location l " +
+            "JOIN fetch p.category c " +
+            "LEFT JOIN p.reviews r " +
+            "LEFT JOIN r.reviewGoodKeyWords gk " +
+            "LEFT JOIN gk.goodKeyWord gkw " +
+            "WHERE " + "l.name = :locationName " + "AND c.name = :categoryName ")
+    List<Place> findPlacesByLocationNameAndCategoryNameCallKey(
             @Param("categoryName") String categoryName,
-            @Param("locationName") String locationName,
-            @Param("goodKeywordName") String goodKeywordName);
+            @Param("locationName") String locationName);
+//    @Query("SELECT p " +
+//            "FROM Place p " +
+//            "JOIN fetch p.location l " +
+//            "JOIN fetch p.category c " +
+//            "LEFT JOIN p.reviews r " +
+//            "LEFT JOIN r.reviewGoodKeyWords gk " +
+//            "LEFT JOIN gk.goodKeyWord gkw " +
+//            "WHERE l.name = :locationName " +
+//            "AND c.name = :categoryName " +
+//            "AND (p.name LIKE %:keyword% OR gkw.keyWordName LIKE %:keyword%)")
+//    List<Place> findPlacesByLocationNameAndCategoryNameAndKeyWord(
+//            @Param("categoryName") String categoryName,
+//            @Param("locationName") String locationName,
+//            @Param("keyword") String keyword);
+
+
     @Query("SELECT p " +
             "FROM Place p " +
-            "JOIN p.location l " +
-            "JOIN p.category c " +
+            "JOIN fetch p.location l " +
+            "JOIN fetch p.category c " +
             "JOIN p.reviews r " +
             "WHERE " +
             "l.name = :locationName ") // join fetch , place and member and review to call
