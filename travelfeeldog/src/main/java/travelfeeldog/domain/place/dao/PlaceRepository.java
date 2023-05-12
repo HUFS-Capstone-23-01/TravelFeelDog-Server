@@ -37,5 +37,5 @@ public interface PlaceRepository extends JpaRepository<Place,Long> {
             "JOIN p.reviews r " +
             "WHERE " +
             "l.name = :locationName ") // join fetch , place and member and review to call
-    List<Place> getMostReviewPlace(@Param("locationName") String locationName);
+    List<Place> getPlacesByLocationName(@Param("locationName") String locationName);
 }

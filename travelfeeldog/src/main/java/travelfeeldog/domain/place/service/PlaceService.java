@@ -103,7 +103,7 @@ public class PlaceService {
     }
     public List<PlaceReviewCountSortResponseDto> getMostReviewPlace(String locationName, String token){
         memberService.findByToken(token);
-        List<Place> places = placeRepository.getMostReviewPlace(locationName)
+        List<Place> places = placeRepository.getPlacesByLocationName(locationName)
                                                                 .stream()
                                                                 .sorted(Comparator.comparing(Place::getReviewCount).reversed())
                                                                 .toList();
