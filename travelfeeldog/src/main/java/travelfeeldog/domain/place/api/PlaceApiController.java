@@ -20,6 +20,7 @@ import travelfeeldog.domain.place.dto.PlaceDtos.PlacePostRequestDto;
 import travelfeeldog.domain.place.dto.PlaceDtos.PlaceResponseDetailDto;
 import travelfeeldog.domain.place.dto.PlaceDtos.PlaceResponseRecommendDetailDto;
 import travelfeeldog.domain.place.dto.PlaceDtos.PlaceReviewCountSortResponseDto;
+import travelfeeldog.domain.place.dto.PlaceDtos.PlaceSearchResponseDto;
 import travelfeeldog.domain.place.model.Place;
 import travelfeeldog.domain.place.service.PlaceService;
 import travelfeeldog.global.common.dto.ApiResponse;
@@ -43,6 +44,11 @@ public class PlaceApiController {
         Place place = placeService.changeImageUrl(placeId,imageUrl);
         return  ApiResponse.success(new PlaceDetailDto(place));
     }
+    @GetMapping(value = "/{placeId}", produces = "application/json;charset=UTF-8")
+    public ApiResponse<PlaceResponseDetailDto> getPlaceDetailInfo(@PathVariable Long placeId,@RequestHeader("Authorization") String token) {
+        PlaceResponseDetailDto placeDetailDto =placeService.getPlaceDetailById(placeId,token);
+        return ApiResponse.success(placeDetailDto);
+    }
     @GetMapping(value = "/all", produces = "application/json;charset=UTF-8")
     public ApiResponse<List<PlaceDetailDto>> getAllPlaces() {
         List<PlaceDetailDto> placeDetailResponse = placeService.getAllPlaces().stream()
@@ -51,20 +57,22 @@ public class PlaceApiController {
         return ApiResponse.success(placeDetailResponse);
     }
     @GetMapping(value = "/recommend", produces = "application/json;charset=UTF-8")
-    public ApiResponse<List<PlaceResponseRecommendDetailDto>> geRecommendPlaces(@RequestParam("categoryName") String categoryName,
+    public ApiResponse<List<PlaceResponseRecommendDetailDto>> getRecommendPlaces(@RequestParam("categoryName") String categoryName,
                                                                                 @RequestParam("locationName") String locationName,
                                                                                 @RequestHeader("Authorization") String token) {
         return ApiResponse.success(placeService.getResponseRecommend(categoryName,locationName,token));
+    }
+    @GetMapping(value = "/serarch", produces = "application/json;charset=UTF-8")
+    public ApiResponse<List<PlaceSearchResponseDto>> getPlacesBySearch(@RequestParam("categoryName") String categoryName,
+                                                                       @RequestParam("locationName") String locationName,
+                                                                       @RequestParam("placeName") String PlaceName,
+                                                                       @RequestHeader("Authorization") String token) {
+        return ApiResponse.success(placeService.getResponseSearch(categoryName,locationName,PlaceName,token));
     }
     @GetMapping(value = "/most/review", produces = "application/json;charset=UTF-8")
     public ApiResponse<List<PlaceReviewCountSortResponseDto>> getMostReviewPlace(@RequestParam("locationName") String locationName,
                                                                                  @RequestHeader("Authorization") String token) {
 
         return ApiResponse.success(placeService.getMostReviewPlace(locationName,token));
-    }
-    @GetMapping(value = "/{placeId}", produces = "application/json;charset=UTF-8")
-    public ApiResponse<PlaceResponseDetailDto> getPlaceDetailInfo(@PathVariable Long placeId,@RequestHeader("Authorization") String token) {
-        PlaceResponseDetailDto placeDetailDto =placeService.getPlaceDetailById(placeId);
-        return ApiResponse.success(placeDetailDto);
     }
 }
