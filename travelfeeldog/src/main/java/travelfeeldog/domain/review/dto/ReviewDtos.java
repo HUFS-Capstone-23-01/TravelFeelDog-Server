@@ -6,12 +6,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import travelfeeldog.domain.member.model.Member;
 import travelfeeldog.domain.review.model.RecommendStatus;
 import travelfeeldog.domain.review.model.Review;
 import travelfeeldog.domain.review.model.ReviewImage;
 
 public class ReviewDtos {
+    @Data
+    public static class SingleDescriptionAndNickNameDto{
+        private String additionalScript;
+        private String nickName;
+        public SingleDescriptionAndNickNameDto(Review review){
+            this.additionalScript = review.getAdditionalScript();
+            this.nickName = review.getMember().getNickName();
+        }
+
+    }
     @Data
     public static class ReviewPostRequestDto{
         private Long placeId;

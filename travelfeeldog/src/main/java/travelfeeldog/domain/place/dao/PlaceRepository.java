@@ -29,5 +29,6 @@ public interface PlaceRepository extends JpaRepository<Place,Long> {
             @Param("locationName") String locationName,
             @Param("categoryName") String categoryName,
             @Param("goodKeywordName") String goodKeywordName);
-
+    @Query("SELECT") // join fetch , place and member and review to call
+    List<Place> getMostReviewPlace(@Param("locationName") String locationName);
 }
