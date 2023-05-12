@@ -1,7 +1,9 @@
 package travelfeeldog.domain.place.service;
 
 import java.io.File;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
@@ -100,8 +102,11 @@ public class PlaceService {
         return placeRepository.findPlacesByLocationNameAndCategoryName(categoryName,locationName).stream().map(PlaceResponseRecommendDetailDto::new).toList();
     }
     public List<PlaceReviewCountSortResponseDto> getMostReviewPlace(String locationName, String token){
-        //callAll and sort by reviewcount in place Fild and sent to dto
-        List<PlaceReviewCountSortResponseDto> result = null ;
-        return  result;
+        memberService.findByToken(token);
+        List<Place> places = placeRepository.getMostReviewPlace(locationName)
+                                                                .stream()
+                                                                .sorted(Comparator.comparing(Place::getReviewCount).reversed())
+                                                                .toList();
+        return  places.stream().map(PlaceReviewCountSortResponseDto::new).toList() ;
     }
 }
