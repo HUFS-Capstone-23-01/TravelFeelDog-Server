@@ -50,6 +50,7 @@ public class ReviewDtos {
     @Data
     @NoArgsConstructor
     public static class ReviewPageResponseDto{
+        private Long reviewId;
         private String memberNickname;
         private int memberLevel;
         private String memberImageUrl;
@@ -59,6 +60,7 @@ public class ReviewDtos {
         private List<String> imageUrls ;
 
         public ReviewPageResponseDto(Review review) {
+            reviewId = review.getId();
             memberImageUrl = review.getMember().getImageUrl();
             memberLevel = review.getMember().getLevel();
             memberNickname = review.getMember().getNickName();
