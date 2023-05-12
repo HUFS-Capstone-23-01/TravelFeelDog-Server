@@ -4,6 +4,7 @@ package travelfeeldog.domain.place.service;
 import java.util.Comparator;
 import java.util.List;
 
+import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
@@ -73,10 +74,14 @@ public class PlaceService {
         place.setThumbNailImageUrl(imageUrl);
         return place;
     }
-    public List<PlaceSearchResponseDto> getResponseSearch(String categoryName, String locationName, String PlaceName, String token){
-        memberService.findByToken(token);
-        List<Place> result = placeRepository.findByNameAndLocationAndCategoryAndKeyWord(categoryName, locationName, PlaceName);
-        return result.stream().map(PlaceSearchResponseDto::new).limit(10).toList();
+    @Transactional
+    public void addPlaceStatic(ReviewPostRequestDto requestDto) {
+        PlaceStatic placeStatic = placeStaticRepository.findByPlaceId(requestDto.getPlaceId());
+        int[] dogNumbers = new int[3];
+        dogNumbers[0] = requestDto.getSmallDogNumber();
+        dogNumbers[1] = requestDto.getMediumDogNumber();
+        dogNumbers[2] = requestDto.getLargeDogNumber();
+        placeStatic.countAndUpdateResult(dogNumbers,requestDto.getRecommendStatus());
     }
     public Place getPlaceById(Long placeId) {
         return placeRepository.findById(placeId)
@@ -92,19 +97,42 @@ public class PlaceService {
     public List<Place> getAllPlaces() {
         return placeRepository.findAll();
     }
-    @Transactional
-    public void addPlaceStatic(ReviewPostRequestDto requestDto) {
-        PlaceStatic placeStatic = placeStaticRepository.findByPlaceId(requestDto.getPlaceId());
-        int[] dogNumbers = new int[3];
-        dogNumbers[0] = requestDto.getSmallDogNumber();
-        dogNumbers[1] = requestDto.getMediumDogNumber();
-        dogNumbers[2] = requestDto.getLargeDogNumber();
-        placeStatic.countAndUpdateResult(dogNumbers,requestDto.getRecommendStatus());
-    }
     public List<PlaceResponseRecommendDetailDto> getResponseRecommend(String categoryName, String locationName, String token) {
         memberService.findByToken(token);
         return placeRepository.findPlacesByLocationNameAndCategoryName(categoryName,locationName).stream().limit(6).map(PlaceResponseRecommendDetailDto::new).toList();
     }
+//    public List<PlaceSearchResponseDto> getResponseSearch(String categoryName, String locationName, String keyWord, String token){
+//        memberService.findByToken(token);
+//        List<Place> result = placeRepository.findByNameAndLocationAndCategoryAndKeyWord(categoryName, locationName, keyWord);
+//        return result.stream().map(PlaceSearchResponseDto::new).limit(10).toList();
+//    }
+public List<PlaceSearchResponseDto> getResponseSearch(String categoryName, String locationName, String keyWord, String token) {
+
+    memberService.findByToken(token);
+    List<Place> places = placeRepository.findPlacesByLocationNameAndCategoryNameCallKey(categoryName, locationName);
+
+    String normalizedKeyword = keyWord.trim().toLowerCase() ;
+
+    List<Place> filteredPlaces = places.stream()
+            .filter(place ->place.getReviews().stream()
+                    .flatMap(review -> review.getReviewGoodKeyWords().stream())
+                    .map(reviewGoodKeyword -> reviewGoodKeyword.getGoodKeyWord().getKeyWordName().toLowerCase())
+                    .anyMatch(keyword -> keyword.toLowerCase().contains(normalizedKeyword)))
+            .toList();
+
+//.filter(place -> place.getName().toLowerCase().contains(normalizedKeyword)
+//            || place.getReviews().stream()
+//            .flatMap(review -> review.getReviewGoodKeyWords().stream())
+//            .map(reviewGoodKeyword -> reviewGoodKeyword.getGoodKeyWord().getKeyWordName().toLowerCase())
+//            .anyMatch(keyword -> keyword.contains(normalizedKeyword)))
+//            .toList();
+
+    return filteredPlaces.stream()
+            .map(PlaceSearchResponseDto::new)
+            .limit(10)
+            .toList();
+}
+
     public List<PlaceReviewCountSortResponseDto> getMostReviewPlace(String locationName, String token){
         memberService.findByToken(token);
         List<Place> places = placeRepository.findPlacesByLocationName(locationName)
