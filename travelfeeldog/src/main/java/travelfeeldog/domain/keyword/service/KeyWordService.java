@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import travelfeeldog.domain.category.dao.CategoryRepository;
 import travelfeeldog.domain.category.model.Category;
+import travelfeeldog.domain.category.service.CategoryService;
 import travelfeeldog.domain.keyword.dto.KeyWordDtos.KeyWordResponseByCategoryDto;
 import travelfeeldog.domain.keyword.dto.KeyWordDtos.KeyWordResponseDto;
 import travelfeeldog.domain.keyword.model.BadKeyWord;
@@ -18,11 +18,11 @@ import travelfeeldog.domain.keyword.repository.GoodKeyWordRepository;
 public class KeyWordService {
     private final BadKeyWordRepository badKeyWordRepository;
     private final GoodKeyWordRepository goodKeyWordRepository;
-    private final CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
 
     public KeyWordResponseDto saveBadKeyWord(String keyWord,String categoryName) {
         BadKeyWord badKeyWord = new BadKeyWord();
-        Category category = categoryRepository.findByName(categoryName);
+        Category category = categoryService.getCategoryByName(categoryName);
         badKeyWord.setCategory(category);
         badKeyWord.setKeyWordName(keyWord);
         badKeyWordRepository.save(badKeyWord);
@@ -30,7 +30,7 @@ public class KeyWordService {
     }
     public KeyWordResponseDto saveGoodKeyWord(String keyWord,String categoryName) {
         GoodKeyWord goodKeyWord = new GoodKeyWord();
-        Category category = categoryRepository.findByName(categoryName);
+        Category category = categoryService.getCategoryByName(categoryName);
         goodKeyWord.setCategory(category);
         goodKeyWord.setKeyWordName(keyWord);
         goodKeyWordRepository.save(goodKeyWord);

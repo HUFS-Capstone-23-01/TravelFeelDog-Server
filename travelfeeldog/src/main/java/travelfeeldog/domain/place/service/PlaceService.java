@@ -1,20 +1,19 @@
 package travelfeeldog.domain.place.service;
 
-import java.io.File;
+
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
+
 import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import travelfeeldog.domain.category.dao.CategoryRepository;
+
 import travelfeeldog.domain.category.model.Category;
-import travelfeeldog.domain.location.dao.LocationRepository;
+import travelfeeldog.domain.category.service.CategoryService;
 import travelfeeldog.domain.location.model.Location;
+import travelfeeldog.domain.location.service.LocationService;
 import travelfeeldog.domain.member.service.MemberService;
 import travelfeeldog.domain.place.dao.PlaceRepository;
 import travelfeeldog.domain.place.dao.PlaceStaticRepository;
@@ -23,21 +22,20 @@ import travelfeeldog.domain.place.dto.PlaceDtos.PlacePostRequestDto;
 import travelfeeldog.domain.place.dto.PlaceDtos.PlaceResponseDetailDto;
 import travelfeeldog.domain.place.dto.PlaceDtos.PlaceResponseRecommendDetailDto;
 import travelfeeldog.domain.place.dto.PlaceDtos.PlaceReviewCountSortResponseDto;
-import travelfeeldog.domain.place.dto.PlaceDtos.PlaceSearchResponseDetailDto;
-import travelfeeldog.domain.place.dto.PlaceSearchResponseDto;
+import travelfeeldog.domain.place.dto.PlaceDtos.PlaceSearchResponseDto;
 import travelfeeldog.domain.place.model.Place;
 import travelfeeldog.domain.place.model.PlaceStatic;
 import travelfeeldog.domain.review.dto.ReviewDtos.ReviewPostRequestDto;
-import travelfeeldog.domain.review.dto.ReviewDtos.SingleDescriptionAndNickNameDto;
+
 
 @Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
 public class PlaceService {
     private final PlaceRepository placeRepository;
-    private final CategoryRepository categoryRepository;
-    private final LocationRepository locationRepository;
     private final PlaceStaticRepository placeStaticRepository;
+    private final CategoryService categoryService;
+    private final LocationService locationService;
     private final MemberService memberService;
     @Transactional
     public PlaceDetailDto addNewPlace(PlacePostRequestDto placePostRequestDto) {
@@ -48,10 +46,10 @@ public class PlaceService {
         place.setLatitude(placePostRequestDto.getLatitude());
         place.setLongitude(placePostRequestDto.getLongitude());
 
-        Category category = categoryRepository.findByName(placePostRequestDto.getCategoryName());
+        Category category = categoryService.getCategoryByName(placePostRequestDto.getCategoryName());
         place.setCategory(category);
 
-        Location location = locationRepository.findByName(placePostRequestDto.getLocationName());
+        Location location = locationService.getLocationByName(placePostRequestDto.getLocationName());
         place.setLocation(location);
         PlaceStatic placeStatic = new PlaceStatic();
         placeStatic.setPlace(place);
@@ -65,7 +63,7 @@ public class PlaceService {
     public Place changeCategory(Long placeId,String categoryName) {
         Place place = placeRepository.findById(placeId)
                 .orElseThrow(() -> new EntityNotFoundException("Place not found with ID"));
-        place.setCategory(categoryRepository.findByName(categoryName));
+        place.setCategory(categoryService.getCategoryByName(categoryName));
         return place;
     }
     @Transactional
@@ -75,11 +73,17 @@ public class PlaceService {
         place.setThumbNailImageUrl(imageUrl);
         return place;
     }
+    public List<PlaceSearchResponseDto> getResponseSearch(String categoryName, String locationName, String PlaceName, String token){
+        memberService.findByToken(token);
+        List<Place> result = placeRepository.findByNameAndLocationAndCategoryAndKeyWord(categoryName, locationName, PlaceName);
+        return result.stream().map(PlaceSearchResponseDto::new).limit(10).toList();
+    }
     public Place getPlaceById(Long placeId) {
         return placeRepository.findById(placeId)
                 .orElseThrow(() -> new EntityNotFoundException("Place not found with ID: " + placeId));
     }
-    public PlaceResponseDetailDto getPlaceDetailById(Long placeId) {
+    public PlaceResponseDetailDto getPlaceDetailById(Long placeId,String token) {
+        memberService.findByToken(token);
         Place place = placeRepository.findById(placeId)
                 .orElseThrow(() -> new EntityNotFoundException("Place not found with ID: " + placeId));
         PlaceStatic placeStatic = placeStaticRepository.findByPlaceId(placeId);
@@ -99,14 +103,14 @@ public class PlaceService {
     }
     public List<PlaceResponseRecommendDetailDto> getResponseRecommend(String categoryName, String locationName, String token) {
         memberService.findByToken(token);
-        return placeRepository.findPlacesByLocationNameAndCategoryName(categoryName,locationName).stream().map(PlaceResponseRecommendDetailDto::new).toList();
+        return placeRepository.findPlacesByLocationNameAndCategoryName(categoryName,locationName).stream().limit(6).map(PlaceResponseRecommendDetailDto::new).toList();
     }
     public List<PlaceReviewCountSortResponseDto> getMostReviewPlace(String locationName, String token){
         memberService.findByToken(token);
-        List<Place> places = placeRepository.getPlacesByLocationName(locationName)
+        List<Place> places = placeRepository.findPlacesByLocationName(locationName)
                                                                 .stream()
                                                                 .sorted(Comparator.comparing(Place::getReviewCount).reversed())
                                                                 .toList();
-        return  places.stream().map(PlaceReviewCountSortResponseDto::new).toList() ;
+        return  places.stream().limit(6).map(PlaceReviewCountSortResponseDto::new).toList() ;
     }
 }
