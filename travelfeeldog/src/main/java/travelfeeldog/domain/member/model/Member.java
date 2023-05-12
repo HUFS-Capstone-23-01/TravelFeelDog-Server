@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import travelfeeldog.domain.FeedLike.model.FeedLike;
 import travelfeeldog.domain.feed.model.Feed;
-import travelfeeldog.domain.review.model.Review;
+import travelfeeldog.domain.review.review.model.Review;
 import travelfeeldog.domain.scrab.model.Scrab;
 import travelfeeldog.global.common.model.BaseTimeEntity;
 
