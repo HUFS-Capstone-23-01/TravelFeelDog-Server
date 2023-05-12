@@ -20,6 +20,9 @@ import travelfeeldog.domain.review.dto.ReviewDtos.ReviewPostRequestDto;
 import travelfeeldog.domain.review.model.RecommendStatus;
 import travelfeeldog.domain.review.model.Review;
 import travelfeeldog.domain.review.model.ReviewImage;
+import travelfeeldog.domain.reviewkeyword.model.ReviewBadKeyWord;
+import travelfeeldog.domain.reviewkeyword.model.ReviewGoodKeyWord;
+import travelfeeldog.domain.reviewkeyword.service.ReviewKeyWordService;
 
 @Transactional(readOnly = true)
 @Service
@@ -29,6 +32,7 @@ public class ReviewService {
     private final PlaceService placeService;
     private final MemberService memberService;
 
+    private final ReviewKeyWordService reviewKeyWordService;
     public List<ReviewMemberPageResponseDto> getAllReviews() {
         return reviewRepository.findAll()
                 .stream()
@@ -54,6 +58,7 @@ public class ReviewService {
                 .map(imageUrl -> new ReviewImage(review, imageUrl))
                 .collect(Collectors.toList());
         review.setReviewImages(reviewImages);
+        reviewKeyWordService.saveReviewKeyWords(request.getBadKeyWordIds(),request.getGoodKeyWordIds(),review);
         reviewRepository.save(review);
         return new ReviewPageResponseDto(review);
     }
