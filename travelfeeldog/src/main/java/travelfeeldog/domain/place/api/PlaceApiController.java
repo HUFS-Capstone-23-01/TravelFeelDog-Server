@@ -19,6 +19,7 @@ import travelfeeldog.domain.place.dto.PlaceDtos.PlaceDetailDto;
 import travelfeeldog.domain.place.dto.PlaceDtos.PlacePostRequestDto;
 import travelfeeldog.domain.place.dto.PlaceDtos.PlaceResponseDetailDto;
 import travelfeeldog.domain.place.dto.PlaceDtos.PlaceResponseRecommendDetailDto;
+import travelfeeldog.domain.place.dto.PlaceDtos.PlaceReviewCountSortResponseDto;
 import travelfeeldog.domain.place.model.Place;
 import travelfeeldog.domain.place.service.PlaceService;
 import travelfeeldog.global.common.dto.ApiResponse;
@@ -54,6 +55,12 @@ public class PlaceApiController {
                                                                                 @RequestParam("locationName") String locationName,
                                                                                 @RequestHeader("Authorization") String token) {
         return ApiResponse.success(placeService.getResponseRecommend(categoryName,locationName,token));
+    }
+    @GetMapping(value = "/most/review", produces = "application/json;charset=UTF-8")
+    public ApiResponse<List<PlaceReviewCountSortResponseDto>> getMostReviewPlace(@RequestParam("locationName") String locationName,
+                                                                                 @RequestHeader("Authorization") String token) {
+
+        return ApiResponse.success(placeService.getMostReviewPlace(locationName,token));
     }
     @GetMapping(value = "/{placeId}", produces = "application/json;charset=UTF-8")
     public ApiResponse<PlaceResponseDetailDto> getPlaceDetailInfo(@PathVariable Long placeId,@RequestHeader("Authorization") String token) {

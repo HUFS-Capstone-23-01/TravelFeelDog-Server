@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import travelfeeldog.domain.place.model.Place;
 import travelfeeldog.domain.place.model.PlaceStatic;
+import travelfeeldog.domain.review.dto.ReviewDtos.SingleDescriptionAndNickNameDto;
 
 
 public class PlaceDtos {
@@ -31,6 +32,20 @@ public class PlaceDtos {
             this.thumbNailImageUrl = place.getThumbNailImageUrl();
         }
     }
+    @Data
+    public static class PlaceReviewCountSortResponseDto{
+        private Long id ;
+        private String name;
+        private String thumbNailImageUrl;
+        private List<SingleDescriptionAndNickNameDto> reviews;
+        public PlaceReviewCountSortResponseDto(Place place){
+            this.id = place.getId();
+            this.name = place.getName();
+            this.thumbNailImageUrl = place.getThumbNailImageUrl();
+            this.reviews = place.getReviews().stream().map(SingleDescriptionAndNickNameDto::new).toList();
+        }
+    }
+
     @Data
     @NoArgsConstructor
     public static class PlacePostRequestDto{

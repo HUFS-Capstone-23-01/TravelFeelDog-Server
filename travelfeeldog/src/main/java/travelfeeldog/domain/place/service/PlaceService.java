@@ -1,7 +1,9 @@
 package travelfeeldog.domain.place.service;
 
 import java.io.File;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
@@ -20,11 +22,14 @@ import travelfeeldog.domain.place.dto.PlaceDtos.PlaceDetailDto;
 import travelfeeldog.domain.place.dto.PlaceDtos.PlacePostRequestDto;
 import travelfeeldog.domain.place.dto.PlaceDtos.PlaceResponseDetailDto;
 import travelfeeldog.domain.place.dto.PlaceDtos.PlaceResponseRecommendDetailDto;
+import travelfeeldog.domain.place.dto.PlaceDtos.PlaceReviewCountSortResponseDto;
 import travelfeeldog.domain.place.dto.PlaceDtos.PlaceSearchResponseDetailDto;
 import travelfeeldog.domain.place.dto.PlaceSearchResponseDto;
 import travelfeeldog.domain.place.model.Place;
 import travelfeeldog.domain.place.model.PlaceStatic;
 import travelfeeldog.domain.review.dto.ReviewDtos.ReviewPostRequestDto;
+import travelfeeldog.domain.review.dto.ReviewDtos.SingleDescriptionAndNickNameDto;
+
 @Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
@@ -95,5 +100,13 @@ public class PlaceService {
     public List<PlaceResponseRecommendDetailDto> getResponseRecommend(String categoryName, String locationName, String token) {
         memberService.findByToken(token);
         return placeRepository.findPlacesByLocationNameAndCategoryName(categoryName,locationName).stream().map(PlaceResponseRecommendDetailDto::new).toList();
+    }
+    public List<PlaceReviewCountSortResponseDto> getMostReviewPlace(String locationName, String token){
+        memberService.findByToken(token);
+        List<Place> places = placeRepository.getPlacesByLocationName(locationName)
+                                                                .stream()
+                                                                .sorted(Comparator.comparing(Place::getReviewCount).reversed())
+                                                                .toList();
+        return  places.stream().map(PlaceReviewCountSortResponseDto::new).toList() ;
     }
 }
