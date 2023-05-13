@@ -11,7 +11,8 @@ import travelfeeldog.domain.place.place.model.Place;
 @Repository
 public interface PlaceRepository extends JpaRepository<Place,Long> {
     Place findByName(String name);
-    @Query("SELECT p " +
+
+    @Query("SELECT DISTINCT p " +
             "FROM Place p " +
             "JOIN fetch p.location l " +
             "JOIN fetch p.category c " +
@@ -33,6 +34,17 @@ public interface PlaceRepository extends JpaRepository<Place,Long> {
     List<Place> findPlacesByLocationNameAndCategoryNameCallKey(
             @Param("categoryName") String categoryName,
             @Param("locationName") String locationName);
+
+    @Query("SELECT DISTINCT p " +
+            "FROM Place p " +
+            "JOIN fetch p.location l " +
+            "JOIN fetch p.category c " +
+            "JOIN p.reviews r " +
+            "WHERE " +
+            "l.name = :locationName ")
+        // join fetch , place and member and review to call
+    List<Place> findPlacesByLocationName(@Param("locationName") String locationName);
+}
 //    @Query("SELECT p " +
 //            "FROM Place p " +
 //            "JOIN fetch p.location l " +
@@ -49,12 +61,3 @@ public interface PlaceRepository extends JpaRepository<Place,Long> {
 //            @Param("keyword") String keyword);
 
 
-    @Query("SELECT p " +
-            "FROM Place p " +
-            "JOIN fetch p.location l " +
-            "JOIN fetch p.category c " +
-            "JOIN p.reviews r " +
-            "WHERE " +
-            "l.name = :locationName ") // join fetch , place and member and review to call
-    List<Place> findPlacesByLocationName(@Param("locationName") String locationName);
-}
