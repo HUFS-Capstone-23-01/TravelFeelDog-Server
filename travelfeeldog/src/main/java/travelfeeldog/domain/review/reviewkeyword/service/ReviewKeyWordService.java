@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import travelfeeldog.domain.review.keyword.service.KeyWordService;
+import travelfeeldog.domain.review.review.dto.ReviewDtos.ReviewPostRequestDto;
 import travelfeeldog.domain.review.review.model.Review;
 import travelfeeldog.domain.review.reviewkeyword.dao.ReviewGoodKeyWordRepository;
 import travelfeeldog.domain.review.reviewkeyword.model.ReviewBadKeyWord;
@@ -27,6 +28,9 @@ public class ReviewKeyWordService {
         for(Long id : goodKeyWordIds){
             reviewGoodKeyWordRepository.save((new ReviewGoodKeyWord(review,keyWordService.getGoodKeyWordById(id))));
         }
+    }
+    public void saveReviewKeyWords(ReviewPostRequestDto request,Review review){
+        saveReviewKeyWords(request.getBadKeyWordIds(),request.getGoodKeyWordIds(),review);
     }
 
 }
