@@ -29,8 +29,8 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final PlaceService placeService;
     private final MemberService memberService;
-
     private final ReviewKeyWordService reviewKeyWordService;
+
     public List<ReviewMemberPageResponseDto> getAllReviews() {
         return reviewRepository.findAll()
                 .stream()
@@ -47,22 +47,17 @@ public class ReviewService {
     @Transactional
     public ReviewPageResponseDto saveReview(ReviewPostRequestDto request, String token) {
         Member member = memberService.findByToken(token);
+        Place place = placeService.getPlaceById(request);
+        Review review = new Review(member, place, request);
+
         member.updateExpAndLevel(20);
-        Place place = placeService.getPlaceById(request.getPlaceId());
         place.updateReviewCount();
         placeService.addPlaceStatic(request);
-        Review review = new Review(member, place, request.getAdditionalScript(), request.getRecommendStatus(),
-                request.getSmallDogNumber(), request.getMediumDogNumber(), request.getLargeDogNumber());
-        List<ReviewImage> reviewImages = request.getImageUrls()
-                .stream()
-                .map(imageUrl -> new ReviewImage(review, imageUrl))
-                .collect(Collectors.toList());
-        review.setReviewImages(reviewImages);
-        reviewKeyWordService.saveReviewKeyWords(request.getBadKeyWordIds(),request.getGoodKeyWordIds(),review);
+        reviewKeyWordService.saveReviewKeyWords(request,review);
+
         reviewRepository.save(review);
         return new ReviewPageResponseDto(review);
     }
-
     @Transactional
     public void deleteReviewById(Long id) {
         reviewRepository.deleteById(id);

@@ -4,6 +4,7 @@ import static javax.persistence.FetchType.LAZY;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,6 +21,7 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import travelfeeldog.domain.member.model.Member;
 import travelfeeldog.domain.place.place.model.Place;
+import travelfeeldog.domain.review.review.dto.ReviewDtos.ReviewPostRequestDto;
 import travelfeeldog.domain.review.reviewkeyword.model.ReviewBadKeyWord;
 import travelfeeldog.domain.review.reviewkeyword.model.ReviewGoodKeyWord;
 import travelfeeldog.global.common.model.BaseTimeEntity;
@@ -59,19 +61,22 @@ public class Review extends BaseTimeEntity {
     private List<ReviewBadKeyWord> reviewBadKeyWords = new ArrayList<>();
     @OneToMany (mappedBy = "review",cascade = CascadeType.ALL, orphanRemoval = true, fetch = LAZY)
     private List<ReviewImage> reviewImages = new ArrayList<>();
-    public Review() {
+    protected Review() {
 
     }
-    public Review(Member member, Place place, String additionalScript, RecommendStatus recommendStatus,
-                  int smallDogNumber, int mediumDogNumber, int largeDogNumber) {
+    public Review(Member member, Place place, ReviewPostRequestDto request){
         this.member = member;
         this.place = place;
-        this.additionalScript = additionalScript;
-        this.recommendStatus = recommendStatus;
-        this.smallDogNumber = smallDogNumber;
-        this.mediumDogNumber = mediumDogNumber;
-        this.largeDogNumber = largeDogNumber;
-        this.reviewImages = new ArrayList<>();
+        this.additionalScript = request.getAdditionalScript();
+        this.recommendStatus = request.getRecommendStatus();
+        this.smallDogNumber = request.getSmallDogNumber();
+        this.mediumDogNumber = request.getMediumDogNumber();
+        this.largeDogNumber = request.getLargeDogNumber();
+        this.reviewImages = addReviewImages(request.getImageUrls());
     }
-
+    private List<ReviewImage> addReviewImages(List<String> imageUrls){
+        return imageUrls.stream()
+                .map(imageUrl -> new ReviewImage(this, imageUrl))
+                .collect(Collectors.toList());
+    }
 }

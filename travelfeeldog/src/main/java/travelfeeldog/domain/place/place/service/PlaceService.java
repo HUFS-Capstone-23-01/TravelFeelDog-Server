@@ -90,6 +90,9 @@ public class PlaceService {
         return placeRepository.findById(placeId)
                 .orElseThrow(() -> new EntityNotFoundException("Place not found with ID: " + placeId));
     }
+    public Place getPlaceById(ReviewPostRequestDto request){
+        return getPlaceById(request.getPlaceId());
+    }
 
     public PlaceResponseDetailDto getPlaceDetailById(Long placeId, String token) {
         memberService.findByToken(token);
