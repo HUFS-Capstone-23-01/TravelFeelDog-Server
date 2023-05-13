@@ -119,7 +119,18 @@ public class PlaceService {
                 .map(PlaceResponseRecommendDetailDto::new)
                 .toList();
     }
+    public List<PlaceReviewCountSortResponseDto> getMostReviewPlace(String locationName, String token) {
+        memberService.findByToken(token);
+        List<Place> places = placeRepository.findPlacesByLocationName(locationName)
+                .stream()
+                .sorted(Comparator.comparing(Place::getReviewCount).reversed())
+                .toList();
 
+        return places.stream()
+                .limit(6)
+                .map(PlaceReviewCountSortResponseDto::new)
+                .toList();
+    }
     public List<PlaceSearchResponseDto> getResponseSearch(String categoryName, String locationName, String keyWord,
                                                           String token) {
         memberService.findByToken(token);
@@ -137,19 +148,6 @@ public class PlaceService {
         return filteredPlaces.stream()
                 .map(PlaceSearchResponseDto::new)
                 .limit(10)
-                .toList();
-    }
-
-    public List<PlaceReviewCountSortResponseDto> getMostReviewPlace(String locationName, String token) {
-        memberService.findByToken(token);
-        List<Place> places = placeRepository.findPlacesByLocationName(locationName)
-                .stream()
-                .sorted(Comparator.comparing(Place::getReviewCount).reversed())
-                .toList();
-
-        return places.stream()
-                .limit(6)
-                .map(PlaceReviewCountSortResponseDto::new)
                 .toList();
     }
 }

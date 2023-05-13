@@ -62,17 +62,17 @@ public class PlaceApiController {
                                                                                  @RequestHeader("Authorization") String token) {
         return ApiResponse.success(placeService.getResponseRecommend(categoryName,locationName,token));
     }
+    @GetMapping(value = "/most/review", produces = "application/json;charset=UTF-8")
+    public ApiResponse<List<PlaceReviewCountSortResponseDto>> getMostReviewPlace(@RequestParam("locationName") String locationName,
+                                                                                 @RequestHeader("Authorization") String token) {
+
+        return ApiResponse.success(placeService.getMostReviewPlace(locationName,token));
+    }
     @GetMapping(value = "/search", produces = "application/json;charset=UTF-8")
     public ApiResponse<List<PlaceSearchResponseDto>> getPlacesBySearch(@RequestParam("categoryName") String categoryName,
                                                                        @RequestParam("locationName") String locationName,
                                                                        @RequestParam("keyWord") String keyWord,
                                                                        @RequestHeader("Authorization") String token) {
         return ApiResponse.success(placeService.getResponseSearch(categoryName,locationName,keyWord,token));
-    }
-    @GetMapping(value = "/most/review", produces = "application/json;charset=UTF-8")
-    public ApiResponse<List<PlaceReviewCountSortResponseDto>> getMostReviewPlace(@RequestParam("locationName") String locationName,
-                                                                                 @RequestHeader("Authorization") String token) {
-
-        return ApiResponse.success(placeService.getMostReviewPlace(locationName,token));
     }
 }

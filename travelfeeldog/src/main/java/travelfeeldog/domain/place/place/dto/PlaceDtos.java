@@ -35,23 +35,27 @@ public class PlaceDtos {
     @NoArgsConstructor
     public static class PlaceResponseRecommendDetailDto{
         private Long id;
-        private String name;
+        private String placeName;
+        private String categoryName;
         private String thumbNailImageUrl;
         public PlaceResponseRecommendDetailDto(Place place){
             this.id =place.getId();
-            this.name = place.getName();
+            this.placeName = place.getName();
+            this.categoryName = place.getCategory().getName();
             this.thumbNailImageUrl = place.getThumbNailImageUrl();
         }
     }
     @Data
     public static class PlaceReviewCountSortResponseDto{
         private Long id ;
-        private String name;
+        private String placeName;
+        private String categoryName;
         private String thumbNailImageUrl;
         private List<SingleDescriptionAndNickNameDto> reviews;
         public PlaceReviewCountSortResponseDto(Place place){
             this.id = place.getId();
-            this.name = place.getName();
+            this.placeName = place.getName();
+            this.categoryName = place.getCategory().getName();
             this.thumbNailImageUrl = place.getThumbNailImageUrl();
             this.reviews = place.getReviews().stream().map(SingleDescriptionAndNickNameDto::new).toList();
         }
