@@ -47,7 +47,9 @@ public class ReviewService {
     @Transactional
     public ReviewPageResponseDto saveReview(ReviewPostRequestDto request, String token) {
         Member member = memberService.findByToken(token);
+        member.updateExpAndLevel(20);
         Place place = placeService.getPlaceById(request.getPlaceId());
+        place.updateReviewCount();
         placeService.addPlaceStatic(request);
         Review review = new Review(member, place, request.getAdditionalScript(), request.getRecommendStatus(),
                 request.getSmallDogNumber(), request.getMediumDogNumber(), request.getLargeDogNumber());
