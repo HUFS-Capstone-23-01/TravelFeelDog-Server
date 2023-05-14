@@ -19,7 +19,6 @@ import travelfeeldog.domain.review.review.dto.ReviewDtos.ReviewPageResponseDto;
 import travelfeeldog.domain.review.review.dto.ReviewDtos.ReviewPostRequestDto;
 import travelfeeldog.domain.review.review.model.RecommendStatus;
 import travelfeeldog.domain.review.review.model.Review;
-import travelfeeldog.domain.review.review.model.ReviewImage;
 import travelfeeldog.domain.review.reviewkeyword.service.ReviewKeyWordService;
 
 @Transactional(readOnly = true)

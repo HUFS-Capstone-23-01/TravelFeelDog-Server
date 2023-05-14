@@ -28,6 +28,7 @@ public class PlaceDtos {
             this.goodKeyWords = place.getReviews().stream()
                     .flatMap(review -> review.getReviewGoodKeyWords().stream())
                     .map(goodKeyWord -> goodKeyWord.getGoodKeyWord().getKeyWordName())
+                    .distinct()
                     .collect(Collectors.toList());
         }
     }
