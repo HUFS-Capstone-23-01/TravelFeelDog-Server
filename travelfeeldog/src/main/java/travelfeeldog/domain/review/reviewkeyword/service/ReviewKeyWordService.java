@@ -4,6 +4,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import travelfeeldog.domain.place.place.service.PlaceService;
 import travelfeeldog.domain.review.keyword.service.KeyWordService;
 import travelfeeldog.domain.review.review.dto.ReviewDtos.ReviewPostRequestDto;
 import travelfeeldog.domain.review.review.model.Review;
@@ -19,6 +20,7 @@ public class ReviewKeyWordService {
     private final ReviewBadKeyWordRepository reviewBadKeyWordRepository;
     private final ReviewGoodKeyWordRepository reviewGoodKeyWordRepository;
     private final KeyWordService keyWordService;
+    private final PlaceService placeService;
 
     @Transactional
     public void saveReviewKeyWords(List<Long> badKeyWordIds , List<Long> goodKeyWordIds, Review review){

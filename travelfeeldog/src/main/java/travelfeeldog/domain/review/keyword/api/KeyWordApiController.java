@@ -41,7 +41,6 @@ public class KeyWordApiController {
         List<KeyWordResponseDto> goodKeyWords = keyWordService.getAllGoodKeyWords();
         return ResponseEntity.ok(goodKeyWords);
     }
-
     @GetMapping(value = "/bad")
     public ResponseEntity<List<KeyWordResponseDto>> getAllBadKeyWords() {
         List<KeyWordResponseDto> badKeyWords = keyWordService.getAllBadKeyWords();
