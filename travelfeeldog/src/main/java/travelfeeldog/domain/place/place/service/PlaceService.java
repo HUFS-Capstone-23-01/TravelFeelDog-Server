@@ -135,7 +135,8 @@ public class PlaceService {
                                                           String token) {
         memberService.findByToken(token);
         List<Place> places = placeRepository.findPlacesByLocationNameAndCategoryNameCallKey(categoryName, locationName);
-
+        if(keyWord.trim().length() != 0)
+        {
         String normalizedKeyword = keyWord.trim().toLowerCase();
 
         List<Place> filteredPlaces = places.stream()
@@ -144,8 +145,12 @@ public class PlaceService {
                         .map(reviewGoodKeyword -> reviewGoodKeyword.getGoodKeyWord().getKeyWordName().toLowerCase())
                         .anyMatch(keyword -> keyword.toLowerCase().contains(normalizedKeyword)))
                 .toList();
-
-        return filteredPlaces.stream()
+            return filteredPlaces.stream()
+                    .map(PlaceSearchResponseDto::new)
+                    .limit(10)
+                    .toList();
+        }
+        return places.stream()
                 .map(PlaceSearchResponseDto::new)
                 .limit(10)
                 .toList();
