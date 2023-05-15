@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import travelfeeldog.global.common.model.BaseTimeEntity;
 
 import javax.persistence.*;
@@ -15,14 +16,21 @@ import javax.persistence.*;
 public class FeedImages extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "feed_images_id", length = 100)
-    private Long feedImagesId;
+    @Column(name = "feed_images_id")
+    private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "feed_id")
     private Feed feed;
 
-    @Column(name = "feed_image_url", length = 100)
+    @ColumnDefault("'https://tavelfeeldog.s3.ap-northeast-2.amazonaws.com/base/feed.JPG'")
+    @Column(name = "feed_image_url")
     private String feedImageUrl;
 
+    public FeedImages(Feed feed, String feedImageUrl) {
+        this.feed = feed;
+        this.feedImageUrl = feedImageUrl;
+    }
+
+    public static FeedImages create(Feed feed, String feedImageUrl) { return new FeedImages(feed, feedImageUrl); }
 }

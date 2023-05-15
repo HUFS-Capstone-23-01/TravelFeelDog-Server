@@ -3,6 +3,7 @@ package travelfeeldog.domain.member.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +20,8 @@ public class MemberService {
 
     @Transactional
     public Member saveMember(String nickName, String token) {
-        return memberRepository.saveMember(nickName, 1, 0, "baseImageUrl", token)
+        String url = "https://tavelfeeldog.s3.ap-northeast-2.amazonaws.com/base/pic1.JPG";
+        return memberRepository.saveMember(nickName, 1, 0, url, token)
                 .orElseThrow(() -> new RuntimeException("Member not saved"));
     }
 
