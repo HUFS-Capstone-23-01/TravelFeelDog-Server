@@ -17,6 +17,6 @@ public class CommentApiController {
     private final CommentService commentService ;
     @PostMapping(produces = "application/json;charset=UTF-8")
     public ApiResponse addNewComment(@RequestHeader("Authorization") String token, @RequestBody CommentRequestDto requestDto){
-        return ApiResponse.success(commentService.postComment(requestDto));
+        return ApiResponse.success(commentService.postComment(token,requestDto));
     }
 }

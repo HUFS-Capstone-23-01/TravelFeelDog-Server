@@ -2,6 +2,7 @@ package travelfeeldog.domain.feed.comment.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import travelfeeldog.domain.feed.comment.dto.CommentDtos.CommentRequestDto;
 import travelfeeldog.domain.feed.feed.model.Feed;
 import travelfeeldog.domain.member.model.Member;
 import travelfeeldog.global.common.model.BaseTimeEntity;
@@ -28,4 +29,11 @@ public class Comment extends BaseTimeEntity {
 
     @Column(name = "comment_content", length = 500)
     private String content;
+    protected Comment(){}
+    public Comment(CommentRequestDto requestDto,Member  member ,Feed feed){
+        this.id = requestDto.getFeedId();
+        this.content = requestDto.getContent();
+        this.member = member;
+        this.feed = feed;
+    }
 }

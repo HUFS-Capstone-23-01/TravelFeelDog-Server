@@ -1,24 +1,45 @@
 package travelfeeldog.domain.feed.comment.service;
 
+import java.util.List;
+import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import travelfeeldog.domain.feed.comment.dao.CommentRepository;
 import travelfeeldog.domain.feed.comment.dto.CommentDtos.CommentRequestDto;
+import travelfeeldog.domain.feed.comment.dto.CommentDtos.CommentResponseDto;
+import travelfeeldog.domain.feed.comment.model.Comment;
+import travelfeeldog.domain.feed.feed.model.Feed;
+import travelfeeldog.domain.feed.feed.service.FeedService;
+import travelfeeldog.domain.member.model.Member;
+import travelfeeldog.domain.member.service.MemberService;
 
 @Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
 public class CommentService {
     private final CommentRepository commentRepository;
-
-    public void postComment(CommentRequestDto requestDto){
-
+    private final MemberService memberService;
+    private final FeedService feedService;
+    @Transactional
+    public CommentResponseDto postComment(String token,CommentRequestDto requestDto){
+        Member member = memberService.findByToken(token);
+        Feed feed = feedService.findByFeedId(requestDto.getFeedId());
+        Comment comment = new Comment( requestDto,member,feed);
+        commentRepository.save(comment);
+        return new CommentResponseDto(comment);
     }
-    public void deleteComment(){
-
+    public Boolean deleteComment(Long commentId){
+        try{
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new EntityNotFoundException("Comment not found with ID"));;
+        commentRepository.delete(comment);
+        return true;
+        }catch (EntityNotFoundException e){
+            return false;
+        }
     }
-    public void getAllcommentByPlaceId(){
+    public List<CommentResponseDto> getAllCommentByFeedId(Long feedId){
 
     }
 }
