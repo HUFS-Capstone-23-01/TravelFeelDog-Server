@@ -34,7 +34,6 @@ public class FeedService {
         Member writer = memberRepository.findByToken(writerToken).get();
         List<Tag> tags = new ArrayList<>();
 
-
         for(String tagContent : tagContents) {
             Optional<Tag> tag = tagRepository.findByTagContent(tagContent);
             if(tag.isPresent()) {
@@ -46,8 +45,8 @@ public class FeedService {
         }
 
         Feed result;
-        int imagesExist = feedImagesUrls.isEmpty() ? 2 : 0; //10(binary)
-        int tagsExist = tagContents.isEmpty() ? 1 : 0; //01(binary)
+        int imagesExist = feedImagesUrls.isEmpty() ? 0 : 2; //10(binary)
+        int tagsExist = tagContents.isEmpty() ? 0 : 1; //01(binary)
         switch(imagesExist | tagsExist) {
             case 3:
                 result = feedRepository.save(writer, feedImagesUrls, title, body, tags);
@@ -59,9 +58,7 @@ public class FeedService {
                 result = feedRepository.save(writer, title, body, tags);
                 break;
             default:
-                result = feedRepository.save(writer,
-                        title,
-                        body);
+                result = feedRepository.save(writer, title, body);
                 break;
         }
         return result;

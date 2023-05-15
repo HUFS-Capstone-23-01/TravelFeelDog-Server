@@ -46,8 +46,8 @@ public class FeedDtos {
             this.scrabs = feed.getScraps();
             this.title = feed.getTitle();
             this.body = feed.getBody();
-            this.feedImages.addAll(feed.getFeedImages().stream().map(FeedImages::getFeedImageUrl).toList());
-            this.feedTags.addAll(feed.getFeedTags().stream().map(f -> f.getTag().getTagContent()).toList());
+            this.feedImages.addAll(feed.getFeedImages().stream().map(FeedImages::getFeedImageUrl).distinct().toList());
+            this.feedTags.addAll(feed.getFeedTags().stream().map(f -> f.getTag().getTagContent()).distinct().toList());
         }
     }
 

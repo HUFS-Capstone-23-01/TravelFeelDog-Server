@@ -112,18 +112,18 @@ public class Feed extends BaseTimeEntity {
     public void addFeedImage(String feedImageUrl) {
         FeedImages feedImage = new FeedImages(this, feedImageUrl);
         feedImage.setFeed(this);
-        feedImages.add(feedImage);
+        this.feedImages.add(feedImage);
     }
 
     public void addTag(Tag tag) {
         FeedTag feedTag = new FeedTag();
         feedTag.setTagAndFeed(tag, this);
-        feedTags.add(feedTag);
+        this.feedTags.add(feedTag);
     }
 
     public void addComment(Comment comment) {
         comment.setFeed(this);
-        comments.add(comment);
+        this.comments.add(comment);
     }
 
 }
