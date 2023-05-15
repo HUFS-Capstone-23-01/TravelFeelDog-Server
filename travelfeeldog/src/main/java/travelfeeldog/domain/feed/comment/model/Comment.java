@@ -1,34 +1,39 @@
 package travelfeeldog.domain.feed.comment.model;
 
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import travelfeeldog.domain.feed.comment.dto.CommentDtos.CommentRequestDto;
 import travelfeeldog.domain.feed.feed.model.Feed;
 import travelfeeldog.domain.member.model.Member;
 import travelfeeldog.global.common.model.BaseTimeEntity;
 
 import javax.persistence.*;
 
-@Entity
-@Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+@Entity
 public class Comment extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id", length = 100)
-    private Long commentId;
+    private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "feed_id")
     private Feed feed;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @Column(name = "comment_content", length = 500)
-    private String commentContent;
+    private String content;
+    protected Comment(){}
+    public Comment(CommentRequestDto requestDto,Member  member ,Feed feed){
+        this.id = requestDto.getFeedId();
+        this.content = requestDto.getContent();
+        this.member = member;
+        this.feed = feed;
+    }
 }
