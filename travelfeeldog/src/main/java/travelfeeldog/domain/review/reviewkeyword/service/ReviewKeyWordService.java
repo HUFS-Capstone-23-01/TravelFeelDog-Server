@@ -16,6 +16,7 @@ import travelfeeldog.domain.review.review.dto.ReviewDtos.ReviewPostRequestDto;
 import travelfeeldog.domain.review.review.model.Review;
 import travelfeeldog.domain.review.reviewkeyword.dao.ReviewGoodKeyWordRepository;
 
+import travelfeeldog.domain.review.reviewkeyword.dto.ReviewKeyWordDtos.ReviewKeyWordResponseByCategoryDto;
 import travelfeeldog.domain.review.reviewkeyword.dto.ReviewKeyWordDtos.ReviewKeyWordResponseDto;
 import travelfeeldog.domain.review.reviewkeyword.model.ReviewBadKeyWord;
 import travelfeeldog.domain.review.reviewkeyword.dao.ReviewBadKeyWordRepository;
@@ -41,7 +42,7 @@ public class ReviewKeyWordService {
     public void saveReviewKeyWords(ReviewPostRequestDto request,Review review){
         saveReviewKeyWords(request.getBadKeyWordIds(),request.getGoodKeyWordIds(),review);
     }
-    public void getGoodOrBadKeyWordsByPlace(Long placeId,String keyWord) { // need split
+    public ReviewKeyWordResponseByCategoryDto getGoodOrBadKeyWordsByPlace(Long placeId, String keyWord) { // need split
         List<ReviewKeyWordResponseDto> keyWords = null;
         Place place = placeService.getPlaceById(placeId);
         List<Long> reviews = place.getReviews().stream().map(Review::getId).toList();
@@ -60,6 +61,7 @@ public class ReviewKeyWordService {
             }
         }
 
+        return
     }
 }
 

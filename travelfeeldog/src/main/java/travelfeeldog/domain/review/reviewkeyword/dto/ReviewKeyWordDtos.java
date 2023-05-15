@@ -26,9 +26,6 @@ public class ReviewKeyWordDtos {
     @Data
     public static class ReviewKeyWordResponseByCategoryDto{
         private List<ReviewKeyWordResponseDto> keyWords;
-//        public ReviewKeyWordResponseByCategoryDto(List<GoodKeyWord> goodKeyWords ,List<BadKeyWord> badKeyWords){
-//            this.goodKeyWords = goodKeyWords.stream().map(KeyWordDtos.GoodKeyWordResponseDto::new).collect(Collectors.toList());
-//            this.badKeyWords = badKeyWords.stream().map(KeyWordDtos.BadKeyWordResponseDto::new).collect(Collectors.toList());
-//        }
+
     }
 }
