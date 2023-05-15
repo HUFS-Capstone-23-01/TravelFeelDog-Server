@@ -90,9 +90,11 @@ public class FeedRepository {
 
     }
 
-    public List<Feed> getListAll() {
+    public List<Feed> getListAll(int offset) {
         List<Feed> feeds = em.createQuery("select f from Feed f " +
                 "order by f.createdDateTime desc", Feed.class)
+                .setFirstResult(offset)
+                .setMaxResults(6)
                 .getResultList();
         return feeds;
     }

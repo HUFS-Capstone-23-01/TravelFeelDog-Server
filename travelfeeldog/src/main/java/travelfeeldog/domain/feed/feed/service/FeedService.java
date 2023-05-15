@@ -11,6 +11,7 @@ import travelfeeldog.domain.member.model.Member;
 import travelfeeldog.domain.feed.tag.dao.TagRepository;
 import travelfeeldog.domain.feed.tag.model.Tag;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -75,14 +76,20 @@ public class FeedService {
     @Transactional
     public void deleteFeed(String id) { feedRepository.deleteById(Long.parseLong(id)); }
 
-    public List<Feed> getListAll() {
-        List<Feed> feeds = feedRepository.getListAll();
+    public List<Feed> getListAll(int page) {
+        int offset = (page-1) * 6;
+        List<Feed> feeds = feedRepository.getListAll(offset);
         return feeds;
     }
 
     public List<Feed> getListByNickName(String nickName) {
         List<Feed> feeds = feedRepository.findByNickName(nickName);
         return feeds;
+    }
+
+    public Feed findByFeedId(Long feedId){
+        return feedRepository.findById(feedId)
+                .orElseThrow(() -> new EntityNotFoundException("Feed not found with ID"));
     }
 }
 /*
