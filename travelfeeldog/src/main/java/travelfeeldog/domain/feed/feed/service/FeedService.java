@@ -1,18 +1,15 @@
-package travelfeeldog.domain.feed.service;
+package travelfeeldog.domain.feed.feed.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import travelfeeldog.domain.feed.dao.FeedImagesRepository;
-import travelfeeldog.domain.feed.dao.FeedRepository;
-import travelfeeldog.domain.feed.dao.FeedTagRepository;
-import travelfeeldog.domain.feed.model.Feed;
-import travelfeeldog.domain.feed.model.FeedImages;
-import travelfeeldog.domain.feed.model.FeedTag;
+import travelfeeldog.domain.feed.feed.dao.FeedImagesRepository;
+import travelfeeldog.domain.feed.feed.dao.FeedRepository;
+import travelfeeldog.domain.feed.feed.model.Feed;
 import travelfeeldog.domain.member.dao.MemberRepository;
 import travelfeeldog.domain.member.model.Member;
-import travelfeeldog.domain.tag.dao.TagRepository;
-import travelfeeldog.domain.tag.model.Tag;
+import travelfeeldog.domain.feed.tag.dao.TagRepository;
+import travelfeeldog.domain.feed.tag.model.Tag;
 
 import java.util.ArrayList;
 import java.util.List;

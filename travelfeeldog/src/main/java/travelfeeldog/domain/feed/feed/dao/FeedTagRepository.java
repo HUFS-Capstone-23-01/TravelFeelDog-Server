@@ -1,14 +1,11 @@
-package travelfeeldog.domain.feed.dao;
+package travelfeeldog.domain.feed.feed.dao;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import travelfeeldog.domain.feed.model.Feed;
-import travelfeeldog.domain.feed.model.FeedTag;
-import travelfeeldog.domain.tag.model.Tag;
+import travelfeeldog.domain.feed.feed.model.FeedTag;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

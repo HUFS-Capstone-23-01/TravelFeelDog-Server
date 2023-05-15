@@ -1,4 +1,4 @@
-package travelfeeldog.domain.feed.model;
+package travelfeeldog.domain.feed.feed.model;
 
 import lombok.AccessLevel;
 import lombok.Getter;

@@ -1,13 +1,13 @@
-package travelfeeldog.domain.feed.dto;
+package travelfeeldog.domain.feed.feed.dto;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import travelfeeldog.domain.feed.model.Feed;
-import travelfeeldog.domain.feed.model.FeedImages;
-import travelfeeldog.domain.feed.model.FeedTag;
+import travelfeeldog.domain.feed.feed.model.Feed;
+import travelfeeldog.domain.feed.feed.model.FeedImages;
+import travelfeeldog.domain.feed.feed.model.FeedTag;
 import travelfeeldog.domain.member.dto.MemberDtos.MemberResponse;
-import travelfeeldog.domain.tag.model.Tag;
+import travelfeeldog.domain.feed.tag.model.Tag;
 
 import java.util.ArrayList;
 import java.util.List;

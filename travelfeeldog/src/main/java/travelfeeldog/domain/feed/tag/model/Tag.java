@@ -1,10 +1,10 @@
-package travelfeeldog.domain.tag.model;
+package travelfeeldog.domain.feed.tag.model;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import travelfeeldog.domain.feed.model.FeedTag;
+import travelfeeldog.domain.feed.feed.model.FeedTag;
 import travelfeeldog.global.common.model.BaseTimeEntity;
 
 import javax.persistence.*;

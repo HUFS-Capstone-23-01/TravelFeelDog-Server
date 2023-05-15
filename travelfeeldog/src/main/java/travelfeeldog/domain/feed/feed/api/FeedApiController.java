@@ -1,14 +1,14 @@
-package travelfeeldog.domain.feed.api;
+package travelfeeldog.domain.feed.feed.api;
 
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import travelfeeldog.domain.feed.dto.FeedDtos.FeedStaticResponseDto;
-import travelfeeldog.domain.feed.dto.FeedDtos.FeedListResponseDto;
-import travelfeeldog.domain.feed.dto.FeedDtos.FeedPostRequestDto;
-import travelfeeldog.domain.feed.model.Feed;
-import travelfeeldog.domain.feed.service.FeedService;
+import travelfeeldog.domain.feed.feed.dto.FeedDtos.FeedStaticResponseDto;
+import travelfeeldog.domain.feed.feed.dto.FeedDtos.FeedListResponseDto;
+import travelfeeldog.domain.feed.feed.dto.FeedDtos;
+import travelfeeldog.domain.feed.feed.model.Feed;
+import travelfeeldog.domain.feed.feed.service.FeedService;
 import travelfeeldog.global.common.dto.ApiResponse;
 import travelfeeldog.infra.aws.s3.dto.AwsS3ImageDtos.ImageDto;
 import travelfeeldog.infra.aws.s3.service.AwsS3ImageService;
@@ -17,7 +17,6 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/feed")
@@ -27,7 +26,7 @@ public class FeedApiController {
     private final AwsS3ImageService awsS3ImageService;
 
     @PostMapping(value = "/post", produces = "application/json;charset=UTF-8")
-    public ApiResponse postFeed(@Valid @RequestBody FeedPostRequestDto feedPostRequestDto,
+    public ApiResponse postFeed(@Valid @RequestBody FeedDtos.FeedPostRequestDto feedPostRequestDto,
                                 @RequestParam("urls") List<String> imageUrls,
                                 @RequestParam("tags") List<String> tags) throws Exception {
         Feed feed = feedService.postFeed(feedPostRequestDto.getMemberToken(),

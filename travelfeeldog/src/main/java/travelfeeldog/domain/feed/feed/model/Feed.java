@@ -1,18 +1,17 @@
-package travelfeeldog.domain.feed.model;
+package travelfeeldog.domain.feed.feed.model;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import travelfeeldog.domain.comment.model.Comment;
+import travelfeeldog.domain.feed.comment.model.Comment;
 import travelfeeldog.domain.member.model.Member;
-import travelfeeldog.domain.tag.model.Tag;
+import travelfeeldog.domain.feed.tag.model.Tag;
 import travelfeeldog.global.common.model.BaseTimeEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Collections;
 
 @Entity
 @Getter
