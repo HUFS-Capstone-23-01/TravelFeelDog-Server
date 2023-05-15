@@ -21,6 +21,6 @@ public class Facility {
     @Column(name="facility_id")
     private Long id;
     private String name;
-    @OneToMany(mappedBy ="facility" ,cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy ="facility" ,cascade = CascadeType.ALL)
     private List<PlaceFacility> placeFacilities =new ArrayList<>();
 }
