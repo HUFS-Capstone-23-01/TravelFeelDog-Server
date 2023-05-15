@@ -1,9 +1,11 @@
-package travelfeeldog.domain.feed.model;
+package travelfeeldog.domain.feed.FeedLike.model;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import travelfeeldog.domain.feed.feed.model.Feed;
+import travelfeeldog.domain.member.model.Member;
 import travelfeeldog.global.common.model.BaseTimeEntity;
 
 import javax.persistence.*;
@@ -12,17 +14,17 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class FeedImages extends BaseTimeEntity {
+public class FeedLike extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "feed_images_id", length = 100)
-    private Long feedImagesId;
+    @Column(name = "feed_like_id", length = 100)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "feed_id")
     private Feed feed;
-
-    @Column(name = "feed_image_url", length = 100)
-    private String feedImageUrl;
-
 }

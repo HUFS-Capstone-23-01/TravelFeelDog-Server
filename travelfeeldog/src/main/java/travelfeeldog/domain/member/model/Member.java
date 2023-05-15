@@ -6,10 +6,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import travelfeeldog.domain.FeedLike.model.FeedLike;
-import travelfeeldog.domain.feed.model.Feed;
+import travelfeeldog.domain.feed.FeedLike.model.FeedLike;
+import travelfeeldog.domain.feed.feed.model.Feed;
 import travelfeeldog.domain.review.review.model.Review;
-import travelfeeldog.domain.scrab.model.Scrab;
+import travelfeeldog.domain.feed.scrab.model.Scrab;
 import travelfeeldog.global.common.model.BaseTimeEntity;
 
 import java.util.ArrayList;
