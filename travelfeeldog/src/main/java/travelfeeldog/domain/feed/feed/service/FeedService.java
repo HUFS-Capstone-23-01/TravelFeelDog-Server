@@ -91,6 +91,11 @@ public class FeedService {
         return feedRepository.findById(feedId)
                 .orElseThrow(() -> new EntityNotFoundException("Feed not found with ID"));
     }
+
+    public Feed findByFeedId(Long id ){
+        return null ;
+    };
+
 }
 /*
 *내일 할일 : feed Post 동작 확인
