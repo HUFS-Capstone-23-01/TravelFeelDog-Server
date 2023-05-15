@@ -15,7 +15,7 @@ import travelfeeldog.domain.place.location.model.Location;
 import travelfeeldog.domain.place.location.service.LocationService;
 import travelfeeldog.domain.member.service.MemberService;
 import travelfeeldog.domain.place.place.dao.PlaceRepository;
-import travelfeeldog.domain.place.place.dao.PlaceStaticRepository;
+import travelfeeldog.domain.place.place.dao.PlaceStatisticRepository;
 import travelfeeldog.domain.place.place.dto.PlaceDtos.PlaceDetailDto;
 import travelfeeldog.domain.place.place.dto.PlaceDtos.PlacePostRequestDto;
 import travelfeeldog.domain.place.place.dto.PlaceDtos.PlaceResponseDetailDto;
@@ -23,7 +23,7 @@ import travelfeeldog.domain.place.place.dto.PlaceDtos.PlaceResponseRecommendDeta
 import travelfeeldog.domain.place.place.dto.PlaceDtos.PlaceReviewCountSortResponseDto;
 import travelfeeldog.domain.place.place.dto.PlaceDtos.PlaceSearchResponseDto;
 import travelfeeldog.domain.place.place.model.Place;
-import travelfeeldog.domain.place.place.model.PlaceStatic;
+import travelfeeldog.domain.place.place.model.PlaceStatistic;
 import travelfeeldog.domain.review.review.dto.ReviewDtos.ReviewPostRequestDto;
 
 @Transactional(readOnly = true)
@@ -31,7 +31,7 @@ import travelfeeldog.domain.review.review.dto.ReviewDtos.ReviewPostRequestDto;
 @RequiredArgsConstructor
 public class PlaceService {
     private final PlaceRepository placeRepository;
-    private final PlaceStaticRepository placeStaticRepository;
+    private final PlaceStatisticRepository placeStatisticRepository;
     private final CategoryService categoryService;
     private final LocationService locationService;
     private final MemberService memberService;
@@ -51,11 +51,11 @@ public class PlaceService {
         Location location = locationService.getLocationByName(placePostRequestDto.getLocationName());
         place.setLocation(location);
 
-        PlaceStatic placeStatic = new PlaceStatic();
-        placeStatic.setPlace(place);
+        PlaceStatistic placeStatistic = new PlaceStatistic();
+        placeStatistic.setPlace(place);
 
         placeRepository.save(place);
-        placeStaticRepository.save(placeStatic);
+        placeStatisticRepository.save(placeStatistic);
 
         return new PlaceDetailDto(place);
     }
@@ -78,12 +78,12 @@ public class PlaceService {
 
     @Transactional
     public void addPlaceStatic(ReviewPostRequestDto requestDto) {
-        PlaceStatic placeStatic = placeStaticRepository.findByPlaceId(requestDto.getPlaceId());
+        PlaceStatistic placeStatistic = placeStatisticRepository.findByPlaceId(requestDto.getPlaceId());
         int[] dogNumbers = new int[3];
         dogNumbers[0] = requestDto.getSmallDogNumber();
         dogNumbers[1] = requestDto.getMediumDogNumber();
         dogNumbers[2] = requestDto.getLargeDogNumber();
-        placeStatic.countAndUpdateResult(dogNumbers, requestDto.getRecommendStatus());
+        placeStatistic.countAndUpdateResult(dogNumbers, requestDto.getRecommendStatus());
     }
 
     public Place getPlaceById(Long placeId) {
@@ -100,9 +100,9 @@ public class PlaceService {
         Place place = placeRepository.findById(placeId)
                 .orElseThrow(() -> new EntityNotFoundException("Place not found with ID: " + placeId));
 
-        PlaceStatic placeStatic = placeStaticRepository.findByPlaceId(placeId);
+        PlaceStatistic placeStatistic = placeStatisticRepository.findByPlaceId(placeId);
 
-        return new PlaceResponseDetailDto(place, placeStatic);
+        return new PlaceResponseDetailDto(place, placeStatistic);
     }
 
     public List<Place> getAllPlaces() {

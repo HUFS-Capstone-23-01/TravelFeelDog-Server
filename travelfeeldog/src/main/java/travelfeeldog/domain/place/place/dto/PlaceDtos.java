@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import travelfeeldog.domain.place.place.model.Place;
-import travelfeeldog.domain.place.place.model.PlaceStatic;
+import travelfeeldog.domain.place.place.model.PlaceStatistic;
 import travelfeeldog.domain.review.review.dto.ReviewDtos.SingleDescriptionAndNickNameDto;
 
 
@@ -26,7 +26,7 @@ public class PlaceDtos {
             this.placeName = place.getName();
             this.categoryName = place.getCategory().getName();
             this.address = place.getAddress();
-            this.likes = place.getPlaceStatic().getReviewCountGood();
+            this.likes = place.getPlaceStatistic().getReviewCountGood();
             this.goodKeyWords = place.getReviews().stream()
                     .flatMap(review -> review.getReviewGoodKeyWords().stream())
                     .map(goodKeyWord -> goodKeyWord.getGoodKeyWord().getKeyWordName())
@@ -122,7 +122,7 @@ public class PlaceDtos {
         private int mediumDogBadTotal;
         private int largeDogGoodTotal;
         private int largeDogBadTotal;
-        public PlaceResponseDetailDto(Place place, PlaceStatic placeStatic){
+        public PlaceResponseDetailDto(Place place, PlaceStatistic placeStatistic){
             this.id = place.getId();
             this.categoryId = place.getCategory().getId();
             this.name =place.getName();
@@ -135,15 +135,15 @@ public class PlaceDtos {
             this.longitude = place.getLongitude();
             this.facilityNames = place.getPlaceFacilities().stream().map(pf -> pf.getFacility().getName())
                     .collect(Collectors.toList());
-            this.reviewCountGood = placeStatic.getReviewCountGood();
-            this.reviewCountBad = placeStatic.getReviewCountBad();
-            this.reviewCountIdk = placeStatic.getReviewCountIdk();
-            this.smallDogGoodTotal = placeStatic.getSmallDogGoodTotal();
-            this.smallDogBadTotal = placeStatic.getSmallDogBadTotal();
-            this.mediumDogGoodTotal = placeStatic.getMediumDogGoodTotal();
-            this.mediumDogBadTotal = placeStatic.getMediumDogBadTotal();
-            this.largeDogGoodTotal = placeStatic.getLargeDogGoodTotal();
-            this.largeDogBadTotal = placeStatic.getLargeDogBadTotal();
+            this.reviewCountGood = placeStatistic.getReviewCountGood();
+            this.reviewCountBad = placeStatistic.getReviewCountBad();
+            this.reviewCountIdk = placeStatistic.getReviewCountIdk();
+            this.smallDogGoodTotal = placeStatistic.getSmallDogGoodTotal();
+            this.smallDogBadTotal = placeStatistic.getSmallDogBadTotal();
+            this.mediumDogGoodTotal = placeStatistic.getMediumDogGoodTotal();
+            this.mediumDogBadTotal = placeStatistic.getMediumDogBadTotal();
+            this.largeDogGoodTotal = placeStatistic.getLargeDogGoodTotal();
+            this.largeDogBadTotal = placeStatistic.getLargeDogBadTotal();
 
 
         }

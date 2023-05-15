@@ -70,7 +70,7 @@ public class Place extends BaseTimeEntity {
     private Location location;
 
     @OneToOne(mappedBy = "place", cascade = CascadeType.ALL)
-    private PlaceStatic placeStatic;
+    private PlaceStatistic placeStatistic;
     public void updateReviewCount(){
         this.reviewCount += 1;
     }

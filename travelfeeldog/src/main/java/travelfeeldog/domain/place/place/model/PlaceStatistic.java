@@ -15,7 +15,7 @@ import travelfeeldog.domain.review.review.model.RecommendStatus;
 
 @Getter @Setter
 @Entity
-public class PlaceStatic {
+public class PlaceStatistic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="place__static_id")
