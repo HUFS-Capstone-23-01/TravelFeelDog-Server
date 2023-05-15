@@ -28,7 +28,10 @@ public class CommentService {
     public CommentResponseDto postComment(String token,CommentRequestDto requestDto){
         Member member = memberService.findByToken(token);
         Feed feed = feedService.findByFeedId(requestDto.getFeedId());
-        Comment comment = new Comment( requestDto,member,feed);
+        Comment comment = new Comment();
+        comment.setFeed(feed);
+        comment.setContent(requestDto.getContent());
+        comment.setMember(member);
         commentRepository.save(comment);
         return new CommentResponseDto(comment);
     }
