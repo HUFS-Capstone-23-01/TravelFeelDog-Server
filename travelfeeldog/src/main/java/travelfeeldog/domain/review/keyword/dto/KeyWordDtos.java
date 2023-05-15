@@ -3,7 +3,6 @@ package travelfeeldog.domain.review.keyword.dto;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.Data;
-import lombok.Getter;
 import travelfeeldog.domain.review.keyword.model.BadKeyWord;
 import travelfeeldog.domain.review.keyword.model.GoodKeyWord;
 
@@ -21,7 +20,6 @@ public class KeyWordDtos {
                 this.categoryName = badKeyWord.getCategory().getName();
         }
     }
-    @Getter
     @Data
     public static class GoodKeyWordResponseDto {
         private Long goodKeyWordId;
@@ -31,7 +29,6 @@ public class KeyWordDtos {
             this.goodKeyWordName = goodKeyWord.getKeyWordName();
         }
     }
-    @Getter
     @Data
     public static class BadKeyWordResponseDto {
         private Long badKeyWordId;

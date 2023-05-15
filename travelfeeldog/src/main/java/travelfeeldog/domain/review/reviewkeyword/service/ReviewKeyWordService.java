@@ -1,28 +1,26 @@
 package travelfeeldog.domain.review.reviewkeyword.service;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import java.util.Objects;
 import java.util.stream.Collectors;
-import javax.persistence.CascadeType;
-import javax.persistence.OneToMany;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import travelfeeldog.domain.place.category.model.Category;
-import travelfeeldog.domain.place.category.service.CategoryService;
+
+import travelfeeldog.domain.member.service.MemberService;
 import travelfeeldog.domain.place.place.model.Place;
 import travelfeeldog.domain.place.place.service.PlaceService;
-import travelfeeldog.domain.review.keyword.dto.KeyWordDtos.BadKeyWordResponseDto;
-import travelfeeldog.domain.review.keyword.dto.KeyWordDtos.GoodKeyWordResponseDto;
+
 import travelfeeldog.domain.review.keyword.dto.KeyWordDtos.KeyWordResponseByCategoryDto;
-import travelfeeldog.domain.review.keyword.model.BadKeyWord;
-import travelfeeldog.domain.review.keyword.model.GoodKeyWord;
+
 import travelfeeldog.domain.review.keyword.service.KeyWordService;
 import travelfeeldog.domain.review.review.dto.ReviewDtos.ReviewPostRequestDto;
 import travelfeeldog.domain.review.review.model.Review;
 import travelfeeldog.domain.review.reviewkeyword.dao.ReviewGoodKeyWordRepository;
-import travelfeeldog.domain.review.reviewkeyword.dto.ReviewKeyWordDtos.ReviewBadKeyWordResponseDto;
-import travelfeeldog.domain.review.reviewkeyword.dto.ReviewKeyWordDtos.ReviewGoodKeyWordResponseDto;
+
+import travelfeeldog.domain.review.reviewkeyword.dto.ReviewKeyWordDtos.ReviewKeyWordResponseByCategoryDto;
+import travelfeeldog.domain.review.reviewkeyword.dto.ReviewKeyWordDtos.ReviewKeyWordResponseDto;
 import travelfeeldog.domain.review.reviewkeyword.model.ReviewBadKeyWord;
 import travelfeeldog.domain.review.reviewkeyword.dao.ReviewBadKeyWordRepository;
 import travelfeeldog.domain.review.reviewkeyword.model.ReviewGoodKeyWord;
@@ -35,6 +33,7 @@ public class ReviewKeyWordService {
     private final ReviewGoodKeyWordRepository reviewGoodKeyWordRepository;
     private final KeyWordService keyWordService;
     private final PlaceService placeService;
+    private final MemberService memberService;
     @Transactional
     public void saveReviewKeyWords(List<Long> badKeyWordIds , List<Long> goodKeyWordIds, Review review){
         for(Long id : badKeyWordIds){
@@ -47,20 +46,47 @@ public class ReviewKeyWordService {
     public void saveReviewKeyWords(ReviewPostRequestDto request,Review review){
         saveReviewKeyWords(request.getBadKeyWordIds(),request.getGoodKeyWordIds(),review);
     }
-    public void getGoodKeyWordsByPlace(Long placeId){ // need split
+    public ReviewKeyWordResponseByCategoryDto getGoodOrBadKeyWordsByPlace(Long placeId, String givenKeyWord,String token) {
+        memberService.findByToken(token);
         Place place = placeService.getPlaceById(placeId);
+        List<Long> reviewIds = place.getReviews().stream().map(Review::getId).toList();
         KeyWordResponseByCategoryDto allKeyWords = keyWordService.getAllKeyWordsByCategory(place.getCategory().getId());
+        List<ReviewKeyWordResponseDto> keyWords = null ;
 
-        List<ReviewGoodKeyWordResponseDto> goodKeyWords = allKeyWords.getGoodKeyWords().stream().map(ReviewGoodKeyWordResponseDto::new).toList();
-        List<ReviewBadKeyWordResponseDto> badKeyWords = allKeyWords.getBadKeyWords().stream().map(ReviewBadKeyWordResponseDto::new).toList();
+        if(givenKeyWord.equals("GOOD")) {
+            keyWords = allKeyWords.getGoodKeyWords().stream().map(ReviewKeyWordResponseDto::new).collect(Collectors.toList());
+            for(Long reviewId :reviewIds){
+                List<Long> goodKeyWordIds = reviewGoodKeyWordRepository.getAllGoodKeyWordIds(reviewId);
+                for(Long item : goodKeyWordIds){
+                        for(ReviewKeyWordResponseDto dto : keyWords){
+                            if(Objects.equals(dto.getKeyWordId(), item)){
+                                int num = dto.getKeyWordCount();
+                                num+=1;
+                                dto.setKeyWordCount(num);
+                            }
+                        }
 
-        List<Long> reviews = place.getReviews().stream().map(Review::getId).toList();
-        // need mapped by id count
-        for(Long reviewId :reviews){
-            List<Long> goodKeyWordIds = reviewGoodKeyWordRepository.getAllGoodKeyWordIds(reviewId);
-            List<Long> badKeyWordIds = reviewBadKeyWordRepository.getAllBadKeyWordIds(reviewId);
+                }
+            }
         }
 
+        if(givenKeyWord.equals("BAD")) {
+            keyWords = allKeyWords.getBadKeyWords().stream().map(ReviewKeyWordResponseDto::new).collect(Collectors.toList());
+            for(Long reviewId :reviewIds){
+                List<Long> badKeyWordIds = reviewBadKeyWordRepository.getAllBadKeyWordIds(reviewId);
+                for(Long item : badKeyWordIds){
+                    for(ReviewKeyWordResponseDto dto : keyWords){
+                        if(Objects.equals(dto.getKeyWordId(),item)){
+                            int num = dto.getKeyWordCount();
+                            num+=1;
+                            dto.setKeyWordCount(num);
+                        }
+                    }
+
+                }
+            }
+        }
+        return new ReviewKeyWordResponseByCategoryDto(keyWords);
     }
 }
 

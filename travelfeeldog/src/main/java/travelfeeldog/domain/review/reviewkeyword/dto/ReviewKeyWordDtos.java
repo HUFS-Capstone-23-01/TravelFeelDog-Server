@@ -7,34 +7,27 @@ import travelfeeldog.domain.review.keyword.dto.KeyWordDtos.GoodKeyWordResponseDt
 
 public class ReviewKeyWordDtos {
     @Data
-    public static class ReviewGoodKeyWordResponseDto {
-        private Long goodKeyWordId;
-        private String goodKeyWordName;
+    public static class ReviewKeyWordResponseDto {
+        private Long keyWordId;
+        private String keyWordName;
         private int keyWordCount;
-        public ReviewGoodKeyWordResponseDto(GoodKeyWordResponseDto goodKeyWord){
-            this.goodKeyWordId =goodKeyWord.getGoodKeyWordId();
-            this.goodKeyWordName = goodKeyWord.getGoodKeyWordName();
+        public ReviewKeyWordResponseDto(GoodKeyWordResponseDto goodKeyWord){
+            this.keyWordId =goodKeyWord.getGoodKeyWordId();
+            this.keyWordName = goodKeyWord.getGoodKeyWordName();
+            keyWordCount = 0;
+        }
+        public ReviewKeyWordResponseDto(BadKeyWordResponseDto badKeyWord){
+            this.keyWordId = badKeyWord.getBadKeyWordId();
+            this.keyWordName = badKeyWord.getBadKeyWordName();
             keyWordCount = 0;
         }
     }
-    @Data
-    public static class ReviewBadKeyWordResponseDto {
-        private Long badKeyWordId;
-        private String badKeyWordName;
-        private int keyWordCount;
-        public ReviewBadKeyWordResponseDto(BadKeyWordResponseDto badKeyWord){
-            this.badKeyWordId = badKeyWord.getBadKeyWordId();
-            this.badKeyWordName = badKeyWord.getBadKeyWordName();
-            keyWordCount = 0;
-        }
-    }
+
     @Data
     public static class ReviewKeyWordResponseByCategoryDto{
-        private List<ReviewGoodKeyWordResponseDto> goodKeyWords;
-        private List<ReviewBadKeyWordResponseDto> badKeyWords;
-//        public ReviewKeyWordResponseByCategoryDto(List<GoodKeyWord> goodKeyWords ,List<BadKeyWord> badKeyWords){
-//            this.goodKeyWords = goodKeyWords.stream().map(KeyWordDtos.GoodKeyWordResponseDto::new).collect(Collectors.toList());
-//            this.badKeyWords = badKeyWords.stream().map(KeyWordDtos.BadKeyWordResponseDto::new).collect(Collectors.toList());
-//        }
+        private List<ReviewKeyWordResponseDto> keyWords;
+        public ReviewKeyWordResponseByCategoryDto ( List<ReviewKeyWordResponseDto> reviewKeyWordResponseDto){
+            this.keyWords = reviewKeyWordResponseDto;
+        }
     }
 }
