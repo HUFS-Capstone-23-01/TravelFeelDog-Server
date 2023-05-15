@@ -1,6 +1,8 @@
 package travelfeeldog.domain.feed.comment.service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import travelfeeldog.domain.feed.feed.model.Feed;
 import travelfeeldog.domain.feed.feed.service.FeedService;
 import travelfeeldog.domain.member.model.Member;
 import travelfeeldog.domain.member.service.MemberService;
+import travelfeeldog.global.common.model.BaseTimeEntity;
 
 @Transactional(readOnly = true)
 @Service
@@ -29,7 +32,7 @@ public class CommentService {
         commentRepository.save(comment);
         return new CommentResponseDto(comment);
     }
-    public Boolean deleteComment(Long commentId){
+    public Boolean deleteComment(String token, Long commentId){
         try{
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new EntityNotFoundException("Comment not found with ID"));;
@@ -39,7 +42,11 @@ public class CommentService {
             return false;
         }
     }
-    public List<CommentResponseDto> getAllCommentByFeedId(Long feedId){
-
+    public List<CommentResponseDto> getAllCommentByFeedId(String token , Long feedId){
+        memberService.findByToken(token);
+        List<Comment> comments = commentRepository.findAllByFeedId(feedId)
+                .stream()
+                .sorted(Comparator.comparing(BaseTimeEntity::getCreatedDateTime).reversed()).toList();
+        return comments.stream().map(CommentResponseDto::new).collect(Collectors.toList());
     }
 }

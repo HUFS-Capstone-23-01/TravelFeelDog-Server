@@ -84,6 +84,9 @@ public class FeedService {
         List<Feed> feeds = feedRepository.findByNickName(nickName);
         return feeds;
     }
+    public Feed findByFeedId(Long id ){
+        return null ;
+    };
 }
 /*
 *내일 할일 : feed Post 동작 확인
