@@ -61,9 +61,9 @@ public class FeedApiController {
     }
 
     @GetMapping(value = "/list",produces = "application/json;charset=UTF-8")
-    public ApiResponse getFeedList() {
+    public ApiResponse getFeedList(@RequestParam("page") int page) {
         List<FeedListResponseDto> list = new ArrayList<>();
-        list.addAll(feedService.getListAll().stream().map(FeedListResponseDto::new).toList());
+        list.addAll(feedService.getListAll(page).stream().map(FeedListResponseDto::new).toList());
         return ApiResponse.success(list);
     }
     /* Progress will be in FeedTagApiController
@@ -85,7 +85,7 @@ public class FeedApiController {
     }
 
     @GetMapping(value = "/detail/static", produces = "application/json;charset=UTF-8")
-    public ApiResponse getFeedStaticById(@RequestParam("id") String id) {
+    public ApiResponse getFeedStaticById(@RequestParam(value = "id") String id) {
         try {
             Feed feed = feedService.getFeedStaticsById(id);
             return ApiResponse.success(new FeedStaticResponseDto(feed));
