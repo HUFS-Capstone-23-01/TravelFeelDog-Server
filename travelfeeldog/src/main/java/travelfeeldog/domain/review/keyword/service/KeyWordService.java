@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import travelfeeldog.domain.place.category.model.Category;
 import travelfeeldog.domain.place.category.service.CategoryService;
-import travelfeeldog.domain.place.place.service.PlaceService;
 import travelfeeldog.domain.review.keyword.dto.KeyWordDtos.KeyWordResponseByCategoryDto;
 import travelfeeldog.domain.review.keyword.dto.KeyWordDtos.KeyWordResponseDto;
 import travelfeeldog.domain.review.keyword.model.BadKeyWord;
