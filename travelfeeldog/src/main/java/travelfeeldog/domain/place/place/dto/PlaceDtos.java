@@ -15,14 +15,16 @@ public class PlaceDtos {
     public static class PlaceSearchResponseDto{
         private Long id;
         private String thumbNailImageUrl;
-        private String name;
+        private String placeName;
+        private String categoryName;
         private String address;
         private int likes;
         public List<String> goodKeyWords;
         public PlaceSearchResponseDto(Place place) {
             this.id = place.getId();
             this.thumbNailImageUrl = place.getThumbNailImageUrl();
-            this.name = place.getName();
+            this.placeName = place.getName();
+            this.categoryName = place.getCategory().getName();
             this.address = place.getAddress();
             this.likes = place.getPlaceStatic().getReviewCountGood();
             this.goodKeyWords = place.getReviews().stream()
