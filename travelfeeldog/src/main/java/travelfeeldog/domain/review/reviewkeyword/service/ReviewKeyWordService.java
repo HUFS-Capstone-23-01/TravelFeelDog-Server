@@ -2,10 +2,13 @@ package travelfeeldog.domain.review.reviewkeyword.service;
 
 import java.util.List;
 
+import java.util.Objects;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import travelfeeldog.domain.member.service.MemberService;
 import travelfeeldog.domain.place.place.model.Place;
 import travelfeeldog.domain.place.place.service.PlaceService;
 
@@ -30,6 +33,7 @@ public class ReviewKeyWordService {
     private final ReviewGoodKeyWordRepository reviewGoodKeyWordRepository;
     private final KeyWordService keyWordService;
     private final PlaceService placeService;
+    private final MemberService memberService;
     @Transactional
     public void saveReviewKeyWords(List<Long> badKeyWordIds , List<Long> goodKeyWordIds, Review review){
         for(Long id : badKeyWordIds){
@@ -42,26 +46,47 @@ public class ReviewKeyWordService {
     public void saveReviewKeyWords(ReviewPostRequestDto request,Review review){
         saveReviewKeyWords(request.getBadKeyWordIds(),request.getGoodKeyWordIds(),review);
     }
-    public ReviewKeyWordResponseByCategoryDto getGoodOrBadKeyWordsByPlace(Long placeId, String keyWord) { // need split
-        List<ReviewKeyWordResponseDto> keyWords = null;
+    public ReviewKeyWordResponseByCategoryDto getGoodOrBadKeyWordsByPlace(Long placeId, String givenKeyWord,String token) {
+        memberService.findByToken(token);
         Place place = placeService.getPlaceById(placeId);
-        List<Long> reviews = place.getReviews().stream().map(Review::getId).toList();
+        List<Long> reviewIds = place.getReviews().stream().map(Review::getId).toList();
         KeyWordResponseByCategoryDto allKeyWords = keyWordService.getAllKeyWordsByCategory(place.getCategory().getId());
-        if(keyWord.equals("GOOD")) {
-            keyWords = allKeyWords.getGoodKeyWords().stream().map(
-                    ReviewKeyWordResponseDto::new).toList();
-            for(Long reviewId :reviews){
+        List<ReviewKeyWordResponseDto> keyWords = null ;
+
+        if(givenKeyWord.equals("GOOD")) {
+            keyWords = allKeyWords.getGoodKeyWords().stream().map(ReviewKeyWordResponseDto::new).collect(Collectors.toList());
+            for(Long reviewId :reviewIds){
                 List<Long> goodKeyWordIds = reviewGoodKeyWordRepository.getAllGoodKeyWordIds(reviewId);
-            }
-        }
-        if(keyWord.equals("BAD")) {
-            keyWords = allKeyWords.getBadKeyWords().stream().map(ReviewKeyWordResponseDto::new).toList();
-            for(Long reviewId :reviews){
-                List<Long> goodKeyWordIds = reviewGoodKeyWordRepository.getAllGoodKeyWordIds(reviewId);
+                for(Long item : goodKeyWordIds){
+                        for(ReviewKeyWordResponseDto dto : keyWords){
+                            if(Objects.equals(dto.getKeyWordId(), item)){
+                                int num = dto.getKeyWordCount();
+                                num+=1;
+                                dto.setKeyWordCount(num);
+                            }
+                        }
+
+                }
             }
         }
 
-        return
+        if(givenKeyWord.equals("BAD")) {
+            keyWords = allKeyWords.getBadKeyWords().stream().map(ReviewKeyWordResponseDto::new).collect(Collectors.toList());
+            for(Long reviewId :reviewIds){
+                List<Long> badKeyWordIds = reviewBadKeyWordRepository.getAllBadKeyWordIds(reviewId);
+                for(Long item : badKeyWordIds){
+                    for(ReviewKeyWordResponseDto dto : keyWords){
+                        if(Objects.equals(dto.getKeyWordId(),item)){
+                            int num = dto.getKeyWordCount();
+                            num+=1;
+                            dto.setKeyWordCount(num);
+                        }
+                    }
+
+                }
+            }
+        }
+        return new ReviewKeyWordResponseByCategoryDto(keyWords);
     }
 }
 

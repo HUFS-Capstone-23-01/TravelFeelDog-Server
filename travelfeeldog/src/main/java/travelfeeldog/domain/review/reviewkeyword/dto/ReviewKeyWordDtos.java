@@ -26,6 +26,8 @@ public class ReviewKeyWordDtos {
     @Data
     public static class ReviewKeyWordResponseByCategoryDto{
         private List<ReviewKeyWordResponseDto> keyWords;
-
+        public ReviewKeyWordResponseByCategoryDto ( List<ReviewKeyWordResponseDto> reviewKeyWordResponseDto){
+            this.keyWords = reviewKeyWordResponseDto;
+        }
     }
 }
