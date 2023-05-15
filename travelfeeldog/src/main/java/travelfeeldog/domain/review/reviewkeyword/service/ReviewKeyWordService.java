@@ -51,42 +51,41 @@ public class ReviewKeyWordService {
         Place place = placeService.getPlaceById(placeId);
         List<Long> reviewIds = place.getReviews().stream().map(Review::getId).toList();
         KeyWordResponseByCategoryDto allKeyWords = keyWordService.getAllKeyWordsByCategory(place.getCategory().getId());
-        List<ReviewKeyWordResponseDto> keyWords = null ;
 
         if(givenKeyWord.equals("GOOD")) {
-            keyWords = allKeyWords.getGoodKeyWords().stream().map(ReviewKeyWordResponseDto::new).collect(Collectors.toList());
-            for(Long reviewId :reviewIds){
-                List<Long> goodKeyWordIds = reviewGoodKeyWordRepository.getAllGoodKeyWordIds(reviewId);
-                for(Long item : goodKeyWordIds){
-                        for(ReviewKeyWordResponseDto dto : keyWords){
-                            if(Objects.equals(dto.getKeyWordId(), item)){
-                                int num = dto.getKeyWordCount();
-                                num+=1;
-                                dto.setKeyWordCount(num);
-                            }
-                        }
-
+            List<ReviewKeyWordResponseDto> keyWords = setGood(allKeyWords,reviewIds);
+            return new ReviewKeyWordResponseByCategoryDto(keyWords);
+        }
+        else {
+            List<ReviewKeyWordResponseDto> keyWords = setBad(allKeyWords,reviewIds);
+            return new ReviewKeyWordResponseByCategoryDto(keyWords);
+        }
+    }
+    private List<ReviewKeyWordResponseDto> setGood(KeyWordResponseByCategoryDto allKeyWords,List<Long> reviewIds){
+        List<ReviewKeyWordResponseDto> keyWords = allKeyWords.getGoodKeyWords().stream().map(ReviewKeyWordResponseDto::new).collect(Collectors.toList());
+        for(Long reviewId :reviewIds){
+            update(reviewGoodKeyWordRepository.getAllGoodKeyWordIds(reviewId),keyWords);
+        }
+        return keyWords;
+    }
+    private List<ReviewKeyWordResponseDto> setBad(KeyWordResponseByCategoryDto allKeyWords,List<Long> reviewIds){
+        List<ReviewKeyWordResponseDto> keyWords = allKeyWords.getBadKeyWords().stream().map(ReviewKeyWordResponseDto::new).collect(Collectors.toList());
+        for(Long reviewId :reviewIds){
+            update(reviewBadKeyWordRepository.getAllBadKeyWordIds(reviewId),keyWords);
+        }
+        return keyWords;
+    }
+    private void update(List<Long> keyWordIds,List<ReviewKeyWordResponseDto> keyWords){
+        for(Long item : keyWordIds){
+            for(ReviewKeyWordResponseDto dto : keyWords){
+                if(Objects.equals(dto.getKeyWordId(), item)){
+                    int num = dto.getKeyWordCount();
+                    num+=1;
+                    dto.setKeyWordCount(num);
                 }
             }
-        }
 
-        if(givenKeyWord.equals("BAD")) {
-            keyWords = allKeyWords.getBadKeyWords().stream().map(ReviewKeyWordResponseDto::new).collect(Collectors.toList());
-            for(Long reviewId :reviewIds){
-                List<Long> badKeyWordIds = reviewBadKeyWordRepository.getAllBadKeyWordIds(reviewId);
-                for(Long item : badKeyWordIds){
-                    for(ReviewKeyWordResponseDto dto : keyWords){
-                        if(Objects.equals(dto.getKeyWordId(),item)){
-                            int num = dto.getKeyWordCount();
-                            num+=1;
-                            dto.setKeyWordCount(num);
-                        }
-                    }
-
-                }
-            }
         }
-        return new ReviewKeyWordResponseByCategoryDto(keyWords);
     }
 }
 
