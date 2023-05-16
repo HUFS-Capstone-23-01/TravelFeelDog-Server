@@ -14,7 +14,15 @@ import java.util.List;
 
 
 public class FeedDtos {
-
+    @Getter
+    public static class FeedCollectByMemberDetailResponseDto {
+        private final Long id;
+        private final String title;
+        public FeedCollectByMemberDetailResponseDto(Feed feed){
+            this.id=feed.getId();
+            this.title = feed.getTitle();
+        }
+    }
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class FeedPostRequestDto {
@@ -24,9 +32,6 @@ public class FeedDtos {
         //private List<String> feedImagesUrls = new ArrayList<>();
         //private List<String> feedTags = new ArrayList<>();
     }
-
-
-
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class FeedStaticResponseDto {
@@ -50,7 +55,6 @@ public class FeedDtos {
             this.feedTags.addAll(feed.getFeedTags().stream().map(f -> f.getTag().getTagContent()).distinct().toList());
         }
     }
-
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class FeedListResponseDto {
