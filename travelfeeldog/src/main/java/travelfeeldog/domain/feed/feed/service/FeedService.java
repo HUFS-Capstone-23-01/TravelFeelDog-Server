@@ -24,7 +24,6 @@ public class FeedService {
 
     private final FeedRepository feedRepository;
     private final MemberRepository memberRepository;
-    private final FeedImagesRepository feedImagesRepository;
     private final TagRepository tagRepository;
 
     @Transactional
