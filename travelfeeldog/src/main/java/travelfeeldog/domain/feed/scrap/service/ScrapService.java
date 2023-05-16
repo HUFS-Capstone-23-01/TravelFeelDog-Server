@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import travelfeeldog.domain.feed.feed.dto.FeedDtos.FeedCollectByMemberDetailResponseDto;
+import travelfeeldog.domain.feed.feed.model.Feed;
 import travelfeeldog.domain.feed.feed.service.FeedService;
 import travelfeeldog.domain.feed.scrap.dao.ScrapRepository;
 import travelfeeldog.domain.feed.scrap.dto.ScrapDtos.ScrapRequestDto;
@@ -21,18 +22,23 @@ public class ScrapService {
     private final FeedService feedService;
     @Transactional
     public Boolean addNewScrap(String token, ScrapRequestDto requestDto) {
-        Scrap scrap = new Scrap(memberService.findByToken(token), feedService.findByFeedId(requestDto.getFeedId()));
-        return scrapRepository.findScrapByMemberIdAndFeedId(scrap.getMember().getId(), requestDto.getFeedId())
-                .map(existingScrap -> false)
-                .orElseGet(() -> {
-                    scrapRepository.save(scrap);
-                    return true;
-                });
+        Member member = memberService.findByToken(token);
+        Long memberId = member.getId();
+        Long feedId = requestDto.getFeedId();
+
+        List<Scrap> existingScraps = scrapRepository.findScrapsByMemberIdAndFeedId(memberId, feedId);
+        if (!existingScraps.isEmpty()) {
+            return false;
+        }
+        Feed feed = feedService.findByFeedId(feedId);
+        Scrap scrap = new Scrap(member, feed);
+        scrapRepository.save(scrap);
+        return true;
     }
+
 
     public List<FeedCollectByMemberDetailResponseDto> getAllMemberScrap(String token) {
         Member member = memberService.findByToken(token);
-        return null;
-//        return scrapRepository.findAllFeedByMemberId(member.getId()).stream().map(FeedCollectByMemberDetailResponseDto::new).toList();
+        return scrapRepository.findAllFeedByMemberId(member.getId()).stream().map(FeedCollectByMemberDetailResponseDto::new).toList();
     }
 }
