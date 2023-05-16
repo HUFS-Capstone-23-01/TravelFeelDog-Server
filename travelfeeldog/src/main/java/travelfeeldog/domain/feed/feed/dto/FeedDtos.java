@@ -38,7 +38,7 @@ public class FeedDtos {
         private Long id;
         private String writerToken;
         private int likes;
-        private int scrabs;
+        private int scraps;
         private String title;
         private String body;
         private List<String> feedImages = new ArrayList<>();
@@ -48,7 +48,7 @@ public class FeedDtos {
             this.id = feed.getId();
             this.writerToken = feed.getMember().getToken();
             this.likes = feed.getLikes();
-            this.scrabs = feed.getScraps();
+            this.scraps = feed.getScraps();
             this.title = feed.getTitle();
             this.body = feed.getBody();
             this.feedImages.addAll(feed.getFeedImages().stream().map(FeedImages::getFeedImageUrl).distinct().toList());
@@ -61,7 +61,7 @@ public class FeedDtos {
         private MemberResponse member;
         private Long id;
         private int likes;
-        private int scrabs;
+        private int scraps;
         private String title;
         private String body;
         private String feedImagesUrl;
@@ -71,7 +71,7 @@ public class FeedDtos {
             this.member = new MemberResponse(feed.getMember());
             this.id = feed.getId();
             this.likes = feed.getLikes();
-            this.scrabs = feed.getScraps();
+            this.scraps = feed.getScraps();
             this.title = feed.getTitle();
             this.body = feed.getBody();
             if (feed.getFeedImages().isEmpty()) {

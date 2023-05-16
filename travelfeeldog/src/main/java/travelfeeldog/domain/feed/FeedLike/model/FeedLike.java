@@ -36,4 +36,11 @@ public class FeedLike extends BaseTimeEntity{
     public static FeedLike FeedLike(Member member, Feed feed) {
         return new FeedLike(member, feed);
     }
+
+    public void setMemberAndFeed(Member member, Feed feed) {
+        this.member = member;
+        this.feed = feed;
+        member.getFeedLikes().add(this);
+        feed.getFeedLikes().add(this);
+    }
 }
