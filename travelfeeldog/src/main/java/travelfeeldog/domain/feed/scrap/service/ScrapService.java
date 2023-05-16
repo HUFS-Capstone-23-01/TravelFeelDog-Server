@@ -19,16 +19,20 @@ public class ScrapService {
     private final ScrapRepository scrapRepository;
     private final MemberService memberService;
     private final FeedService feedService;
-    public Boolean addNewScrap(String token ,ScrapRequestDto requestDto) {
-        Scrap scrap = new Scrap(memberService.findByToken(token),feedService.findByFeedId(requestDto.getFeedId()));
-        if(scrapRepository.isNew(scrap)){
-            scrapRepository.save(scrap);
-            return true;
-        }
-        return false;
+    @Transactional
+    public Boolean addNewScrap(String token, ScrapRequestDto requestDto) {
+        Scrap scrap = new Scrap(memberService.findByToken(token), feedService.findByFeedId(requestDto.getFeedId()));
+        return scrapRepository.findScrapByMemberIdAndFeedId(scrap.getMember().getId(), requestDto.getFeedId())
+                .map(existingScrap -> false)
+                .orElseGet(() -> {
+                    scrapRepository.save(scrap);
+                    return true;
+                });
     }
+
     public List<FeedCollectByMemberDetailResponseDto> getAllMemberScrap(String token) {
         Member member = memberService.findByToken(token);
-        return scrapRepository.findAllFeedByMemberId(member.getId()).stream().map(FeedCollectByMemberDetailResponseDto::new).toList();
+        return null;
+//        return scrapRepository.findAllFeedByMemberId(member.getId()).stream().map(FeedCollectByMemberDetailResponseDto::new).toList();
     }
 }

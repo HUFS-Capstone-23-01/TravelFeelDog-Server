@@ -8,7 +8,7 @@ public class ScrapDtos {
     @Data
     @NoArgsConstructor
     public static class ScrapRequestDto{
-        private Long FeedId; 
+        private Long feedId;
     }
     
 }
