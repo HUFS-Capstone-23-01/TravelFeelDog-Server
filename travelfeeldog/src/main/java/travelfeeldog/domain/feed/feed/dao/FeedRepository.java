@@ -58,7 +58,7 @@ public class FeedRepository {
         return feeds;
     }
 
-    public Optional<Feed> getFeedStaticData(Long id) {
+    public Optional<Feed> findFeedDetail(Long id) {
         try {
             Feed feed = em.createQuery("select f from Feed f " +
                             "where f.id = :id", Feed.class)
