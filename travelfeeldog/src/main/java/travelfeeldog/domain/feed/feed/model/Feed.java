@@ -152,10 +152,10 @@ public class Feed extends BaseTimeEntity {
         FeedLike feedLike = FeedLike.FeedLike(member, this);
         this.addLikes(isAddNow);
         if(isAddNow) {
-            this.feedlikes.add(feedLike);
+            this.feedLikes.add(feedLike);
         }
         else {
-            this.feedlikes.remove(feedLike);
+            this.feedLikes.remove(feedLike);
         }
     }
 
