@@ -14,6 +14,7 @@ import travelfeeldog.domain.feed.tag.model.Tag;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Transactional(readOnly = true)
@@ -65,16 +66,14 @@ public class FeedService {
         return result;
     }
 
-    public Feed getFeedStaticsById(String id) {
-        return feedRepository.getFeedStaticData(Long.parseLong(id))
-                .orElseThrow(() -> new IllegalStateException("search error"));
-    }
-    public Optional<Feed> getFeedStaticsById(Long id) {
-        return feedRepository.getFeedStaticData(id);
+    public Feed getFeedStaticsById(Long id) {
+        Optional<Feed> feed = feedRepository.getFeedStaticData(id);
+        return feed.orElseThrow(() -> new NoSuchElementException("Feed details loading is failed."));
+
     }
 
     @Transactional
-    public void deleteFeed(String id) { feedRepository.deleteById(Long.parseLong(id)); }
+    public void deleteFeed(Long id) { feedRepository.deleteById(id); }
 
     public List<Feed> getListAll(int page) {
         int offset = (page-1) * 6;
@@ -82,8 +81,9 @@ public class FeedService {
         return feeds;
     }
 
-    public List<Feed> getListByNickName(String nickName) {
-        List<Feed> feeds = feedRepository.findByNickName(nickName);
+    public List<Feed> getListByNickName(String nickName, int page) {
+        int offset = (page-1) * 6;
+        List<Feed> feeds = feedRepository.findListByNickName(nickName, offset);
         return feeds;
     }
 

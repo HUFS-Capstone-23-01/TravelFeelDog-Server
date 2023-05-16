@@ -50,7 +50,7 @@ public class FeedApiController {
 
     @DeleteMapping(value = "/detail", produces = "application/json;charset=UTF-8")
     public ApiResponse deleteFeedById(@RequestHeader("Authorization") String firebaseToken,
-                                      @RequestParam("feedId") String id) {
+                                      @RequestParam("feedId") Long id) {
         Feed feed = feedService.getFeedStaticsById(id);
 
         if(feed.getMember().getToken().equals(firebaseToken)) {
@@ -75,8 +75,10 @@ public class FeedApiController {
     */
 
     @GetMapping(value = "/list/searchNickName", produces = "application/json;charset=UTF-8")
-    public ApiResponse getFeedListByNickName(@RequestParam("nickName") String nickName) {
-        List<Feed> feeds = feedService.getListByNickName(nickName);
+    public ApiResponse getFeedListByNickName(
+            @RequestParam("nickName") String nickName,
+            @RequestParam("page") int page) {
+        List<Feed> feeds = feedService.getListByNickName(nickName, page);
         if(feeds.isEmpty()) {
             return ApiResponse.success(false);
         }
@@ -85,7 +87,7 @@ public class FeedApiController {
     }
 
     @GetMapping(value = "/detail/static", produces = "application/json;charset=UTF-8")
-    public ApiResponse getFeedStaticById(@RequestParam(value = "id") String id) {
+    public ApiResponse getFeedStaticById(@RequestParam(value = "feedId") Long id) {
         try {
             Feed feed = feedService.getFeedStaticsById(id);
             return ApiResponse.success(new FeedStaticResponseDto(feed));
@@ -93,11 +95,4 @@ public class FeedApiController {
             return ApiResponse.success(false);
         }
     }
-
-    /* Progress will be in Comment
-    @GetMapping(value = "/detail/comments", produces = "application/json;charset=UTF-8")
-    public ApiResponse getFeedCommentsById(@RequestParam("id") String id) {
-        return ApiResponse.success(new FeedCommentsResponseDto(feedService.getFeedCommentsById(id)));
-    }
-    */
 }
