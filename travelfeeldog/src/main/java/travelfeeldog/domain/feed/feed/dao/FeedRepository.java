@@ -7,6 +7,7 @@ import travelfeeldog.domain.member.model.Member;
 import travelfeeldog.domain.feed.tag.model.Tag;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
@@ -46,13 +47,16 @@ public class FeedRepository {
         em.remove(feed);
     }
 
-    public List<Feed> findByNickName(String nickName) {
+    public List<Feed> findListByNickName(String nickName, int offset) {
         List<Feed> feeds = em.createQuery("select f from Feed f " +
                         "left join fetch f.feedImages " +
                         "left join fetch f.feedTags " +
                         "where f.member.nickName = :nickName " +
                         "order by f.createdDateTime desc", Feed.class)
-                .setParameter("nickName",nickName).getResultList();
+                .setParameter("nickName",nickName)
+                .setFirstResult(offset)
+                .setMaxResults(6)
+                .getResultList();
         return feeds;
     }
 
@@ -63,7 +67,7 @@ public class FeedRepository {
                     .setParameter("id", id)
                     .getSingleResult();
             return Optional.of(feed);
-        } catch (IllegalArgumentException e) {
+        } catch (NoResultException e) {
             return Optional.empty();
         }
     }
@@ -87,7 +91,6 @@ public class FeedRepository {
         } catch (IllegalStateException e) {
             return Optional.empty();
         }
-
     }
 
     public List<Feed> getListAll(int offset) {
