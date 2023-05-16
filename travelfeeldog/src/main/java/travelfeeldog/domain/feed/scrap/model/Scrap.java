@@ -1,4 +1,4 @@
-package travelfeeldog.domain.feed.scrab.model;
+package travelfeeldog.domain.feed.scrap.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -29,4 +29,11 @@ public class Scrap {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "feed_id")
     private Feed feed;
+    protected Scrap(){
+
+    }
+    public Scrap(Member member , Feed feed){
+        this.member = member;
+        this.feed =feed;
+    }
 }
