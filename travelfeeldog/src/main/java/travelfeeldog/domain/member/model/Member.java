@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import travelfeeldog.domain.feed.FeedLike.model.FeedLike;
 import travelfeeldog.domain.feed.feed.model.Feed;
+import travelfeeldog.domain.feed.scrap.model.Scrap;
 import travelfeeldog.domain.review.review.model.Review;
-import travelfeeldog.domain.feed.scrab.model.Scrab;
 import travelfeeldog.global.common.model.BaseTimeEntity;
 
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ public class Member extends BaseTimeEntity{
     private List<FeedLike> feedLikes = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Scrab> scrabs = new ArrayList<>();
+    private List<Scrap> scraps = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
@@ -88,10 +88,6 @@ public class Member extends BaseTimeEntity{
     public void addFeedLike(FeedLike feedLike) {
         feedLikes.add(feedLike);
         feedLike.setMember(this);
-    }
-    public void addScrab(Scrab scrab) {
-        scrabs.add(scrab);
-        scrab.setMember(this);
     }
     public void addReview(Review review) {
         reviews.add(review);
