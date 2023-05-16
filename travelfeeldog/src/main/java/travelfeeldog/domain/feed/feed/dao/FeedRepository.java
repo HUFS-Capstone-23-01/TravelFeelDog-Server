@@ -49,8 +49,6 @@ public class FeedRepository {
 
     public List<Feed> findListByNickName(String nickName, int offset) {
         List<Feed> feeds = em.createQuery("select f from Feed f " +
-                        "left join fetch f.feedImages " +
-                        "left join fetch f.feedTags " +
                         "where f.member.nickName = :nickName " +
                         "order by f.createdDateTime desc", Feed.class)
                 .setParameter("nickName",nickName)
