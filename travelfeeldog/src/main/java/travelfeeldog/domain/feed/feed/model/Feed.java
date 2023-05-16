@@ -55,6 +55,7 @@ public class Feed extends BaseTimeEntity {
     private List<Scrap> feedScraps = new ArrayList<>();
 
     @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL, orphanRemoval = true)
+
     private List<FeedLike> feedLikes = new ArrayList<>();
 
     private Feed(Member member, int likes, int scraps, String title, String body) {
@@ -108,11 +109,11 @@ public class Feed extends BaseTimeEntity {
         return feed;
     }
 
-    public void addLikes() {
+    private void addLikes(boolean AddIsTrue) {
         this.likes = this.likes + 1;
     }
 
-    public void addScraps() {
+    private void addScraps(boolean AddIsTrue) {
         this.scraps = this.scraps + 1;
     }
 
@@ -134,6 +135,28 @@ public class Feed extends BaseTimeEntity {
 
     public void addLikes(Member member) {
         FeedLike feedLike = FeedLike.FeedLike(member, this);
+    }
+
+    public void addScrap(Member member, boolean isAddNow) {
+        Scrap scrap = Scrap.Scrap(member, this);
+        this.addScraps(isAddNow);
+        if(isAddNow) {
+            this.feedScraps.add(scrap);
+        }
+        else {
+            this.feedScraps.remove(scraps);
+        }
+    }
+
+    public void addLike(Member member, boolean isAddNow) {
+        FeedLike feedLike = FeedLike.FeedLike(member, this);
+        this.addLikes(isAddNow);
+        if(isAddNow) {
+            this.feedlikes.add(feedLike);
+        }
+        else {
+            this.feedlikes.remove(feedLike);
+        }
     }
 
     public void addComment(Comment comment) {

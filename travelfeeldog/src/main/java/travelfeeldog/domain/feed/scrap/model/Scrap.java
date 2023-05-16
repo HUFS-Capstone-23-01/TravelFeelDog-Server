@@ -36,4 +36,16 @@ public class Scrap {
         this.member = member;
         this.feed =feed;
     }
+
+    public static Scrap Scrap(Member member, Feed feed) {
+        return new Scrap(member, feed);
+    }
+
+    public void setMemberAndFeed(Member member, Feed feed) {
+        this.member = member;
+        this.feed = feed;
+        member.getScraps().add(this);
+        feed.getFeedScraps().add(this);
+    }
+
 }
