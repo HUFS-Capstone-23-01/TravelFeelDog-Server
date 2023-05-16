@@ -4,7 +4,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import travelfeeldog.domain.feed.FeedLike.model.FeedLike;
 import travelfeeldog.domain.feed.comment.model.Comment;
+import travelfeeldog.domain.feed.scrap.model.Scrap;
 import travelfeeldog.domain.member.model.Member;
 import travelfeeldog.domain.feed.tag.model.Tag;
 import travelfeeldog.global.common.model.BaseTimeEntity;
@@ -48,6 +50,12 @@ public class Feed extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Scrap> feedScraps = new ArrayList<>();
+
+    @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FeedLike> feedLikes = new ArrayList<>();
 
     private Feed(Member member, int likes, int scraps, String title, String body) {
         this.member = member;
@@ -118,7 +126,14 @@ public class Feed extends BaseTimeEntity {
     public void addTag(Tag tag) {
         FeedTag feedTag = new FeedTag();
         feedTag.setTagAndFeed(tag, this);
-        this.feedTags.add(feedTag);
+    }
+
+    public void addScrap(Member member) {
+        Scrap scrap = Scrap.Scrap(member, this);
+    }
+
+    public void addLikes(Member member) {
+        FeedLike feedLike = FeedLike.FeedLike(member, this);
     }
 
     public void addComment(Comment comment) {
