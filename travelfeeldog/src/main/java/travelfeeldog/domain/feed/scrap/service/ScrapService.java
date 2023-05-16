@@ -4,14 +4,13 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import travelfeeldog.domain.feed.feed.dto.FeedDtos.FeedCollectByMemberDetailResponseDto;
 import travelfeeldog.domain.feed.feed.service.FeedService;
 import travelfeeldog.domain.feed.scrap.dao.ScrapRepository;
 import travelfeeldog.domain.feed.scrap.dto.ScrapDtos.ScrapRequestDto;
 import travelfeeldog.domain.feed.scrap.model.Scrap;
 import travelfeeldog.domain.member.model.Member;
 import travelfeeldog.domain.member.service.MemberService;
-import travelfeeldog.domain.place.place.model.Place;
-
 
 @Transactional(readOnly = true)
 @Service
@@ -28,8 +27,8 @@ public class ScrapService {
         }
         return false;
     }
-    public List<Place> getAllMemberScrap(String token) {
+    public List<FeedCollectByMemberDetailResponseDto> getAllMemberScrap(String token) {
         Member member = memberService.findByToken(token);
-        return scrapRepository.findAllPlaceByMemberId(member.getId());
+        return scrapRepository.findAllFeedByMemberId(member.getId()).stream().map(FeedCollectByMemberDetailResponseDto::new).toList();
     }
 }
