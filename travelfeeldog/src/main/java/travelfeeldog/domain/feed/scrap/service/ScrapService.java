@@ -21,10 +21,10 @@ public class ScrapService {
     private final FeedService feedService;
     public Boolean addNewScrap(String token ,ScrapRequestDto requestDto) {
         Scrap scrap = new Scrap(memberService.findByToken(token),feedService.findByFeedId(requestDto.getFeedId()));
-        if(scrapRepository.isNew(scrap)){
+        if(scrap.isNew()){
             scrapRepository.save(scrap);
             return true;
-        }
+        };
         return false;
     }
     public List<FeedCollectByMemberDetailResponseDto> getAllMemberScrap(String token) {
