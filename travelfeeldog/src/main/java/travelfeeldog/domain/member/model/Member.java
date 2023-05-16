@@ -1,7 +1,14 @@
 package travelfeeldog.domain.member.model;
 
-import javax.persistence.*;
 
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,8 +22,8 @@ import travelfeeldog.global.common.model.BaseTimeEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
 @Setter
+@Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseTimeEntity{
