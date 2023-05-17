@@ -21,6 +21,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import travelfeeldog.domain.place.category.model.Category;
 import travelfeeldog.domain.place.location.model.Location;
+import travelfeeldog.domain.place.place.dto.PlaceDtos.PlacePostRequestDto;
 import travelfeeldog.domain.place.placefacility.model.PlaceFacility;
 import travelfeeldog.domain.review.review.model.Review;
 import travelfeeldog.global.common.model.BaseTimeEntity;
@@ -71,6 +72,16 @@ public class Place extends BaseTimeEntity {
 
     @OneToOne(mappedBy = "place", cascade = CascadeType.ALL)
     private PlaceStatistic placeStatistic;
+    protected Place() {
+
+    }
+    public Place(PlacePostRequestDto placePostRequestDto){
+        this.name = placePostRequestDto.getName();
+        this.describe = placePostRequestDto.getDescribe();
+        this.address= placePostRequestDto.getAddress();
+        this.latitude =placePostRequestDto.getLatitude();
+        this.longitude = placePostRequestDto.getLongitude();
+    }
     public void updateReviewCount(){
         this.reviewCount += 1;
     }
