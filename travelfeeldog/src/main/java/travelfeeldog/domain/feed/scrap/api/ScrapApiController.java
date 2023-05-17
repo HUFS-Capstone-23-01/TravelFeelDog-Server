@@ -30,7 +30,7 @@ public class ScrapApiController {
         return ApiResponse.success(scrapService.getAllMemberScrap(token));
     }
     @DeleteMapping(produces = "application/json;charset=UTF-8")
-    public ApiResponse<Void> deleteScrap(@RequestHeader("Authorization") String token, @RequestParam("scrapId") Long scrapId) {
+    public ApiResponse<Boolean> deleteScrap(@RequestHeader("Authorization") String token, @RequestParam("scrapId") Long scrapId) {
         return ApiResponse.success(scrapService.deleteScrap(token,scrapId));
     }
 }
