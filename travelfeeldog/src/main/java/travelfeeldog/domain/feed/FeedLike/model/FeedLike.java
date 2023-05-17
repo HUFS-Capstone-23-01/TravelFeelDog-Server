@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class FeedLike extends BaseTimeEntity{
+public class FeedLike extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "feed_like_id")
@@ -28,19 +28,9 @@ public class FeedLike extends BaseTimeEntity{
     @JoinColumn(name = "feed_id")
     private Feed feed;
 
-    private FeedLike(Member member, Feed feed) {
+    public FeedLike(Member member, Feed feed) {
         this.member = member;
         this.feed = feed;
     }
 
-    public static FeedLike FeedLike(Member member, Feed feed) {
-        return new FeedLike(member, feed);
-    }
-
-    public void setMemberAndFeed(Member member, Feed feed) {
-        this.member = member;
-        this.feed = feed;
-        member.getFeedLikes().add(this);
-        feed.getFeedLikes().add(this);
-    }
 }

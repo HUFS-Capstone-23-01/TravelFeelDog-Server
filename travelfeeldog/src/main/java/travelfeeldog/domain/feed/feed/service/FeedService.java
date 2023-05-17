@@ -3,6 +3,7 @@ package travelfeeldog.domain.feed.feed.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import travelfeeldog.domain.feed.FeedLike.model.FeedLike;
 import travelfeeldog.domain.feed.feed.dao.FeedRepository;
 import travelfeeldog.domain.feed.feed.dto.FeedDtos.FeedStaticResponseDto;
@@ -12,6 +13,7 @@ import travelfeeldog.domain.member.dao.MemberRepository;
 import travelfeeldog.domain.member.model.Member;
 import travelfeeldog.domain.feed.tag.dao.TagRepository;
 import travelfeeldog.domain.feed.tag.model.Tag;
+import travelfeeldog.infra.aws.s3.service.AwsS3ImageService;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ public class FeedService {
     private final FeedRepository feedRepository;
     private final MemberRepository memberRepository;
     private final TagRepository tagRepository;
+    private final AwsS3ImageService awsS3ImageService;
 
     @Transactional
     public Feed postFeed(String writerToken,
@@ -46,7 +49,6 @@ public class FeedService {
                 tags.add(tagRepository.save(tagContent));
             }
         }
-
         Feed result;
         int imagesExist = feedImagesUrls.isEmpty() ? 0 : 2; //10(binary)
         int tagsExist = tagContents.isEmpty() ? 0 : 1; //01(binary)
@@ -86,11 +88,9 @@ public class FeedService {
         int doScrap = feedScraps.indexOf(new Scrap(member, feed));
         int doLike = feedLikes.indexOf(new FeedLike(member, feed));
         if(doScrap != -1) {
-            feedStaticResponseDto.setDoScrap(true);
             feedStaticResponseDto.setFeedScrapId(feedScraps.get(doScrap).getId());
         }
         if(doLike != -1) {
-            feedStaticResponseDto.setDolike(true);
             feedStaticResponseDto.setFeedLikeId(feedLikes.get(doLike).getId());
         }
         return feedStaticResponseDto;
