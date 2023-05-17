@@ -53,8 +53,8 @@ public class FeedDtos {
         public FeedStaticResponseDto(Feed feed) {
             this.id = feed.getId();
             this.writerToken = feed.getMember().getToken();
-            this.likes = feed.getLikes();
-            this.scraps = feed.getScraps();
+            this.likes = feed.getLikeCount();
+            this.scraps = feed.getScrapCount();
             this.title = feed.getTitle();
             this.body = feed.getBody();
             this.feedImages.addAll(feed.getFeedImages().stream().map(FeedImages::getFeedImageUrl).distinct().toList());
@@ -76,8 +76,8 @@ public class FeedDtos {
         public FeedListResponseDto(Feed feed) {
             this.member = new MemberResponse(feed.getMember());
             this.id = feed.getId();
-            this.likes = feed.getLikes();
-            this.scraps = feed.getScraps();
+            this.likes = feed.getLikeCount();
+            this.scraps = feed.getScrapCount();
             this.title = feed.getTitle();
             this.body = feed.getBody();
             if (feed.getFeedImages().isEmpty()) {

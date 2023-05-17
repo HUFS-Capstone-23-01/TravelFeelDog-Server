@@ -30,11 +30,11 @@ public class Feed extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Column(name = "feed_like")
-    private int likes;
+    @Column(name = "feed_like_count")
+    private int likeCount;
 
-    @Column(name = "feed_scrap")
-    private int scraps;
+    @Column(name = "feed_scrap_count")
+    private int scrapCount;
 
     @Column(name = "feed_title")
     private String title;
@@ -57,10 +57,10 @@ public class Feed extends BaseTimeEntity {
     @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FeedLike> feedLikes = new ArrayList<>();
 
-    private Feed(Member member, int likes, int scraps, String title, String body) {
+    private Feed(Member member, int likeCount, int scrapCount, String title, String body) {
         this.member = member;
-        this.likes = likes;
-        this.scraps = scraps;
+        this.likeCount = likeCount;
+        this.scrapCount = scrapCount;
         this.title = title;
         this.body = body;
     }
@@ -109,11 +109,17 @@ public class Feed extends BaseTimeEntity {
     }
 
     private void addLikes(boolean AddIsTrue) {
-        this.likes = this.likes + 1;
+        this.likeCount = this.likeCount + 1;
     }
 
-    private void addScraps(boolean AddIsTrue) {
-        this.scraps = this.scraps + 1;
+    public void updateScrapCountPlus(boolean add) {
+        if(add)
+        {
+        this.scrapCount += 1;
+        }
+        else {
+            this.scrapCount -= 1;
+        }
     }
 
     //==연관관계 메소드==//
@@ -128,28 +134,9 @@ public class Feed extends BaseTimeEntity {
         feedTag.setTagAndFeed(tag, this);
     }
 
-/*
-    public void addScrap(Member member) {
-        Scrap scrap = Scrap.Scrap(member, this);
-    }
-*/
-
     public void addLikes(Member member) {
         FeedLike feedLike = FeedLike.FeedLike(member, this);
     }
-
-/*
-    public void addScrap(Member member, boolean isAddNow) {
-        Scrap scrap = Scrap.Scrap(member, this);
-        this.addScraps(isAddNow);
-        if(isAddNow) {
-            this.feedScraps.add(scrap);
-        }
-        else {
-            this.feedScraps.remove(scraps);
-        }
-    }
-*/
 
     public void addLike(Member member, boolean isAddNow) {
         FeedLike feedLike = FeedLike.FeedLike(member, this);
