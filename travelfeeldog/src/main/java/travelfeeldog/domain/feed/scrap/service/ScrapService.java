@@ -33,6 +33,7 @@ public class ScrapService {
             return false;
         }
         Feed feed = feedService.findByFeedId(feedId);
+//        feed.addScraps(true);
         Scrap scrap = new Scrap(member, feed);
         scrapRepository.save(scrap);
         return true;

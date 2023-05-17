@@ -36,7 +36,7 @@ public class ReviewApiController {
 
     @PostMapping(produces = "application/json;charset=UTF-8")
     public ApiResponse<ReviewPageResponseDto> saveReview(@RequestBody ReviewPostRequestDto request, @RequestHeader("Authorization") String token) {
-        ReviewPageResponseDto savedReview = reviewService.saveReview(request, token);
+        ReviewPageResponseDto savedReview = reviewService.saveReview(token,request);
         return ApiResponse.success(savedReview);
     }
 

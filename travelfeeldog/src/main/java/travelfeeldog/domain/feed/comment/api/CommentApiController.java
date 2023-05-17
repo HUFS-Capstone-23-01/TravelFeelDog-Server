@@ -1,5 +1,6 @@
 package travelfeeldog.domain.feed.comment.api;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import travelfeeldog.domain.feed.comment.dto.CommentDtos.CommentRequestDto;
+import travelfeeldog.domain.feed.comment.dto.CommentDtos.CommentResponseDto;
 import travelfeeldog.domain.feed.comment.service.CommentService;
 import travelfeeldog.global.common.dto.ApiResponse;
 
@@ -18,11 +20,11 @@ import travelfeeldog.global.common.dto.ApiResponse;
 public class CommentApiController {
     private final CommentService commentService ;
     @PostMapping(produces = "application/json;charset=UTF-8")
-    public ApiResponse addNewComment(@RequestHeader("Authorization") String token, @RequestBody CommentRequestDto requestDto){
+    public ApiResponse<CommentResponseDto>addNewComment(@RequestHeader("Authorization") String token, @RequestBody CommentRequestDto requestDto){
         return ApiResponse.success(commentService.postComment(token,requestDto));
     }
     @GetMapping(value = "/all",produces = "application/json;charset=UTF-8")
-    public ApiResponse getAllCommentByFeedId(@RequestHeader("Authorization") String token, @RequestParam Long feedId){
+    public ApiResponse<List<CommentResponseDto>> getAllCommentByFeedId(@RequestHeader("Authorization") String token, @RequestParam Long feedId){
         return ApiResponse.success(commentService.getAllCommentByFeedId(token,feedId));
     }
 }
