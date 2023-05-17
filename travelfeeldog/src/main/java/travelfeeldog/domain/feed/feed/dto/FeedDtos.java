@@ -3,6 +3,7 @@ package travelfeeldog.domain.feed.feed.dto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import travelfeeldog.domain.feed.feed.model.Feed;
 import travelfeeldog.domain.feed.feed.model.FeedImages;
 import travelfeeldog.domain.feed.feed.model.FeedTag;
@@ -33,12 +34,17 @@ public class FeedDtos {
         //private List<String> feedTags = new ArrayList<>();
     }
     @Getter
+    @Setter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class FeedStaticResponseDto {
         private Long id;
         private String writerToken;
         private int likes;
+        private boolean dolike = false;
+        private Long feedLikeId = 0L;
         private int scraps;
+        private boolean doScrap = false;
+        private Long feedScrapId = 0L;
         private String title;
         private String body;
         private List<String> feedImages = new ArrayList<>();

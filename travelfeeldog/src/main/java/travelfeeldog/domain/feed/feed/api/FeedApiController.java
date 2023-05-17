@@ -52,7 +52,7 @@ public class FeedApiController {
     @DeleteMapping(value = "/detail", produces = "application/json;charset=UTF-8")
     public ApiResponse deleteFeedById(@RequestHeader("Authorization") String firebaseToken,
                                       @RequestParam("feedId") Long id) {
-        Feed feed = feedService.getFeedStaticsById(id);
+        Feed feed = feedService.getFeedDetailsById(id);
 
         if(feed.getMember().getToken().equals(firebaseToken)) {
             feedService.deleteFeed(id);
@@ -90,8 +90,7 @@ public class FeedApiController {
     @GetMapping(value = "/detail/static", produces = "application/json;charset=UTF-8")
     public ApiResponse getFeedStaticById(@RequestParam(value = "feedId") Long id) {
         try {
-            Feed feed = feedService.getFeedStaticsById(id);
-            return ApiResponse.success(new FeedStaticResponseDto(feed));
+            return ApiResponse.success(feedService.getFeedStaticsById(id));
         } catch (NoSuchElementException e) {
             return ApiResponse.success(false);
         }

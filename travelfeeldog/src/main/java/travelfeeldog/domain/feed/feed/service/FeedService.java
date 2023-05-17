@@ -3,9 +3,11 @@ package travelfeeldog.domain.feed.feed.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import travelfeeldog.domain.feed.feed.dao.FeedImagesRepository;
+import travelfeeldog.domain.feed.FeedLike.model.FeedLike;
 import travelfeeldog.domain.feed.feed.dao.FeedRepository;
+import travelfeeldog.domain.feed.feed.dto.FeedDtos.FeedStaticResponseDto;
 import travelfeeldog.domain.feed.feed.model.Feed;
+import travelfeeldog.domain.feed.scrap.model.Scrap;
 import travelfeeldog.domain.member.dao.MemberRepository;
 import travelfeeldog.domain.member.model.Member;
 import travelfeeldog.domain.feed.tag.dao.TagRepository;
@@ -65,10 +67,30 @@ public class FeedService {
         return result;
     }
 
-    public Feed getFeedStaticsById(Long id) {
-        Optional<Feed> feed = feedRepository.getFeedStaticData(id);
-        return feed.orElseThrow(() -> new NoSuchElementException("Feed details loading is failed."));
+    public Feed getFeedDetailsById(Long id) {
+        Feed feed = feedRepository.findFeedDetail(id)
+                .orElseThrow(() -> new NoSuchElementException("Feed details loading is failed."));
+        return feed;
+    }
 
+
+    public FeedStaticResponseDto getFeedStaticsById(Long id) {
+        Feed feed = feedRepository.findFeedDetail(id)
+                .orElseThrow(() -> new NoSuchElementException("Feed details loading is failed."));
+        FeedStaticResponseDto feedStaticResponseDto = new FeedStaticResponseDto(feed);
+        List<Scrap> feedScraps = feed.getFeedScraps();
+        List<FeedLike> feedLikes = feed.getFeedLikes();
+        int doScrap = feedScraps.indexOf(new Scrap(feed.getMember(), feed));
+        int doLike = feedLikes.indexOf(new Scrap(feed.getMember(), feed));
+        if(doScrap != -1) {
+            feedStaticResponseDto.setDoScrap(true);
+            feedStaticResponseDto.setFeedScrapId(feedScraps.get(doScrap).getId());
+        }
+        if(doLike != -1) {
+            feedStaticResponseDto.setDolike(true);
+            feedStaticResponseDto.setFeedLikeId(feedLikes.get(doLike).getId());
+        }
+        return feedStaticResponseDto;
     }
 
     @Transactional

@@ -1,6 +1,7 @@
 package travelfeeldog.domain.feed.scrap.service;
 
 import java.util.List;
+import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,6 +9,7 @@ import travelfeeldog.domain.feed.feed.dto.FeedDtos.FeedCollectByMemberDetailResp
 import travelfeeldog.domain.feed.feed.model.Feed;
 import travelfeeldog.domain.feed.feed.service.FeedService;
 import travelfeeldog.domain.feed.scrap.dao.ScrapRepository;
+import travelfeeldog.domain.feed.scrap.dto.ScrapDtos.ScrapByMemberResponseDto;
 import travelfeeldog.domain.feed.scrap.dto.ScrapDtos.ScrapRequestDto;
 import travelfeeldog.domain.feed.scrap.model.Scrap;
 import travelfeeldog.domain.member.model.Member;
@@ -37,8 +39,15 @@ public class ScrapService {
     }
 
 
-    public List<FeedCollectByMemberDetailResponseDto> getAllMemberScrap(String token) {
+    public List<ScrapByMemberResponseDto> getAllMemberScrap(String token) {
         Member member = memberService.findByToken(token);
-        return scrapRepository.findAllFeedByMemberId(member.getId()).stream().map(FeedCollectByMemberDetailResponseDto::new).toList();
+        return scrapRepository.findAllByMemberId(member.getId()).stream().map(ScrapByMemberResponseDto::new).toList();
     }
+    public Boolean deleteScrap(String token,Long scrapId){
+        memberService.findByToken(token);
+        Scrap  scrap = scrapRepository.findById(scrapId)
+                .orElseThrow(() -> new EntityNotFoundException("Scrap not found with ID"+scrapId));
+        scrapRepository.delete(scrap);
+        return true;
+   }
 }
