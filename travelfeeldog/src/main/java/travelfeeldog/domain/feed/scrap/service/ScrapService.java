@@ -1,6 +1,7 @@
 package travelfeeldog.domain.feed.scrap.service;
 
 import java.util.List;
+import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,5 +42,11 @@ public class ScrapService {
     public List<ScrapByMemberResponseDto> getAllMemberScrap(String token) {
         Member member = memberService.findByToken(token);
         return scrapRepository.findAllByMemberId(member.getId()).stream().map(ScrapByMemberResponseDto::new).toList();
+    }
+    public Void deleteScrap(String token,Long scrapId){
+        memberService.findByToken(token);
+        Scrap  scrap = scrapRepository.findById(scrapId)
+                .orElseThrow(() -> new EntityNotFoundException("Scrap not found with ID"+scrapId));
+        scrapRepository.delete(scrap);
     }
 }
