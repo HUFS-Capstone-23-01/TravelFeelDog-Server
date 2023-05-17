@@ -67,13 +67,6 @@ public class FeedApiController {
         list.addAll(feedService.getListAll(page).stream().map(FeedListResponseDto::new).toList());
         return ApiResponse.success(list);
     }
-    /* Progress will be in FeedTagApiController
-    @GetMapping(value = "/list/searchTag", produces = "application/json;charset=UTF-8")
-    public ApiResponse getFeedListByTag() {
-        FeedListResponseDto lists = feedService.getListByTag();
-        return ApiResponse.success(lists);
-    }
-    */
 
     @GetMapping(value = "/list/searchNickName", produces = "application/json;charset=UTF-8")
     public ApiResponse getFeedListByNickName(
@@ -88,9 +81,10 @@ public class FeedApiController {
     }
 
     @GetMapping(value = "/detail/static", produces = "application/json;charset=UTF-8")
-    public ApiResponse getFeedStaticById(@RequestParam(value = "feedId") Long id) {
+    public ApiResponse getFeedStaticById(@RequestParam(value = "feedId") Long id,
+                                         @RequestHeader("Authorization") String token) {
         try {
-            return ApiResponse.success(feedService.getFeedStaticsById(id));
+            return ApiResponse.success(feedService.getFeedStaticsById(id, token));
         } catch (NoSuchElementException e) {
             return ApiResponse.success(false);
         }

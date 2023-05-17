@@ -74,14 +74,17 @@ public class FeedService {
     }
 
 
-    public FeedStaticResponseDto getFeedStaticsById(Long id) {
+    public FeedStaticResponseDto getFeedStaticsById(Long id, String token) {
+        Member member = memberRepository.findByToken(token)
+                .orElseThrow(() -> new NoSuchElementException("Token Error."));
+
         Feed feed = feedRepository.findFeedDetail(id)
                 .orElseThrow(() -> new NoSuchElementException("Feed details loading is failed."));
         FeedStaticResponseDto feedStaticResponseDto = new FeedStaticResponseDto(feed);
         List<Scrap> feedScraps = feed.getFeedScraps();
         List<FeedLike> feedLikes = feed.getFeedLikes();
-        int doScrap = feedScraps.indexOf(new Scrap(feed.getMember(), feed));
-        int doLike = feedLikes.indexOf(new Scrap(feed.getMember(), feed));
+        int doScrap = feedScraps.indexOf(new Scrap(member, feed));
+        int doLike = feedLikes.indexOf(new FeedLike(member, feed));
         if(doScrap != -1) {
             feedStaticResponseDto.setDoScrap(true);
             feedStaticResponseDto.setFeedScrapId(feedScraps.get(doScrap).getId());
