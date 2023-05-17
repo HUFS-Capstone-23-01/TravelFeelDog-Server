@@ -14,12 +14,14 @@ public class CommentDtos {
     }
     @Data
     public static class CommentResponseDto{
+        private Long commentId;
         private Long memberId;
         private String memberNickName;
         private int memberLevel;
         private String memberImageUrl;
         private String content;
         public CommentResponseDto(Comment comment){
+            this.commentId = comment.getId();
             this.memberId = comment.getMember().getId();
             this.memberNickName = comment.getMember().getNickName();
             this.memberLevel = comment.getMember().getLevel();
