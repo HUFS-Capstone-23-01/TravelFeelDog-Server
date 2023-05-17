@@ -10,54 +10,52 @@ import travelfeeldog.domain.feed.feed.model.FeedTag;
 import travelfeeldog.domain.member.dto.MemberDtos.MemberResponse;
 import travelfeeldog.domain.feed.tag.model.Tag;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class FeedDtos {
     @Getter
-    public static class FeedCollectByMemberDetailResponseDto {
-        private final Long id;
-        private final String title;
-        public FeedCollectByMemberDetailResponseDto(Feed feed){
-            this.id=feed.getId();
-            this.title = feed.getTitle();
-        }
-    }
-    @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class FeedPostRequestDto {
         private String memberToken;
         private String title;
         private String body;
-        //private List<String> feedImagesUrls = new ArrayList<>();
-        //private List<String> feedTags = new ArrayList<>();
+        private List<String> feedImageUrls;
+        private List<String> feedTags;
     }
+
     @Getter
     @Setter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class FeedStaticResponseDto {
-        private Long id;
-        private String writerToken;
-        private int likes;
-        private boolean dolike = false;
-        private Long feedLikeId = 0L;
-        private int scraps;
-        private boolean doScrap = false;
-        private Long feedScrapId = 0L;
+        private MemberResponse member;
+        private Long feedId;
         private String title;
         private String body;
-        private List<String> feedImages = new ArrayList<>();
+        private LocalDate createdDateTime;
+        private int likes;
+        private Long feedLikeId = 0L;
+        private int scraps;
+        private Long feedScrapId = 0L;
+        private List<String> feedImageUrls = new ArrayList<>();
         private List<String> feedTags = new ArrayList<>();
 
         public FeedStaticResponseDto(Feed feed) {
-            this.id = feed.getId();
-            this.writerToken = feed.getMember().getToken();
+            this.feedId = feed.getId();
+            this.member = new MemberResponse(feed.getMember());
             this.likes = feed.getLikes();
             this.scraps = feed.getScraps();
             this.title = feed.getTitle();
             this.body = feed.getBody();
-            this.feedImages.addAll(feed.getFeedImages().stream().map(FeedImages::getFeedImageUrl).distinct().toList());
+            this.createdDateTime = feed.getCreatedDateTime().toLocalDate();
+            if(feed.getFeedImages().isEmpty()) {
+                this.feedImageUrls.add("baseUrl");
+            }
+            else {
+                this.feedImageUrls.addAll(feed.getFeedImages().stream().map(FeedImages::getFeedImageUrl).distinct().toList());
+            }
             this.feedTags.addAll(feed.getFeedTags().stream().map(f -> f.getTag().getTagContent()).distinct().toList());
         }
     }
@@ -65,21 +63,23 @@ public class FeedDtos {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class FeedListResponseDto {
         private MemberResponse member;
-        private Long id;
+        private Long feedId;
         private int likes;
         private int scraps;
         private String title;
         private String body;
+        private LocalDate createdDateTime;
         private String feedImagesUrl;
         private List<String> feedTagContents = new ArrayList<>();
 
         public FeedListResponseDto(Feed feed) {
             this.member = new MemberResponse(feed.getMember());
-            this.id = feed.getId();
+            this.feedId = feed.getId();
             this.likes = feed.getLikes();
             this.scraps = feed.getScraps();
             this.title = feed.getTitle();
             this.body = feed.getBody();
+            this.createdDateTime = feed.getCreatedDateTime().toLocalDate();
             if (feed.getFeedImages().isEmpty()) {
                 this.feedImagesUrl = "baseUrl";
             } else {

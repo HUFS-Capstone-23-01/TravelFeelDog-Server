@@ -133,10 +133,12 @@ public class Feed extends BaseTimeEntity {
         Scrap scrap = Scrap.Scrap(member, this);
     }
 */
+/*
 
     public void addLikes(Member member) {
         FeedLike feedLike = FeedLike.FeedLike(member, this);
     }
+*/
 
 /*
     public void addScrap(Member member, boolean isAddNow) {
@@ -151,6 +153,7 @@ public class Feed extends BaseTimeEntity {
     }
 */
 
+/*
     public void addLike(Member member, boolean isAddNow) {
         FeedLike feedLike = FeedLike.FeedLike(member, this);
         this.addLikes(isAddNow);
@@ -161,6 +164,7 @@ public class Feed extends BaseTimeEntity {
             this.feedLikes.remove(feedLike);
         }
     }
+*/
 
     public void addComment(Comment comment) {
         comment.setFeed(this);

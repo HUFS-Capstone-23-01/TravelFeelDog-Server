@@ -4,9 +4,9 @@ package travelfeeldog.domain.feed.feed.api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import travelfeeldog.domain.feed.feed.dto.FeedDtos.FeedPostRequestDto;
 import travelfeeldog.domain.feed.feed.dto.FeedDtos.FeedStaticResponseDto;
 import travelfeeldog.domain.feed.feed.dto.FeedDtos.FeedListResponseDto;
-import travelfeeldog.domain.feed.feed.dto.FeedDtos;
 import travelfeeldog.domain.feed.feed.model.Feed;
 import travelfeeldog.domain.feed.feed.service.FeedService;
 import travelfeeldog.global.common.dto.ApiResponse;
@@ -17,7 +17,6 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/feed")
@@ -27,14 +26,12 @@ public class FeedApiController {
     private final AwsS3ImageService awsS3ImageService;
 
     @PostMapping(value = "/post", produces = "application/json;charset=UTF-8")
-    public ApiResponse postFeed(@Valid @RequestBody FeedDtos.FeedPostRequestDto feedPostRequestDto,
-                                @RequestParam("urls") List<String> imageUrls,
-                                @RequestParam("tags") List<String> tags) throws Exception {
+    public ApiResponse postFeed(@Valid @RequestBody FeedPostRequestDto feedPostRequestDto) throws Exception {
         Feed feed = feedService.postFeed(feedPostRequestDto.getMemberToken(),
                 feedPostRequestDto.getTitle(),
                 feedPostRequestDto.getBody(),
-                imageUrls,
-                tags);
+                feedPostRequestDto.getFeedImageUrls(),
+                feedPostRequestDto.getFeedTags());
         return ApiResponse.success(new FeedStaticResponseDto(feed));
     }
 
