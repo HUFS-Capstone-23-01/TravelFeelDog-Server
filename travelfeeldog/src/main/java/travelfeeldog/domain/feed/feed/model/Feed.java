@@ -108,8 +108,14 @@ public class Feed extends BaseTimeEntity {
         return feed;
     }
 
-    private void addLikes(boolean AddIsTrue) {
-        this.likeCount = this.likeCount + 1;
+    public void updateFeedLikeCountPlus(boolean add) {
+        if(add)
+        {
+            this.likeCount += 1;
+        }
+        else {
+            this.likeCount -= 1;
+        }
     }
 
     public void updateScrapCountPlus(boolean add) {
@@ -132,26 +138,6 @@ public class Feed extends BaseTimeEntity {
     public void addTag(Tag tag) {
         FeedTag feedTag = new FeedTag();
         feedTag.setTagAndFeed(tag, this);
-    }
-
-    public void addLikes(Member member) {
-        FeedLike feedLike = FeedLike.FeedLike(member, this);
-    }
-
-    public void addLike(Member member, boolean isAddNow) {
-        FeedLike feedLike = FeedLike.FeedLike(member, this);
-        this.addLikes(isAddNow);
-        if(isAddNow) {
-            this.feedLikes.add(feedLike);
-        }
-        else {
-            this.feedLikes.remove(feedLike);
-        }
-    }
-
-    public void addComment(Comment comment) {
-        comment.setFeed(this);
-        this.comments.add(comment);
     }
 
 }
