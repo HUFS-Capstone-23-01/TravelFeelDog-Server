@@ -46,14 +46,11 @@ public class ReviewApiController {
         return ApiResponse.success(null);
     }
 
-    @GetMapping(value = "/places/{placeId}",produces = "application/json;charset=UTF-8")
-    public ApiResponse<List<ReviewPageResponseDto>> getReviewsByPlaceId(@PathVariable Long placeId,@RequestHeader("Authorization") String token) {
-        List<ReviewPageResponseDto> reviews = reviewService.getReviewsByPlaceId(placeId);
-        return ApiResponse.success(reviews);
-    }
-    @GetMapping(produces = "application/json;charset=UTF-8")
-    public ApiResponse<List<ReviewPageResponseDto>> getReviewsByQuery(@RequestParam("request") String request, @RequestHeader("Authorization") String token) {
-        List<ReviewPageResponseDto> reviews = reviewService.getReviewsByQuery(request);
+    @GetMapping(value = "/place/{placeId}",produces = "application/json;charset=UTF-8")
+    public ApiResponse<List<ReviewPageResponseDto>> getReviewsByPlaceIdAndQuery(@RequestHeader("Authorization") String token,
+                                                                                @PathVariable Long placeId,
+                                                                                @RequestParam("request") String request) {
+        List<ReviewPageResponseDto> reviews = reviewService.getReviewsByQuery(token,placeId,request);
         return ApiResponse.success(reviews);
     }
 
