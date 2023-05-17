@@ -14,15 +14,19 @@ public class CommentDtos {
     }
     @Data
     public static class CommentResponseDto{
+        private Long commentId;
         private Long memberId;
         private String memberNickName;
+        private int memberLevel;
         private String memberImageUrl;
         private String content;
         public CommentResponseDto(Comment comment){
-            memberId = comment.getMember().getId();
-            memberNickName = comment.getMember().getNickName();
-            memberImageUrl = comment.getMember().getImageUrl();
-            content = comment.getContent();
+            this.commentId = comment.getId();
+            this.memberId = comment.getMember().getId();
+            this.memberNickName = comment.getMember().getNickName();
+            this.memberLevel = comment.getMember().getLevel();
+            this.memberImageUrl = comment.getMember().getImageUrl();
+            this.content = comment.getContent();
         }
     }
 }
