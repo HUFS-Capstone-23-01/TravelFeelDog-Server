@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import travelfeeldog.domain.feed.feed.dto.FeedDtos.FeedCollectByMemberDetailResponseDto;
+import travelfeeldog.domain.feed.scrap.dto.ScrapDtos.ScrapByMemberResponseDto;
 import travelfeeldog.domain.feed.scrap.dto.ScrapDtos.ScrapRequestDto;
 import travelfeeldog.domain.feed.scrap.service.ScrapService;
 import travelfeeldog.global.common.dto.ApiResponse;
@@ -24,7 +24,7 @@ public class ScrapApiController {
         return ApiResponse.success(scrapService.addNewScrap(token, requestDto));
     }
     @GetMapping(value = "/all",produces = "application/json;charset=UTF-8")
-    public ApiResponse<List<FeedCollectByMemberDetailResponseDto>> postScrap(@RequestHeader("Authorization") String token) {
+    public ApiResponse<List<ScrapByMemberResponseDto>> postScrap(@RequestHeader("Authorization") String token) {
         return ApiResponse.success(scrapService.getAllMemberScrap(token));
     }
 

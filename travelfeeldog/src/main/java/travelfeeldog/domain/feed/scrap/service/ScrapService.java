@@ -8,6 +8,7 @@ import travelfeeldog.domain.feed.feed.dto.FeedDtos.FeedCollectByMemberDetailResp
 import travelfeeldog.domain.feed.feed.model.Feed;
 import travelfeeldog.domain.feed.feed.service.FeedService;
 import travelfeeldog.domain.feed.scrap.dao.ScrapRepository;
+import travelfeeldog.domain.feed.scrap.dto.ScrapDtos.ScrapByMemberResponseDto;
 import travelfeeldog.domain.feed.scrap.dto.ScrapDtos.ScrapRequestDto;
 import travelfeeldog.domain.feed.scrap.model.Scrap;
 import travelfeeldog.domain.member.model.Member;
@@ -37,8 +38,8 @@ public class ScrapService {
     }
 
 
-    public List<FeedCollectByMemberDetailResponseDto> getAllMemberScrap(String token) {
+    public List<ScrapByMemberResponseDto> getAllMemberScrap(String token) {
         Member member = memberService.findByToken(token);
-        return scrapRepository.findAllFeedByMemberId(member.getId()).stream().map(FeedCollectByMemberDetailResponseDto::new).toList();
+        return scrapRepository.findAllByMemberId(member.getId()).stream().map(ScrapByMemberResponseDto::new).toList();
     }
 }
