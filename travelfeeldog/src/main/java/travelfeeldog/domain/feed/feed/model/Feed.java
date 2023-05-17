@@ -66,44 +66,44 @@ public class Feed extends BaseTimeEntity {
     }
 
     public static Feed create(Member member,
-                              int likes,
-                              int scraps,
+                              int likeCount,
+                              int scrapCount,
                               String title,
                               String body) {
-        return  new Feed(member, likes, scraps, title, body);
+        return  new Feed(member, likeCount, scrapCount, title, body);
     }
 
     public static Feed create(Member member,
                               List<String> feedImageUrls,
-                              int likes,
-                              int scraps,
+                              int likeCount,
+                              int scrapCount,
                               String title,
                               String body) {
-        Feed feed =  new Feed(member, likes, scraps, title, body);
+        Feed feed =  new Feed(member, likeCount, scrapCount, title, body);
         for(String feedImageUrl : feedImageUrls) { feed.addFeedImage(feedImageUrl); }
         return feed;
     }
 
     public static Feed create(Member member,
                               List<String> feedImageUrls,
-                              int likes,
-                              int scraps,
+                              int likeCount,
+                              int scrapCount,
                               String title,
                               String body,
                               List<Tag> tags) {
-        Feed feed =  new Feed(member, likes, scraps, title, body);
+        Feed feed =  new Feed(member, likeCount, scrapCount, title, body);
         for(String feedImageUrl : feedImageUrls) { feed.addFeedImage(feedImageUrl); }
         for(Tag tag : tags) { feed.addTag(tag); }
         return feed;
     }
 
     public static Feed create(Member member,
-                              int likes,
-                              int scraps,
+                              int likeCount,
+                              int scrapCount,
                               String title,
                               String body,
                               List<Tag> tags) {
-        Feed feed =  new Feed(member, likes, scraps, title, body);
+        Feed feed =  new Feed(member, likeCount, scrapCount, title, body);
         for(Tag tag : tags) { feed.addTag(tag); }
         return feed;
     }

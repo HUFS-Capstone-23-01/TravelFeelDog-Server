@@ -3,23 +3,18 @@ package travelfeeldog.domain.feed.feed.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 import travelfeeldog.domain.feed.FeedLike.model.FeedLike;
 import travelfeeldog.domain.feed.feed.dao.FeedRepository;
 import travelfeeldog.domain.feed.feed.dto.FeedDtos.FeedStaticResponseDto;
 import travelfeeldog.domain.feed.feed.model.Feed;
 import travelfeeldog.domain.feed.scrap.model.Scrap;
-import travelfeeldog.domain.member.dao.MemberRepository;
 import travelfeeldog.domain.member.model.Member;
-import travelfeeldog.domain.feed.tag.dao.TagRepository;
 import travelfeeldog.domain.feed.tag.model.Tag;
-import travelfeeldog.infra.aws.s3.service.AwsS3ImageService;
+import travelfeeldog.domain.member.service.MemberService;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Transactional(readOnly = true)
 @Service
@@ -27,9 +22,8 @@ import java.util.Optional;
 public class FeedService {
 
     private final FeedRepository feedRepository;
-    private final MemberRepository memberRepository;
-    private final TagRepository tagRepository;
-    private final AwsS3ImageService awsS3ImageService;
+    private final MemberService memberService;
+    private final FeedTagService feedTagService;
 
     @Transactional
     public Feed postFeed(String writerToken,
@@ -37,18 +31,9 @@ public class FeedService {
                          String body,
                          List<String> feedImagesUrls,
                          List<String> tagContents) {
-        Member writer = memberRepository.findByToken(writerToken).get();
-        List<Tag> tags = new ArrayList<>();
+        Member writer = memberService.findByToken(writerToken);
+        List<Tag> tags = feedTagService.makeTagsByContents(tagContents);
 
-        for(String tagContent : tagContents) {
-            Optional<Tag> tag = tagRepository.findByTagContent(tagContent);
-            if(tag.isPresent()) {
-                tags.add(tag.get());
-            }
-            else {
-                tags.add(tagRepository.save(tagContent));
-            }
-        }
         Feed result;
         int imagesExist = feedImagesUrls.isEmpty() ? 0 : 2; //10(binary)
         int tagsExist = tagContents.isEmpty() ? 0 : 1; //01(binary)
@@ -75,10 +60,8 @@ public class FeedService {
         return feed;
     }
 
-
     public FeedStaticResponseDto getFeedStaticsById(Long id, String token) {
-        Member member = memberRepository.findByToken(token)
-                .orElseThrow(() -> new NoSuchElementException("Token Error."));
+        Member member = memberService.findByToken(token);
 
         Feed feed = feedRepository.findFeedDetail(id)
                 .orElseThrow(() -> new NoSuchElementException("Feed details loading is failed."));
