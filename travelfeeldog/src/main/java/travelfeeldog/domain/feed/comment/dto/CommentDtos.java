@@ -16,13 +16,15 @@ public class CommentDtos {
     public static class CommentResponseDto{
         private Long memberId;
         private String memberNickName;
+        private int memberLevel;
         private String memberImageUrl;
         private String content;
         public CommentResponseDto(Comment comment){
-            memberId = comment.getMember().getId();
-            memberNickName = comment.getMember().getNickName();
-            memberImageUrl = comment.getMember().getImageUrl();
-            content = comment.getContent();
+            this.memberId = comment.getMember().getId();
+            this.memberNickName = comment.getMember().getNickName();
+            this.memberLevel = comment.getMember().getLevel();
+            this.memberImageUrl = comment.getMember().getImageUrl();
+            this.content = comment.getContent();
         }
     }
 }
