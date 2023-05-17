@@ -11,9 +11,6 @@ public interface ReviewRepository extends JpaRepository<Review,Long> {
     List<Review> findByPlaceId(Long placeId);
 
     List<Review> findByMemberId(Long memberId);
-    List<Review> findByRecommendStatus(RecommendStatus recommendStatus);
-    List<Review> findAllByOrderByCreatedDateTimeDesc();
-    List<Review> findBySmallDogNumberGreaterThan(int i);
-    List<Review> findByMediumDogNumberGreaterThan(int i);
-    List<Review> findByLargeDogNumberGreaterThan(int i);
+    List<Review> findByPlaceIdAndRecommendStatus(Long placeId,RecommendStatus recommendStatus);
+    List<Review> findAllByPlaceIdOrderByCreatedDateTimeDesc(Long placeId);
 }

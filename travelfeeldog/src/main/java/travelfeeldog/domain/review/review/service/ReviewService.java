@@ -69,10 +69,11 @@ public class ReviewService {
                 .collect(Collectors.toList());
     }
 
-    public List<ReviewPageResponseDto> getReviewsByQuery(String request) {
+    public List<ReviewPageResponseDto> getReviewsByQuery(String token ,Long placeId,String request) {
+        Member member = memberService.findByToken(token);
         List<Review> reviews = "TIME".equalsIgnoreCase(request)
-                ? reviewRepository.findAllByOrderByCreatedDateTimeDesc()
-                : reviewRepository.findByRecommendStatus(RecommendStatus.valueOf(request.toUpperCase()));
+                ? reviewRepository.findAllByPlaceIdOrderByCreatedDateTimeDesc(placeId)
+                : reviewRepository.findByPlaceIdAndRecommendStatus(placeId,RecommendStatus.valueOf(request.toUpperCase()));
         return reviews
                 .stream()
                 .map(ReviewPageResponseDto::new)
