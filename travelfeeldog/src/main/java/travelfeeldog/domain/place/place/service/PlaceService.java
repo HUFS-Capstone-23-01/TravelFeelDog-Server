@@ -38,12 +38,7 @@ public class PlaceService {
 
     @Transactional
     public PlaceDetailDto addNewPlace(PlacePostRequestDto placePostRequestDto) {
-        Place place = new Place();
-        place.setName(placePostRequestDto.getName());
-        place.setDescribe(placePostRequestDto.getDescribe());
-        place.setAddress(placePostRequestDto.getAddress());
-        place.setLatitude(placePostRequestDto.getLatitude());
-        place.setLongitude(placePostRequestDto.getLongitude());
+        Place place = new Place(placePostRequestDto);
 
         Category category = categoryService.getCategoryByName(placePostRequestDto.getCategoryName());
         place.setCategory(category);
@@ -58,14 +53,6 @@ public class PlaceService {
         placeStatisticRepository.save(placeStatistic);
 
         return new PlaceDetailDto(place);
-    }
-
-    @Transactional
-    public Place changeCategory(Long placeId, String categoryName) {
-        Place place = placeRepository.findById(placeId)
-                .orElseThrow(() -> new EntityNotFoundException("Place not found with ID"));
-        place.setCategory(categoryService.getCategoryByName(categoryName));
-        return place;
     }
 
     @Transactional
@@ -135,8 +122,7 @@ public class PlaceService {
                                                           String token) {
         memberService.findByToken(token);
         List<Place> places = placeRepository.findPlacesByLocationNameAndCategoryNameCallKey(categoryName, locationName);
-        if(keyWord.trim().length() != 0)
-        {
+        if(keyWord.trim().length() != 0) {
         String normalizedKeyword = keyWord.trim().toLowerCase();
 
         List<Place> filteredPlaces = places.stream()

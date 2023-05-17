@@ -44,7 +44,7 @@ public class ReviewService {
     }
 
     @Transactional
-    public ReviewPageResponseDto saveReview(ReviewPostRequestDto request, String token) {
+    public ReviewPageResponseDto saveReview(String token ,ReviewPostRequestDto request) {
         Member member = memberService.findByToken(token);
         Place place = placeService.getPlaceById(request);
         Review review = new Review(member, place, request);

@@ -45,8 +45,8 @@ public class FeedDtos {
         public FeedStaticResponseDto(Feed feed) {
             this.feedId = feed.getId();
             this.member = new MemberResponse(feed.getMember());
-            this.likes = feed.getLikes();
-            this.scraps = feed.getScraps();
+            this.likes = feed.getLikeCount();
+            this.scraps = feed.getScrapCount();
             this.title = feed.getTitle();
             this.body = feed.getBody();
             this.createdDateTime = feed.getCreatedDateTime().toLocalDate();
@@ -75,8 +75,8 @@ public class FeedDtos {
         public FeedListResponseDto(Feed feed) {
             this.member = new MemberResponse(feed.getMember());
             this.feedId = feed.getId();
-            this.likes = feed.getLikes();
-            this.scraps = feed.getScraps();
+            this.likes = feed.getLikeCount();
+            this.scraps = feed.getScrapCount();
             this.title = feed.getTitle();
             this.body = feed.getBody();
             this.createdDateTime = feed.getCreatedDateTime().toLocalDate();

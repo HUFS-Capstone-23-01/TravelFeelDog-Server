@@ -2,6 +2,7 @@ package travelfeeldog.domain.feed.comment.service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -36,11 +37,17 @@ public class CommentService {
         return new CommentResponseDto(comment);
     }
     public Boolean deleteComment(String token, Long commentId){
+        Member member = memberService.findByToken(token);
         try{
         Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new EntityNotFoundException("Comment not found with ID"));;
-        commentRepository.delete(comment);
-        return true;
+                .orElseThrow(() -> new EntityNotFoundException("Comment not found with ID"));
+        if (Objects.equals(comment.getMember().getId(), member.getId())){
+            commentRepository.delete(comment);
+            return true;
+        }
+        else {
+            return false;
+        }
         }catch (EntityNotFoundException e){
             return false;
         }

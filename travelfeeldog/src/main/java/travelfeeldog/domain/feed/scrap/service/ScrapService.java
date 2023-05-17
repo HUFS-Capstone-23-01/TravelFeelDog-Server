@@ -33,6 +33,7 @@ public class ScrapService {
             return false;
         }
         Feed feed = feedService.findByFeedId(feedId);
+        feed.updateScrapCountPlus(true);
         Scrap scrap = new Scrap(member, feed);
         scrapRepository.save(scrap);
         return true;
@@ -47,6 +48,7 @@ public class ScrapService {
         memberService.findByToken(token);
         Scrap  scrap = scrapRepository.findById(scrapId)
                 .orElseThrow(() -> new EntityNotFoundException("Scrap not found with ID"+scrapId));
+        scrap.getFeed().updateScrapCountPlus(false);
         scrapRepository.delete(scrap);
         return true;
    }
