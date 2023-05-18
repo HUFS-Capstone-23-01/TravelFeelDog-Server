@@ -9,6 +9,7 @@ import travelfeeldog.domain.feed.feed.service.FeedTagService;
 import travelfeeldog.domain.feed.tag.model.Tag;
 import travelfeeldog.global.common.dto.ApiResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,11 +25,11 @@ public class FeedTagApiController {
                                         @RequestParam("page") int page) {
         List<Tag> validTags = feedTagService.getValidTagsByContents(tagSearchRequestDto.getTagContents());
         if(validTags.isEmpty())
-            return ApiResponse.success("false");
+            return ApiResponse.success(new ArrayList<>());
 
         List<Feed> feeds = feedTagService.getListByTagContents(validTags, page);
         if(feeds.isEmpty())
-            return ApiResponse.success("false");
+            return ApiResponse.success(new ArrayList<>());
 
         List<FeedListResponseDto> lists = feeds.stream().map(FeedListResponseDto::new).toList();
         return ApiResponse.success(lists);

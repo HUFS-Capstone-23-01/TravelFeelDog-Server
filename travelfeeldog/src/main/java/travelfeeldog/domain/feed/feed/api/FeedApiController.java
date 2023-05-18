@@ -71,7 +71,7 @@ public class FeedApiController {
             @RequestParam("page") int page) {
         List<Feed> feeds = feedService.getListByNickName(nickName, page);
         if(feeds.isEmpty()) {
-            return ApiResponse.success(false);
+            return ApiResponse.success(new ArrayList<>());
         }
         List<FeedListResponseDto> result = feeds.stream().map(FeedListResponseDto::new).toList();
         return ApiResponse.success(result);
