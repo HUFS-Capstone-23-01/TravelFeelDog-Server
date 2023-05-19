@@ -20,7 +20,9 @@ public class PlaceStatistic {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="place__static_id")
     private Long id;
-
+    @ColumnDefault("0")
+    @Column(name="place_review_count")
+    private int reviewCount;
     @ColumnDefault("0")
     @Column(name="review_count_bad")
     private int reviewCountBad;
@@ -67,5 +69,7 @@ public class PlaceStatistic {
             }
         }
     }
-
+    public void updateReviewCount(){
+        this.reviewCount += 1;
+    }
 }
