@@ -50,7 +50,6 @@ public class ReviewService {
         Review review = new Review(member, place, request);
 
         member.updateExpAndLevel(20);
-        place.updateReviewCount();
         placeService.addPlaceStatic(request);
         reviewKeyWordService.saveReviewKeyWords(request,review);
 

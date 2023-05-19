@@ -136,7 +136,7 @@ public class PlaceDtos {
             this.name =place.getName();
             this.name = place.getName();
             this.describe = place.getDescribe();
-            this.reviewCount = place.getReviewCount();
+            this.reviewCount = placeStatistic.getReviewCount();
             this.thumbNailImageUrl = place.getThumbNailImageUrl();
             this.address = place.getAddress();
             this.latitude = place.getLatitude();

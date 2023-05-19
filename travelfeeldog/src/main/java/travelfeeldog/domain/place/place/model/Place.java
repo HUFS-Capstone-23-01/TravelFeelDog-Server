@@ -40,12 +40,7 @@ public class Place extends BaseTimeEntity {
     private String name;
     @Column(name="place_decsribe")
     private String describe;
-    @ColumnDefault("0")
-    @Column(name="place_view_count")
-    private int viewCount;
-    @ColumnDefault("0")
-    @Column(name="place_review_count")
-    private int reviewCount;
+
     @ColumnDefault("'https://tavelfeeldog.s3.ap-northeast-2.amazonaws.com/base/pic1.JPG'")
     @Column(name="place_thumbnail_image")
     private String thumbNailImageUrl;
@@ -55,7 +50,9 @@ public class Place extends BaseTimeEntity {
     private float longitude;
     @Column(name="place_address")
     private String address;
-
+    @ColumnDefault("0")
+    @Column(name="place_view_count")
+    private int viewCount;
     @OneToMany(mappedBy = "place" ,cascade = CascadeType.PERSIST)
     private List<PlaceFacility> placeFacilities = new ArrayList<>();
 
@@ -81,8 +78,5 @@ public class Place extends BaseTimeEntity {
         this.address= placePostRequestDto.getAddress();
         this.latitude =placePostRequestDto.getLatitude();
         this.longitude = placePostRequestDto.getLongitude();
-    }
-    public void updateReviewCount(){
-        this.reviewCount += 1;
     }
 }

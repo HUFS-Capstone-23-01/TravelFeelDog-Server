@@ -66,6 +66,7 @@ public class PlaceService {
     @Transactional
     public void addPlaceStatic(ReviewPostRequestDto requestDto) {
         PlaceStatistic placeStatistic = placeStatisticRepository.findByPlaceId(requestDto.getPlaceId());
+        placeStatistic.updateReviewCount();
         int[] dogNumbers = new int[3];
         dogNumbers[0] = requestDto.getSmallDogNumber();
         dogNumbers[1] = requestDto.getMediumDogNumber();
@@ -108,12 +109,14 @@ public class PlaceService {
     }
     public List<PlaceReviewCountSortResponseDto> getMostReviewPlace(String locationName, String token) {
         memberService.findByToken(token);
-        List<Place> places = placeRepository.findPlacesByLocationName(locationName)
+        List<Place> placeSorted = placeRepository.findPlacesByLocationName(locationName)
                 .stream()
-                .sorted(Comparator.comparing(Place::getReviewCount).reversed())
+                .map(Place::getPlaceStatistic)
+                .sorted(Comparator.comparing(PlaceStatistic::getReviewCount).reversed())
+                .map(PlaceStatistic::getPlace)
                 .toList();
 
-        return places.stream()
+        return placeSorted.stream()
                 .limit(6)
                 .map(PlaceReviewCountSortResponseDto::new)
                 .toList();
