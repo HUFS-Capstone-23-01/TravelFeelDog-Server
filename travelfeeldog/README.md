@@ -9,12 +9,12 @@
 
 ---
 
-| 내용 | stack  |
-| --- | --- |
-| Language | Java 11  |
-| Framework | Spring Boot 2.7.1 |
-| Persistence Framework | JPA/Hibernate , Querydsl  |
-| Third Party Library  | OpenAi Service  |
-| Data  | MySQL 8.0.19 |
-| Build | Gradle 7.6 |
-| etc | Docker, Docker-compose  |
+| 내용 | stack                       |
+| --- |-----------------------------|
+| Language | Java 17                     |
+| Framework | Spring Boot 2.7.7           |
+| Persistence Framework | JPA/Hibernate , Data JPA    |
+| Third Party Library  | OpenAi Service              |
+| Data  | MySQL 8.0.19                |
+| Build | Gradle 7.5                  |
+| etc | AWS, ubuntu 22  ,openjdk 17 |
