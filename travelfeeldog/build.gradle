@@ -3,7 +3,7 @@ plugins {
     id 'org.springframework.boot' version '2.7.7'
     id 'io.spring.dependency-management' version '1.1.0'
 }
-//version: ubuntu 22 , openjdk 17 , gradle 7.5
+
 group = 'woowahangongdol'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
@@ -30,6 +30,9 @@ dependencies {
 
     //infra
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
+    // third - part
+    implementation 'com.theokanning.openai-gpt3-java:service:0.12.0'
 
     // Common
     compileOnly 'org.projectlombok:lombok'

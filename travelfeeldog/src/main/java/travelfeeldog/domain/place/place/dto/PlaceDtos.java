@@ -2,6 +2,7 @@ package travelfeeldog.domain.place.place.dto;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import travelfeeldog.domain.place.place.model.Place;
@@ -10,6 +11,13 @@ import travelfeeldog.domain.review.review.dto.ReviewDtos.SingleDescriptionAndNic
 
 
 public class PlaceDtos {
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class GptChatMessage {
+        private String role;
+        private String content;
+    }
     @Data
     @NoArgsConstructor
     public static class PlaceSearchResponseDto{
