@@ -31,8 +31,11 @@ public class Feed extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Column(name = "feed_like_count")
     @ColumnDefault("0")
     private int likeCount;
+
+    @Column(name = "feed_scrap_count")
     @ColumnDefault("0")
     private int scrapCount;
 
