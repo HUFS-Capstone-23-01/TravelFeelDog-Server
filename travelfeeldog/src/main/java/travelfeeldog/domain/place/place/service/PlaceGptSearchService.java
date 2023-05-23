@@ -1,11 +1,9 @@
 package travelfeeldog.domain.place.place.service;
 
-import com.theokanning.openai.completion.chat.ChatMessage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -23,33 +21,29 @@ public class PlaceGptSearchService {
     private final PlaceService placeService;
     @Value("${gpt.key}")
     private String API_KEY;
-    private static final String END_POINT = "https://api.openai.com/v1/chat/completions";
+    private static final String END_POINT = "https://api.openai.com/v1/completions";
 
     public String answerText(String prompt, float temperature, int maxTokens) {
+
         List<Place> places = placeService.getAllPlaces();
-        List<String> placesName = places.stream().map(i->i.getName()).collect(Collectors.toList());
+        List<String> placesName = places.stream().map(Place::getName).toList();
+        String query = placesName + "Base on this  information" + prompt;
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", "Bearer " + API_KEY);
 
-        String query = placesName + "Base on this  information" + prompt;
-        List<GptChatMessage> messages = new ArrayList<>();
-
-        messages.add(new GptChatMessage("user", query));
-
         Map<String, Object> requestBody = new HashMap<>();
-        requestBody.put("messages", messages);
-        requestBody.put("model","gpt-3.5-turbo");
+        requestBody.put("model","text-davinci-003");
+        requestBody.put("prompt", query);
         requestBody.put("temperature", temperature);
-        requestBody.put("max_tokens",maxTokens);
+        requestBody.put("max_tokens", maxTokens);
 
         HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Map> response = restTemplate.postForEntity(END_POINT, requestEntity, Map.class);
-        Map<String, Object> responseBody = response.getBody();
-
-        return responseBody.toString();
+        return response.toString();
     }
+
 }

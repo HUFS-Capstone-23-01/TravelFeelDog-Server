@@ -22,6 +22,7 @@ import travelfeeldog.domain.place.place.dto.PlaceDtos.PlaceResponseRecommendDeta
 import travelfeeldog.domain.place.place.dto.PlaceDtos.PlaceReviewCountSortResponseDto;
 import travelfeeldog.domain.place.place.dto.PlaceDtos.PlaceSearchResponseDto;
 import travelfeeldog.domain.place.place.model.Place;
+import travelfeeldog.domain.place.place.service.PlaceGptSearchService;
 import travelfeeldog.domain.place.place.service.PlaceService;
 import travelfeeldog.global.common.dto.ApiResponse;
 import travelfeeldog.infra.aws.s3.service.AwsS3ImageService;
@@ -32,6 +33,7 @@ import travelfeeldog.infra.aws.s3.service.AwsS3ImageService;
 public class PlaceApiController {
 
     private final PlaceService placeService;
+    private final PlaceGptSearchService placeGptSearchService;
     private final AwsS3ImageService awsS3ImageService;
     @PostMapping(produces = "application/json;charset=UTF-8")
     public ApiResponse<PlaceDetailDto> addNewPlace(@RequestBody PlacePostRequestDto request) {
@@ -74,5 +76,9 @@ public class PlaceApiController {
                                                                        @RequestParam("keyWord") String keyWord,
                                                                        @RequestHeader("Authorization") String token) {
         return ApiResponse.success(placeService.getResponseSearch(categoryName,locationName,keyWord,token));
+    }
+    @GetMapping(value = "/search/gpt", produces = "application/json;charset=UTF-8")
+    public ApiResponse<String> getPlaceSearchByGpt(@RequestParam("question") String question){
+        return ApiResponse.success(placeGptSearchService.answerText(question,1.0f,4000));
     }
 }
