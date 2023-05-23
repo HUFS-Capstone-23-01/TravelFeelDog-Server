@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import travelfeeldog.domain.feed.FeedLike.model.FeedLike;
 import travelfeeldog.domain.feed.comment.model.Comment;
 import travelfeeldog.domain.feed.scrap.model.Scrap;
@@ -30,10 +31,9 @@ public class Feed extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Column(name = "feed_like_count")
+    @ColumnDefault("0")
     private int likeCount;
-
-    @Column(name = "feed_scrap_count")
+    @ColumnDefault("0")
     private int scrapCount;
 
     @Column(name = "feed_title")

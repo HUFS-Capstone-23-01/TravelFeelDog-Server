@@ -31,8 +31,6 @@ public class FeedService {
     private final FeedRepository feedRepository;
     private final MemberService memberService;
     private final FeedTagService feedTagService;
-    private final FeedLikeService feedLikeService;
-    private final ScrapService scrapService;
 
     @Transactional
     public Feed postFeed(String writerToken,
@@ -76,8 +74,9 @@ public class FeedService {
                 .orElseThrow(() -> new NoSuchElementException("Feed details loading is failed."));
         FeedStaticResponseDto feedStaticResponseDto = new FeedStaticResponseDto(feed);
 
-        List<FeedLikesByMemberResponseDto> allMemberFeedLike = feedLikeService.getAllMemberFeedLike(token);
-        List<ScrapByMemberResponseDto> allMemberScrap = scrapService.getAllMemberScrap(token);
+        List<FeedLikesByMemberResponseDto> allMemberFeedLike = member.getFeedLikes().stream().map(FeedLikesByMemberResponseDto::new).toList();
+        List<ScrapByMemberResponseDto> allMemberScrap = member.getScraps().stream().map(ScrapByMemberResponseDto::new).toList();
+
         Optional<ScrapByMemberResponseDto> doScrap = allMemberScrap.stream()
                 .filter(scrapByMemberResponseDto ->
                         scrapByMemberResponseDto.getFeedId().equals(feed.getId()))
