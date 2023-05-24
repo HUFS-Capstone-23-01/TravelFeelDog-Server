@@ -1,6 +1,7 @@
 package travelfeeldog.domain.place.place.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import travelfeeldog.domain.place.place.dto.PlaceDtos.GptChatMessage;
+
 import travelfeeldog.domain.place.place.model.Place;
 
 @Service
@@ -27,7 +28,9 @@ public class PlaceGptSearchService {
 
         List<Place> places = placeService.getAllPlaces();
         List<String> placesName = places.stream().map(Place::getName).toList();
-        String query = placesName + "Base on this  information" + prompt;
+        Collections.shuffle(places);
+        List<Place> maxFiveElements = places.subList(0, Math.min(5, places.size()));
+        String query = maxFiveElements + "Base on this  information" + prompt;
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -45,5 +48,4 @@ public class PlaceGptSearchService {
         ResponseEntity<Map> response = restTemplate.postForEntity(END_POINT, requestEntity, Map.class);
         return response.toString();
     }
-
 }
