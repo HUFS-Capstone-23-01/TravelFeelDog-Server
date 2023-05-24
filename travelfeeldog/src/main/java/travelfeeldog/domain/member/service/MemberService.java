@@ -20,7 +20,7 @@ public class MemberService {
 
     @Transactional
     public Member saveMember(String nickName, String token) {
-        String url = "https://tavelfeeldog.s3.ap-northeast-2.amazonaws.com/base/pic1.JPG";
+        String url = "https://tavelfeeldog.s3.ap-northeast-2.amazonaws.com/member/%EA%B8%B0%EB%B3%B8%20%ED%94%84%EB%A1%9C%ED%95%84.png";
         return memberRepository.saveMember(nickName, 1, 0, url, token)
                 .orElseThrow(() -> new RuntimeException("Member not saved"));
     }
