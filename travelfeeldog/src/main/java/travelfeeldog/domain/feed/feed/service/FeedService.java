@@ -3,11 +3,17 @@ package travelfeeldog.domain.feed.feed.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import travelfeeldog.domain.feed.FeedLike.dto.FeedLikeDtos;
+import travelfeeldog.domain.feed.FeedLike.dto.FeedLikeDtos.FeedLikesByMemberResponseDto;
 import travelfeeldog.domain.feed.FeedLike.model.FeedLike;
+import travelfeeldog.domain.feed.FeedLike.service.FeedLikeService;
 import travelfeeldog.domain.feed.feed.dao.FeedRepository;
 import travelfeeldog.domain.feed.feed.dto.FeedDtos.FeedStaticResponseDto;
 import travelfeeldog.domain.feed.feed.model.Feed;
+import travelfeeldog.domain.feed.scrap.dto.ScrapDtos;
+import travelfeeldog.domain.feed.scrap.dto.ScrapDtos.ScrapByMemberResponseDto;
 import travelfeeldog.domain.feed.scrap.model.Scrap;
+import travelfeeldog.domain.feed.scrap.service.ScrapService;
 import travelfeeldog.domain.member.model.Member;
 import travelfeeldog.domain.feed.tag.model.Tag;
 import travelfeeldog.domain.member.service.MemberService;
@@ -15,6 +21,7 @@ import travelfeeldog.domain.member.service.MemberService;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Transactional(readOnly = true)
 @Service
@@ -66,15 +73,24 @@ public class FeedService {
         Feed feed = feedRepository.findFeedDetail(id)
                 .orElseThrow(() -> new NoSuchElementException("Feed details loading is failed."));
         FeedStaticResponseDto feedStaticResponseDto = new FeedStaticResponseDto(feed);
-        List<Scrap> feedScraps = feed.getFeedScraps();
-        List<FeedLike> feedLikes = feed.getFeedLikes();
-        int doScrap = feedScraps.indexOf(new Scrap(member, feed));
-        int doLike = feedLikes.indexOf(new FeedLike(member, feed));
-        if(doScrap != -1) {
-            feedStaticResponseDto.setFeedScrapId(feedScraps.get(doScrap).getId());
+
+        List<FeedLikesByMemberResponseDto> allMemberFeedLike = member.getFeedLikes().stream().map(FeedLikesByMemberResponseDto::new).toList();
+        List<ScrapByMemberResponseDto> allMemberScrap = member.getScraps().stream().map(ScrapByMemberResponseDto::new).toList();
+
+        Optional<ScrapByMemberResponseDto> doScrap = allMemberScrap.stream()
+                .filter(scrapByMemberResponseDto ->
+                        scrapByMemberResponseDto.getFeedId().equals(feed.getId()))
+                .findFirst();
+        Optional<FeedLikesByMemberResponseDto> doLike = allMemberFeedLike.stream()
+                .filter(feedLikesByMemberResponseDto ->
+                        feedLikesByMemberResponseDto.getFeedId().equals(feed.getId()))
+                .findFirst();
+        System.out.println("doScrap : " + doScrap + ", doLike : " + doLike);
+        if(doScrap.isPresent()) {
+            feedStaticResponseDto.setFeedScrapId(doScrap.get().getScrapId());
         }
-        if(doLike != -1) {
-            feedStaticResponseDto.setFeedLikeId(feedLikes.get(doLike).getId());
+        if(doLike.isPresent()) {
+            feedStaticResponseDto.setFeedLikeId(doLike.get().getFeedLikeId());
         }
         return feedStaticResponseDto;
     }

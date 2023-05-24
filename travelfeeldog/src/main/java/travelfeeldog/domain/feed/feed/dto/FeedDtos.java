@@ -51,7 +51,7 @@ public class FeedDtos {
             this.body = feed.getBody();
             this.createdDateTime = feed.getCreatedDateTime().toLocalDate();
             if(feed.getFeedImages().isEmpty()) {
-                this.feedImageUrls.add("baseUrl");
+                this.feedImageUrls.add("https://tavelfeeldog.s3.ap-northeast-2.amazonaws.com/feed/%EC%BB%A4%EB%AE%A4%EB%8B%88%ED%8B%B0%20%EA%B8%B0%EB%B3%B8.png");
             }
             else {
                 this.feedImageUrls.addAll(feed.getFeedImages().stream().map(FeedImages::getFeedImageUrl).distinct().toList());
@@ -81,7 +81,7 @@ public class FeedDtos {
             this.body = feed.getBody();
             this.createdDateTime = feed.getCreatedDateTime().toLocalDate();
             if (feed.getFeedImages().isEmpty()) {
-                this.feedImagesUrl = "baseUrl";
+                this.feedImagesUrl = "https://tavelfeeldog.s3.ap-northeast-2.amazonaws.com/feed/%EC%BB%A4%EB%AE%A4%EB%8B%88%ED%8B%B0%20%EA%B8%B0%EB%B3%B8.png";
             } else {
                 this.feedImagesUrl = feed.getFeedImages().get(0).getFeedImageUrl();
             }
