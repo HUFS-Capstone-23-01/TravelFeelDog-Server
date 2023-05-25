@@ -79,6 +79,6 @@ public class PlaceApiController {
     }
     @GetMapping(value = "/search/gpt", produces = "application/json;charset=UTF-8")
     public ApiResponse<String> getPlaceSearchByGpt(@RequestParam("question") String question){
-        return ApiResponse.success(placeGptSearchService.answerText(question,1.0f,4000));
+        return ApiResponse.success(placeGptSearchService.answerText(question,1.0f,4096));
     }
 }

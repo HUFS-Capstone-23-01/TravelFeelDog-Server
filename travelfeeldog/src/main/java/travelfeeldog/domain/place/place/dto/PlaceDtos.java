@@ -102,8 +102,8 @@ public class PlaceDtos {
             this.describe = place.getDescribe();
             this.thumbNailImageUrl = place.getThumbNailImageUrl();
             this.address = place.getAddress();
-            this.latitude = place.getLatitude();
-            this.longitude = place.getLongitude();
+            this.latitude = place.getLatitude() + 30;
+            this.longitude = place.getLongitude() + 120;
             this.facilityNames = place.getPlaceFacilities().stream().map(pf -> pf.getFacility().getName())
                     .collect(Collectors.toList());
         }
@@ -139,8 +139,8 @@ public class PlaceDtos {
             this.reviewCount = placeStatistic.getReviewCount();
             this.thumbNailImageUrl = place.getThumbNailImageUrl();
             this.address = place.getAddress();
-            this.latitude = place.getLatitude();
-            this.longitude = place.getLongitude();
+            this.latitude = place.getLatitude() + 30;
+            this.longitude = place.getLongitude() + 120;
             this.facilityNames = place.getPlaceFacilities().stream().map(pf -> pf.getFacility().getName())
                     .collect(Collectors.toList());
             this.reviewCountGood = placeStatistic.getReviewCountGood();
