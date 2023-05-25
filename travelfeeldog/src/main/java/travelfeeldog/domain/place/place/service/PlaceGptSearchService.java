@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -27,10 +28,11 @@ public class PlaceGptSearchService {
     public String answerText(String prompt, float temperature, int maxTokens) {
 
         List<Place> places = placeService.getAllPlaces();
-        List<String> placesName = places.stream().map(Place::getName).toList();
-        Collections.shuffle(places);
-        List<Place> maxFiveElements = places.subList(0, Math.min(5, places.size()));
-        String query = maxFiveElements + "Base on this  information" + prompt;
+        List<String> placesName = places.stream().map(Place::getName).collect(Collectors.toList());
+        Collections.shuffle(placesName);
+        List<String> maxFiveElements = placesName.subList(0, Math.min(1, placesName.size()));
+        String selectedPlaces = String.join(",",maxFiveElements);
+        String query = String.format("%s Based on this information, %s", selectedPlaces, prompt);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

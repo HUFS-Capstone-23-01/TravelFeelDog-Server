@@ -126,19 +126,27 @@ public class PlaceService {
         memberService.findByToken(token);
         List<Place> places = placeRepository.findPlacesByLocationNameAndCategoryNameCallKey(categoryName, locationName);
         if(keyWord.trim().length() != 0) {
-        String normalizedKeyword = keyWord.trim().toLowerCase();
 
-        List<Place> filteredPlaces = places.stream()
-                .filter(place -> place.getReviews().stream()
-                        .flatMap(review -> review.getReviewGoodKeyWords().stream())
-                        .map(reviewGoodKeyword -> reviewGoodKeyword.getGoodKeyWord().getKeyWordName().toLowerCase())
-                        .anyMatch(keyword -> keyword.toLowerCase().contains(normalizedKeyword)))
-                .toList();
+            String normalizedKeyword = keyWord.trim().toLowerCase();
+
+            List<Place> filteredPlaces = new java.util.ArrayList<>(places.stream()
+                    .filter(place -> place.getReviews().stream()
+                            .flatMap(review -> review.getReviewGoodKeyWords().stream())
+                            .map(reviewGoodKeyword -> reviewGoodKeyword.getGoodKeyWord().getKeyWordName().toLowerCase())
+                            .anyMatch(keyword -> keyword.contains(normalizedKeyword)))
+                    .toList());
+            List<Place> filteredPlacesByName = places.stream()
+                    .filter(place -> place.getName().contains(normalizedKeyword))
+                    .toList();
+
+            filteredPlaces.addAll(filteredPlacesByName);
+
             return filteredPlaces.stream()
                     .map(PlaceSearchResponseDto::new)
                     .limit(10)
                     .toList();
         }
+
         return places.stream()
                 .map(PlaceSearchResponseDto::new)
                 .limit(10)
