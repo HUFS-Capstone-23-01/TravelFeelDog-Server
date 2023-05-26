@@ -69,7 +69,7 @@ public class PlaceGptSearchService {
         if (cut != -1 ) {
             parsedResult = parsedResult.substring(cut + 3).trim();
         }
-        String result = parsedResult.replaceFirst("text=\\s*\\n\\s*\\d+\\.", "").replace("\n", "");
+        String result = parsedResult.replaceFirst("text=\\s*\\n\\s*\\d+\\.", "").replace("\n", "").replace("choices=[{text= !","");
         if(result.isEmpty()){
             return selectedPlaces;
         }
