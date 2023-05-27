@@ -19,7 +19,7 @@ public class ExceptionController {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ApiResponse ServerException2(Exception e) {
         e.printStackTrace();
-        return ApiResponse.error(500,"서버 로직 에러");
+        return ApiResponse.error(500,"서버 로직 에러:" + e);
     }
 
     @ExceptionHandler(MissingRequestHeaderException.class)
