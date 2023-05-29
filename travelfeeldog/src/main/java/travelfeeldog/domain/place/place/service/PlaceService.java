@@ -1,5 +1,6 @@
 package travelfeeldog.domain.place.place.service;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -25,6 +26,7 @@ import travelfeeldog.domain.place.place.dto.PlaceDtos.PlaceSearchResponseDto;
 import travelfeeldog.domain.place.place.model.Place;
 import travelfeeldog.domain.place.place.model.PlaceStatistic;
 import travelfeeldog.domain.review.review.dto.ReviewDtos.ReviewPostRequestDto;
+import travelfeeldog.domain.review.review.model.Review;
 
 @Transactional(readOnly = true)
 @Service
@@ -115,8 +117,20 @@ public class PlaceService {
                 .sorted(Comparator.comparing(PlaceStatistic::getReviewCount).reversed())
                 .map(PlaceStatistic::getPlace)
                 .toList();
-
-        return placeSorted.stream()
+        List<Place> places = new ArrayList<>();
+        for(Place place : placeSorted) {
+            List<Review> reviews = place.getReviews();
+            for(Review review: reviews) {
+                if(!review.getAdditionalScript().isEmpty()) {
+                    places.add(place);
+                    break;
+                }
+            }
+        }
+        if(places.size() ==0) {
+            places = placeSorted;
+        }
+        return places.stream()
                 .limit(6)
                 .map(PlaceReviewCountSortResponseDto::new)
                 .toList();

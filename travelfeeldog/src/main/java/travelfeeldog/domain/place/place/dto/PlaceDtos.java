@@ -68,7 +68,11 @@ public class PlaceDtos {
             this.placeName = place.getName();
             this.categoryName = place.getCategory().getName();
             this.thumbNailImageUrl = place.getThumbNailImageUrl();
-            this.reviews = place.getReviews().stream().map(SingleDescriptionAndNickNameDto::new).toList();
+            this.reviews = place.getReviews()
+                    .stream()
+                    .map(SingleDescriptionAndNickNameDto::new)
+                    .filter(r->!r.getAdditionalScript().isEmpty())
+                    .toList();
         }
     }
 

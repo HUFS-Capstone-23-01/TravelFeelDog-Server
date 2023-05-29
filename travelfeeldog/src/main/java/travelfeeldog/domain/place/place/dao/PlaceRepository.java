@@ -45,19 +45,3 @@ public interface PlaceRepository extends JpaRepository<Place,Long> {
         // join fetch , place and member and review to call
     List<Place> findPlacesByLocationName(@Param("locationName") String locationName);
 }
-//    @Query("SELECT p " +
-//            "FROM Place p " +
-//            "JOIN fetch p.location l " +
-//            "JOIN fetch p.category c " +
-//            "LEFT JOIN p.reviews r " +
-//            "LEFT JOIN r.reviewGoodKeyWords gk " +
-//            "LEFT JOIN gk.goodKeyWord gkw " +
-//            "WHERE l.name = :locationName " +
-//            "AND c.name = :categoryName " +
-//            "AND (p.name LIKE %:keyword% OR gkw.keyWordName LIKE %:keyword%)")
-//    List<Place> findPlacesByLocationNameAndCategoryNameAndKeyWord(
-//            @Param("categoryName") String categoryName,
-//            @Param("locationName") String locationName,
-//            @Param("keyword") String keyword);
-
-
