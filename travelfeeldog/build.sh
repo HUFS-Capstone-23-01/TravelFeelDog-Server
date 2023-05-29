@@ -9,6 +9,6 @@ echo $PID kill
 kill -9 $(ps -ef | grep $PID | grep -v grep | awk '{print $2 }')
 rm -f "$LOG_FILE"
 echo "start Application!"
-nohup java -jar ./build/libs/TravelFeelDog.jar >> "$LOG_FILE" 2>&1 &
+nohup java -jar -Duser.timezone=Asia/Seoul ./build/libs/TravelFeelDog.jar >> "$LOG_FILE" 2>&1 &
 
 echo "Running Application"
