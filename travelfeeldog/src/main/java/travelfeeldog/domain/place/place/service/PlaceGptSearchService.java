@@ -28,12 +28,16 @@ public class PlaceGptSearchService {
     public String answerText(String prompt, float temperature, int maxTokens) {
         List<Place> places = placeService.getAllPlaces();
         List<String> selectedPlaces = places.stream()
-                .map(p -> p.getName() + ": " + p.getDescribe())
+                .map(p -> p.getName() + ":" + p.getDescribe())
                 .collect(Collectors.toList());
 
         Collections.shuffle(selectedPlaces);
         selectedPlaces = selectedPlaces.subList(0, Math.min(3, selectedPlaces.size()));
 
+        System.out.println(selectedPlaces);
+        log.info("selectedplace: {}", selectedPlaces);
+
+        selectedPlaces = selectedPlacesDescribeHandles(selectedPlaces);
         String query = String.format("%s 들 기반으로 질문에 답해줘 Q: %s", String.join(", ", selectedPlaces), prompt);
         log.info("Query: {}", query);
 
@@ -64,6 +68,21 @@ public class PlaceGptSearchService {
         }
 
         return String.join(", ", selectedPlaces);
+    }
+
+    public List<String> selectedPlacesDescribeHandles(List<String> selectedPlaces) {
+        List<String> parsedScriptPlaces = new ArrayList<>();
+        for(String place : selectedPlaces) {
+            int end = place.indexOf(".");
+            if(end != -1)
+            {
+                parsedScriptPlaces.add(place.substring(0,end+1));
+            }
+            else {
+                parsedScriptPlaces.add(place);
+            }
+        }
+        return parsedScriptPlaces;
     }
 
     private String extractResultFromText(String text) {
