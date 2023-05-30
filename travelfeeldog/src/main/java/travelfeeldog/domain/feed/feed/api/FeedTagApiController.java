@@ -3,7 +3,6 @@ package travelfeeldog.domain.feed.feed.api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import travelfeeldog.domain.feed.feed.dto.FeedDtos.FeedListResponseDto;
-import travelfeeldog.domain.feed.feed.dto.FeedTagDtos.TagSearchRequestDto;
 import travelfeeldog.domain.feed.feed.model.Feed;
 import travelfeeldog.domain.feed.feed.service.FeedTagService;
 import travelfeeldog.domain.feed.tag.model.Tag;
@@ -21,9 +20,8 @@ public class FeedTagApiController {
     private final FeedTagService feedTagService;
 
     @GetMapping(value = "/searchTag", produces = "application/json;charset=UTF-8")
-    public ApiResponse getFeedListByTag(@RequestBody TagSearchRequestDto tagSearchRequestDto,
-                                        @RequestParam("page") int page) {
-        List<Tag> validTags = feedTagService.getValidTagsByContents(tagSearchRequestDto.getTagContents());
+    public ApiResponse getFeedListByTag(@RequestParam("tagContents")List<String> tagContents, @RequestParam("page") int page) {
+        List<Tag> validTags = feedTagService.getValidTagsByContents(tagContents);
         if(validTags.isEmpty())
             return ApiResponse.success(new ArrayList<>());
 
