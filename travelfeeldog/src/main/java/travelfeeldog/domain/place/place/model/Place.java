@@ -29,54 +29,58 @@ import travelfeeldog.global.common.model.BaseTimeEntity;
 
 @DynamicInsert
 @Entity
-@Table(name ="places")
-@Getter @Setter
+@Table(name = "places")
+@Getter
+@Setter
 public class Place extends BaseTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="place_id")
+    @Column(name = "place_id")
     private Long id;
-    @Column(name="place_name")
+    @Column(name = "place_name")
     private String name;
-    @Column(name="place_decsribe")
+    @Column(name = "place_decsribe")
     private String describe;
 
-    @ColumnDefault("'https://tavelfeeldog.s3.ap-northeast-2.amazonaws.com/base/pic1.JPG'")
-    @Column(name="place_thumbnail_image")
+    @ColumnDefault("'https://tavelfeeldog.s3.ap-northeast-2.amazonaws.com/base/baseLogo.png'")
+    @Column(name = "place_thumbnail_image")
     private String thumbNailImageUrl;
-    @Column(name="place_latitude")
+    @Column(name = "place_latitude")
     private float latitude;
-    @Column(name="place_longitude")
+    @Column(name = "place_longitude")
     private float longitude;
-    @Column(name="place_address")
+    @Column(name = "place_address")
     private String address;
     @ColumnDefault("0")
-    @Column(name="place_view_count")
+    @Column(name = "place_view_count")
     private int viewCount;
-    @OneToMany(mappedBy = "place" ,cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "place", cascade = CascadeType.PERSIST)
     private List<PlaceFacility> placeFacilities = new ArrayList<>();
 
-    @OneToMany(mappedBy = "place" ,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
 
-    @ManyToOne(fetch = LAZY,cascade= CascadeType.PERSIST)
-    @JoinColumn(name="category_id")
+    @ManyToOne(fetch = LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToOne(fetch = LAZY,cascade= CascadeType.PERSIST)
-    @JoinColumn(name="location_id")
+    @ManyToOne(fetch = LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "location_id")
     private Location location;
 
     @OneToOne(mappedBy = "place", cascade = CascadeType.ALL)
     private PlaceStatistic placeStatistic;
+
     protected Place() {
 
     }
-    public Place(PlacePostRequestDto placePostRequestDto){
+
+    public Place(PlacePostRequestDto placePostRequestDto) {
         this.name = placePostRequestDto.getName();
         this.describe = placePostRequestDto.getDescribe();
-        this.address= placePostRequestDto.getAddress();
-        this.latitude =placePostRequestDto.getLatitude();
+        this.address = placePostRequestDto.getAddress();
+        this.latitude = placePostRequestDto.getLatitude();
         this.longitude = placePostRequestDto.getLongitude();
     }
 }
