@@ -80,7 +80,7 @@ public class PlaceService {
         return placeRepository.findById(placeId)
                 .orElseThrow(() -> new EntityNotFoundException("Place not found with ID: " + placeId));
     }
-    public Place getPlaceById(ReviewPostRequestDto request){
+    public Place getPlaceById(ReviewPostRequestDto request) {
         return getPlaceById(request.getPlaceId());
     }
 
@@ -89,7 +89,7 @@ public class PlaceService {
 
         Place place = placeRepository.findById(placeId)
                 .orElseThrow(() -> new EntityNotFoundException("Place not found with ID: " + placeId));
-
+        place.upCountPlaceViewCount();
         PlaceStatistic placeStatistic = placeStatisticRepository.findByPlaceId(placeId);
 
         return new PlaceResponseDetailDto(place, placeStatistic);
@@ -102,12 +102,11 @@ public class PlaceService {
     public List<PlaceResponseRecommendDetailDto> getResponseRecommend(String categoryName, String locationName,
                                                                       String token) {
         memberService.findByToken(token);
-
-        return placeRepository.findPlacesByLocationNameAndCategoryName(categoryName, locationName)
-                .stream()
-                .limit(6)
-                .map(PlaceResponseRecommendDetailDto::new)
-                .toList();
+        List<Place> places = placeRepository.findPlacesByLocationNameAndCategoryName(categoryName, locationName);
+        return  places.stream().sorted(Comparator.comparing(Place::getViewCount).reversed())
+            .limit(6)
+            .map(PlaceResponseRecommendDetailDto::new)
+            .toList();
     }
     public List<PlaceReviewCountSortResponseDto> getMostReviewPlace(String locationName, String token) {
         memberService.findByToken(token);
