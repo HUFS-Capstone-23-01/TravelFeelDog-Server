@@ -49,12 +49,11 @@ public class ScrapService {
         Scrap  scrap = scrapRepository.findById(scrapId)
                 .orElseThrow(() -> new EntityNotFoundException("Scrap not found with ID"+scrapId));
         scrap.getFeed().updateScrapCountPlus(false);
-        if(member.getId().equals(scrap.getMember().getId())) {
+        if(scrap.checkMember(member)) {
             scrapRepository.delete(scrap);
             return true;
-        }
-        else {
-         return false;
+        }else {
+            return false;
         }
    }
 }
