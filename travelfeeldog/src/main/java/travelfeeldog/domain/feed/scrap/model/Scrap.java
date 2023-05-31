@@ -36,5 +36,8 @@ public class Scrap {
         this.member = member;
         this.feed =feed;
     }
+    public boolean checkMember(Member member) {
+        return this.member.equals(member);
+    }
 
 }
