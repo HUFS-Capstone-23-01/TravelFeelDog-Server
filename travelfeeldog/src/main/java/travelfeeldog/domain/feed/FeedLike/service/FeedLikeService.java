@@ -47,11 +47,16 @@ public class FeedLikeService {
     }
     @Transactional
     public Boolean deleteFeedLike(String token,Long feedLikeId){
-        memberService.findByToken(token);
+        Member member = memberService.findByToken(token);
         FeedLike  feedLike = feedLikeRepository.findById(feedLikeId)
                 .orElseThrow(() -> new EntityNotFoundException("Scrap not found with ID"+feedLikeId));
         feedLike.getFeed().updateFeedLikeCountPlus(false);
-        feedLikeRepository.delete(feedLike);
-        return true;
+        if(member.getId().equals(feedLike.getMember().getId())) {
+            feedLikeRepository.delete(feedLike);
+            return true;
+        }
+        else{
+            return false;
+        }
    }
 }

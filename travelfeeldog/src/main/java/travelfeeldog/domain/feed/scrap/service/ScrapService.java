@@ -44,12 +44,17 @@ public class ScrapService {
         return scrapRepository.findAllByMemberId(member.getId()).stream().map(ScrapByMemberResponseDto::new).toList();
     }
     @Transactional
-    public Boolean deleteScrap(String token,Long scrapId){
-        memberService.findByToken(token);
+    public Boolean deleteScrap(String token,Long scrapId) {
+        Member member = memberService.findByToken(token);
         Scrap  scrap = scrapRepository.findById(scrapId)
                 .orElseThrow(() -> new EntityNotFoundException("Scrap not found with ID"+scrapId));
         scrap.getFeed().updateScrapCountPlus(false);
-        scrapRepository.delete(scrap);
-        return true;
+        if(member.getId().equals(scrap.getMember().getId())) {
+            scrapRepository.delete(scrap);
+            return true;
+        }
+        else {
+         return false;
+        }
    }
 }

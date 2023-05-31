@@ -112,8 +112,7 @@ public class Feed extends BaseTimeEntity {
     }
 
     public void updateFeedLikeCountPlus(boolean add) {
-        if(add)
-        {
+        if(add) {
             this.likeCount += 1;
         }
         else {
@@ -122,9 +121,8 @@ public class Feed extends BaseTimeEntity {
     }
 
     public void updateScrapCountPlus(boolean add) {
-        if(add)
-        {
-        this.scrapCount += 1;
+        if(add) {
+            this.scrapCount += 1;
         }
         else {
             this.scrapCount -= 1;
