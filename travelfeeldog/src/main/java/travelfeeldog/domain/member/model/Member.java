@@ -13,6 +13,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import travelfeeldog.domain.feed.FeedLike.model.FeedLike;
 import travelfeeldog.domain.feed.feed.model.Feed;
 import travelfeeldog.domain.feed.scrap.model.Scrap;
@@ -41,7 +42,7 @@ public class Member extends BaseTimeEntity{
 
     @Column(name = "member_exp")
     private int exp;
-
+    @ColumnDefault("'https://tavelfeeldog.s3.ap-northeast-2.amazonaws.com/base/baseLogo.png'")
     @Column(name = "member_image_url")
     private String imageUrl;
 
@@ -63,45 +64,26 @@ public class Member extends BaseTimeEntity{
     private Member(String nickName,
                    int level,
                    int exp,
-                   String imageUrl,
                    String token) {
         this.nickName = nickName;
         this.level = level;
         this.exp = exp;
-        this.imageUrl = imageUrl;
         this.token = token;
     }
 
     public static Member create(String nickName,
                                 int level,
                                 int exp,
-                                String imageUrl,
                                 String token) {
-        return new Member(nickName, level, exp, imageUrl, token);
+        return new Member(nickName, level, exp, token);
     }
-
-    //==연관관계 메소드==//
-    public boolean updateExpAndLevel(int addingExp) {
+    public void updateExpAndLevel(int addingExp) {
         int changedExp = this.exp + addingExp;
         if (changedExp / 100 == 0) {
             this.exp = changedExp;
-            return false;
         } else {
             this.exp = changedExp % 100;
             this.level = this.level + 1;
         }
-        return true;
-    }
-    public void addFeedLike(FeedLike feedLike) {
-        feedLikes.add(feedLike);
-        feedLike.setMember(this);
-    }
-    public void addReview(Review review) {
-        reviews.add(review);
-        review.setMember(this);
-    }
-    public void addFeed(Feed feed) {
-        feeds.add(feed);
-        feed.setMember(this);
     }
 }

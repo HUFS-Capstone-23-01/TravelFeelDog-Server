@@ -1,6 +1,7 @@
 package travelfeeldog.domain.member.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -20,29 +21,18 @@ public class MemberService {
 
     @Transactional
     public Member saveMember(String nickName, String token) {
-        String url = "https://tavelfeeldog.s3.ap-northeast-2.amazonaws.com/member/%EA%B8%B0%EB%B3%B8%20%ED%94%84%EB%A1%9C%ED%95%84.png";
-        return memberRepository.saveMember(nickName, 1, 0, url, token)
-                .orElseThrow(() -> new RuntimeException("Member not saved"));
+        return memberRepository.saveMember(nickName, 1, 0, token)
+            .orElseThrow(() -> new RuntimeException("Member not saved"));
     }
 
-    @Transactional
-    public void deleteMember(String firebaseToken) {
-        memberRepository.deleteMember(firebaseToken);
+    public Member findByNickName(String nickName) {
+        return memberRepository.findByNickName(nickName).orElseThrow(
+            () -> new NoSuchElementException("Member not found by nickName :" + nickName));
     }
 
-    @Transactional
-    public Member updateImageUrl(String firebaseToken, String imageUrl) {
-        return memberRepository.updateMemberImageUrl(firebaseToken, imageUrl);
-    }
-
-    @Transactional
-    public Member updateNickName(String firebaseToken, String nickName) {
-        return memberRepository.updateNickName(firebaseToken, nickName);
-    }
-
-    @Transactional
-    public Member updateExpAndLevel(String firebaseToken, int addExpValue) {
-        return memberRepository.updateExpAndLevel(firebaseToken, addExpValue);
+    public Member findByToken(String firebaseToken) {
+        return memberRepository.findByToken(firebaseToken).orElseThrow(
+            () -> new NoSuchElementException("Member not found by token:" + firebaseToken));
     }
 
     public boolean isNickRedundant(String nickName) {
@@ -53,16 +43,32 @@ public class MemberService {
         return memberRepository.findByToken(firebaseToken).isPresent();
     }
 
-    public Optional<Member> findByNickName(String nickName) {
-        return memberRepository.findByNickName(nickName);
-    }
-
-    public Member findByToken(String firebaseToken) {
-        return memberRepository.findByToken(firebaseToken).orElseThrow(() -> new RuntimeException("Member not found"));
-    }
-
     public List<Member> getAll() {
         return memberRepository.findAll();
+    }
+
+    @Transactional
+    public void deleteMember(String firebaseToken) {
+        Member member = findByToken(firebaseToken);
+        memberRepository.deleteMember(member);
+    }
+
+    @Transactional
+    public Member updateImageUrl(String firebaseToken, String imageUrl) {
+        Member member = findByToken(firebaseToken);
+        return memberRepository.updateMemberImageUrl(member, imageUrl);
+    }
+
+    @Transactional
+    public Member updateNickName(String firebaseToken, String nickName) {
+        Member member = findByToken(firebaseToken);
+        return memberRepository.updateNickName(member, nickName);
+    }
+
+    @Transactional
+    public Member updateExpAndLevel(String firebaseToken, int addExpValue) {
+        Member member = findByToken(firebaseToken);
+        return memberRepository.updateExpAndLevel(member, addExpValue);
     }
 }
 

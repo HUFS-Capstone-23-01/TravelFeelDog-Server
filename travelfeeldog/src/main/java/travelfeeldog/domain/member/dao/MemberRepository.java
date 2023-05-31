@@ -16,12 +16,12 @@ public class MemberRepository {
     @PersistenceContext
     private final EntityManager em;
 
-    public Optional<Member> saveMember(String nickName, int level, int exp, String imageUrl, String token) {
+    public Optional<Member> saveMember(String nickName, int level, int exp,String token) {
         try {
             findByToken(token).ifPresent(m -> {
                 throw new IllegalStateException("가입되어 있습니다.");
             });
-            Member member = Member.create(nickName, level, exp, imageUrl, token);
+            Member member = Member.create(nickName, level, exp, token);
             em.persist(member);
             return Optional.of(member);
         } catch (IllegalStateException e) {
@@ -62,20 +62,17 @@ public class MemberRepository {
         }
     }
 
-    public void deleteMember(String inputToken) {
-        Member member = findByToken(inputToken).get();
+    public void deleteMember(Member member) {
         em.remove(member);
     }
 
-    public Member updateMemberImageUrl(String memberToken, String newUrl) {
-        Member member = findByToken(memberToken).get();
+    public Member updateMemberImageUrl(Member member, String newUrl) {
         member.setImageUrl(newUrl);
         em.merge(member);
         return member;
     }
 
-    public Member updateNickName(String memberToken, String newNick) {
-        Member member = findByToken(memberToken).get();
+    public Member updateNickName(Member member, String newNick) {
         findByNickName(newNick).ifPresent(m -> {
             throw new IllegalStateException("이미 존재하는 닉네임입니다.");
         });
@@ -84,8 +81,7 @@ public class MemberRepository {
         return member;
     }
 
-    public Member updateExpAndLevel(String memberToken, int addingExp) {
-        Member member = findByToken(memberToken).get();
+    public Member updateExpAndLevel(Member member, int addingExp) {
         member.updateExpAndLevel(addingExp);
         em.merge(member);
         return member;

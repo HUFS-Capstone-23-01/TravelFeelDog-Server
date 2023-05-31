@@ -108,8 +108,8 @@ public class MemberApiController {
     @GetMapping(value = "/findNick",produces = "application/json;charset=UTF-8")
     public ApiResponse GetMemberByNick(@RequestParam("nickName") String nickName) {
         try {
-            Member result = memberService.findByNickName(nickName).get();
-            return ApiResponse.success(new MemberResponse(result));
+            Member member = memberService.findByNickName(nickName);
+            return ApiResponse.success(new MemberResponse(member));
         } catch (NoSuchElementException e) {
             return ApiResponse.success(false);
         }
@@ -118,9 +118,9 @@ public class MemberApiController {
     @GetMapping(value = "/profile/getexp", produces = "application/json;charset=UTF-8")
     public ApiResponse GetMemberExp(@RequestHeader("Authorization") String firebaseToken) {
         try {
-            Member current = memberService.findByToken(firebaseToken);
-            return ApiResponse.success(new MemberResponseExpDto(current));
-        } catch (RuntimeException e){
+            Member member = memberService.findByToken(firebaseToken);
+            return ApiResponse.success(new MemberResponseExpDto(member));
+        } catch (NoSuchElementException e){
             return ApiResponse.invaildToken(false);
         }
     }
