@@ -43,6 +43,7 @@ public class ScrapService {
         Member member = memberService.findByToken(token);
         return scrapRepository.findAllByMemberId(member.getId()).stream().map(ScrapByMemberResponseDto::new).toList();
     }
+    @Transactional
     public Boolean deleteScrap(String token,Long scrapId){
         memberService.findByToken(token);
         Scrap  scrap = scrapRepository.findById(scrapId)

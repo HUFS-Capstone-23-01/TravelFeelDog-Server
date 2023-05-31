@@ -45,6 +45,7 @@ public class FeedLikeService {
         return feedLikeRepository.findAllByMemberId(member.getId()).stream()
                 .map(FeedLikesByMemberResponseDto::new).toList();
     }
+    @Transactional
     public Boolean deleteFeedLike(String token,Long feedLikeId){
         memberService.findByToken(token);
         FeedLike  feedLike = feedLikeRepository.findById(feedLikeId)
