@@ -14,7 +14,7 @@
 | Language | Java 17                     |
 | Framework | Spring Boot 2.7.7           |
 | Persistence Framework | JPA/Hibernate , Data JPA    |
-| Third Party Library  | OpenAi Service              |
+| Third Party API  | OpenAi text-davinci-003       |
 | Data  | MySQL 8.0.19                |
 | Build | Gradle 7.5                  |
 | etc | AWS, ubuntu 22  ,openjdk 17 |
