@@ -29,7 +29,7 @@ public class MemberApiController {
     @PostMapping(produces = "application/json;charset=UTF-8")
     public ApiResponse postMember(@Valid @RequestBody MemberPostRequestDto request) throws Exception {
         Member savedMember = memberService.saveMember(request.getNickName(), request.getFirebaseToken());
-        return ApiResponse.success(new MemberResponse(savedMember));
+        return ApiResponse.success(new MemberPostResponseDto(savedMember));
     }
 
     @GetMapping(value = "/total", produces = "application/json;charset=UTF-8")

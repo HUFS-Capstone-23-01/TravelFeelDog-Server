@@ -95,4 +95,34 @@ public class MemberDtos {
             this.token = token;
         }
     }
+    @Data
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class MemberPostResponseDto {
+        private Long id;
+        private String nickName;
+        private int level;
+        private int exp;
+        private String imageUrl;
+        private String token;
+
+        public MemberPostResponseDto(Member member) {
+            this(
+                member.getId(),
+                member.getNickName(),
+                member.getLevel(),
+                member.getExp(),
+                "https://tavelfeeldog.s3.ap-northeast-2.amazonaws.com/base/baseLogo.png",
+                member.getToken()
+            );
+        }
+
+        public MemberPostResponseDto(Long id, String nickName, int level, int exp, String imageUrl, String token) {
+            this.id = id;
+            this.nickName = nickName;
+            this.level = level;
+            this.exp = exp;
+            this.imageUrl = imageUrl;
+            this.token = token;
+        }
+    }
 }
