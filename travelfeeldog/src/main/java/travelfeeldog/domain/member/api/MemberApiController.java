@@ -3,6 +3,7 @@ package travelfeeldog.domain.member.api;
 import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.*;
@@ -77,8 +78,14 @@ public class MemberApiController {
     @PutMapping(value = "/profile/nick", produces = "application/json;charset=UTF-8")
     public ApiResponse putMemberNickName(@Valid @RequestBody MemberPutNickNameDto memberPutNickNameDto) {
         if (memberService.isTokenExist(memberPutNickNameDto.getFirebaseToken())) {
-            Member result = memberService.updateNickName(memberPutNickNameDto.getFirebaseToken(), memberPutNickNameDto.getNickName());
-            return ApiResponse.success(new MemberResponse(result));
+            Optional<Member> result = memberService
+                    .updateNickName(memberPutNickNameDto.getFirebaseToken(), memberPutNickNameDto.getNickName());
+            if(result.isEmpty()) {
+                return ApiResponse.success(false);
+            }
+            else {
+                return ApiResponse.success(new MemberResponse(result.get()));
+            }
         } else {
             return ApiResponse.invaildToken(false);
         }

@@ -60,9 +60,15 @@ public class MemberService {
     }
 
     @Transactional
-    public Member updateNickName(String firebaseToken, String nickName) {
-        Member member = findByToken(firebaseToken);
-        return memberRepository.updateNickName(member, nickName);
+    public Optional<Member> updateNickName(String firebaseToken, String nickName) {
+        try {
+            Member member = findByToken(firebaseToken);
+            return Optional.of(memberRepository.updateNickName(member, nickName));
+
+        } catch (IllegalStateException e) {
+            return Optional.empty();
+        }
+
     }
 
     @Transactional

@@ -74,7 +74,7 @@ public class MemberRepository {
 
     public Member updateNickName(Member member, String newNick) {
         findByNickName(newNick).ifPresent(m -> {
-            throw new IllegalStateException("이미 존재하는 닉네임입니다.");
+            throw new IllegalArgumentException();
         });
         member.setNickName(newNick);
         em.merge(member);
