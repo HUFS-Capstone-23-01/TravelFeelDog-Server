@@ -36,6 +36,7 @@ public class CommentService {
         commentRepository.save(comment);
         return new CommentResponseDto(comment);
     }
+    @Transactional
     public Boolean deleteComment(String token, Long commentId){
         Member member = memberService.findByToken(token);
         try{
