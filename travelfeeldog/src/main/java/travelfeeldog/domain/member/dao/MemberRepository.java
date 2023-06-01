@@ -74,7 +74,7 @@ public class MemberRepository {
 
     public Member updateNickName(Member member, String newNick) {
         findByNickName(newNick).ifPresent(m -> {
-            throw new IllegalArgumentException();
+            throw new IllegalStateException();
         });
         member.setNickName(newNick);
         em.merge(member);
