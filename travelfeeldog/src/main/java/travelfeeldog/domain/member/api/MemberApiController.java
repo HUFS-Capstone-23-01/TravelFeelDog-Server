@@ -78,7 +78,7 @@ public class MemberApiController {
     public ApiResponse putMemberNickName(@Valid @RequestBody MemberPutNickNameDto memberPutNickNameDto) {
         if (memberService.isTokenExist(memberPutNickNameDto.getFirebaseToken())) {
             Member result = memberService.updateNickName(memberPutNickNameDto.getFirebaseToken(), memberPutNickNameDto.getNickName());
-            return ApiResponse.success(result);
+            return ApiResponse.success(new MemberResponse(result));
         } else {
             return ApiResponse.invaildToken(false);
         }
