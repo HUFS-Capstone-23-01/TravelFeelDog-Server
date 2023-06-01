@@ -65,7 +65,7 @@ public class MemberService {
             Member member = findByToken(firebaseToken);
             return Optional.of(memberRepository.updateNickName(member, nickName));
 
-        } catch (IllegalStateException e) {
+        } catch (IllegalArgumentException e) {
             return Optional.empty();
         }
 
