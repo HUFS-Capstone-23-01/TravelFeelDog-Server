@@ -72,15 +72,6 @@ public class MemberRepository {
         return member;
     }
 
-    public Member updateNickName(Member member, String newNick) {
-        findByNickName(newNick).ifPresent(m -> {
-            throw new IllegalStateException();
-        });
-        member.setNickName(newNick);
-        em.merge(member);
-        return member;
-    }
-
     public Member updateExpAndLevel(Member member, int addingExp) {
         member.updateExpAndLevel(addingExp);
         em.merge(member);
