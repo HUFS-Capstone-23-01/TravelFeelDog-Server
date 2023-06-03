@@ -1,46 +1,49 @@
-# TravelFeelDog-Server
+# 여행필독서,TravelFeelDog 🐕
 
-여행필독서 앱과 웹을 위한 벡엔드 저장소입니다
-
-### 🌎 반려인들을 위한 필독서 🌎
-
----
+리뷰 시스템 개선을 통한 반려동물 여행지 추천 서비스
 
 ---
 
 ## TEAM 우아한 공돌이 개발팀 👨‍👨‍👧‍👦
 
-| ![image](https://user-images.githubusercontent.com/105579811/226158703-7557808d-2274-441b-b3d9-80a56c3bf6cc.jpeg) | ![image](https://user-images.githubusercontent.com/113884028/226110874-6637d28a-7ff2-4881-a238-8aa5e2054b69.jpg) | ![image](https://user-images.githubusercontent.com/105579811/226159868-159d7841-bafe-417a-b22b-03b00619a22b.jpeg) | ![image](https://user-images.githubusercontent.com/105579811/226158691-dca8e766-38c8-4c26-b336-a01f4321e3a2.jpg) |
-| ----------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| 조성현([@chosunghyun18](https://github.com/chosunghyun18))                                                        | oo([ooo](ooooo))                                                                                                 | ooo([](git))                                                                                                      | ccc([@speculatingwook](https://github.com/oooo))                                                                 |
-| Team Lead / Front End Mobile                                                                                      | Frontend Web / Front End Web End                                                                                 | Follower / Front End                                                                                              | Follower / Back End                                                                                              |
+| ![image](https://github.com/HUFS-Capstone-23-01/TravelFeelDog-Server/assets/37647483/4339472e-01ff-4e50-9aed-9740be8c77ef) | ![image](https://user-images.githubusercontent.com/105579811/226158703-7557808d-2274-441b-b3d9-80a56c3bf6cc.jpeg) | ![image](https://user-images.githubusercontent.com/105579811/226158703-7557808d-2274-441b-b3d9-80a56c3bf6cc.jpeg) | ![image](https://user-images.githubusercontent.com/105579811/226158703-7557808d-2274-441b-b3d9-80a56c3bf6cc.jpeg) |
+| -------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| 윤승민([@Yoon-Min](https://github.com/Yoon-Min))                                                                           | 임지선([@Lim-JiSeon](https://github.com/Lim-JiSeon))                                                              | 조성현([@chosunghyun18](https://github.com/chosunghyun18))                                                        | 최승엽([@seungyeobchoi](https://github.com/seungyeobchoi))                                                        |
+| Team Lead / Android Mobile                                                                                                 | Frontend / Web                                                                                                    | Back End Lead / Back End & Infra                                                                                  | Follower / Back End                                                                                               |
 
-### Front-end-Mobile
+### Front-end
 
-| Category | Stack      |
-| -------- | ---------- |
-| Language | - Kotlin   |
-| Infra    | - Firebase |
+---
 
-### Front-end-web
+#### Mobile
 
-| Category | Stack      |
-| -------- | ---------- |
-| Language | - Kotlin   |
-| Infra    | - Firebase |
+| Category           | Stack   |
+| ------------------ | ------- |
+| Language           | Kotlin  |
+| Framework(Library) | Android |
+
+#### Web
+
+| Category           | Stack      |
+| ------------------ | ---------- |
+| Language           | Javascript |
+| Framework(Library) | React      |
 
 ### Back-end
 
-| Category       | stack                      |
-| -------------- | -------------------------- |
-| Language       | Java 17                    |
-| Framework      | Spring Boot 2.7.7          |
-| ORM            | JPA/Hibernate , Data JPA   |
-| Test           | - JUnit 5                  |
-| Database       | MySQL 8.0.                 |
-| Build          | Gradle 7.5                 |
-| Infra          | AWS, ubuntu 22 ,openjdk 17 |
-| Third Part API | OpenAi text-davinci-003    |
+---
+
+| Category       | stack                    |
+| -------------- | ------------------------ |
+| Language       | Java 17                  |
+| Framework      | Spring Boot 2.7.7        |
+| ORM            | JPA/Hibernate , Data JPA |
+| Test           | JUnit 5                  |
+| Database       | MySQL 8.0.               |
+| Build          | Gradle 7.5               |
+| Infra          | AWS EC2 ,S3 ,Rds ,Nginx  |
+| Third Part API | OpenAi text-davinci-003  |
+| etc            | ubuntu 22 ,openjdk 17    |
 
 ### Communication
 
@@ -51,19 +54,7 @@
 
 ---
 
-## 프로젝트 개요
-
----
-
-## 제안 배경
-
-> \***\*\*\*\*\*\*\***문제 제기\***\*\*\*\*\*\*\***
-
----
-
-### 프로젝트 목표
-
-#### 코드의 구조를 생각한 기능을 구현하자!
+### 프로젝트 목표 & 기능
 
 모바일
 
