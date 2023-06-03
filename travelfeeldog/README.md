@@ -7,9 +7,9 @@
 ## TEAM 우아한 공돌이 개발팀 👨‍👨‍👧‍👦
 
 | ![image](https://github.com/HUFS-Capstone-23-01/TravelFeelDog-Server/assets/37647483/4339472e-01ff-4e50-9aed-9740be8c77ef) | ![image](https://user-images.githubusercontent.com/105579811/226158703-7557808d-2274-441b-b3d9-80a56c3bf6cc.jpeg) | ![image](https://user-images.githubusercontent.com/105579811/226158703-7557808d-2274-441b-b3d9-80a56c3bf6cc.jpeg) | ![image](https://user-images.githubusercontent.com/105579811/226158703-7557808d-2274-441b-b3d9-80a56c3bf6cc.jpeg) |
-|----------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
-| 윤승민([@Yoon-Min](https://github.com/Yoon-Min))                                                                              | 임지선([@Lim-JiSeon](https://github.com/Lim-JiSeon))                                                                                         | 조성현([@chosunghyun18](https://github.com/chosunghyun18))                                                           | 최승엽([@seungyeobchoi](https://github.com/seungyeobchoi))                                                                    |
-| Team Lead / Android Mobile                                                                                                 | Frontend / Web                                                                                               | Back End Lead / Back End & Infra                                                                                  | Follower / Back End                                                                                               |
+| -------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| 윤승민([@Yoon-Min](https://github.com/Yoon-Min))                                                                           | 임지선([@Lim-JiSeon](https://github.com/Lim-JiSeon))                                                              | 조성현([@chosunghyun18](https://github.com/chosunghyun18))                                                        | 최승엽([@seungyeobchoi](https://github.com/seungyeobchoi))                                                        |
+| Team Lead / Android Mobile                                                                                                 | Frontend / Web                                                                                                    | Back End Lead / Back End & Infra                                                                                  | Follower / Back End                                                                                               |
 
 ### Front-end
 
@@ -17,35 +17,33 @@
 
 #### Mobile
 
-| Category | Stack  |
-| -------- |--------|
-| Language | Kotlin |
+| Category           | Stack   |
+| ------------------ | ------- |
+| Language           | Kotlin  |
 | Framework(Library) | Android |
-
 
 #### Web
 
-| Category | Stack      |
-| -------- |------------|
-| Language | Javascript |
-| Framework(Library)   | React      |
-
+| Category           | Stack      |
+| ------------------ | ---------- |
+| Language           | Javascript |
+| Framework(Library) | React      |
 
 ### Back-end
 
 ---
 
-| Category       | stack                  |
-|----------------|------------------------|
-| Language       | Java 17                |
-| Framework      | Spring Boot 2.7.7      |
+| Category       | stack                    |
+| -------------- | ------------------------ |
+| Language       | Java 17                  |
+| Framework      | Spring Boot 2.7.7        |
 | ORM            | JPA/Hibernate , Data JPA |
-| Test           | JUnit 5                |
-| Database       | MySQL 8.0.             |
-| Build          | Gradle 7.5             |
-| Infra          | AWS EC2 ,S3 ,Rds ,Nginx |
-| Third Part API | OpenAi text-davinci-003 |
-| etc            | ubuntu 22 ,openjdk 17  |
+| Test           | JUnit 5                  |
+| Database       | MySQL 8.0.               |
+| Build          | Gradle 7.5               |
+| Infra          | AWS EC2 ,S3 ,Rds ,Nginx  |
+| Third Part API | OpenAi text-davinci-003  |
+| etc            | ubuntu 22 ,openjdk 17    |
 
 ### Communication
 
@@ -56,11 +54,7 @@
 
 ---
 
-
-
-
 ### 프로젝트 목표 & 기능
-
 
 모바일
 
