@@ -13,12 +13,15 @@ import travelfeeldog.domain.member.model.Member;
 import travelfeeldog.domain.member.service.MemberService;
 import travelfeeldog.domain.place.place.model.Place;
 import travelfeeldog.domain.place.place.service.PlaceService;
+import travelfeeldog.domain.review.review.dao.ReviewImageRepository;
 import travelfeeldog.domain.review.review.dao.ReviewRepository;
 import travelfeeldog.domain.review.review.dto.ReviewDtos.ReviewMemberPageResponseDto;
 import travelfeeldog.domain.review.review.dto.ReviewDtos.ReviewPageResponseDto;
 import travelfeeldog.domain.review.review.dto.ReviewDtos.ReviewPostRequestDto;
+import travelfeeldog.domain.review.review.dto.ReviewDtos.UpdateReviewImageDto;
 import travelfeeldog.domain.review.review.model.RecommendStatus;
 import travelfeeldog.domain.review.review.model.Review;
+import travelfeeldog.domain.review.review.model.ReviewImage;
 import travelfeeldog.domain.review.reviewkeyword.service.ReviewKeyWordService;
 
 @Transactional(readOnly = true)
@@ -26,6 +29,7 @@ import travelfeeldog.domain.review.reviewkeyword.service.ReviewKeyWordService;
 @RequiredArgsConstructor
 public class ReviewService {
     private final ReviewRepository reviewRepository;
+    private final ReviewImageRepository reviewImageRepository;
     private final PlaceService placeService;
     private final MemberService memberService;
     private final ReviewKeyWordService reviewKeyWordService;
@@ -85,5 +89,14 @@ public class ReviewService {
                 .stream()
                 .map(ReviewMemberPageResponseDto::new)
                 .collect(Collectors.toList());
+    }
+    @Transactional
+    public String updateReviewImage(String token, UpdateReviewImageDto reviewImageDto) {
+        memberService.findByToken(token);
+        Long reviewId = reviewImageDto.getReviewId() ;
+        ReviewImage reviewImage = reviewImageRepository.findByReviewId(reviewId)
+            .orElseThrow(() -> new EntityNotFoundException("Review not found with id: " + reviewId));;
+        reviewImage.updateImage(reviewImageDto.getImageUrl());
+        return reviewImageDto.getImageUrl();
     }
 }
