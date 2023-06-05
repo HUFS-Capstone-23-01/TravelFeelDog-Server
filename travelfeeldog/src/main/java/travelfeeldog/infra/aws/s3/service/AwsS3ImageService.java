@@ -8,6 +8,8 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,12 +45,14 @@ public class AwsS3ImageService {
         if (doesNotExistFolder(folderName)) {
             createFolder(folderName);
         }
+        LocalDateTime localDateTime = LocalDateTime.now();
+        long milliseconds = localDateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
         String fileName = file.getOriginalFilename();
         InputStream inputStream = file.getInputStream();
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(file.getSize());
         metadata.setContentType(file.getContentType());
-        String key = folderName + "/" + fileName;
+        String key = folderName + "/" + fileName+milliseconds;
         PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, key, inputStream, metadata);
         amazonS3.putObject(putObjectRequest);
         return amazonS3.getUrl(bucketName, key).toString();
@@ -79,15 +83,28 @@ public class AwsS3ImageService {
     }
     private S3Image uploadMakeS3Image(MultipartFile file, String folderName) throws IOException {
         String fileUrl = uploadImageOnly(file,folderName);
-        String fileName = file.getOriginalFilename();
+        String parsedFileUrl = parseUrlImageUrl(fileUrl);
         S3Image image = new S3Image();
         image.setFolderName(folderName);
-        image.setFileName(fileName);
+        image.setFileName(parsedFileUrl);
         image.setFileSize(file.getSize());
         image.setFileType(file.getContentType());
         image.setFileUrl(fileUrl);
         return image;
     }
+
+    private String parseUrlImageUrl(String fileUrl) {
+        int lastIndex = fileUrl.indexOf(".com/") + 5; // Adding 5 to include ".com/"
+        String parsedResult = "";
+        if (lastIndex != -1 && lastIndex < fileUrl.length()) {
+            parsedResult = fileUrl.substring(lastIndex);
+        }
+        else{
+            throw new RuntimeException("fileUrl is Error");
+        }
+        return parsedResult;
+    }
+
     @Transactional
     public ImageDto uploadImageFile(MultipartFile file, String folderName) throws IOException {
         S3Image image=uploadMakeS3Image(file,folderName);
