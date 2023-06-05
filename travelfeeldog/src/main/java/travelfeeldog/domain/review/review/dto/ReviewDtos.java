@@ -12,6 +12,11 @@ import travelfeeldog.domain.review.review.model.ReviewImage;
 
 public class ReviewDtos {
     @Data
+    public static class UpdateReviewImageDto{
+        private Long reviewId;
+        private String imageUrl;
+    }
+    @Data
     public static class SingleDescriptionAndNickNameDto{
         private String additionalScript;
         private String nickName;
