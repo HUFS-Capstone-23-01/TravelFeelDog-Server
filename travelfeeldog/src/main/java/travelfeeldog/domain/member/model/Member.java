@@ -15,9 +15,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
-import travelfeeldog.domain.feed.FeedLike.model.FeedLike;
-import travelfeeldog.domain.feed.feed.model.Feed;
-import travelfeeldog.domain.feed.scrap.model.Scrap;
+import travelfeeldog.domain.community.FeedLike.model.FeedLike;
+import travelfeeldog.domain.community.feed.model.Feed;
+import travelfeeldog.domain.community.scrap.model.Scrap;
 import travelfeeldog.domain.review.review.model.Review;
 import travelfeeldog.global.common.model.BaseTimeEntity;
 
