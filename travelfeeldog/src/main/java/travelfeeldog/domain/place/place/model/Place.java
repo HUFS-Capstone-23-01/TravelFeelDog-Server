@@ -24,7 +24,7 @@ import travelfeeldog.domain.place.location.model.Location;
 import travelfeeldog.domain.place.place.dto.PlaceDtos.PlacePostRequestDto;
 import travelfeeldog.domain.place.placefacility.model.PlaceFacility;
 import travelfeeldog.domain.review.review.model.Review;
-import travelfeeldog.global.common.model.BaseTimeEntity;
+import travelfeeldog.global.common.domain.model.BaseTimeEntity;
 
 
 @DynamicInsert

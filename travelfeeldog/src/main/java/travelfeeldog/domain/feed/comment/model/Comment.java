@@ -11,10 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
-import travelfeeldog.domain.feed.comment.dto.CommentDtos.CommentRequestDto;
 import travelfeeldog.domain.feed.feed.model.Feed;
 import travelfeeldog.domain.member.model.Member;
-import travelfeeldog.global.common.model.BaseTimeEntity;
+import travelfeeldog.global.common.domain.model.BaseTimeEntity;
 
 @Setter
 @Getter

@@ -10,7 +10,7 @@ import travelfeeldog.domain.feed.comment.model.Comment;
 import travelfeeldog.domain.feed.scrap.model.Scrap;
 import travelfeeldog.domain.member.model.Member;
 import travelfeeldog.domain.feed.tag.model.Tag;
-import travelfeeldog.global.common.model.BaseTimeEntity;
+import travelfeeldog.global.common.domain.model.BaseTimeEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;

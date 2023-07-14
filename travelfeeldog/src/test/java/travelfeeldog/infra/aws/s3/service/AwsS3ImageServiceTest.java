@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.amazonaws.services.s3.AmazonS3;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Value;
 import travelfeeldog.infra.aws.s3.dao.AwsS3ImageRepository;
+import travelfeeldog.infra.aws.s3.domain.application.AwsS3ImageService;
 
 class AwsS3ImageServiceTest {
     private AmazonS3 amazonS3;
