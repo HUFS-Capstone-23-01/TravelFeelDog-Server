@@ -57,6 +57,7 @@ public class AwsS3ImageService {
         amazonS3.putObject(putObjectRequest);
         return amazonS3.getUrl(bucketName, key).toString();
     }
+
     /**
      *
      * @param files
@@ -83,7 +84,7 @@ public class AwsS3ImageService {
     }
     private S3Image uploadMakeS3Image(MultipartFile file, String folderName) throws IOException {
         String fileUrl = uploadImageOnly(file,folderName);
-        String parsedFileUrl = parseUrlImageUrl(fileUrl);
+        String parsedFileUrl = cutFullFileUrlIntoNameOnly(fileUrl);
         S3Image image = new S3Image();
         image.setFolderName(folderName);
         image.setFileName(parsedFileUrl);
@@ -93,8 +94,8 @@ public class AwsS3ImageService {
         return image;
     }
 
-    private String parseUrlImageUrl(String fileUrl) {
-        int lastIndex = fileUrl.indexOf(".com/") + 5; // Adding 5 to include ".com/"
+    public String cutFullFileUrlIntoNameOnly(String fileUrl) {
+        int lastIndex = fileUrl.indexOf(".com/") + 5;
         String parsedResult = "";
         if (lastIndex != -1 && lastIndex < fileUrl.length()) {
             parsedResult = fileUrl.substring(lastIndex);
