@@ -4,10 +4,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
+import travelfeeldog.global.file.dto.ImageDtos.ImageDto;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class ImageFile {
     @Id
     Long id;
@@ -17,4 +20,17 @@ public class ImageFile {
     protected String fileType;
     protected Long fileSize;
     protected String folderName;
+
+    public ImageFile(MultipartFile file, String fileName, String folderName) {
+        this.fileName = fileName;
+        this.fileType = file.getContentType();
+        this.fileSize = file.getSize();
+        this.folderName = folderName;
+    }
+    public ImageFile(ImageDto imageDto){
+        this.fileName = imageDto.getFileName();
+        this.fileType = imageDto.getFileType();
+        this.fileSize = imageDto.getFileSize();
+        this.folderName = imageDto.getFolderName();
+    }
 }

@@ -9,13 +9,8 @@ import travelfeeldog.domain.community.FeedLike.model.FeedLike;
 import travelfeeldog.domain.community.comment.model.Comment;
 import travelfeeldog.domain.community.scrap.model.Scrap;
 import travelfeeldog.domain.member.model.Member;
-<<<<<<< HEAD:travelfeeldog/src/main/java/travelfeeldog/domain/feed/feed/model/Feed.java
-import travelfeeldog.domain.feed.tag.model.Tag;
 import travelfeeldog.global.common.domain.model.BaseTimeEntity;
-=======
 import travelfeeldog.domain.community.tag.model.Tag;
-import travelfeeldog.global.common.model.BaseTimeEntity;
->>>>>>> develop:travelfeeldog/src/main/java/travelfeeldog/domain/community/feed/model/Feed.java
 
 import javax.persistence.*;
 import java.util.ArrayList;

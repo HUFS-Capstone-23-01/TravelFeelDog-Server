@@ -15,9 +15,10 @@ import travelfeeldog.domain.member.dto.MemberDtos.*;
 import travelfeeldog.domain.member.model.Member;
 import travelfeeldog.domain.member.service.MemberService;
 import travelfeeldog.global.common.dto.ApiResponse;
-import travelfeeldog.infra.aws.s3.domain.application.AwsS3ImageService;
+
 
 import javax.validation.Valid;
+import travelfeeldog.global.file.domain.application.ImageFileService;
 
 
 @RestController
@@ -25,7 +26,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class MemberApiController {
     private final MemberService memberService;
-    private final AwsS3ImageService awsS3ImageService;
+    private final ImageFileService imageFileService;
 
     @PostMapping(produces = "application/json;charset=UTF-8")
     public ApiResponse postMember(@Valid @RequestBody MemberPostRequestDto request) throws Exception {
@@ -63,13 +64,9 @@ public class MemberApiController {
     @PutMapping(value = "/profile/image", produces = "application/json;charset=UTF-8")
     public ApiResponse putMemberImage(@RequestHeader("Authorization") String firebaseToken, @Valid @RequestParam("file") MultipartFile file) {
         if (memberService.isTokenExist(firebaseToken)) {
-            try {
-                String profileImageUrl = awsS3ImageService.uploadImageOnly(file, "member");
-                Member result = memberService.updateImageUrl(firebaseToken, profileImageUrl);
-                return ApiResponse.success(new MemberResponse(result));
-            } catch (IOException e) {
-                return ApiResponse.success(false);
-            }
+            String profileImageUrl = imageFileService.uploadImageFile(file, "member");
+            Member result = memberService.updateImageUrl(firebaseToken, profileImageUrl);
+            return ApiResponse.success(new MemberResponse(result));
         } else {
             return ApiResponse.invaildToken(false);
         }

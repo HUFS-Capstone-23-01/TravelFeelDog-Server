@@ -8,17 +8,16 @@ public class ImageDtos {
     @Data
     @NoArgsConstructor
     public static class ImageDto {
-
-        private String folderName;
-
         private String fileName;
-
         private String fileType;
+        private Long fileSize;
+        private String folderName;
 
         public ImageDto(ImageFile image) {
             this.folderName = image.getFolderName();
             this.fileName = image.getFileName();
             this.fileType = image.getFileType();
+            this.fileSize = image.getFileSize();
         }
     }
     @Data

@@ -25,7 +25,7 @@ import travelfeeldog.domain.place.place.model.Place;
 import travelfeeldog.domain.place.place.service.PlaceGptSearchService;
 import travelfeeldog.domain.place.place.service.PlaceService;
 import travelfeeldog.global.common.dto.ApiResponse;
-import travelfeeldog.infra.aws.s3.domain.application.AwsS3ImageService;
+import travelfeeldog.global.file.domain.application.ImageFileService;
 
 @RestController
 @RequestMapping("/place")
@@ -34,7 +34,7 @@ public class PlaceApiController {
 
     private final PlaceService placeService;
     private final PlaceGptSearchService placeGptSearchService;
-    private final AwsS3ImageService awsS3ImageService;
+    private final ImageFileService imageFileService;
     @PostMapping(produces = "application/json;charset=UTF-8")
     public ApiResponse<PlaceDetailDto> addNewPlace(@RequestBody PlacePostRequestDto request) {
         return ApiResponse.success(placeService.addNewPlace(request));
@@ -42,7 +42,7 @@ public class PlaceApiController {
     @PutMapping(value = "/image",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ApiResponse updatePlaceImageUrl(@RequestParam("placeId") Long placeId,
                                            @RequestParam("file") MultipartFile file) throws IOException {
-        String imageUrl = awsS3ImageService.uploadImageOnly(file,"place");
+        String imageUrl = imageFileService.uploadImageFile(file,"place");
         Place place = placeService.changeImageUrl(placeId,imageUrl);
         return  ApiResponse.success(new PlaceDetailDto(place));
     }

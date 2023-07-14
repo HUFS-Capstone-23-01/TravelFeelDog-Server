@@ -30,13 +30,13 @@ public class GlobalImageApi {
     public ApiResponse<ImageDto> uploadImage(@PathVariable String folderName, @RequestParam("file") MultipartFile file) throws IOException {
         return ApiResponse.success(
                 HttpStatus.CREATED,
-                globalImageFileService.uploadImageFile(file, folderName));
+                globalImageFileService.uploadGlobalImageFile(file, folderName));
     }
 
     @PostMapping(value = "/images/{folderName}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ApiResponse<List<ImageDto>> uploadImages(@PathVariable String folderName, @RequestParam("files") MultipartFile[] files) {
         return ApiResponse.success(
                 HttpStatus.CREATED,
-                globalImageFileService.uploadImageFiles(files, folderName));
+                globalImageFileService.uploadGlobalImageFiles(files, folderName));
     }
 }

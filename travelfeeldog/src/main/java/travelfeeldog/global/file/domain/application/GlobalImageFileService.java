@@ -17,22 +17,26 @@ public class GlobalImageFileService {
     ImageFileService imageFileService;
 
     @Transactional(readOnly = true)
-    public ImageDto getImageById(Long id) {
+    public ImageDto getGlobalImageFileById(Long id) {
         ImageFile imageFile = globalImageRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Image not found for id: " + id));
         return new ImageDto(imageFile);
     }
 
-    public ImageDto uploadImageFile(MultipartFile file, String folderName) {
-        ImageFile imageFile = imageFileService.uploadImageFile(file,folderName);
+    public ImageDto uploadGlobalImageFile(MultipartFile file, String folderName) {
+        String fileName = imageFileService.uploadImageFile(file,folderName);
+        ImageFile imageFile = new ImageFile(file,fileName,folderName);
         globalImageRepository.save(imageFile);
         return new ImageDto(imageFile);
     }
 
-    public List<ImageDto> uploadImageFiles(MultipartFile[] files, String folderName) {
-        return imageFileService.uploadImageFiles(files,folderName)
-            .stream()
-            .map(ImageDto::new)
-            .toList();
+    public List<ImageDto> uploadGlobalImageFiles(MultipartFile[] files, String folderName) {
+        List<ImageDto> uploadImageFiles= imageFileService.uploadImageFiles(files,folderName);
+        List<ImageFile> uploadedFiles = uploadImageFiles
+                    .stream()
+                    .map(ImageFile::new)
+                    .toList();
+        globalImageRepository.saveAll(uploadedFiles);
+        return uploadImageFiles;
     }
 }
