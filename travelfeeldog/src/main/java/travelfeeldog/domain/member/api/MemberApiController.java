@@ -15,7 +15,7 @@ import travelfeeldog.domain.member.dto.MemberDtos.*;
 import travelfeeldog.domain.member.model.Member;
 import travelfeeldog.domain.member.service.MemberService;
 import travelfeeldog.global.common.dto.ApiResponse;
-import travelfeeldog.infra.aws.s3.service.AwsS3ImageService;
+import travelfeeldog.infra.aws.s3.domain.application.AwsS3ImageService;
 
 import javax.validation.Valid;
 

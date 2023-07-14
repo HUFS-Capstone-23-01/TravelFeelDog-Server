@@ -10,8 +10,8 @@ import travelfeeldog.domain.community.feed.dto.FeedDtos.FeedListResponseDto;
 import travelfeeldog.domain.community.feed.model.Feed;
 import travelfeeldog.domain.community.feed.service.FeedService;
 import travelfeeldog.global.common.dto.ApiResponse;
-import travelfeeldog.infra.aws.s3.dto.AwsS3ImageDtos.ImageDto;
-import travelfeeldog.infra.aws.s3.service.AwsS3ImageService;
+import travelfeeldog.global.file.domain.dto.AwsS3ImageDtos.ImageDto;
+import travelfeeldog.infra.aws.s3.domain.application.AwsS3ImageService;
 
 import javax.validation.Valid;
 import java.util.ArrayList;

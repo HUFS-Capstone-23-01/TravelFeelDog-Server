@@ -16,7 +16,7 @@ import travelfeeldog.domain.community.feed.model.Feed;
 import travelfeeldog.domain.community.feed.service.FeedService;
 import travelfeeldog.domain.member.model.Member;
 import travelfeeldog.domain.member.service.MemberService;
-import travelfeeldog.global.common.model.BaseTimeEntity;
+import travelfeeldog.global.common.domain.model.BaseTimeEntity;
 
 @Transactional(readOnly = true)
 @Service

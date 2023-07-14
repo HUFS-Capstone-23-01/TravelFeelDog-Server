@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import travelfeeldog.domain.community.feed.model.Feed;
 import travelfeeldog.domain.member.model.Member;
-import travelfeeldog.global.common.model.BaseTimeEntity;
+import travelfeeldog.global.common.domain.model.BaseTimeEntity;
 
 import javax.persistence.*;
 

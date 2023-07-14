@@ -25,7 +25,7 @@ import travelfeeldog.domain.place.place.model.Place;
 import travelfeeldog.domain.place.place.service.PlaceGptSearchService;
 import travelfeeldog.domain.place.place.service.PlaceService;
 import travelfeeldog.global.common.dto.ApiResponse;
-import travelfeeldog.infra.aws.s3.service.AwsS3ImageService;
+import travelfeeldog.infra.aws.s3.domain.application.AwsS3ImageService;
 
 @RestController
 @RequestMapping("/place")

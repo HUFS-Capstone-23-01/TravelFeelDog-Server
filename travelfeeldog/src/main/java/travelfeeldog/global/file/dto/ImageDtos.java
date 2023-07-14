@@ -1,34 +1,32 @@
-package travelfeeldog.infra.aws.s3.dto;
+package travelfeeldog.global.file.dto;
 
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import travelfeeldog.infra.aws.s3.model.S3Image;
+import travelfeeldog.global.file.domain.model.ImageFile;
 
-public class AwsS3ImageDtos {
+public class ImageDtos {
     @Data
     @NoArgsConstructor
     public static class ImageDto {
 
         private String folderName;
 
-        private String fileUrl;
+        private String fileName;
 
         private String fileType;
 
-        public ImageDto(S3Image image) {
+        public ImageDto(ImageFile image) {
             this.folderName = image.getFolderName();
-            this.fileUrl = image.getFileUrl();
+            this.fileName = image.getFileName();
             this.fileType = image.getFileType();
         }
     }
     @Data
     @NoArgsConstructor
     public static class ImagesResponseDto {
-        private String fileUrls;
+        private String fileName;
         public ImagesResponseDto(ImageDto imageDto) {
-            this.fileUrls = imageDto.fileUrl;
+            this.fileName = imageDto.getFileName();
         }
     }
 }

@@ -19,7 +19,7 @@ import travelfeeldog.domain.community.FeedLike.model.FeedLike;
 import travelfeeldog.domain.community.feed.model.Feed;
 import travelfeeldog.domain.community.scrap.model.Scrap;
 import travelfeeldog.domain.review.review.model.Review;
-import travelfeeldog.global.common.model.BaseTimeEntity;
+import travelfeeldog.global.common.domain.model.BaseTimeEntity;
 
 import java.util.ArrayList;
 import java.util.List;
