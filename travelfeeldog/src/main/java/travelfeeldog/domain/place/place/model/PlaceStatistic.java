@@ -55,17 +55,17 @@ public class PlaceStatistic {
     public void countAndUpdateResult(int[] dogNumbers, RecommendStatus recommendStatus) {
         switch (recommendStatus) {
             case GOOD -> {
-                setReviewCountGood(getReviewCountGood() + 1);
-                setSmallDogGoodTotal(getSmallDogGoodTotal() + dogNumbers[0]);
-                setMediumDogGoodTotal(getMediumDogGoodTotal() + dogNumbers[1]);
-                setLargeDogGoodTotal(getLargeDogGoodTotal() + dogNumbers[2]);
+                this.reviewCountGood += 1;
+                this.smallDogGoodTotal = this.smallDogGoodTotal + dogNumbers[0];
+                this.mediumDogGoodTotal = this.mediumDogBadTotal +dogNumbers[1];
+                this.largeDogBadTotal = this.largeDogGoodTotal + dogNumbers[2];
             }
-            case IDK -> setReviewCountIdk(getReviewCountIdk() + 1);
+            case IDK -> this.reviewCountIdk += 1 ;
             case BAD -> {
-                setReviewCountBad(getReviewCountBad() + 1);
-                setSmallDogBadTotal(getSmallDogBadTotal() + dogNumbers[0]);
-                setMediumDogBadTotal(getMediumDogBadTotal() + dogNumbers[1]);
-                setLargeDogBadTotal(getLargeDogBadTotal() + dogNumbers[2]);
+                this.reviewCountBad += 1;
+                this.smallDogBadTotal = this.smallDogBadTotal +dogNumbers[0] ;
+                this.mediumDogBadTotal = this.mediumDogBadTotal + dogNumbers[1];
+                this.largeDogBadTotal = this.largeDogGoodTotal + dogNumbers[2];
             }
         }
     }

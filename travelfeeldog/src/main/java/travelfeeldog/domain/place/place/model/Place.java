@@ -83,7 +83,7 @@ public class Place extends BaseTimeEntity {
         this.latitude = placePostRequestDto.getLatitude();
         this.longitude = placePostRequestDto.getLongitude();
     }
-    public void upCountPlaceViewCount(){
+    public void upCountPlaceViewCount() {
         this.viewCount += 1;
     }
 }
