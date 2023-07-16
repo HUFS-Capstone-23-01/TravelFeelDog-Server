@@ -54,10 +54,11 @@ public class ReviewService {
         Review review = new Review(member, place, request);
 
         member.updateExpAndLevel(20);
-        placeService.addPlaceStatic(request);
-        reviewKeyWordService.saveReviewKeyWords(request,review);
+        place.updatePlaceStatistic(request);
 
+        reviewKeyWordService.saveReviewKeyWords(request,review);
         reviewRepository.save(review);
+
         return new ReviewPageResponseDto(review);
     }
     @Transactional

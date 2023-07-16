@@ -40,16 +40,10 @@ public class PlaceService {
 
     @Transactional
     public PlaceDetailDto addNewPlace(PlacePostRequestDto placePostRequestDto) {
-        Place place = new Place(placePostRequestDto);
-
         Category category = categoryService.getCategoryByName(placePostRequestDto.getCategoryName());
-        place.setCategory(category);
-
         Location location = locationService.getLocationByName(placePostRequestDto.getLocationName());
-        place.setLocation(location);
-
-        PlaceStatistic placeStatistic = new PlaceStatistic();
-        placeStatistic.setPlace(place);
+        Place place = new Place(placePostRequestDto,category,location);
+        PlaceStatistic placeStatistic = new PlaceStatistic(place);
 
         placeRepository.save(place);
         placeStatisticRepository.save(placeStatistic);
@@ -59,23 +53,10 @@ public class PlaceService {
 
     @Transactional
     public Place changeImageUrl(Long placeId, String imageUrl) {
-        Place place = placeRepository.findById(placeId)
-                .orElseThrow(() -> new EntityNotFoundException("Place not found with ID"));
-        place.setThumbNailImageUrl(imageUrl);
+        Place place = getPlaceById(placeId);
+        place.modifyPlaceImageUrl(imageUrl);
         return place;
     }
-
-    @Transactional
-    public void addPlaceStatic(ReviewPostRequestDto requestDto) {
-        PlaceStatistic placeStatistic = placeStatisticRepository.findByPlaceId(requestDto.getPlaceId());
-        placeStatistic.updateReviewCount();
-        int[] dogNumbers = new int[3];
-        dogNumbers[0] = requestDto.getSmallDogNumber();
-        dogNumbers[1] = requestDto.getMediumDogNumber();
-        dogNumbers[2] = requestDto.getLargeDogNumber();
-        placeStatistic.countAndUpdateResult(dogNumbers, requestDto.getRecommendStatus());
-    }
-
     public Place getPlaceById(Long placeId) {
         return placeRepository.findById(placeId)
                 .orElseThrow(() -> new EntityNotFoundException("Place not found with ID: " + placeId));
@@ -86,13 +67,10 @@ public class PlaceService {
 
     public PlaceResponseDetailDto getPlaceDetailById(Long placeId, String token) {
         memberService.findByToken(token);
-
-        Place place = placeRepository.findById(placeId)
-                .orElseThrow(() -> new EntityNotFoundException("Place not found with ID: " + placeId));
+        Place place = getPlaceById(placeId);
         place.upCountPlaceViewCount();
-        PlaceStatistic placeStatistic = placeStatisticRepository.findByPlaceId(placeId);
 
-        return new PlaceResponseDetailDto(place, placeStatistic);
+        return new PlaceResponseDetailDto(place, place.getPlaceStatistic());
     }
 
     public List<Place> getAllPlaces() {

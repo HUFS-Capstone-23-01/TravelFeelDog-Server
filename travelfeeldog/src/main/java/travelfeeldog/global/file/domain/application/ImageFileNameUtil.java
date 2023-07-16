@@ -3,7 +3,6 @@ package travelfeeldog.global.file.domain.application;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-
 public class ImageFileNameUtil {
 
     public String cutFullFileUrlIntoNameOnly(String fileUrl) {
@@ -12,7 +11,7 @@ public class ImageFileNameUtil {
             return fileUrl.substring(lastIndex);
         }
         else{
-            throw new RuntimeException("fileUrl is Error");
+            throw new IllegalArgumentException("fileUrl is Error");
         }
     }
     public String getLocalDateTimeMilliseconds() {

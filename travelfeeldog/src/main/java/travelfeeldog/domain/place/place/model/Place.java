@@ -23,6 +23,7 @@ import travelfeeldog.domain.place.category.model.Category;
 import travelfeeldog.domain.place.location.model.Location;
 import travelfeeldog.domain.place.place.dto.PlaceDtos.PlacePostRequestDto;
 import travelfeeldog.domain.place.placefacility.model.PlaceFacility;
+import travelfeeldog.domain.review.review.dto.ReviewDtos.ReviewPostRequestDto;
 import travelfeeldog.domain.review.review.model.Review;
 import travelfeeldog.global.common.domain.model.BaseTimeEntity;
 
@@ -31,7 +32,6 @@ import travelfeeldog.global.common.domain.model.BaseTimeEntity;
 @Entity
 @Table(name = "places")
 @Getter
-@Setter
 public class Place extends BaseTimeEntity {
 
     @Id
@@ -55,6 +55,7 @@ public class Place extends BaseTimeEntity {
     @ColumnDefault("0")
     @Column(name = "place_view_count")
     private int viewCount;
+
     @OneToMany(mappedBy = "place", cascade = CascadeType.PERSIST)
     private List<PlaceFacility> placeFacilities = new ArrayList<>();
 
@@ -76,14 +77,22 @@ public class Place extends BaseTimeEntity {
 
     }
 
-    public Place(PlacePostRequestDto placePostRequestDto) {
+    public Place(PlacePostRequestDto placePostRequestDto,Category category,Location location) {
         this.name = placePostRequestDto.getName();
         this.describe = placePostRequestDto.getDescribe();
         this.address = placePostRequestDto.getAddress();
         this.latitude = placePostRequestDto.getLatitude();
         this.longitude = placePostRequestDto.getLongitude();
+        this.category = category;
+        this.location = location;
     }
     public void upCountPlaceViewCount() {
         this.viewCount += 1;
+    }
+    public void modifyPlaceImageUrl(String thumbNailImageUrl) {
+        this.thumbNailImageUrl = thumbNailImageUrl;
+    }
+    public void updatePlaceStatistic(ReviewPostRequestDto request){
+        placeStatistic.addDogsInfo(request);
     }
 }

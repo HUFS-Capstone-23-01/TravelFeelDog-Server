@@ -9,12 +9,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import travelfeeldog.domain.review.review.dto.ReviewDtos.ReviewPostRequestDto;
 import travelfeeldog.domain.review.review.model.RecommendStatus;
 
-@Getter @Setter
+@Getter
 @Entity
+@NoArgsConstructor
 public class PlaceStatistic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,7 +54,9 @@ public class PlaceStatistic {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "place_id")
     private Place place;
-
+    public PlaceStatistic(Place place) {
+        this.place = place;
+    }
     public void countAndUpdateResult(int[] dogNumbers, RecommendStatus recommendStatus) {
         switch (recommendStatus) {
             case GOOD -> {
@@ -69,7 +74,15 @@ public class PlaceStatistic {
             }
         }
     }
-    public void updateReviewCount(){
+    public void updateReviewCount() {
         this.reviewCount += 1;
+    }
+    public void addDogsInfo(ReviewPostRequestDto request) {
+        updateReviewCount();
+        int[] dogNumbers = new int[3];
+        dogNumbers[0] = request.getSmallDogNumber();
+        dogNumbers[1] = request.getMediumDogNumber();
+        dogNumbers[2] = request.getLargeDogNumber();
+        countAndUpdateResult(dogNumbers, request.getRecommendStatus());
     }
 }
