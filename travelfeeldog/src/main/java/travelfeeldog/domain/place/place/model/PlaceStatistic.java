@@ -10,7 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 import org.hibernate.annotations.ColumnDefault;
 import travelfeeldog.domain.review.review.dto.ReviewDtos.ReviewPostRequestDto;
 import travelfeeldog.domain.review.review.model.RecommendStatus;
@@ -19,6 +19,12 @@ import travelfeeldog.domain.review.review.model.RecommendStatus;
 @Entity
 @NoArgsConstructor
 public class PlaceStatistic {
+
+    private static int SMALL_DOG_CATEGORY_NUMBER = 0;
+    private static int MID_DOG_CATEGORY_NUMBER = 1;
+    private static int LARGE_DOG_CATEGORY_NUMBER = 2;
+    private static int TOTAL_DOG_CATEGORY_SIZE = 3;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="place__static_id")
@@ -61,16 +67,16 @@ public class PlaceStatistic {
         switch (recommendStatus) {
             case GOOD -> {
                 this.reviewCountGood += 1;
-                this.smallDogGoodTotal = this.smallDogGoodTotal + dogNumbers[0];
-                this.mediumDogGoodTotal = this.mediumDogBadTotal +dogNumbers[1];
-                this.largeDogBadTotal = this.largeDogGoodTotal + dogNumbers[2];
+                this.smallDogGoodTotal = this.smallDogGoodTotal + dogNumbers[SMALL_DOG_CATEGORY_NUMBER];
+                this.mediumDogGoodTotal = this.mediumDogBadTotal +dogNumbers[MID_DOG_CATEGORY_NUMBER];
+                this.largeDogBadTotal = this.largeDogGoodTotal + dogNumbers[LARGE_DOG_CATEGORY_NUMBER];
             }
             case IDK -> this.reviewCountIdk += 1 ;
             case BAD -> {
                 this.reviewCountBad += 1;
-                this.smallDogBadTotal = this.smallDogBadTotal +dogNumbers[0] ;
-                this.mediumDogBadTotal = this.mediumDogBadTotal + dogNumbers[1];
-                this.largeDogBadTotal = this.largeDogGoodTotal + dogNumbers[2];
+                this.smallDogBadTotal = this.smallDogBadTotal +dogNumbers[SMALL_DOG_CATEGORY_NUMBER] ;
+                this.mediumDogBadTotal = this.mediumDogBadTotal + dogNumbers[MID_DOG_CATEGORY_NUMBER];
+                this.largeDogBadTotal = this.largeDogGoodTotal + dogNumbers[LARGE_DOG_CATEGORY_NUMBER];
             }
         }
     }
@@ -79,10 +85,10 @@ public class PlaceStatistic {
     }
     public void addDogsInfo(ReviewPostRequestDto request) {
         updateReviewCount();
-        int[] dogNumbers = new int[3];
-        dogNumbers[0] = request.getSmallDogNumber();
-        dogNumbers[1] = request.getMediumDogNumber();
-        dogNumbers[2] = request.getLargeDogNumber();
+        int[] dogNumbers = new int[TOTAL_DOG_CATEGORY_SIZE];
+        dogNumbers[SMALL_DOG_CATEGORY_NUMBER] = request.getSmallDogNumber();
+        dogNumbers[MID_DOG_CATEGORY_NUMBER] = request.getMediumDogNumber();
+        dogNumbers[LARGE_DOG_CATEGORY_NUMBER] = request.getLargeDogNumber();
         countAndUpdateResult(dogNumbers, request.getRecommendStatus());
     }
 }
