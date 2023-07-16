@@ -43,7 +43,7 @@ public class Place extends BaseTimeEntity {
     @Column(name = "place_decsribe")
     private String describe;
 
-    @ColumnDefault("'https://tavelfeeldog.s3.ap-northeast-2.amazonaws.com/base/baseLogo.png'")
+    @ColumnDefault("'/base/baseLogo.png'")
     @Column(name = "place_thumbnail_image")
     private String thumbNailImageUrl;
     @Column(name = "place_latitude")

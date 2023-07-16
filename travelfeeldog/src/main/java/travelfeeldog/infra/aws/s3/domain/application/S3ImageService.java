@@ -23,6 +23,8 @@ import travelfeeldog.infra.aws.s3.domain.model.S3Image;
 
 @Service
 public class S3ImageService implements ImageFileHandle {
+
+    private final static int EMPTY_FILE_SIZE = 0;
     private final AmazonS3 amazonS3;
     private final ImageFileNameUtil imageFileNameUtil;
     @Value("${cloud.aws.s3.bucket}")
@@ -32,75 +34,72 @@ public class S3ImageService implements ImageFileHandle {
         this.amazonS3 = amazonS3;
         this.imageFileNameUtil = new ImageFileNameUtil();
     }
+
     @Override
-    public ImageFile uploadImageFile(MultipartFile file, String folderName) throws IOException {
-        String fileUrl = uploadImageFileToS3(file,folderName).toString();
+    public void deleteImage(String fileName, String folderName) {
+        String key = folderName + "/" + fileName;
+        amazonS3.deleteObject(bucketName, key);
+    }
+
+    @Override
+    public ImageFile uploadImageFile(MultipartFile file, String folderName) {
+        String fileUrl = sendImageFileToS3(file, folderName).toString();
         String fileName = imageFileNameUtil.cutFullFileUrlIntoNameOnly(fileUrl);
-        return new S3Image(file,fileName,folderName);
+        return new S3Image(file, fileName, folderName);
     }
 
     @Override
     public List<ImageFile> uploadImageFiles(MultipartFile[] files, String folderName) {
-        if (doesNotExistFolder(folderName)) {
-            createFolder(folderName);
-        }
         return Arrays.stream(files)
-            .map(file -> {
-                try {
-                    return uploadImageFile(file, folderName);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            })
+            .map(file -> uploadImageFile(file, folderName))
             .collect(Collectors.toList());
     }
-    private URL uploadImageFileToS3(MultipartFile file, String folderName) throws IOException {
-        if (doesNotExistFolder(folderName)) {
-            createFolder(folderName);
-        }
 
-        String fileName = file.getOriginalFilename();
-        InputStream inputStream = file.getInputStream();
-        ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentLength(file.getSize());
-        metadata.setContentType(file.getContentType());
-        String key = folderName + "/" + fileName+imageFileNameUtil.getLocalDateTimeMilliseconds();
-        PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, key, inputStream, metadata);
-        amazonS3.putObject(putObjectRequest);
+    private URL sendImageFileToS3(MultipartFile file, String folderName) {
+        if (checkFolderExistence(folderName)) {
+            makeFolder(folderName);
+        }
+        String key = constructObjectForS3(file, folderName);
         return amazonS3.getUrl(bucketName, key);
     }
 
-    private void createFolder(String folderName) {
-        InputStream stream = null;
-        try {
-            ObjectMetadata metadata = new ObjectMetadata();
-            metadata.setContentLength(0);
-            stream = new ByteArrayInputStream(new byte[0]);
-            metadata.setContentType("application/x-directory");
-            String key = folderName + "/";
-            PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, key, stream, metadata);
-            amazonS3.putObject(putObjectRequest);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (stream != null) {
-                try {
-                    stream.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-    private boolean doesNotExistFolder(String folderName) {
+    private boolean checkFolderExistence(String folderName) {
         return amazonS3.listObjects(bucketName, folderName)
             .getObjectSummaries()
             .stream()
             .noneMatch(s -> s.getKey().startsWith(folderName + "/"));
     }
-    @Override
-    public void deleteImage(String fileName, String folderName) {
-        String key = folderName + "/" + fileName;
-        amazonS3.deleteObject(bucketName, key);
+
+    private void makeFolder(String folderName) {
+        InputStream inputStream = new ByteArrayInputStream(new byte[EMPTY_FILE_SIZE]);
+        String key = folderName + "/";
+        uploadObjectToS3(key, inputStream, EMPTY_FILE_SIZE, "application/x-directory");
+    }
+
+    private String constructObjectForS3(MultipartFile file, String folderName) {
+        String fileName = file.getOriginalFilename();
+        String key = folderName + "/" + fileName + imageFileNameUtil.getLocalDateTimeMilliseconds();
+        try {
+            InputStream inputStream = file.getInputStream();
+            return uploadObjectToS3(key, inputStream, file.getSize(), file.getContentType());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private String uploadObjectToS3(String key, InputStream inputStream, long size,
+        String contentType) {
+        ObjectMetadata metadata = createS3ObjectMetadata(size, contentType);
+        PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, key, inputStream,
+            metadata);
+        amazonS3.putObject(putObjectRequest);
+        return key;
+    }
+
+    private ObjectMetadata createS3ObjectMetadata(long size, String contentType) {
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentLength(size);
+        metadata.setContentType(contentType);
+        return metadata;
     }
 }

@@ -44,7 +44,7 @@ public class Member extends BaseTimeEntity{
 
     @Column(name = "member_exp")
     private int exp;
-    @ColumnDefault("'https://tavelfeeldog.s3.ap-northeast-2.amazonaws.com/base/baseLogo.png'")
+    @ColumnDefault("'/base/baseLogo.png'")
     @Column(name = "member_image_url")
     private String imageUrl;
 
