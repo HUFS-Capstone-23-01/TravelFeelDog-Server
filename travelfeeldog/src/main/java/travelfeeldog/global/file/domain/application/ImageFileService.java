@@ -17,13 +17,7 @@ public class ImageFileService {
     }
 
     public String uploadImageFile(MultipartFile file, String folderName) {
-        ImageFile imageFile= null;
-        try {
-            imageFile = imageFileHandle.uploadImageFile(file,folderName);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return imageFile.getFileName();
+        return imageFileHandle.uploadImageFile(file,folderName).getFileName();
     }
     public List<ImageDto> uploadImageFiles(MultipartFile[] files, String folderName) {
         return imageFileHandle.uploadImageFiles(files,folderName).stream().map(ImageDto::new).toList();
