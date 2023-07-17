@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class ImageFileNameUtilTest {
+
     private final ImageFileNameUtil imageFileNameUtil = new ImageFileNameUtil();
 
     @Test
