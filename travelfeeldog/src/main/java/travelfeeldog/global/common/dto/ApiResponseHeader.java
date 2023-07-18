@@ -8,6 +8,5 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 public class ApiResponseHeader {
-    private int status;
     private String message;
 }
