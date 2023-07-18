@@ -49,7 +49,7 @@ public class MemberApiController {
             Member member = memberService.findByToken(firebaseToken);
             return ApiResponse.success(new MemberResponse(member));
         } else {
-            return ApiResponse.invaildToken(null);
+            return ApiResponse.invalidToken(null);
         }
     }
 
@@ -59,7 +59,7 @@ public class MemberApiController {
             memberService.deleteMember(firebaseToken);
             return ApiResponse.success("Delete Success");
         } else {
-            return ApiResponse.invaildToken(false);
+            return ApiResponse.invalidToken(false);
         }
     }
 
@@ -70,7 +70,7 @@ public class MemberApiController {
             Member result = memberService.updateImageUrl(firebaseToken, profileImageUrl);
             return ApiResponse.success(new MemberResponse(result));
         } else {
-            return ApiResponse.invaildToken(false);
+            return ApiResponse.invalidToken(false);
         }
     }
 
@@ -86,7 +86,7 @@ public class MemberApiController {
                 return ApiResponse.success(new MemberResponse(result.get()));
             }
         } else {
-            return ApiResponse.invaildToken(false);
+            return ApiResponse.invalidToken(false);
         }
     }
 
@@ -97,7 +97,7 @@ public class MemberApiController {
             Member result = memberService.updateExpAndLevel(memberPutExpDto.getFirebaseToken(), addingValue);
             return ApiResponse.success(new MemberResponse(result));
         } else {
-            return ApiResponse.invaildToken(false);
+            return ApiResponse.invalidToken(false);
         }
     }
 
@@ -127,7 +127,7 @@ public class MemberApiController {
             Member member = memberService.findByToken(firebaseToken);
             return ApiResponse.success(new MemberResponseExpDto(member));
         } catch (NoSuchElementException e){
-            return ApiResponse.invaildToken(false);
+            return ApiResponse.invalidToken(false);
         }
     }
 }
