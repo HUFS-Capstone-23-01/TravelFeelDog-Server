@@ -81,8 +81,11 @@ public class Place extends BaseTimeEntity {
 
     }
 
-    public Place(PlacePostRequestDto placePostRequestDto,Category category,Location location) {
-        this.placeStatistic = new PlaceStatistic(this);
+    public static Place RegisterNewPlace(PlacePostRequestDto placePostRequestDto,Category category,Location location) {
+        return new Place(placePostRequestDto,category,location);
+    }
+
+    private Place(PlacePostRequestDto placePostRequestDto,Category category,Location location){
         this.name = placePostRequestDto.getName();
         this.describe = placePostRequestDto.getDescribe();
         this.address = placePostRequestDto.getAddress();
@@ -90,7 +93,11 @@ public class Place extends BaseTimeEntity {
         this.longitude = placePostRequestDto.getLongitude();
         this.category = category;
         this.location = location;
+
+        this.placeStatistic = new PlaceStatistic(this);
+
     }
+
     public void upCountPlaceViewCount() {
         this.viewCount += 1;
     }

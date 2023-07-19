@@ -42,7 +42,7 @@ public class PlaceService {
     public PlaceDetailDto addNewPlace(PlacePostRequestDto placePostRequestDto) {
         Category category = categoryService.getCategoryByName(placePostRequestDto.getCategoryName());
         Location location = locationService.getLocationByName(placePostRequestDto.getLocationName());
-        Place place = new Place(placePostRequestDto,category,location);
+        Place place = Place.RegisterNewPlace(placePostRequestDto,category,location);
         placeRepository.save(place);
         return new PlaceDetailDto(place);
     }
