@@ -2,7 +2,7 @@ package travelfeeldog.domain.place.place.dto;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import travelfeeldog.domain.place.place.model.Place;
@@ -11,13 +11,6 @@ import travelfeeldog.domain.review.review.dto.ReviewDtos.SingleDescriptionAndNic
 
 
 public class PlaceDtos {
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class GptChatMessage {
-        private String role;
-        private String content;
-    }
     @Data
     @NoArgsConstructor
     public static class PlaceSearchResponseDto{
@@ -108,8 +101,7 @@ public class PlaceDtos {
             this.address = place.getAddress();
             this.latitude = place.getLatitude() + 30;
             this.longitude = place.getLongitude() + 120;
-            this.facilityNames = place.getPlaceFacilities().stream().map(pf -> pf.getFacility().getName())
-                    .collect(Collectors.toList());
+            this.facilityNames = place.getFacilityNamesByPlace();
         }
     }
     @Data
@@ -145,8 +137,7 @@ public class PlaceDtos {
             this.address = place.getAddress();
             this.latitude = place.getLatitude() + 30;
             this.longitude = place.getLongitude() + 120;
-            this.facilityNames = place.getPlaceFacilities().stream().map(pf -> pf.getFacility().getName())
-                    .collect(Collectors.toList());
+            this.facilityNames = place.getFacilityNamesByPlace();
             this.reviewCountGood = placeStatistic.getReviewCountGood();
             this.reviewCountBad = placeStatistic.getReviewCountBad();
             this.reviewCountIdk = placeStatistic.getReviewCountIdk();

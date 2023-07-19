@@ -1,9 +1,13 @@
 package travelfeeldog.domain.place.place.model;
 
+import static java.util.stream.Collectors.toList;
 import static javax.persistence.FetchType.LAZY;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +23,7 @@ import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import travelfeeldog.domain.place.category.model.Category;
+import travelfeeldog.domain.place.facility.model.Facility;
 import travelfeeldog.domain.place.location.model.Location;
 import travelfeeldog.domain.place.place.dto.PlaceDtos.PlacePostRequestDto;
 import travelfeeldog.domain.place.placefacility.model.PlaceFacility;
@@ -56,7 +61,7 @@ public class Place extends BaseTimeEntity {
     private int viewCount;
 
     @OneToMany(mappedBy = "place", cascade = CascadeType.PERSIST)
-    private List<PlaceFacility> placeFacilities = new ArrayList<>();
+    private Set<PlaceFacility> placeFacilities = new HashSet<>();
 
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
@@ -94,5 +99,10 @@ public class Place extends BaseTimeEntity {
     }
     public void updatePlaceStatistic(ReviewPostRequestDto request){
         this.placeStatistic.addDogsInfo(request);
+    }
+    public List<String> getFacilityNamesByPlace(){
+        return this.placeFacilities.stream()
+            .map(pf -> pf.getFacility().getName())
+            .toList();
     }
 }

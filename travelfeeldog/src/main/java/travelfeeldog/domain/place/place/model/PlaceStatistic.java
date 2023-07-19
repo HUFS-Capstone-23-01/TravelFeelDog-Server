@@ -15,9 +15,9 @@ import org.hibernate.annotations.ColumnDefault;
 import travelfeeldog.domain.review.review.dto.ReviewDtos.ReviewPostRequestDto;
 import travelfeeldog.domain.review.review.model.RecommendStatus;
 
+@NoArgsConstructor
 @Getter
 @Entity
-@NoArgsConstructor
 public class PlaceStatistic {
 
     private final static int SMALL_DOG_CATEGORY_NUMBER = 0;

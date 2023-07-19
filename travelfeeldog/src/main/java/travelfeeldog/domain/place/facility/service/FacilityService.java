@@ -29,14 +29,13 @@ public class FacilityService {
     }
     @Transactional
     public Facility createFacility(String name) {
-        Facility facility = new Facility();
-        facility.setName(name);
+        Facility facility = new Facility(name);
         return facilityRepository.save(facility);
     }
     @Transactional
     public Facility updateFacility(Long id, Facility updatedFacility) {
         Facility facility = getFacilityById(id);
-        facility.setName(updatedFacility.getName());
+        facility.updateName(updatedFacility.getName());
         return facilityRepository.save(facility);
     }
     @Transactional
