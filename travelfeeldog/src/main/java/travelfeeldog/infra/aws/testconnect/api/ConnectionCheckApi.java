@@ -1,10 +1,13 @@
 package travelfeeldog.infra.aws.testconnect.api;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import travelfeeldog.global.common.dto.ApiResponse;
 
@@ -13,7 +16,13 @@ import travelfeeldog.global.common.dto.ApiResponse;
 @AllArgsConstructor
 public class ConnectionCheckApi {
     @GetMapping(value="/{test-number}")
+    @ResponseStatus(HttpStatus.OK)
     public ApiResponse<Long> getConnectTest(@PathVariable Long testNumber){
         return ApiResponse.success(testNumber);
+    }
+    @GetMapping(value="/{testNumber}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Long> getConnectTestNumber(@PathVariable Long testNumber){
+        return ResponseEntity.ok(testNumber);
     }
 }

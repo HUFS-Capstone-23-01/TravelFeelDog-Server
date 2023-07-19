@@ -38,6 +38,8 @@ spring:
     include:
       - aws
       - credentials
+      - jwt
+      - oauth
 
 logging:
   level:
