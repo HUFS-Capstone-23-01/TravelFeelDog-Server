@@ -15,11 +15,7 @@ import travelfeeldog.global.common.dto.ApiResponse;
 @RequestMapping("/test")
 @AllArgsConstructor
 public class ConnectionCheckApi {
-    @GetMapping(value="/{test-number}")
-    @ResponseStatus(HttpStatus.OK)
-    public ApiResponse<Long> getConnectTest(@PathVariable Long testNumber){
-        return ApiResponse.success(testNumber);
-    }
+
     @GetMapping(value="/{testNumber}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Long> getConnectTestNumber(@PathVariable Long testNumber){

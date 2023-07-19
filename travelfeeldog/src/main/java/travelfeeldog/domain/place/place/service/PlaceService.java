@@ -43,11 +43,7 @@ public class PlaceService {
         Category category = categoryService.getCategoryByName(placePostRequestDto.getCategoryName());
         Location location = locationService.getLocationByName(placePostRequestDto.getLocationName());
         Place place = new Place(placePostRequestDto,category,location);
-        PlaceStatistic placeStatistic = new PlaceStatistic(place);
-
         placeRepository.save(place);
-        placeStatisticRepository.save(placeStatistic);
-
         return new PlaceDetailDto(place);
     }
 

@@ -77,6 +77,7 @@ public class Place extends BaseTimeEntity {
     }
 
     public Place(PlacePostRequestDto placePostRequestDto,Category category,Location location) {
+        this.placeStatistic = new PlaceStatistic(this);
         this.name = placePostRequestDto.getName();
         this.describe = placePostRequestDto.getDescribe();
         this.address = placePostRequestDto.getAddress();
@@ -92,6 +93,6 @@ public class Place extends BaseTimeEntity {
         this.thumbNailImageUrl = thumbNailImageUrl;
     }
     public void updatePlaceStatistic(ReviewPostRequestDto request){
-        placeStatistic.addDogsInfo(request);
+        this.placeStatistic.addDogsInfo(request);
     }
 }
