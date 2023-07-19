@@ -66,18 +66,6 @@ public class MemberRepository {
         em.remove(member);
     }
 
-    public Member updateMemberImageUrl(Member member, String newUrl) {
-        member.setImageUrl(newUrl);
-        em.merge(member);
-        return member;
-    }
-
-    public Member updateExpAndLevel(Member member, int addingExp) {
-        member.updateExpAndLevel(addingExp);
-        em.merge(member);
-        return member;
-    }
-
     public List<Member> findAll() {
         return em.createQuery("SELECT m FROM Member m", Member.class)
                 .getResultList();

@@ -2,12 +2,12 @@ package travelfeeldog.domain.member.domain.application;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+
 import travelfeeldog.domain.member.infrastructure.MemberRepository;
 import travelfeeldog.domain.member.domain.model.Member;
 
@@ -55,25 +55,23 @@ public class MemberService {
     @Transactional
     public Member updateImageUrl(String firebaseToken, String imageUrl) {
         Member member = findByToken(firebaseToken);
-        return memberRepository.updateMemberImageUrl(member, imageUrl);
+        member.updateMemberImageUrl(imageUrl);
+        return member;
     }
 
     @Transactional
-    public Optional<Member> updateNickName(String firebaseToken, String nickName) {
+    public Member updateNickName(String firebaseToken, String nickName) {
         Member member = findByToken(firebaseToken);
-        if(memberRepository.findByNickName(nickName).isPresent()) {
-            return Optional.empty();
-        }
-        else {
-            member.setNickName(nickName);
-            return Optional.of(member);
-        }
+        member.updateMemberNickName(nickName);
+        return member;
     }
 
     @Transactional
     public Member updateExpAndLevel(String firebaseToken, int addExpValue) {
         Member member = findByToken(firebaseToken);
-        return memberRepository.updateExpAndLevel(member, addExpValue);
+        member.updateExpAndLevel(addExpValue);
+        return member;
     }
+
 }
 

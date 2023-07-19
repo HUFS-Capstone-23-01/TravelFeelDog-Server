@@ -1,6 +1,7 @@
 package travelfeeldog.domain.member.domain.model;
 
-
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,22 +10,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
+
 import travelfeeldog.domain.community.FeedLike.model.FeedLike;
 import travelfeeldog.domain.community.feed.model.Feed;
 import travelfeeldog.domain.community.scrap.model.Scrap;
 import travelfeeldog.domain.review.review.model.Review;
 import travelfeeldog.global.common.domain.model.BaseTimeEntity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@Setter
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -62,7 +62,7 @@ public class Member extends BaseTimeEntity{
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Feed> feeds = new ArrayList<>();
-
+    @Builder
     private Member(String nickName,
                    int level,
                    int exp,
@@ -77,7 +77,12 @@ public class Member extends BaseTimeEntity{
                                 int level,
                                 int exp,
                                 String token) {
-        return new Member(nickName, level, exp, token);
+        return Member.builder().
+            nickName(nickName)
+            .level(level)
+            .exp(exp)
+            .token(token)
+            .build();
     }
     public void updateExpAndLevel(int addingExp) {
         int changedExp = this.exp + addingExp;
@@ -87,5 +92,12 @@ public class Member extends BaseTimeEntity{
             this.exp = changedExp % 100;
             this.level = this.level + 1;
         }
+    }
+    public void updateMemberNickName(String nickName){
+        this.nickName = nickName;
+    }
+
+    public void updateMemberImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
