@@ -32,7 +32,7 @@ public class ReviewApiController {
 
     @GetMapping(value = "/{reviewId}",produces = "application/json;charset=UTF-8")
     public ApiResponse<ReviewMemberPageResponseDto> getReviewByReviewId(@PathVariable Long reviewId,@RequestHeader("Authorization") String token) {
-        ReviewMemberPageResponseDto review = reviewService.getReviewById(reviewId);
+        ReviewMemberPageResponseDto review = reviewService.getReviewMemberPageByReviewId(reviewId);
         return ApiResponse.success(review);
     }
 

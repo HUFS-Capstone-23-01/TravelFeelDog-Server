@@ -67,7 +67,6 @@ public class Place extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "place", cascade = CascadeType.PERSIST)
     private Set<PlaceFacility> placeFacilities = new HashSet<>();
-
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
 
@@ -78,7 +77,6 @@ public class Place extends BaseTimeEntity {
     @ManyToOne(fetch = LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "location_id")
     private Location location;
-
     @OneToOne(mappedBy = "place", cascade = CascadeType.ALL)
     private PlaceStatistic placeStatistic;
 

@@ -33,7 +33,7 @@ public class ReviewKeyWordService {
     private final KeyWordService keyWordService;
     private final PlaceService placeService;
     private final MemberService memberService;
-    @Transactional
+
     public void saveReviewKeyWords(List<Long> badKeyWordIds , List<Long> goodKeyWordIds, Review review){
         for(Long id : badKeyWordIds){
             reviewBadKeyWordRepository.save(new ReviewBadKeyWord(review,keyWordService.getBadKeyWordById(id)));
