@@ -41,9 +41,12 @@ public class ReviewService {
                 .collect(Collectors.toList());
     }
 
-    public ReviewMemberPageResponseDto getReviewById(Long reviewId) {
-        Review review= reviewRepository.findById(reviewId)
+    public Review getReviewById(Long reviewId) {
+        return reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new EntityNotFoundException("Review not found with id: " + reviewId));
+    }
+    public ReviewMemberPageResponseDto getReviewMemberPageByReviewId(Long reviewId){
+        Review review = getReviewById(reviewId);
         return new ReviewMemberPageResponseDto(review);
     }
 
@@ -51,13 +54,12 @@ public class ReviewService {
     public ReviewPageResponseDto saveReview(String token , ReviewPostRequestDto request) {
         Member member = memberService.findByToken(token);
         Place place = placeService.getPlaceById(request);
-        Review review = new Review(member, place, request);
+        Review review = Review.AddReview(member, place, request);
 
         member.updateExpAndLevel(20);
         place.updatePlaceStatistic(request);
 
         reviewKeyWordService.saveReviewKeyWords(request,review);
-        reviewRepository.save(review);
 
         return new ReviewPageResponseDto(review);
     }
@@ -94,9 +96,8 @@ public class ReviewService {
     @Transactional
     public String updateReviewImage(String token, UpdateReviewImageDto reviewImageDto) {
         memberService.findByToken(token);
-        Long reviewId = reviewImageDto.getReviewId() ;
-        ReviewImage reviewImage = reviewImageRepository.findByReviewId(reviewId)
-            .orElseThrow(() -> new EntityNotFoundException("Review not found with id: " + reviewId));;
+        ReviewImage reviewImage = reviewImageRepository.findByReviewId(reviewImageDto.getReviewId())
+            .orElseThrow(() -> new EntityNotFoundException("Review not found with id: " +reviewImageDto.getReviewId()));;
         reviewImage.updateImage(reviewImageDto.getImageUrl());
         return reviewImageDto.getImageUrl();
     }

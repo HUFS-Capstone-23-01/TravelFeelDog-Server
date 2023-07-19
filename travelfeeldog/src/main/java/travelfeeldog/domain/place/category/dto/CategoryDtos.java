@@ -17,12 +17,10 @@ public class CategoryDtos {
     @NoArgsConstructor
     public static class CategoryResponseDto{
         private String name;
-        private List<PlaceDetailDto> placeDetailDtos;
+        private List<PlaceDetailDto> placeDetails;
         public CategoryResponseDto(Category category){
             this.name = category.getName();
-            this.placeDetailDtos = category.getPlaces()
-                                            .stream()
-                    .map(PlaceDetailDto::new).collect(Collectors.toList());
+            this.placeDetails = category.getPlaceDetails();
         }
     }
 

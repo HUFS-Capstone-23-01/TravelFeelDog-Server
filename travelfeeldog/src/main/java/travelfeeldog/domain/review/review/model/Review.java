@@ -26,7 +26,6 @@ import travelfeeldog.domain.review.reviewkeyword.model.ReviewBadKeyWord;
 import travelfeeldog.domain.review.reviewkeyword.model.ReviewGoodKeyWord;
 import travelfeeldog.global.common.domain.model.BaseTimeEntity;
 
-@Setter
 @Getter
 @Entity
 public class Review extends BaseTimeEntity {
@@ -58,14 +57,19 @@ public class Review extends BaseTimeEntity {
 
     @OneToMany (mappedBy = "review",cascade = CascadeType.PERSIST)
     private List<ReviewGoodKeyWord> reviewGoodKeyWords = new ArrayList<>();
-    @OneToMany (mappedBy = "review",cascade = CascadeType.PERSIST)
-    private List<ReviewBadKeyWord> reviewBadKeyWords = new ArrayList<>();
+
     @OneToMany (mappedBy = "review",cascade = CascadeType.ALL, orphanRemoval = true, fetch = LAZY)
     private List<ReviewImage> reviewImages = new ArrayList<>();
+
     protected Review() {
 
     }
-    public Review(Member member, Place place, ReviewPostRequestDto request){
+
+    public static Review AddReview(Member member, Place place, ReviewPostRequestDto request) {
+        return new Review(member,place, request);
+    }
+
+    private Review(Member member, Place place, ReviewPostRequestDto request){
         this.member = member;
         this.place = place;
         this.additionalScript = request.getAdditionalScript();
@@ -78,7 +82,7 @@ public class Review extends BaseTimeEntity {
     private List<ReviewImage> addReviewImages(List<String> imageUrls){
         return imageUrls.stream()
                 .map(imageUrl -> new ReviewImage(this, imageUrl))
-                .collect(Collectors.toList());
+            .toList();
     }
     public String getReviewOwnerNickName() {
         return this.member.getNickName();
