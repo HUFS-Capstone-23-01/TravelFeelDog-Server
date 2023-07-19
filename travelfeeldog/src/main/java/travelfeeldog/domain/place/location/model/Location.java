@@ -10,10 +10,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import lombok.Getter;
-import lombok.Setter;
+
+import lombok.NoArgsConstructor;
 import travelfeeldog.domain.place.place.model.Place;
 
-@Setter
+@NoArgsConstructor
 @Getter
 @Entity
 public class Location {
@@ -27,4 +28,7 @@ public class Location {
     @OneToMany(mappedBy = "location" ,cascade = CascadeType.PERSIST)
     private List<Place> places = new ArrayList<>();
 
+    public Location(String name) {
+        this.name = name;
+    }
 }

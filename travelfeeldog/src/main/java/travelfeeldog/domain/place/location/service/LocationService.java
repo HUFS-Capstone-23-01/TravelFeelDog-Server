@@ -26,8 +26,7 @@ public class LocationService {
     }
     @Transactional
     public Location createLocation(RequestLocationDto request) {
-        Location location = new Location();
-        location.setName(request.getName());
+        Location location = new Location(request.getName());
         return locationRepository.save(location);
     }
     @Transactional
