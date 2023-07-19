@@ -1,7 +1,6 @@
 package travelfeeldog.domain.place.place.dto;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,11 +27,7 @@ public class PlaceDtos {
             this.categoryName = place.getCategory().getName();
             this.address = place.getAddress();
             this.likes = place.getPlaceStatistic().getReviewCountGood();
-            this.goodKeyWords = place.getReviews().stream()
-                    .flatMap(review -> review.getReviewGoodKeyWords().stream())
-                    .map(goodKeyWord -> goodKeyWord.getGoodKeyWord().getKeyWordName())
-                    .distinct()
-                    .collect(Collectors.toList());
+            this.goodKeyWords = place.getGoodKeyWordsFromReviews();
         }
     }
     @Data
@@ -61,11 +56,7 @@ public class PlaceDtos {
             this.placeName = place.getName();
             this.categoryName = place.getCategory().getName();
             this.thumbNailImageUrl = place.getThumbNailImageUrl();
-            this.reviews = place.getReviews()
-                    .stream()
-                    .map(SingleDescriptionAndNickNameDto::new)
-                    .filter(r->!r.getAdditionalScript().isEmpty())
-                    .toList();
+            this.reviews = place.getSingleDescriptionAndNickNameFromReviews();
         }
     }
 
@@ -99,8 +90,8 @@ public class PlaceDtos {
             this.describe = place.getDescribe();
             this.thumbNailImageUrl = place.getThumbNailImageUrl();
             this.address = place.getAddress();
-            this.latitude = place.getLatitude() + 30;
-            this.longitude = place.getLongitude() + 120;
+            this.latitude = place.getKorLatitude();
+            this.longitude = place.getKorLongitude();
             this.facilityNames = place.getFacilityNamesByPlace();
         }
     }
@@ -135,9 +126,10 @@ public class PlaceDtos {
             this.reviewCount = placeStatistic.getReviewCount();
             this.thumbNailImageUrl = place.getThumbNailImageUrl();
             this.address = place.getAddress();
-            this.latitude = place.getLatitude() + 30;
-            this.longitude = place.getLongitude() + 120;
+            this.latitude = place.getKorLatitude();
+            this.longitude = place.getKorLongitude();
             this.facilityNames = place.getFacilityNamesByPlace();
+
             this.reviewCountGood = placeStatistic.getReviewCountGood();
             this.reviewCountBad = placeStatistic.getReviewCountBad();
             this.reviewCountIdk = placeStatistic.getReviewCountIdk();
