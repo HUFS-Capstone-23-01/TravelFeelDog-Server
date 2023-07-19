@@ -3,7 +3,10 @@ package travelfeeldog.domain.place.place.model;
 import static javax.persistence.FetchType.LAZY;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,15 +18,20 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 import lombok.Getter;
+
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
+
 import travelfeeldog.domain.place.category.model.Category;
 import travelfeeldog.domain.place.location.model.Location;
 import travelfeeldog.domain.place.place.dto.PlaceDtos.PlacePostRequestDto;
 import travelfeeldog.domain.place.placefacility.model.PlaceFacility;
 import travelfeeldog.domain.review.review.dto.ReviewDtos.ReviewPostRequestDto;
+import travelfeeldog.domain.review.review.dto.ReviewDtos.SingleDescriptionAndNickNameDto;
 import travelfeeldog.domain.review.review.model.Review;
+
 import travelfeeldog.global.common.domain.model.BaseTimeEntity;
 
 
@@ -32,6 +40,8 @@ import travelfeeldog.global.common.domain.model.BaseTimeEntity;
 @Table(name = "places")
 @Getter
 public class Place extends BaseTimeEntity {
+    private final static int KOREA_BASE_LATITUDE = 30;
+    private final static int KOREA_BASE_LONGITUDE = 120;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,7 +66,7 @@ public class Place extends BaseTimeEntity {
     private int viewCount;
 
     @OneToMany(mappedBy = "place", cascade = CascadeType.PERSIST)
-    private List<PlaceFacility> placeFacilities = new ArrayList<>();
+    private Set<PlaceFacility> placeFacilities = new HashSet<>();
 
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
@@ -76,8 +86,11 @@ public class Place extends BaseTimeEntity {
 
     }
 
-    public Place(PlacePostRequestDto placePostRequestDto,Category category,Location location) {
-        this.placeStatistic = new PlaceStatistic(this);
+    public static Place RegisterNewPlace(PlacePostRequestDto placePostRequestDto,Category category,Location location) {
+        return new Place(placePostRequestDto,category,location);
+    }
+
+    private Place(PlacePostRequestDto placePostRequestDto,Category category,Location location){
         this.name = placePostRequestDto.getName();
         this.describe = placePostRequestDto.getDescribe();
         this.address = placePostRequestDto.getAddress();
@@ -85,7 +98,11 @@ public class Place extends BaseTimeEntity {
         this.longitude = placePostRequestDto.getLongitude();
         this.category = category;
         this.location = location;
+
+        this.placeStatistic = new PlaceStatistic(this);
+
     }
+
     public void upCountPlaceViewCount() {
         this.viewCount += 1;
     }
@@ -94,5 +111,30 @@ public class Place extends BaseTimeEntity {
     }
     public void updatePlaceStatistic(ReviewPostRequestDto request){
         this.placeStatistic.addDogsInfo(request);
+    }
+    public List<String> getFacilityNamesByPlace(){
+        return this.placeFacilities.stream()
+            .map(pf -> pf.getFacility().getName())
+            .toList();
+    }
+
+    public List<String> getGoodKeyWordsFromReviews() {
+        return this.reviews.stream()
+            .flatMap(review -> review.getReviewGoodKeyWords().stream())
+            .map(goodKeyWord -> goodKeyWord.getGoodKeyWord().getKeyWordName())
+            .distinct()
+            .toList();
+    }
+    public float getKorLatitude() {
+        return (this.latitude + KOREA_BASE_LATITUDE);
+    }
+    public float getKorLongitude() {
+        return (this.longitude + KOREA_BASE_LONGITUDE);
+    }
+    public List<SingleDescriptionAndNickNameDto> getSingleDescriptionAndNickNameFromReviews(){
+        return this.reviews.stream()
+            .map(SingleDescriptionAndNickNameDto::new)
+            .filter(r->!r.getAdditionalScript().isEmpty())
+            .toList();
     }
 }
