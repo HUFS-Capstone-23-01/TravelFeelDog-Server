@@ -20,9 +20,9 @@ public class ReviewDtos {
     public static class SingleDescriptionAndNickNameDto{
         private String additionalScript;
         private String nickName;
-        public SingleDescriptionAndNickNameDto(Review review){
+        public SingleDescriptionAndNickNameDto(Review review) {
             this.additionalScript = review.getAdditionalScript();
-            this.nickName = review.getMember().getNickName();
+            this.nickName = review.getReviewOwnerNickName();
         }
 
     }
@@ -66,13 +66,13 @@ public class ReviewDtos {
 
         public ReviewPageResponseDto(Review review) {
             reviewId = review.getId();
-            memberImageUrl = review.getMember().getImageUrl();
-            memberLevel = review.getMember().getLevel();
-            memberNickname = review.getMember().getNickName();
+            memberImageUrl = review.getReviewOwnerImageUrl();
+            memberLevel = review.getReviewOwnerLevel();
+            memberNickname = review.getReviewOwnerNickName();
             createdDateTime = review.getCreatedDateTime();
             recommendStatus = review.getRecommendStatus().toString();
             additionalScript =review.getAdditionalScript();
-            imageUrls = review.getReviewImages().stream().map(ReviewImage::getImageUrl).collect(Collectors.toList());
+            imageUrls = review.getAllReviewImages();
         }
     }
     @Data
@@ -86,11 +86,11 @@ public class ReviewDtos {
         private List<String> imageUrls ;
         public ReviewMemberPageResponseDto(Review review) {
             id = review.getId();
-            placeName = review.getPlace().getName();
+            placeName = review.getPlaceNameOfReview();
             createdDateTime = review.getCreatedDateTime();
             recommendStatus = review.getRecommendStatus().toString();
             additionalScript =review.getAdditionalScript();
-            imageUrls = review.getReviewImages().stream().map(ReviewImage::getImageUrl).collect(Collectors.toList());
+            imageUrls = review.getAllReviewImages();
         }
     }
 }

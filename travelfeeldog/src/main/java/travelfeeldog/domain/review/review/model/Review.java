@@ -55,6 +55,7 @@ public class Review extends BaseTimeEntity {
     @ManyToOne(fetch = LAZY,cascade= CascadeType.PERSIST)
     @JoinColumn(name="member_id")
     private Member member;
+
     @OneToMany (mappedBy = "review",cascade = CascadeType.PERSIST)
     private List<ReviewGoodKeyWord> reviewGoodKeyWords = new ArrayList<>();
     @OneToMany (mappedBy = "review",cascade = CascadeType.PERSIST)
@@ -78,5 +79,22 @@ public class Review extends BaseTimeEntity {
         return imageUrls.stream()
                 .map(imageUrl -> new ReviewImage(this, imageUrl))
                 .collect(Collectors.toList());
+    }
+    public String getReviewOwnerNickName() {
+        return this.member.getNickName();
+    }
+    public int getReviewOwnerLevel(){
+        return this.member.getLevel();
+    }
+    public String getReviewOwnerImageUrl() {
+        return this.member.getImageUrl();
+    }
+    public String getPlaceNameOfReview() {
+        return this.place.getName();
+    }
+    public List<String> getAllReviewImages() {
+        return this.getReviewImages().stream()
+            .map(ReviewImage::getImageUrl)
+            .collect(Collectors.toList());
     }
 }
