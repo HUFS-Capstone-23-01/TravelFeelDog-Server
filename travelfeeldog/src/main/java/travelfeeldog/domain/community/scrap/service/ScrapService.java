@@ -5,14 +5,14 @@ import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import travelfeeldog.domain.community.feed.model.Feed;
-import travelfeeldog.domain.community.feed.service.FeedService;
 import travelfeeldog.domain.community.scrap.dao.ScrapRepository;
 import travelfeeldog.domain.community.scrap.dto.ScrapDtos.ScrapByMemberResponseDto;
 import travelfeeldog.domain.community.scrap.dto.ScrapDtos.ScrapRequestDto;
 import travelfeeldog.domain.community.scrap.model.Scrap;
-import travelfeeldog.domain.member.model.Member;
-import travelfeeldog.domain.member.service.MemberService;
+import travelfeeldog.domain.member.domain.model.Member;
+import travelfeeldog.domain.member.domain.application.MemberService;
+import travelfeeldog.domain.community.feed.model.Feed;
+import travelfeeldog.domain.community.feed.service.FeedService;
 
 @Transactional(readOnly = true)
 @Service

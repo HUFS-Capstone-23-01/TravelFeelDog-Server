@@ -11,8 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
+import travelfeeldog.domain.member.domain.model.Member;
 import travelfeeldog.domain.community.feed.model.Feed;
-import travelfeeldog.domain.member.model.Member;
+
 @Setter
 @Getter
 @Entity

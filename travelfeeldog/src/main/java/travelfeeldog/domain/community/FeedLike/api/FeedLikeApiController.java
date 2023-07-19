@@ -2,9 +2,9 @@ package travelfeeldog.domain.community.FeedLike.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import travelfeeldog.domain.community.FeedLike.service.FeedLikeService;
 import travelfeeldog.domain.community.FeedLike.dto.FeedLikeDtos.FeedLikeRequestDto;
 import travelfeeldog.domain.community.FeedLike.dto.FeedLikeDtos.FeedLikesByMemberResponseDto;
-import travelfeeldog.domain.community.FeedLike.service.FeedLikeService;
 import travelfeeldog.global.common.dto.ApiResponse;
 
 import java.util.List;

@@ -5,12 +5,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import travelfeeldog.domain.community.FeedLike.dto.FeedLikeDtos.FeedLikesByMemberResponseDto;
 import travelfeeldog.domain.community.feed.dao.FeedRepository;
+import travelfeeldog.domain.community.scrap.dto.ScrapDtos.ScrapByMemberResponseDto;
+import travelfeeldog.domain.community.tag.model.Tag;
+import travelfeeldog.domain.member.domain.model.Member;
+import travelfeeldog.domain.member.domain.application.MemberService;
 import travelfeeldog.domain.community.feed.dto.FeedDtos.FeedStaticResponseDto;
 import travelfeeldog.domain.community.feed.model.Feed;
-import travelfeeldog.domain.community.scrap.dto.ScrapDtos.ScrapByMemberResponseDto;
-import travelfeeldog.domain.member.model.Member;
-import travelfeeldog.domain.community.tag.model.Tag;
-import travelfeeldog.domain.member.service.MemberService;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;

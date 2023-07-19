@@ -4,8 +4,8 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import travelfeeldog.domain.place.facility.model.Facility;
 import travelfeeldog.domain.place.facility.repository.FacilityRepository;
+import travelfeeldog.domain.place.facility.model.Facility;
 
 @Transactional(readOnly = true)
 @Service

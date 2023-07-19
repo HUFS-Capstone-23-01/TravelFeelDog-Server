@@ -14,6 +14,7 @@ import lombok.Getter;
 import lombok.Setter;
 import travelfeeldog.domain.place.facility.model.Facility;
 import travelfeeldog.domain.place.place.model.Place;
+
 @Entity
 @Getter @Setter
 public class PlaceFacility {

@@ -4,11 +4,11 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import travelfeeldog.domain.community.feed.model.Feed;
 import travelfeeldog.domain.community.feed.model.FeedImages;
-import travelfeeldog.domain.community.feed.model.FeedTag;
-import travelfeeldog.domain.member.dto.MemberDtos.MemberResponse;
 import travelfeeldog.domain.community.tag.model.Tag;
+import travelfeeldog.domain.member.dto.MemberDtos.MemberResponse;
+import travelfeeldog.domain.community.feed.model.Feed;
+import travelfeeldog.domain.community.feed.model.FeedTag;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

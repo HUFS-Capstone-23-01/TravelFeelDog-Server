@@ -8,9 +8,9 @@ import org.hibernate.annotations.ColumnDefault;
 import travelfeeldog.domain.community.FeedLike.model.FeedLike;
 import travelfeeldog.domain.community.comment.model.Comment;
 import travelfeeldog.domain.community.scrap.model.Scrap;
-import travelfeeldog.domain.member.model.Member;
 import travelfeeldog.domain.community.tag.model.Tag;
-import travelfeeldog.global.common.model.BaseTimeEntity;
+import travelfeeldog.domain.member.domain.model.Member;
+import travelfeeldog.global.common.domain.model.BaseTimeEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;

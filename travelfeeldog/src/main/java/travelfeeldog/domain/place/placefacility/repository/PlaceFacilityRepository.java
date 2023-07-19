@@ -4,8 +4,8 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import travelfeeldog.domain.place.facility.model.Facility;
-import travelfeeldog.domain.place.placefacility.model.PlaceFacility;
 import travelfeeldog.domain.place.place.model.Place;
+import travelfeeldog.domain.place.placefacility.model.PlaceFacility;
 
 @Repository
 public interface PlaceFacilityRepository extends JpaRepository<PlaceFacility,Long> {

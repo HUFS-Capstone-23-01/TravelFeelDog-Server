@@ -156,8 +156,6 @@ public class PlaceDtos {
             this.mediumDogBadTotal = placeStatistic.getMediumDogBadTotal();
             this.largeDogGoodTotal = placeStatistic.getLargeDogGoodTotal();
             this.largeDogBadTotal = placeStatistic.getLargeDogBadTotal();
-
-
         }
     }
 }

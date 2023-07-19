@@ -4,8 +4,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import travelfeeldog.global.common.domain.model.BaseTimeEntity;
+
 import travelfeeldog.domain.community.feed.model.FeedTag;
-import travelfeeldog.global.common.model.BaseTimeEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;

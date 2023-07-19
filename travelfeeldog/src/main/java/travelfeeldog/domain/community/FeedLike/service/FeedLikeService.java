@@ -3,14 +3,14 @@ package travelfeeldog.domain.community.FeedLike.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import travelfeeldog.domain.community.FeedLike.model.FeedLike;
+import travelfeeldog.domain.member.domain.model.Member;
+import travelfeeldog.domain.member.domain.application.MemberService;
 import travelfeeldog.domain.community.FeedLike.dao.FeedLikeRepository;
 import travelfeeldog.domain.community.FeedLike.dto.FeedLikeDtos.FeedLikeRequestDto;
 import travelfeeldog.domain.community.FeedLike.dto.FeedLikeDtos.FeedLikesByMemberResponseDto;
-import travelfeeldog.domain.community.FeedLike.model.FeedLike;
 import travelfeeldog.domain.community.feed.model.Feed;
 import travelfeeldog.domain.community.feed.service.FeedService;
-import travelfeeldog.domain.member.model.Member;
-import travelfeeldog.domain.member.service.MemberService;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;

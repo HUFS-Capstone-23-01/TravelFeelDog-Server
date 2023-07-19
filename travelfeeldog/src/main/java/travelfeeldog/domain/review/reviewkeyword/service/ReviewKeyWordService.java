@@ -8,21 +8,20 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import travelfeeldog.domain.member.service.MemberService;
+import travelfeeldog.domain.member.domain.application.MemberService;
 import travelfeeldog.domain.place.place.model.Place;
 import travelfeeldog.domain.place.place.service.PlaceService;
-
 import travelfeeldog.domain.review.keyword.dto.KeyWordDtos.KeyWordResponseByCategoryDto;
-
-import travelfeeldog.domain.review.keyword.service.KeyWordService;
 import travelfeeldog.domain.review.review.dto.ReviewDtos.ReviewPostRequestDto;
 import travelfeeldog.domain.review.review.model.Review;
+import travelfeeldog.domain.review.reviewkeyword.dao.ReviewBadKeyWordRepository;
 import travelfeeldog.domain.review.reviewkeyword.dao.ReviewGoodKeyWordRepository;
-
 import travelfeeldog.domain.review.reviewkeyword.dto.ReviewKeyWordDtos.ReviewKeyWordResponseByCategoryDto;
 import travelfeeldog.domain.review.reviewkeyword.dto.ReviewKeyWordDtos.ReviewKeyWordResponseDto;
+
+import travelfeeldog.domain.review.keyword.service.KeyWordService;
+
 import travelfeeldog.domain.review.reviewkeyword.model.ReviewBadKeyWord;
-import travelfeeldog.domain.review.reviewkeyword.dao.ReviewBadKeyWordRepository;
 import travelfeeldog.domain.review.reviewkeyword.model.ReviewGoodKeyWord;
 
 @Transactional(readOnly = true)

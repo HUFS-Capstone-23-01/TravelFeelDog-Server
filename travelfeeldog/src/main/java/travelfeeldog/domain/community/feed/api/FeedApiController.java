@@ -10,20 +10,20 @@ import travelfeeldog.domain.community.feed.dto.FeedDtos.FeedListResponseDto;
 import travelfeeldog.domain.community.feed.model.Feed;
 import travelfeeldog.domain.community.feed.service.FeedService;
 import travelfeeldog.global.common.dto.ApiResponse;
-import travelfeeldog.infra.aws.s3.dto.AwsS3ImageDtos.ImageDto;
-import travelfeeldog.infra.aws.s3.service.AwsS3ImageService;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import travelfeeldog.global.file.domain.application.ImageFileService;
+import travelfeeldog.global.file.dto.ImageDtos.ImageDto;
 
 @RestController
 @RequestMapping("/feed")
 @RequiredArgsConstructor
 public class FeedApiController {
     private final FeedService feedService;
-    private final AwsS3ImageService awsS3ImageService;
+    private final ImageFileService imageFileService;
 
     @PostMapping(value = "/post", produces = "application/json;charset=UTF-8")
     public ApiResponse postFeed(@Valid @RequestBody FeedPostRequestDto feedPostRequestDto) throws Exception {
@@ -38,8 +38,8 @@ public class FeedApiController {
     @PostMapping(value = "/post/uploadImage", produces = "application/json;charset=UTF-8")
     public ApiResponse postImageUrlForFeed(@Valid @RequestParam("file") MultipartFile[] files) {
         try {
-            List<ImageDto> results = awsS3ImageService.uploadImagesOnly(files, "Feed");
-            List<String> urls = results.stream().map(ImageDto::getFileUrl).toList();
+            List<ImageDto> results = imageFileService.uploadImageFiles(files, "Feed");
+            List<String> urls = results.stream().map(ImageDto::getFileName).toList();
             return ApiResponse.success(urls);
         } catch (RuntimeException e) {
             return ApiResponse.fail("Invalid Files");

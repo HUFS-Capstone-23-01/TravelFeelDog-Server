@@ -16,22 +16,21 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Getter;
-import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import travelfeeldog.domain.place.category.model.Category;
 import travelfeeldog.domain.place.location.model.Location;
 import travelfeeldog.domain.place.place.dto.PlaceDtos.PlacePostRequestDto;
 import travelfeeldog.domain.place.placefacility.model.PlaceFacility;
+import travelfeeldog.domain.review.review.dto.ReviewDtos.ReviewPostRequestDto;
 import travelfeeldog.domain.review.review.model.Review;
-import travelfeeldog.global.common.model.BaseTimeEntity;
+import travelfeeldog.global.common.domain.model.BaseTimeEntity;
 
 
 @DynamicInsert
 @Entity
 @Table(name = "places")
 @Getter
-@Setter
 public class Place extends BaseTimeEntity {
 
     @Id
@@ -43,7 +42,7 @@ public class Place extends BaseTimeEntity {
     @Column(name = "place_decsribe")
     private String describe;
 
-    @ColumnDefault("'https://tavelfeeldog.s3.ap-northeast-2.amazonaws.com/base/baseLogo.png'")
+    @ColumnDefault("'/base/baseLogo.png'")
     @Column(name = "place_thumbnail_image")
     private String thumbNailImageUrl;
     @Column(name = "place_latitude")
@@ -55,6 +54,7 @@ public class Place extends BaseTimeEntity {
     @ColumnDefault("0")
     @Column(name = "place_view_count")
     private int viewCount;
+
     @OneToMany(mappedBy = "place", cascade = CascadeType.PERSIST)
     private List<PlaceFacility> placeFacilities = new ArrayList<>();
 
@@ -76,14 +76,23 @@ public class Place extends BaseTimeEntity {
 
     }
 
-    public Place(PlacePostRequestDto placePostRequestDto) {
+    public Place(PlacePostRequestDto placePostRequestDto,Category category,Location location) {
+        this.placeStatistic = new PlaceStatistic(this);
         this.name = placePostRequestDto.getName();
         this.describe = placePostRequestDto.getDescribe();
         this.address = placePostRequestDto.getAddress();
         this.latitude = placePostRequestDto.getLatitude();
         this.longitude = placePostRequestDto.getLongitude();
+        this.category = category;
+        this.location = location;
     }
     public void upCountPlaceViewCount() {
         this.viewCount += 1;
+    }
+    public void modifyPlaceImageUrl(String thumbNailImageUrl) {
+        this.thumbNailImageUrl = thumbNailImageUrl;
+    }
+    public void updatePlaceStatistic(ReviewPostRequestDto request){
+        this.placeStatistic.addDogsInfo(request);
     }
 }

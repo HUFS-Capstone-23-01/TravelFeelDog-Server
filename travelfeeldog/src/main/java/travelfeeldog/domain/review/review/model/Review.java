@@ -19,12 +19,12 @@ import javax.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
-import travelfeeldog.domain.member.model.Member;
+import travelfeeldog.domain.member.domain.model.Member;
 import travelfeeldog.domain.place.place.model.Place;
 import travelfeeldog.domain.review.review.dto.ReviewDtos.ReviewPostRequestDto;
 import travelfeeldog.domain.review.reviewkeyword.model.ReviewBadKeyWord;
 import travelfeeldog.domain.review.reviewkeyword.model.ReviewGoodKeyWord;
-import travelfeeldog.global.common.model.BaseTimeEntity;
+import travelfeeldog.global.common.domain.model.BaseTimeEntity;
 
 @Setter
 @Getter

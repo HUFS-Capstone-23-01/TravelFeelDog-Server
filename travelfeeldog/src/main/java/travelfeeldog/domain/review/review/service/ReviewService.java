@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
-import travelfeeldog.domain.member.model.Member;
-import travelfeeldog.domain.member.service.MemberService;
+import travelfeeldog.domain.member.domain.model.Member;
+import travelfeeldog.domain.member.domain.application.MemberService;
 import travelfeeldog.domain.place.place.model.Place;
 import travelfeeldog.domain.place.place.service.PlaceService;
 import travelfeeldog.domain.review.review.dao.ReviewImageRepository;
@@ -48,16 +48,17 @@ public class ReviewService {
     }
 
     @Transactional
-    public ReviewPageResponseDto saveReview(String token ,ReviewPostRequestDto request) {
+    public ReviewPageResponseDto saveReview(String token , ReviewPostRequestDto request) {
         Member member = memberService.findByToken(token);
         Place place = placeService.getPlaceById(request);
         Review review = new Review(member, place, request);
 
         member.updateExpAndLevel(20);
-        placeService.addPlaceStatic(request);
-        reviewKeyWordService.saveReviewKeyWords(request,review);
+        place.updatePlaceStatistic(request);
 
+        reviewKeyWordService.saveReviewKeyWords(request,review);
         reviewRepository.save(review);
+
         return new ReviewPageResponseDto(review);
     }
     @Transactional
@@ -76,7 +77,7 @@ public class ReviewService {
         Member member = memberService.findByToken(token);
         List<Review> reviews = "TIME".equalsIgnoreCase(request)
                 ? reviewRepository.findAllByPlaceIdOrderByCreatedDateTimeDesc(placeId)
-                : reviewRepository.findByPlaceIdAndRecommendStatus(placeId,RecommendStatus.valueOf(request.toUpperCase()));
+                : reviewRepository.findByPlaceIdAndRecommendStatus(placeId, RecommendStatus.valueOf(request.toUpperCase()));
         return reviews
                 .stream()
                 .map(ReviewPageResponseDto::new)

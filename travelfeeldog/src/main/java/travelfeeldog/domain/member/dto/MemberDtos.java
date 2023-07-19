@@ -3,7 +3,7 @@ package travelfeeldog.domain.member.dto;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import travelfeeldog.domain.member.model.Member;
+import travelfeeldog.domain.member.domain.model.Member;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
