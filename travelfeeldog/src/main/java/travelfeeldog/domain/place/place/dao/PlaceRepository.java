@@ -10,7 +10,6 @@ import travelfeeldog.domain.place.place.model.Place;
 
 @Repository
 public interface PlaceRepository extends JpaRepository<Place,Long> {
-    Place findByName(String name);
 
     @Query("SELECT DISTINCT p " +
             "FROM Place p " +
