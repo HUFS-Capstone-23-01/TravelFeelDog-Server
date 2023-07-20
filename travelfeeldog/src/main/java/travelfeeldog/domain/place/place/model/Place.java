@@ -56,9 +56,9 @@ public class Place extends BaseTimeEntity {
     @Column(name = "place_thumbnail_image")
     private String thumbNailImageUrl;
     @Column(name = "place_latitude")
-    private float latitude;
+    private double latitude;
     @Column(name = "place_longitude")
-    private float longitude;
+    private double longitude;
     @Column(name = "place_address")
     private String address;
     @ColumnDefault("0")
@@ -88,18 +88,23 @@ public class Place extends BaseTimeEntity {
         return new Place(placePostRequestDto,category,location);
     }
 
-    private Place(PlacePostRequestDto placePostRequestDto,Category category,Location location){
-        this.name = placePostRequestDto.getName();
-        this.describe = placePostRequestDto.getDescribe();
-        this.address = placePostRequestDto.getAddress();
-        this.latitude = placePostRequestDto.getLatitude();
-        this.longitude = placePostRequestDto.getLongitude();
+    private Place(PlacePostRequestDto placePostRequestDto, Category category, Location location) {
+        this(placePostRequestDto.getName(), placePostRequestDto.getDescribe(), placePostRequestDto.getAddress(),
+            placePostRequestDto.getLatitude(), placePostRequestDto.getLongitude(), category, location);
+        this.placeStatistic = new PlaceStatistic(this);
+    }
+
+    private Place(String name, String describe, String address, double latitude, double longitude,
+        Category category, Location location) {
+        this.name = name;
+        this.describe = describe;
+        this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.category = category;
         this.location = location;
-
-        this.placeStatistic = new PlaceStatistic(this);
-
     }
+
 
     public void upCountPlaceViewCount() {
         this.viewCount += 1;
@@ -123,10 +128,10 @@ public class Place extends BaseTimeEntity {
             .distinct()
             .toList();
     }
-    public float getKorLatitude() {
+    public double getKorLatitude() {
         return (this.latitude + KOREA_BASE_LATITUDE);
     }
-    public float getKorLongitude() {
+    public double getKorLongitude() {
         return (this.longitude + KOREA_BASE_LONGITUDE);
     }
     public List<SingleDescriptionAndNickNameDto> getSingleDescriptionAndNickNameFromReviews(){

@@ -68,17 +68,24 @@ public class Review extends BaseTimeEntity {
     public static Review AddReview(Member member, Place place, ReviewPostRequestDto request) {
         return new Review(member,place, request);
     }
-
-    private Review(Member member, Place place, ReviewPostRequestDto request){
-        this.member = member;
-        this.place = place;
-        this.additionalScript = request.getAdditionalScript();
-        this.recommendStatus = request.getRecommendStatus();
-        this.smallDogNumber = request.getSmallDogNumber();
-        this.mediumDogNumber = request.getMediumDogNumber();
-        this.largeDogNumber = request.getLargeDogNumber();
+    private Review(Member member, Place place, ReviewPostRequestDto request) {
+        this(member, place, request.getAdditionalScript(),
+            request.getRecommendStatus(),
+            request.getSmallDogNumber(), request.getMediumDogNumber(), request.getLargeDogNumber());
         this.reviewImages = addReviewImages(request.getImageUrls());
     }
+
+    private Review(Member member, Place place, String additionalScript, RecommendStatus recommendStatus,
+        int smallDogNumber, int mediumDogNumber, int largeDogNumber) {
+        this.member = member;
+        this.place = place;
+        this.additionalScript = additionalScript;
+        this.recommendStatus = recommendStatus;
+        this.smallDogNumber = smallDogNumber;
+        this.mediumDogNumber = mediumDogNumber;
+        this.largeDogNumber = largeDogNumber;
+    }
+
     private List<ReviewImage> addReviewImages(List<String> imageUrls){
         return imageUrls.stream()
                 .map(imageUrl -> new ReviewImage(this, imageUrl))

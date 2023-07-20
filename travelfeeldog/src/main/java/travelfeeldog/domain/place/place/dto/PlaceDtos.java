@@ -80,8 +80,8 @@ public class PlaceDtos {
         private String describe;
         private String thumbNailImageUrl;
         private String address;
-        private float latitude;
-        private float longitude;
+        private double latitude;
+        private double longitude;
         private List<String> facilityNames;
         public PlaceDetailDto(Place place){
             this.id=place.getId();
@@ -106,8 +106,8 @@ public class PlaceDtos {
         private String thumbNailImageUrl;
         private List<String> facilityNames;
         private String address;
-        private float latitude;
-        private float longitude;
+        private double latitude;
+        private double longitude;
         private int reviewCountBad;
         private int reviewCountGood;
         private int reviewCountIdk;
