@@ -24,7 +24,6 @@ import travelfeeldog.domain.place.location.model.Location;
 import travelfeeldog.domain.place.location.service.LocationService;
 import travelfeeldog.domain.member.domain.application.MemberService;
 import travelfeeldog.domain.place.place.dao.PlaceRepository;
-import travelfeeldog.domain.place.place.dao.PlaceStatisticRepository;
 import travelfeeldog.domain.review.review.dto.ReviewDtos.ReviewPostRequestDto;
 import travelfeeldog.domain.review.review.model.Review;
 
@@ -33,7 +32,6 @@ import travelfeeldog.domain.review.review.model.Review;
 @RequiredArgsConstructor
 public class PlaceService {
     private final PlaceRepository placeRepository;
-    private final PlaceStatisticRepository placeStatisticRepository;
     private final CategoryService categoryService;
     private final LocationService locationService;
     private final MemberService memberService;
