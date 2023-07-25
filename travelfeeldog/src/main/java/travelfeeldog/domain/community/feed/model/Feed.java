@@ -1,6 +1,7 @@
 package travelfeeldog.domain.community.feed.model;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,10 +17,9 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
 public class Feed extends BaseTimeEntity {
 
     @Id
@@ -60,6 +60,7 @@ public class Feed extends BaseTimeEntity {
     @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FeedLike> feedLikes = new ArrayList<>();
 
+    @Builder
     private Feed(Member member, int likeCount, int scrapCount, String title, String body) {
         this.member = member;
         this.likeCount = likeCount;
@@ -69,48 +70,16 @@ public class Feed extends BaseTimeEntity {
     }
 
     public static Feed create(Member member,
-                              int likeCount,
-                              int scrapCount,
                               String title,
                               String body) {
-        return  new Feed(member, likeCount, scrapCount, title, body);
+        return  Feed.builder()
+            .member(member)
+            .title(title)
+            .body(body)
+            .likeCount(0)
+            .scrapCount(0)
+            .build();
     }
-
-    public static Feed create(Member member,
-                              List<String> feedImageUrls,
-                              int likeCount,
-                              int scrapCount,
-                              String title,
-                              String body) {
-        Feed feed =  new Feed(member, likeCount, scrapCount, title, body);
-        for(String feedImageUrl : feedImageUrls) { feed.addFeedImage(feedImageUrl); }
-        return feed;
-    }
-
-    public static Feed create(Member member,
-                              List<String> feedImageUrls,
-                              int likeCount,
-                              int scrapCount,
-                              String title,
-                              String body,
-                              List<Tag> tags) {
-        Feed feed =  new Feed(member, likeCount, scrapCount, title, body);
-        for(String feedImageUrl : feedImageUrls) { feed.addFeedImage(feedImageUrl); }
-        for(Tag tag : tags) { feed.addTag(tag); }
-        return feed;
-    }
-
-    public static Feed create(Member member,
-                              int likeCount,
-                              int scrapCount,
-                              String title,
-                              String body,
-                              List<Tag> tags) {
-        Feed feed =  new Feed(member, likeCount, scrapCount, title, body);
-        for(Tag tag : tags) { feed.addTag(tag); }
-        return feed;
-    }
-
     public void updateFeedLikeCountPlus(boolean add) {
         if(add) {
             this.likeCount += 1;
@@ -128,7 +97,13 @@ public class Feed extends BaseTimeEntity {
             this.scrapCount -= 1;
         }
     }
+    public void setFeedImages(List<String> feedImageUrls) {
+        feedImageUrls.forEach(this::addFeedImage);
+    }
 
+    public void setTags(List<Tag> tags) {
+        tags.forEach(this::addTag);
+    }
     //==연관관계 메소드==//
     public void addFeedImage(String feedImageUrl) {
         FeedImages feedImage = new FeedImages(this, feedImageUrl);
