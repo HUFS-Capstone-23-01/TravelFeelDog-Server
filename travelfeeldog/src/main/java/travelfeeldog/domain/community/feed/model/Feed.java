@@ -1,10 +1,14 @@
 package travelfeeldog.domain.community.feed.model;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 import org.hibernate.annotations.ColumnDefault;
 import travelfeeldog.domain.community.FeedLike.model.FeedLike;
 import travelfeeldog.domain.community.comment.model.Comment;
@@ -46,10 +50,10 @@ public class Feed extends BaseTimeEntity {
     private String body;
 
     @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FeedImages> feedImages = new ArrayList<>();
+    private Set<FeedImages> feedImages = new HashSet<>();
 
     @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FeedTag> feedTags = new ArrayList<>();
+    private Set<FeedTag> feedTags = new HashSet<>();
 
     @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
@@ -114,6 +118,28 @@ public class Feed extends BaseTimeEntity {
     public void addTag(Tag tag) {
         FeedTag feedTag = new FeedTag();
         feedTag.setTagAndFeed(tag, this);
+    }
+
+    public Set<String> getFeedImagesUrls() {
+        if (this.feedImages.isEmpty()) {
+            return Collections.singleton("/feed/Base.png");
+        }
+        return this.feedImages.stream()
+            .map(FeedImages::getFeedImageUrl)
+            .collect(Collectors.toSet());
+    }
+    public Set<String> getFeedTagsContent() {
+        return this.feedTags.stream()
+            .map(f -> f.getTag().getTagContent())
+            .collect(Collectors.toSet());
+    }
+    public String getFeedImageUrl() {
+        if (this.feedImages.isEmpty()) {
+            return ("/feed/Base.png");
+        }
+        return this.feedImages.stream()
+            .map(FeedImages::getFeedImageUrl)
+            .toList().get(0);
     }
 
 }
