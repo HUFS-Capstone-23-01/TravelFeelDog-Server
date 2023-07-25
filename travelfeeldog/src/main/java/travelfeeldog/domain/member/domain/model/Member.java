@@ -77,12 +77,12 @@ public class Member extends BaseTimeEntity{
                                 int level,
                                 int exp,
                                 String token) {
-        return Member.builder().
-            nickName(nickName)
-            .level(level)
-            .exp(exp)
-            .token(token)
-            .build();
+        return Member.builder()
+                .nickName(nickName)
+                .level(level)
+                .exp(exp)
+                .token(token)
+                .build();
     }
     public void updateExpAndLevel(int addingExp) {
         int changedExp = this.exp + addingExp;

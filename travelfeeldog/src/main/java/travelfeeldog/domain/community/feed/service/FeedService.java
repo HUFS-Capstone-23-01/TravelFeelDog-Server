@@ -32,27 +32,21 @@ public class FeedService {
                          String body,
                          List<String> feedImagesUrls,
                          List<String> tagContents) {
+
         Member writer = memberService.findByToken(writerToken);
         List<Tag> tags = feedTagService.makeTagsByContents(tagContents);
 
-        Feed result;
-        int imagesExist = feedImagesUrls.isEmpty() ? 0 : 2; //10(binary)
-        int tagsExist = tagContents.isEmpty() ? 0 : 1; //01(binary)
-        switch(imagesExist | tagsExist) {
-            case 3:
-                result = feedRepository.save(writer, feedImagesUrls, title, body, tags);
-                break;
-            case 2:
-                result = feedRepository.save(writer, feedImagesUrls, title, body);
-                break;
-            case 1:
-                result = feedRepository.save(writer, title, body, tags);
-                break;
-            default:
-                result = feedRepository.save(writer, title, body);
-                break;
+        Feed feed = Feed.create(writer,title,body);
+
+        if(!feedImagesUrls.isEmpty()) {
+            feed.setFeedImages(feedImagesUrls);
         }
-        return result;
+
+        if(!tagContents.isEmpty()){
+            feed.setTags(tags);
+        }
+
+        return feedRepository.save(feed);
     }
 
     public Feed getFeedDetailsById(Long id) {

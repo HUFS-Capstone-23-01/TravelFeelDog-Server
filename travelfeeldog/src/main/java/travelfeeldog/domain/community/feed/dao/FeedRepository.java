@@ -17,31 +17,10 @@ import java.util.Optional;
 public class FeedRepository {
     @PersistenceContext
     private final EntityManager em;
-
-    public Feed save(Member member, String title, String body) {
-        Feed feed = Feed.create(member, 0, 0, title, body);
+    public Feed save(Feed feed) {
         em.persist(feed);
         return feed;
     }
-
-    public Feed save(Member member,List<String> feedImages, String title, String body) {
-        Feed feed = Feed.create(member, feedImages, 0, 0, title, body);
-        em.persist(feed);
-        return feed;
-    }
-
-    public Feed save(Member member, List<String> feedImages, String title, String body, List<Tag> feedTags) {
-        Feed feed = Feed.create(member, feedImages, 0, 0, title, body, feedTags);
-        em.persist(feed);
-        return feed;
-    }
-
-    public Feed save(Member member, String title, String body, List<Tag> feedTags) {
-        Feed feed = Feed.create(member, 0, 0, title, body, feedTags);
-        em.persist(feed);
-        return feed;
-    }
-
     public void deleteById(Long id) {
         Feed feed = findById(id).orElseThrow(() -> new IllegalStateException("Memeber cannot delete this."));
         em.remove(feed);
