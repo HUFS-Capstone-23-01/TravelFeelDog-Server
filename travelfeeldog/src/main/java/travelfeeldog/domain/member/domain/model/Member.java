@@ -3,6 +3,7 @@ package travelfeeldog.domain.member.domain.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,11 +15,12 @@ import javax.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
+import org.springframework.util.Assert;
 import travelfeeldog.domain.community.FeedLike.model.FeedLike;
 import travelfeeldog.domain.community.feed.model.Feed;
 import travelfeeldog.domain.community.scrap.model.Scrap;
@@ -27,8 +29,8 @@ import travelfeeldog.global.common.domain.model.BaseTimeEntity;
 
 @Getter
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicInsert
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseTimeEntity{
 
     @Id
@@ -38,6 +40,11 @@ public class Member extends BaseTimeEntity{
 
     @Column(name = "member_nickname", unique = true)
     private String nickName;
+    final private static Long NICK_NAME_MAX_LENGTH = 10L;
+
+    @Column(name = "member_email", unique = true)
+    private String email ;
+    final private static Long EMAIL_MAX_LENGTH = 20L;
 
     @Column(name = "member_level")
     private int level;
@@ -62,23 +69,29 @@ public class Member extends BaseTimeEntity{
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Feed> feeds = new ArrayList<>();
+
     @Builder
     private Member(String nickName,
-                   int level,
-                   int exp,
-                   String token) {
+        String email,
+        int level,
+        int exp,
+        String token) {
+        validateNickname(nickName);
+        validateEmail(email);
         this.nickName = nickName;
         this.level = level;
+        this.email = Objects.requireNonNull(email, "Email cannot be null"); // Initialize 'email' field
         this.exp = exp;
         this.token = token;
     }
-
     public static Member create(String nickName,
+                                String email,
                                 int level,
                                 int exp,
                                 String token) {
         return Member.builder()
                 .nickName(nickName)
+                .email(email)
                 .level(level)
                 .exp(exp)
                 .token(token)
@@ -99,5 +112,11 @@ public class Member extends BaseTimeEntity{
 
     public void updateMemberImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+    private void validateNickname(String nickname) {
+        Assert.isTrue(nickname.length() <= NICK_NAME_MAX_LENGTH, "최대 길이를 초과했습니다.");
+    }
+    private void validateEmail(String email) {
+        Assert.isTrue(email.length() <= EMAIL_MAX_LENGTH, "최대 길이를 초과했습니다.");
     }
 }

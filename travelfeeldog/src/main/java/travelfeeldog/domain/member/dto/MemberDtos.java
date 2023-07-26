@@ -111,11 +111,10 @@ public class MemberDtos {
                 member.getNickName(),
                 member.getLevel(),
                 member.getExp(),
-                "https://tavelfeeldog.s3.ap-northeast-2.amazonaws.com/base/baseLogo.png",
+                "/base/baseLogo.png",
                 member.getToken()
             );
         }
-
         public MemberPostResponseDto(Long id, String nickName, int level, int exp, String imageUrl, String token) {
             this.id = id;
             this.nickName = nickName;
