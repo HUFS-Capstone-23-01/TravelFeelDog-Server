@@ -44,6 +44,9 @@ dependencies {
     /**Cloud */
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
+    /**Docs */
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.15'
+
     // Common
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
