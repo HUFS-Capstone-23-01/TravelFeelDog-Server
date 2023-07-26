@@ -3,15 +3,15 @@ package travelfeeldog.domain.community.feed.model;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 import travelfeeldog.domain.community.tag.model.Tag;
 import travelfeeldog.global.common.domain.model.BaseTimeEntity;
 
 import javax.persistence.*;
 
-@Entity
+
 @Getter
-@Setter
+@Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FeedTag extends BaseTimeEntity {
 
@@ -33,7 +33,7 @@ public class FeedTag extends BaseTimeEntity {
         this.tag = tag;
     }
 
-    public static FeedTag FeedTag(Feed feed, Tag tag){
+    public static FeedTag createFeedTag(Feed feed, Tag tag){
         return new FeedTag(feed, tag);
     }
 
