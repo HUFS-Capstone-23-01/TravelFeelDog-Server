@@ -18,6 +18,7 @@ public class MemberDtos {
         @NotBlank(message = "NickName value is Empty or just Blank")
         @Size(min = 2, max = 16, message = "닉네임은 2~16자리로 입력해주세요.")
         String nickName;
+        String email;
         @NotBlank(message = "Token value is Empty or just Blank")
         String firebaseToken;
     }

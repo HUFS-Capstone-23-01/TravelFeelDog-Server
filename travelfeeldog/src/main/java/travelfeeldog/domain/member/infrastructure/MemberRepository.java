@@ -16,12 +16,12 @@ public class MemberRepository {
     @PersistenceContext
     private final EntityManager em;
 
-    public Optional<Member> saveMember(String nickName, int level, int exp,String token) {
+    public Optional<Member> saveMember(String nickName,String email, int level, int exp,String token) {
         try {
             findByToken(token).ifPresent(m -> {
                 throw new IllegalStateException("가입되어 있습니다.");
             });
-            Member member = Member.create(nickName, level, exp, token);
+            Member member = Member.create(nickName, email,level, exp, token);
             em.persist(member);
             return Optional.of(member);
         } catch (IllegalStateException e) {
