@@ -5,14 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.util.Assert;
 import travelfeeldog.global.common.domain.model.BaseTimeEntity;
 
 import javax.persistence.*;
 
-@Entity
+
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
 public class FeedImages extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,14 +24,22 @@ public class FeedImages extends BaseTimeEntity {
     @JoinColumn(name = "feed_id")
     private Feed feed;
 
-    @ColumnDefault("'https://tavelfeeldog.s3.ap-northeast-2.amazonaws.com/base/feed.JPG'")
+    @ColumnDefault("'/base/feed.JPG'")
     @Column(name = "feed_image_url")
     private String feedImageUrl;
 
     public FeedImages(Feed feed, String feedImageUrl) {
         this.feed = feed;
+        feedImageUrlValidate(feedImageUrl);
         this.feedImageUrl = feedImageUrl;
     }
 
+    private void feedImageUrlValidate(String feedImageUrl) {
+        Assert.isTrue(feedImageUrl.contains(".jpg"), "확장자가 잘못 되었습니다.");
+    }
+
+    protected void setFeed(Feed feed){
+        this.feed = feed;
+    }
     public static FeedImages create(Feed feed, String feedImageUrl) { return new FeedImages(feed, feedImageUrl); }
 }

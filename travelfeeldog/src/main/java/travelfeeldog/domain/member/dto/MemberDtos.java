@@ -18,6 +18,7 @@ public class MemberDtos {
         @NotBlank(message = "NickName value is Empty or just Blank")
         @Size(min = 2, max = 16, message = "닉네임은 2~16자리로 입력해주세요.")
         String nickName;
+        String email;
         @NotBlank(message = "Token value is Empty or just Blank")
         String firebaseToken;
     }
@@ -111,11 +112,10 @@ public class MemberDtos {
                 member.getNickName(),
                 member.getLevel(),
                 member.getExp(),
-                "https://tavelfeeldog.s3.ap-northeast-2.amazonaws.com/base/baseLogo.png",
+                "/base/baseLogo.png",
                 member.getToken()
             );
         }
-
         public MemberPostResponseDto(Long id, String nickName, int level, int exp, String imageUrl, String token) {
             this.id = id;
             this.nickName = nickName;

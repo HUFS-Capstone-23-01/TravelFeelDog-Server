@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
+import travelfeeldog.domain.member.dto.MemberDtos.MemberPostRequestDto;
 import travelfeeldog.domain.member.infrastructure.MemberRepository;
 import travelfeeldog.domain.member.domain.model.Member;
 
@@ -19,8 +20,8 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Member saveMember(String nickName, String token) {
-        return memberRepository.saveMember(nickName, 1, 0, token)
+    public Member saveMember(MemberPostRequestDto requestDto) {
+        return memberRepository.saveMember(requestDto.getNickName(), requestDto.getEmail(),1, 0, requestDto.getFirebaseToken())
             .orElseThrow(() -> new RuntimeException("Member not saved"));
     }
 
