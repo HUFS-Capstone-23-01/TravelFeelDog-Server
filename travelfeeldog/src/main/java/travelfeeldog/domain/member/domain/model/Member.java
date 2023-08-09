@@ -58,6 +58,12 @@ public class Member extends BaseTimeEntity{
     @Column(name = "member_token", unique = true)
     private String token;
 
+    @Column(name = "member_delete")
+    private boolean delete;
+
+    @Column(name = "member_block")
+    private boolean block;
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FeedLike> feedLikes = new ArrayList<>();
 
@@ -109,7 +115,15 @@ public class Member extends BaseTimeEntity{
     public void updateMemberNickName(String nickName){
         this.nickName = nickName;
     }
-
+    public void blockMember() {
+        this.block = true;
+    }
+    public void unblockMember() {
+        this.block =false;
+    }
+    public void deleteMember() {
+        this.delete = true;
+    }
     public void updateMemberImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
