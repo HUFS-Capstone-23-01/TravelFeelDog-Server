@@ -2,7 +2,7 @@ package travelfeeldog.domain.member.controller;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
+
 import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.*;
@@ -27,12 +27,13 @@ import travelfeeldog.global.file.domain.application.ImageFileService;
 @RequestMapping(value = "/member")
 @RequiredArgsConstructor
 public class MemberApiController {
+
     private final MemberService memberService;
     private final ImageFileService imageFileService;
 
     @PostMapping(produces = "application/json;charset=UTF-8")
     public ApiResponse postMember(@Valid @RequestBody MemberDtos.MemberPostRequestDto request) throws Exception {
-        Member savedMember = memberService.saveMember(request);
+        Member savedMember = memberService.save(request);
         return ApiResponse.success(new MemberPostResponseDto(savedMember));
     }
 
