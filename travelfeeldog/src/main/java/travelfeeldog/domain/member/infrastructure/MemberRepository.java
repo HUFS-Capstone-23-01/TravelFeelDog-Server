@@ -21,7 +21,7 @@ public class MemberRepository {
             findByToken(token).ifPresent(m -> {
                 throw new IllegalStateException("가입되어 있습니다.");
             });
-            Member member = Member.create(nickName, email,level, exp, token);
+            Member member = Member.register(nickName, email,level, exp, token);
             em.persist(member);
             return Optional.of(member);
         } catch (IllegalStateException e) {

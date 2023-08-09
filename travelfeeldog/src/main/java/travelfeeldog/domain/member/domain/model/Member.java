@@ -31,7 +31,7 @@ import travelfeeldog.global.common.domain.model.BaseTimeEntity;
 @Entity
 @DynamicInsert
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member extends BaseTimeEntity{
+public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +43,7 @@ public class Member extends BaseTimeEntity{
     final private static Long NICK_NAME_MAX_LENGTH = 10L;
 
     @Column(name = "member_email", unique = true)
-    private String email ;
+    private String email;
     final private static Long EMAIL_MAX_LENGTH = 20L;
 
     @Column(name = "member_level")
@@ -78,23 +78,25 @@ public class Member extends BaseTimeEntity{
 
     @Builder
     private Member(String nickName,
-        String email,
-        int level,
-        int exp,
-        String token) {
+            String email,
+            int level,
+            int exp,
+            String token) {
         validateNickname(nickName);
         validateEmail(email);
         this.nickName = nickName;
         this.level = level;
-        this.email = Objects.requireNonNull(email, "Email cannot be null"); // Initialize 'email' field
+        this.email = Objects.requireNonNull(email,
+                "Email cannot be null"); // Initialize 'email' field
         this.exp = exp;
         this.token = token;
     }
-    public static Member create(String nickName,
-                                String email,
-                                int level,
-                                int exp,
-                                String token) {
+
+    public static Member register(String nickName,
+            String email,
+            int level,
+            int exp,
+            String token) {
         return Member.builder()
                 .nickName(nickName)
                 .email(email)
@@ -103,6 +105,7 @@ public class Member extends BaseTimeEntity{
                 .token(token)
                 .build();
     }
+
     public void updateExpAndLevel(int addingExp) {
         int changedExp = this.exp + addingExp;
         if (changedExp / 100 == 0) {
@@ -112,24 +115,31 @@ public class Member extends BaseTimeEntity{
             this.level = this.level + 1;
         }
     }
-    public void updateMemberNickName(String nickName){
+
+    public void updateMemberNickName(String nickName) {
         this.nickName = nickName;
     }
+
     public void blockMember() {
         this.block = true;
     }
+
     public void unblockMember() {
-        this.block =false;
+        this.block = false;
     }
+
     public void deleteMember() {
         this.delete = true;
     }
+
     public void updateMemberImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
     private void validateNickname(String nickname) {
         Assert.isTrue(nickname.length() <= NICK_NAME_MAX_LENGTH, "최대 길이를 초과했습니다.");
     }
+
     private void validateEmail(String email) {
         Assert.isTrue(email.length() <= EMAIL_MAX_LENGTH, "최대 길이를 초과했습니다.");
     }
