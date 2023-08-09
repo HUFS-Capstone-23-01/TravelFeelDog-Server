@@ -1,73 +1,18 @@
 package travelfeeldog.domain.member.infrastructure;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
-import travelfeeldog.domain.member.domain.model.Member;
-
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
+import travelfeeldog.domain.member.domain.model.Member;
 
-@Repository
-@RequiredArgsConstructor
-public class MemberRepository {
-    @PersistenceContext
-    private final EntityManager em;
+public interface MemberRepository {
 
-    public Optional<Member> saveMember(String nickName,String email, int level, int exp,String token) {
-        try {
-            findByToken(token).ifPresent(m -> {
-                throw new IllegalStateException("가입되어 있습니다.");
-            });
-            Member member = Member.register(nickName, email,level, exp, token);
-            em.persist(member);
-            return Optional.of(member);
-        } catch (IllegalStateException e) {
-            return Optional.empty();
-        }
-    }
+    Optional<Member> save(String nickName, String email, int i, int i1, String firebaseToken);
 
-    public Optional<Member> findByToken(String token) {
-        try {
-            Member member = em.createQuery("SELECT m FROM Member m WHERE m.token = :token", Member.class)
-                    .setParameter("token", token)
-                    .getSingleResult();
-            return Optional.of(member);
-        } catch (NoResultException e) {
-            return Optional.empty();
-        }
-    }
+    Optional<Member> findByNickName(String nickName);
 
-    public Optional<Member> findByNickName(String nickName) {
-        try {
-            Member member = em.createQuery("SELECT m FROM Member m WHERE m.nickName = :nickName", Member.class)
-                    .setParameter("nickName", nickName)
-                    .getSingleResult();
-            return Optional.of(member);
-        } catch (NoResultException e) {
-            return Optional.empty();
-        }
-    }
+    Optional<Member> findByToken(String firebaseToken);
 
-    public Optional<Member> findById(Long id) {
-        try {
-            Member member = em.createQuery("SELECT m FROM Member m WHERE m.id = :id", Member.class)
-                    .setParameter("id", id)
-                    .getSingleResult();
-            return Optional.of(member);
-        } catch (NoResultException e) {
-            return Optional.empty();
-        }
-    }
+    void deleteMember(Member member);
 
-    public void deleteMember(Member member) {
-        em.remove(member);
-    }
-
-    public List<Member> findAll() {
-        return em.createQuery("SELECT m FROM Member m", Member.class)
-                .getResultList();
-    }
+    List<Member> findAll();
 }
