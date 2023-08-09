@@ -5,7 +5,7 @@ echo "start Build!"
 ./gradlew build
 PID="TravelFeelDog"
 echo $PID kill
-# shellcheck disable=SC2046
+
 kill -9 $(ps -ef | grep $PID | grep -v grep | awk '{print $2 }')
 rm -f "$LOG_FILE"
 echo "start Application!"

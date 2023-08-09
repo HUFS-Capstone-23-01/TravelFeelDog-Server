@@ -16,9 +16,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
-#      ddl-auto: validate
-#      ddl-auto: update
+      ddl-auto: ${DDL_AUTO_MODE}
     properties:
       hibernate:
 #        show_sql: true
@@ -28,6 +26,12 @@ spring:
     #    database-platform: org.hibernate.spatial.dialect.mysql.MySQL8SpatialDialect
     database: mysql
     generate-ddl: true
+    defer-datasource-initialization: true
+
+  sql:
+    init:
+      mode: always
+
 
   mvc:
     path match:
