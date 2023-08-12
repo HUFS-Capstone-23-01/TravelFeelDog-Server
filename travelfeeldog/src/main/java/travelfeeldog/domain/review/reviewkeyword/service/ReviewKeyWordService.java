@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import travelfeeldog.domain.member.domain.application.MemberService;
+import travelfeeldog.domain.member.domain.service.MemberService;
 import travelfeeldog.domain.place.place.model.Place;
 import travelfeeldog.domain.place.place.service.PlaceService;
 import travelfeeldog.domain.review.keyword.dto.KeyWordDtos.KeyWordResponseByCategoryDto;

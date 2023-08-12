@@ -1,4 +1,4 @@
-package travelfeeldog.domain.member.domain.application;
+package travelfeeldog.domain.member.domain.service;
 
 import travelfeeldog.domain.member.domain.model.Member;
 import travelfeeldog.domain.member.dto.MemberDtos.MemberPostRequestDto;

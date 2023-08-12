@@ -10,7 +10,7 @@ import travelfeeldog.domain.community.scrap.dto.ScrapDtos.ScrapByMemberResponseD
 import travelfeeldog.domain.community.scrap.dto.ScrapDtos.ScrapRequestDto;
 import travelfeeldog.domain.community.scrap.model.Scrap;
 import travelfeeldog.domain.member.domain.model.Member;
-import travelfeeldog.domain.member.domain.application.MemberService;
+import travelfeeldog.domain.member.domain.service.MemberService;
 import travelfeeldog.domain.community.feed.model.Feed;
 import travelfeeldog.domain.community.feed.service.FeedService;
 

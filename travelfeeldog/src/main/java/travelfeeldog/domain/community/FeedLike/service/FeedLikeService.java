@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import travelfeeldog.domain.community.FeedLike.model.FeedLike;
 import travelfeeldog.domain.member.domain.model.Member;
-import travelfeeldog.domain.member.domain.application.MemberService;
+import travelfeeldog.domain.member.domain.service.MemberService;
 import travelfeeldog.domain.community.FeedLike.dao.FeedLikeRepository;
 import travelfeeldog.domain.community.FeedLike.dto.FeedLikeDtos.FeedLikeRequestDto;
 import travelfeeldog.domain.community.FeedLike.dto.FeedLikeDtos.FeedLikesByMemberResponseDto;

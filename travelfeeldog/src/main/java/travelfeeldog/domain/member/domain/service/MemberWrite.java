@@ -1,4 +1,4 @@
-package travelfeeldog.domain.member.domain.application;
+package travelfeeldog.domain.member.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;

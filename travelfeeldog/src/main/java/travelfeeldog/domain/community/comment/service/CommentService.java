@@ -13,7 +13,7 @@ import travelfeeldog.domain.community.comment.dto.CommentDtos.CommentRequestDto;
 import travelfeeldog.domain.community.comment.dto.CommentDtos.CommentResponseDto;
 import travelfeeldog.domain.community.comment.model.Comment;
 import travelfeeldog.domain.member.domain.model.Member;
-import travelfeeldog.domain.member.domain.application.MemberService;
+import travelfeeldog.domain.member.domain.service.MemberService;
 import travelfeeldog.domain.community.feed.model.Feed;
 import travelfeeldog.domain.community.feed.service.FeedService;
 import travelfeeldog.global.common.domain.model.BaseTimeEntity;

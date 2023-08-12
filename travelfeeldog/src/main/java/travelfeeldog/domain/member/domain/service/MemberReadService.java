@@ -1,4 +1,4 @@
-package travelfeeldog.domain.member.domain.application;
+package travelfeeldog.domain.member.domain.service;
 
 import java.util.List;
 import travelfeeldog.domain.member.domain.model.Member;

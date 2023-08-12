@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import travelfeeldog.domain.member.domain.model.Member;
-import travelfeeldog.domain.member.domain.application.MemberService;
+import travelfeeldog.domain.member.domain.service.MemberService;
 import travelfeeldog.domain.place.place.model.Place;
 import travelfeeldog.domain.place.place.service.PlaceService;
 import travelfeeldog.domain.review.review.dao.ReviewImageRepository;

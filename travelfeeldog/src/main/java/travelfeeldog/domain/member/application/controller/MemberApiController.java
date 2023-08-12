@@ -1,4 +1,4 @@
-package travelfeeldog.domain.member.controller;
+package travelfeeldog.domain.member.application.controller;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -10,13 +10,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 
-import travelfeeldog.domain.member.domain.application.MemberReadService;
+import travelfeeldog.domain.member.domain.service.MemberReadService;
 import travelfeeldog.domain.member.dto.MemberDtos;
 import travelfeeldog.domain.member.dto.MemberDtos.MemberPostResponseDto;
 import travelfeeldog.domain.member.dto.MemberDtos.MemberResponse;
 import travelfeeldog.domain.member.dto.MemberDtos.MemberResponseExpDto;
 import travelfeeldog.domain.member.domain.model.Member;
-import travelfeeldog.domain.member.domain.application.MemberService;
+import travelfeeldog.domain.member.domain.service.MemberService;
 import travelfeeldog.domain.member.dto.MemberNickNameHistoryDto;
 import travelfeeldog.global.common.dto.ApiResponse;
 

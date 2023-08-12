@@ -8,7 +8,7 @@ import travelfeeldog.domain.community.feed.dao.FeedRepository;
 import travelfeeldog.domain.community.scrap.dto.ScrapDtos.ScrapByMemberResponseDto;
 import travelfeeldog.domain.community.tag.model.Tag;
 import travelfeeldog.domain.member.domain.model.Member;
-import travelfeeldog.domain.member.domain.application.MemberService;
+import travelfeeldog.domain.member.domain.service.MemberService;
 import travelfeeldog.domain.community.feed.dto.FeedDtos.FeedStaticResponseDto;
 import travelfeeldog.domain.community.feed.model.Feed;
 
