@@ -117,6 +117,8 @@ public class Member extends BaseTimeEntity {
     }
 
     public void updateMemberNickName(String nickName) {
+        Objects.requireNonNull(nickName);
+        validateNickname(nickName);
         this.nickName = nickName;
     }
 
