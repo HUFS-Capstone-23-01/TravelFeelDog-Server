@@ -116,10 +116,10 @@ public class Member extends BaseTimeEntity {
         }
     }
 
-    public void updateMemberNickName(String nickName) {
-        Objects.requireNonNull(nickName);
-        validateNickname(nickName);
-        this.nickName = nickName;
+    public void updateMemberNickName(String to) {
+        Objects.requireNonNull(to);
+        validateNickname(to);
+        this.nickName = to;
     }
 
     public void blockMember() {

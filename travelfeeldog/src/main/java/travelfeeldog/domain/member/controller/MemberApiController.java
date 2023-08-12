@@ -10,12 +10,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 
+import travelfeeldog.domain.member.domain.application.MemberReadService;
 import travelfeeldog.domain.member.dto.MemberDtos;
 import travelfeeldog.domain.member.dto.MemberDtos.MemberPostResponseDto;
 import travelfeeldog.domain.member.dto.MemberDtos.MemberResponse;
 import travelfeeldog.domain.member.dto.MemberDtos.MemberResponseExpDto;
 import travelfeeldog.domain.member.domain.model.Member;
 import travelfeeldog.domain.member.domain.application.MemberService;
+import travelfeeldog.domain.member.dto.MemberNickNameHistoryDto;
 import travelfeeldog.global.common.dto.ApiResponse;
 
 
@@ -29,6 +31,7 @@ import travelfeeldog.global.file.domain.application.ImageFileService;
 public class MemberApiController {
 
     private final MemberService memberService;
+    private final MemberReadService memberReadService;
     private final ImageFileService imageFileService;
 
     @PostMapping(produces = "application/json;charset=UTF-8")
@@ -125,5 +128,11 @@ public class MemberApiController {
         } catch (NoSuchElementException e){
             return ApiResponse.invalidToken(false);
         }
+    }
+    @GetMapping(value = "/{memberId}/history/total")
+    public ApiResponse<List<MemberNickNameHistoryDto>> getMemberAllNickNameHistory(
+                                                @PathVariable Long memberId,
+                                                @RequestHeader("Authorization") String adminToken) {
+        return ApiResponse.success(memberReadService.getAllMemberHistory(memberId));
     }
 }

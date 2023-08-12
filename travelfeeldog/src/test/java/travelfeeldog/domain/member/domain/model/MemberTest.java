@@ -7,13 +7,25 @@ import travelfeeldog.domain.member.domain.util.MemberFixtureFactory;
 
 class MemberTest {
 
-    @DisplayName("업데이트 닉네임")
+    @DisplayName("업데이트 닉네임 변경 확인")
     @Test
-    void updateMemberNickName() {
+    void testUpdateMemberNickName() {
         var member = MemberFixtureFactory.create();
-        var toChangeName = "cho";
-        member.updateMemberNickName(toChangeName);
-        Assertions.assertEquals(toChangeName, member.getNickName());
+        var expected = "cho";
+        member.updateMemberNickName(expected);
+        Assertions.assertEquals(expected, member.getNickName());
+    }
+
+    @DisplayName("닉네임 최대 길이 확인")
+    @Test
+    void testMemberNickNameMaxLength() {
+        var member = MemberFixtureFactory.create();
+        var overtLengthName = "12345678901";
+
+        Assertions.assertThrows(
+         IllegalArgumentException.class,
+                ()->member.updateMemberNickName(overtLengthName)
+        );
     }
 
 }

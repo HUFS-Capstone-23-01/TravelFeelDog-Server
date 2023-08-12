@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import travelfeeldog.domain.member.domain.model.Member;
+import travelfeeldog.domain.member.domain.model.MemberNickNameHistory;
 import travelfeeldog.domain.member.dto.MemberDtos.MemberPostRequestDto;
+import travelfeeldog.domain.member.infrastructure.MemberNickNameHistoryRepository;
 import travelfeeldog.domain.member.infrastructure.MemberRepository;
 
 @Service
@@ -18,11 +20,15 @@ public class MemberWrite implements MemberWriteService {
     @Qualifier("memberReadService")
     private final MemberReadService memberReadService;
 
+    private final MemberNickNameHistoryRepository memberNickNameHistoryRepository;
+
     @Override
     public Member save(MemberPostRequestDto requestDto) {
-        return memberRepository.save(requestDto.getNickName(), requestDto.getEmail(), 1, 0,
+        var member =  memberRepository.save(requestDto.getNickName(), requestDto.getEmail(), 1, 0,
                         requestDto.getFirebaseToken())
                 .orElseThrow(() -> new RuntimeException("Member not saved"));
+        saveNickNameHistory(member);
+        return member;
     }
 
     @Override
@@ -42,7 +48,16 @@ public class MemberWrite implements MemberWriteService {
     public Member updateNickName(String firebaseToken, String nickName) {
         Member member = memberReadService.findByToken(firebaseToken);
         member.updateMemberNickName(nickName);
+        saveNickNameHistory(member);
         return member;
+    }
+    private void saveNickNameHistory(Member member) {
+        var histroy = MemberNickNameHistory
+                .builder()
+                .id(member.getId())
+                .nickName(member.getNickName())
+                .build();
+        memberNickNameHistoryRepository.save(histroy);
     }
 
     @Override
