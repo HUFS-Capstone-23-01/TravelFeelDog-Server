@@ -86,7 +86,7 @@ public class ReviewDtos {
         private List<String> imageUrls ;
         public ReviewMemberPageResponseDto(Review review) {
             id = review.getId();
-            placeName = review.getPlaceNameOfReview();
+            placeName = review.getPlaceNameOfReviewForResponse();
             createdDateTime = review.getCreatedDateTime();
             recommendStatus = review.getRecommendStatus().toString();
             additionalScript =review.getAdditionalScript();
