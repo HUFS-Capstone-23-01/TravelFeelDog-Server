@@ -91,16 +91,16 @@ public class Review extends BaseTimeEntity {
                 .map(imageUrl -> new ReviewImage(this, imageUrl))
             .toList();
     }
-    public String getReviewOwnerNickName() {
+    public String getReviewOwnerNickNameForResponse() {
         return this.member.getNickName();
     }
-    public int getReviewOwnerLevel(){
+    public int getReviewOwnerLevelForResponse(){
         return this.member.getLevel();
     }
-    public String getReviewOwnerImageUrl() {
+    public String getReviewOwnerImageUrlForResponse() {
         return this.member.getImageUrl();
     }
-    public String getPlaceNameOfReview() {
+    public String getPlaceNameOfReviewForResponse() {
         return this.place.getName();
     }
     public List<String> getAllReviewImages() {
