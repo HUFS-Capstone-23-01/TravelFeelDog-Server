@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import travelfeeldog.domain.member.domain.model.Member;
+import travelfeeldog.domain.member.dto.MemberDto;
 import travelfeeldog.domain.member.dto.MemberDtos.MemberPostRequestDto;
 import travelfeeldog.domain.member.dto.MemberNickNameHistoryDto;
 
@@ -21,6 +22,14 @@ public class MemberReadWriteService implements MemberService {
     @Override
     public Member findByToken(String firebaseToken) {
         return memberReadService.findByToken(firebaseToken);
+    }
+    @Override
+    public MemberDto getMember(Long memberId) {
+        return memberReadService.getMember(memberId);
+    }
+    @Override
+    public List<MemberDto> getMembers(List<Long> followingMemberIds){
+        return memberReadService.getMembers(followingMemberIds);
     }
 
     @Override
@@ -49,8 +58,7 @@ public class MemberReadWriteService implements MemberService {
         return memberReadService.getAllMemberHistory(memberId);
     }
 
-
-
+    // MemberWriteService
     @Override
     public Member save(MemberPostRequestDto requestDto) {
         return memberWriteService.save(requestDto);

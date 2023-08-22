@@ -3,12 +3,11 @@ package travelfeeldog.domain.review.review.dto;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import travelfeeldog.domain.review.review.model.RecommendStatus;
 import travelfeeldog.domain.review.review.model.Review;
-import travelfeeldog.domain.review.review.model.ReviewImage;
 
 public class ReviewDtos {
     @Data
@@ -22,7 +21,7 @@ public class ReviewDtos {
         private String nickName;
         public SingleDescriptionAndNickNameDto(Review review) {
             this.additionalScript = review.getAdditionalScript();
-            this.nickName = review.getReviewOwnerNickName();
+            this.nickName = review.getReviewOwnerNickNameForResponse();
         }
 
     }

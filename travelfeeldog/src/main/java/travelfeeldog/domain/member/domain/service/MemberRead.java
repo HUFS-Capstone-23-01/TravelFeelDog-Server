@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import travelfeeldog.domain.member.domain.model.Member;
 
 import travelfeeldog.domain.member.domain.model.MemberNickNameHistory;
+import travelfeeldog.domain.member.dto.MemberDto;
 import travelfeeldog.domain.member.dto.MemberNickNameHistoryDto;
 import travelfeeldog.domain.member.infrastructure.MemberNickNameHistoryRepository;
 import travelfeeldog.domain.member.infrastructure.MemberRepository;
@@ -22,15 +23,32 @@ public class MemberRead implements MemberReadService {
     private final MemberNickNameHistoryRepository memberNickNameHistoryRepository;
 
     @Override
+    public MemberDto getMember(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NoSuchElementException(
+                        "Member not found by memberId" + memberId));
+        return toDto(member);
+    }
+
+    @Override
+    public List<MemberDto> getMembers(List<Long> memberIds) {
+        return memberRepository.findAllByIdIn(memberIds).stream()
+                .map(this::toDto)
+                .toList();
+    }
+
+    @Override
     public Member findByNickName(String nickName) {
-        return memberRepository.findByNickName(nickName).orElseThrow(
-                () -> new NoSuchElementException("Member not found by nickName :" + nickName));
+        return memberRepository.findByNickName(nickName)
+                .orElseThrow(() -> new NoSuchElementException(
+                        "Member not found by nickName :" + nickName));
     }
 
     @Override
     public Member findByToken(String firebaseToken) {
-        return memberRepository.findByToken(firebaseToken).orElseThrow(
-                () -> new NoSuchElementException("Member not found by token:" + firebaseToken));
+        return memberRepository.findByToken(firebaseToken)
+                .orElseThrow(() -> new NoSuchElementException(
+                        "Member not found by token:" + firebaseToken));
     }
 
     @Override
@@ -47,14 +65,19 @@ public class MemberRead implements MemberReadService {
     public List<Member> getAll() {
         return memberRepository.findAll();
     }
+
     @Override
     public List<MemberNickNameHistoryDto> getAllMemberHistory(Long memberId) {
-        return memberNickNameHistoryRepository.findAllByMemberId(memberId)
-                .stream()
+        return memberNickNameHistoryRepository.findAllByMemberId(memberId).stream()
                 .map(this::toDto)
                 .toList();
     }
-    private MemberNickNameHistoryDto toDto(MemberNickNameHistory history){
+
+    public MemberDto toDto(Member member) {
+        return new MemberDto(member.getId(), member.getNickName(), member.getEmail());
+    }
+
+    private MemberNickNameHistoryDto toDto(MemberNickNameHistory history) {
         return new MemberNickNameHistoryDto(
                 history.getId(),
                 history.getMemberId(),

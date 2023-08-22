@@ -17,4 +17,5 @@ public interface MemberRepository {
     void deleteMember(Member member);
 
     List<Member> findAll();
+    List<Member> findAllByIdIn(List<Long> memberId);
 }

@@ -96,4 +96,15 @@ public class MemberRepositoryImpl implements MemberRepository {
                 .getResultList();
     }
 
+    @Override
+    public List<Member> findAllByIdIn(List<Long> memberIds) {
+        if (memberIds.isEmpty()) {
+            return List.of();
+        }
+        return em.createQuery("SELECT m FROM Member m WHERE m.id IN :memberIds", Member.class)
+                .setParameter("memberIds", memberIds)
+                .getResultList();
+    }
+
+
 }
