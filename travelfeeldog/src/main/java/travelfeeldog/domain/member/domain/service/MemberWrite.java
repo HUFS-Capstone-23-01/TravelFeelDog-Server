@@ -1,7 +1,6 @@
 package travelfeeldog.domain.member.domain.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import travelfeeldog.domain.member.domain.model.Member;
@@ -17,9 +16,6 @@ public class MemberWrite implements MemberWriteService {
 
     private final MemberRepository memberRepository;
 
-    @Qualifier("memberReadService")
-    private final MemberReadService memberReadService;
-
     private final MemberNickNameHistoryRepository memberNickNameHistoryRepository;
 
     @Override
@@ -32,21 +28,18 @@ public class MemberWrite implements MemberWriteService {
     }
 
     @Override
-    public void deleteMember(String firebaseToken) {
-        Member member = memberReadService.findByToken(firebaseToken);
+    public void deleteMember(Member member) {
         memberRepository.deleteMember(member);
     }
 
     @Override
-    public Member updateImageUrl(String firebaseToken, String imageUrl) {
-        Member member = memberReadService.findByToken(firebaseToken);
+    public Member updateImageUrl(Member member, String imageUrl) {
         member.updateMemberImageUrl(imageUrl);
         return member;
     }
 
     @Override
-    public Member updateNickName(String firebaseToken, String nickName) {
-        Member member = memberReadService.findByToken(firebaseToken);
+    public Member updateNickName(Member member, String nickName) {
         member.updateMemberNickName(nickName);
         saveNickNameHistory(member);
         return member;
@@ -61,8 +54,7 @@ public class MemberWrite implements MemberWriteService {
     }
 
     @Override
-    public Member updateExpAndLevel(String firebaseToken, int addExpValue) {
-        Member member = memberReadService.findByToken(firebaseToken);
+    public Member updateExpAndLevel(Member member, int addExpValue) {
         member.updateExpAndLevel(addExpValue);
         return member;
     }

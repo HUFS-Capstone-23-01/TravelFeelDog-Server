@@ -6,11 +6,11 @@ import travelfeeldog.domain.member.dto.MemberDtos.MemberPostRequestDto;
 public interface MemberWriteService {
     Member save(MemberPostRequestDto requestDto);
 
-    void deleteMember(String firebaseToken);
+    void deleteMember(Member member);
 
-    Member updateImageUrl(String firebaseToken, String imageUrl);
+    Member updateImageUrl(Member member, String imageUrl);
 
-    Member updateNickName(String firebaseToken, String nickName);
+    Member updateNickName(Member member, String nickName);
 
-    Member updateExpAndLevel(String firebaseToken, int addExpValue);
+    Member updateExpAndLevel(Member member, int addExpValue);
 }

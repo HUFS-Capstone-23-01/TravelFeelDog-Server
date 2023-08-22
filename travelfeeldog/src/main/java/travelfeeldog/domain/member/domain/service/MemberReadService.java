@@ -3,6 +3,7 @@ package travelfeeldog.domain.member.domain.service;
 import java.util.List;
 import travelfeeldog.domain.member.domain.model.Member;
 import travelfeeldog.domain.member.dto.MemberDto;
+import travelfeeldog.domain.member.dto.MemberDtos.MemberResponse;
 import travelfeeldog.domain.member.dto.MemberNickNameHistoryDto;
 
 public interface MemberReadService {
@@ -14,7 +15,7 @@ public interface MemberReadService {
 
     boolean isTokenExist(String firebaseToken);
 
-    List<Member> getAll();
+    List<MemberResponse> getAllMembers() ;
 
     List<MemberNickNameHistoryDto> getAllMemberHistory(Long memberId);
 

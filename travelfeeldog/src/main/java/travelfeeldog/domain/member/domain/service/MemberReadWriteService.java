@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import travelfeeldog.domain.member.domain.model.Member;
 import travelfeeldog.domain.member.dto.MemberDto;
 import travelfeeldog.domain.member.dto.MemberDtos.MemberPostRequestDto;
+import travelfeeldog.domain.member.dto.MemberDtos.MemberResponse;
 import travelfeeldog.domain.member.dto.MemberNickNameHistoryDto;
 
 @Service
@@ -49,8 +50,8 @@ public class MemberReadWriteService implements MemberService {
     }
 
     @Override
-    public List<Member> getAll() {
-        return memberReadService.getAll();
+    public List<MemberResponse> getAllMembers() {
+        return memberReadService.getAllMembers();
     }
 
     @Override
@@ -65,22 +66,22 @@ public class MemberReadWriteService implements MemberService {
     }
 
     @Override
-    public void deleteMember(String firebaseToken) {
-        memberWriteService.deleteMember(firebaseToken);
+    public void deleteMember(Member member) {
+        memberWriteService.deleteMember(member);
     }
 
     @Override
-    public Member updateImageUrl(String firebaseToken, String imageUrl) {
-        return memberWriteService.updateImageUrl(firebaseToken, imageUrl);
+    public Member updateImageUrl(Member member, String imageUrl) {
+        return memberWriteService.updateImageUrl(member, imageUrl);
     }
 
     @Override
-    public Member updateNickName(String firebaseToken, String nickName) {
-        return memberWriteService.updateNickName(firebaseToken, nickName);
+    public Member updateNickName(Member member, String nickName) {
+        return memberWriteService.updateNickName(member, nickName);
     }
 
     @Override
-    public Member updateExpAndLevel(String firebaseToken, int addExpValue) {
-        return memberWriteService.updateExpAndLevel(firebaseToken, addExpValue);
+    public Member updateExpAndLevel(Member member, int addExpValue) {
+        return memberWriteService.updateExpAndLevel(member, addExpValue);
     }
 }

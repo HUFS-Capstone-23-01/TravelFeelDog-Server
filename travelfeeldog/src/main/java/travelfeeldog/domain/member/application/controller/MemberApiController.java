@@ -3,14 +3,11 @@ package travelfeeldog.domain.member.application.controller;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import java.util.stream.Collectors;
-
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 
-import travelfeeldog.domain.member.domain.service.MemberReadService;
 import travelfeeldog.domain.member.dto.MemberDtos;
 import travelfeeldog.domain.member.dto.MemberDtos.MemberPostResponseDto;
 import travelfeeldog.domain.member.dto.MemberDtos.MemberResponse;
@@ -31,20 +28,17 @@ import travelfeeldog.global.file.domain.application.ImageFileService;
 public class MemberApiController {
 
     private final MemberService memberService;
-    private final MemberReadService memberReadService;
     private final ImageFileService imageFileService;
 
     @PostMapping(produces = "application/json;charset=UTF-8")
-    public ApiResponse postMember(@Valid @RequestBody MemberDtos.MemberPostRequestDto request) throws Exception {
+    public ApiResponse postMember(@Valid @RequestBody MemberDtos.MemberPostRequestDto request) {
         Member savedMember = memberService.save(request);
         return ApiResponse.success(new MemberPostResponseDto(savedMember));
     }
 
     @GetMapping(value = "/total", produces = "application/json;charset=UTF-8")
     public ApiResponse getAllMembers() {
-        List<Member> findMembers = memberService.getAll();
-        List<MemberResponse> responseList = findMembers.stream().map(MemberResponse::new).collect(Collectors.toList());
-        return ApiResponse.success(responseList);
+        return ApiResponse.success(memberService.getAllMembers());
     }
 
     @GetMapping(produces = "application/json;charset=UTF-8")
@@ -60,7 +54,7 @@ public class MemberApiController {
     @DeleteMapping(produces = "application/json;charset=UTF-8")
     public ApiResponse deleteMemberByToken(@RequestHeader("Authorization") String firebaseToken) {
         if (memberService.isTokenExist(firebaseToken)) {
-            memberService.deleteMember(firebaseToken);
+            memberService.deleteMember(memberService.findByToken(firebaseToken));
             return ApiResponse.success("Delete Success");
         } else {
             return ApiResponse.invalidToken(false);
@@ -71,7 +65,7 @@ public class MemberApiController {
     public ApiResponse putMemberImage(@RequestHeader("Authorization") String firebaseToken, @Valid @RequestParam("file") MultipartFile file) {
         if (memberService.isTokenExist(firebaseToken)) {
             String profileImageUrl = imageFileService.uploadImageFile(file, "member");
-            Member result = memberService.updateImageUrl(firebaseToken, profileImageUrl);
+            Member result = memberService.updateImageUrl(memberService.findByToken(firebaseToken), profileImageUrl);
             return ApiResponse.success(new MemberResponse(result));
         } else {
             return ApiResponse.invalidToken(false);
@@ -82,7 +76,7 @@ public class MemberApiController {
     public ApiResponse putMemberNickName(@Valid @RequestBody MemberDtos.MemberPutNickNameDto memberPutNickNameDto) {
         if (memberService.isTokenExist(memberPutNickNameDto.getFirebaseToken())) {
             return ApiResponse.success(new MemberResponse(memberService
-                    .updateNickName(memberPutNickNameDto.getFirebaseToken(),
+                    .updateNickName(memberService.findByToken(memberPutNickNameDto.getFirebaseToken()),
                         memberPutNickNameDto.getNickName())));
         } else {
             return ApiResponse.invalidToken(false);
@@ -93,7 +87,7 @@ public class MemberApiController {
     public ApiResponse putMemberExpAndLevel(@Valid @RequestBody MemberDtos.MemberPutExpDto memberPutExpDto) {
         if (memberService.isTokenExist(memberPutExpDto.getFirebaseToken())) {
             int addingValue = Integer.parseInt(memberPutExpDto.getAddingValue());
-            Member result = memberService.updateExpAndLevel(memberPutExpDto.getFirebaseToken(), addingValue);
+            Member result = memberService.updateExpAndLevel(memberService.findByToken(memberPutExpDto.getFirebaseToken()), addingValue);
             return ApiResponse.success(new MemberResponse(result));
         } else {
             return ApiResponse.invalidToken(false);
@@ -133,6 +127,6 @@ public class MemberApiController {
     public ApiResponse<List<MemberNickNameHistoryDto>> getMemberAllNickNameHistory(
                                                 @PathVariable Long memberId,
                                                 @RequestHeader("Authorization") String adminToken) {
-        return ApiResponse.success(memberReadService.getAllMemberHistory(memberId));
+        return ApiResponse.success(memberService.getAllMemberHistory(memberId));
     }
 }
