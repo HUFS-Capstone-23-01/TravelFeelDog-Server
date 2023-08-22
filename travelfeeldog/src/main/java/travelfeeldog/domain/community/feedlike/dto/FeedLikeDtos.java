@@ -1,8 +1,8 @@
-package travelfeeldog.domain.community.FeedLike.dto;
+package travelfeeldog.domain.community.feedlike.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import travelfeeldog.domain.community.FeedLike.model.FeedLike;
+import travelfeeldog.domain.community.feedlike.model.FeedLike;
 
 public class FeedLikeDtos {
     

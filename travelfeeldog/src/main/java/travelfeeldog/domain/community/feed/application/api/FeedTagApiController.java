@@ -1,11 +1,11 @@
-package travelfeeldog.domain.community.feed.api;
+package travelfeeldog.domain.community.feed.application.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import travelfeeldog.domain.community.feed.dto.FeedDtos.FeedListResponseDto;
 import travelfeeldog.domain.community.feed.model.Feed;
 import travelfeeldog.domain.community.feed.service.FeedTagService;
-import travelfeeldog.domain.community.tag.model.Tag;
+import travelfeeldog.domain.community.feed.model.Tag;
 import travelfeeldog.global.common.dto.ApiResponse;
 
 import java.util.ArrayList;

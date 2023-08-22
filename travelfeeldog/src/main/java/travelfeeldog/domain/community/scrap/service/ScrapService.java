@@ -5,6 +5,7 @@ import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import travelfeeldog.domain.community.feed.service.FeedReadService;
 import travelfeeldog.domain.community.scrap.dao.ScrapRepository;
 import travelfeeldog.domain.community.scrap.dto.ScrapDtos.ScrapByMemberResponseDto;
 import travelfeeldog.domain.community.scrap.dto.ScrapDtos.ScrapRequestDto;
@@ -12,7 +13,7 @@ import travelfeeldog.domain.community.scrap.model.Scrap;
 import travelfeeldog.domain.member.domain.model.Member;
 import travelfeeldog.domain.member.domain.service.MemberService;
 import travelfeeldog.domain.community.feed.model.Feed;
-import travelfeeldog.domain.community.feed.service.FeedService;
+
 
 @Transactional(readOnly = true)
 @Service
@@ -20,7 +21,7 @@ import travelfeeldog.domain.community.feed.service.FeedService;
 public class ScrapService {
     private final ScrapRepository scrapRepository;
     private final MemberService memberService;
-    private final FeedService feedService;
+    private final FeedReadService feedReadService;
     @Transactional
     public Boolean addNewScrap(String token, ScrapRequestDto requestDto) {
         Member member = memberService.findByToken(token);
@@ -31,7 +32,7 @@ public class ScrapService {
         if (!existingScraps.isEmpty()) {
             return false;
         }
-        Feed feed = feedService.findByFeedId(feedId);
+        Feed feed = feedReadService.findByFeedId(feedId);
         feed.updateScrapCountPlus(true);
         Scrap scrap = new Scrap(member, feed);
         scrapRepository.save(scrap);

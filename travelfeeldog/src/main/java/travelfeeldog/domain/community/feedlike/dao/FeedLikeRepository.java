@@ -1,8 +1,8 @@
-package travelfeeldog.domain.community.FeedLike.dao;
+package travelfeeldog.domain.community.feedlike.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import travelfeeldog.domain.community.FeedLike.model.FeedLike;
+import travelfeeldog.domain.community.feedlike.model.FeedLike;
 
 import java.util.List;
 

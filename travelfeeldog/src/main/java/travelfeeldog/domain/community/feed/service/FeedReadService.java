@@ -1,58 +1,31 @@
 package travelfeeldog.domain.community.feed.service;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import travelfeeldog.domain.community.FeedLike.dto.FeedLikeDtos.FeedLikesByMemberResponseDto;
-import travelfeeldog.domain.community.feed.dao.FeedRepository;
-import travelfeeldog.domain.community.scrap.dto.ScrapDtos.ScrapByMemberResponseDto;
-import travelfeeldog.domain.community.tag.model.Tag;
-import travelfeeldog.domain.member.domain.model.Member;
-import travelfeeldog.domain.member.domain.service.MemberService;
-import travelfeeldog.domain.community.feed.dto.FeedDtos.FeedStaticResponseDto;
-import travelfeeldog.domain.community.feed.model.Feed;
-
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import javax.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import travelfeeldog.domain.community.feed.dao.FeedRepository;
+import travelfeeldog.domain.community.feed.dto.FeedDtos.FeedStaticResponseDto;
+import travelfeeldog.domain.community.feed.model.Feed;
+import travelfeeldog.domain.community.feedlike.dto.FeedLikeDtos.FeedLikesByMemberResponseDto;
+import travelfeeldog.domain.community.scrap.dto.ScrapDtos.ScrapByMemberResponseDto;
+import travelfeeldog.domain.member.domain.model.Member;
+import travelfeeldog.domain.member.domain.service.MemberService;
 
 @Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
-public class FeedService {
+public class FeedReadService {
 
     private final FeedRepository feedRepository;
     private final MemberService memberService;
-    private final FeedTagService feedTagService;
-
-    @Transactional
-    public Feed postFeed(String writerToken,
-                         String title,
-                         String body,
-                         List<String> feedImagesUrls,
-                         List<String> tagContents) {
-
-        Member writer = memberService.findByToken(writerToken);
-        List<Tag> tags = feedTagService.makeTagsByContents(tagContents);
-
-        Feed feed = Feed.create(writer,title,body);
-
-        if(!feedImagesUrls.isEmpty()) {
-            feed.setFeedImages(feedImagesUrls);
-        }
-
-        if(!tagContents.isEmpty()){
-            feed.setTags(tags);
-        }
-
-        return feedRepository.save(feed);
-    }
 
     public Feed getFeedDetailsById(Long id) {
-        Feed feed = feedRepository.findFeedDetail(id)
+        return feedRepository.findFeedDetail(id)
                 .orElseThrow(() -> new NoSuchElementException("Feed details loading is failed."));
-        return feed;
     }
 
     public FeedStaticResponseDto getFeedStaticsById(Long id, String token) {
@@ -82,10 +55,6 @@ public class FeedService {
         }
         return feedStaticResponseDto;
     }
-
-    @Transactional
-    public void deleteFeed(Long id) { feedRepository.deleteById(id); }
-
     public List<Feed> getListAll(int page) {
         int offset = (page-1) * 6;
         List<Feed> feeds = feedRepository.getListAll(offset);
@@ -102,5 +71,4 @@ public class FeedService {
         return feedRepository.findById(feedId)
                 .orElseThrow(() -> new EntityNotFoundException("Feed not found with ID"));
     }
-
 }

@@ -1,14 +1,24 @@
 package travelfeeldog.domain.community.feed.model;
 
+import javax.persistence.CascadeType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.util.Assert;
 import travelfeeldog.global.common.domain.model.BaseTimeEntity;
 
-import javax.persistence.*;
+
 
 
 @Getter
