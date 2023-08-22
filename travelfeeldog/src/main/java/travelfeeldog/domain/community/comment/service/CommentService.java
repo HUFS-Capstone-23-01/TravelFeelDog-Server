@@ -12,10 +12,10 @@ import travelfeeldog.domain.community.comment.dao.CommentRepository;
 import travelfeeldog.domain.community.comment.dto.CommentDtos.CommentRequestDto;
 import travelfeeldog.domain.community.comment.dto.CommentDtos.CommentResponseDto;
 import travelfeeldog.domain.community.comment.model.Comment;
+import travelfeeldog.domain.community.feed.service.FeedReadService;
 import travelfeeldog.domain.member.domain.model.Member;
 import travelfeeldog.domain.member.domain.service.MemberService;
 import travelfeeldog.domain.community.feed.model.Feed;
-import travelfeeldog.domain.community.feed.service.FeedService;
 import travelfeeldog.global.common.domain.model.BaseTimeEntity;
 
 @Transactional(readOnly = true)
@@ -24,11 +24,11 @@ import travelfeeldog.global.common.domain.model.BaseTimeEntity;
 public class CommentService {
     private final CommentRepository commentRepository;
     private final MemberService memberService;
-    private final FeedService feedService;
+    private final FeedReadService feedReadService;
     @Transactional
     public CommentResponseDto postComment(String token, CommentRequestDto requestDto){
         Member member = memberService.findByToken(token);
-        Feed feed = feedService.findByFeedId(requestDto.getFeedId());
+        Feed feed = feedReadService.findByFeedId(requestDto.getFeedId());
         Comment comment = new Comment();
         comment.setFeed(feed);
         comment.setContent(requestDto.getContent());

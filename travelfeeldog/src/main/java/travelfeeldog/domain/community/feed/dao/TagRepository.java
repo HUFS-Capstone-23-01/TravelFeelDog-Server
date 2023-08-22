@@ -1,8 +1,8 @@
-package travelfeeldog.domain.community.tag.dao;
+package travelfeeldog.domain.community.feed.dao;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import travelfeeldog.domain.community.tag.model.Tag;
+import travelfeeldog.domain.community.feed.model.Tag;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;

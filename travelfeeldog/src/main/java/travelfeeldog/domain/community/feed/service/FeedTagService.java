@@ -3,8 +3,7 @@ package travelfeeldog.domain.community.feed.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import travelfeeldog.domain.community.tag.model.Tag;
-import travelfeeldog.domain.community.tag.service.TagService;
+import travelfeeldog.domain.community.feed.model.Tag;
 import travelfeeldog.domain.community.feed.dao.FeedTagRepository;
 import travelfeeldog.domain.community.feed.model.Feed;
 
@@ -25,7 +24,7 @@ public class FeedTagService {
         return tagService.findTagListByTagContents(tagContents);
     }
 
-    public List<Tag> makeTagsByContents(List<String> tagContents) {
+    public List<Tag> getTagsByContents(List<String> tagContents) {
         return tagService.makeTagListByTagContents(tagContents);
     }
 

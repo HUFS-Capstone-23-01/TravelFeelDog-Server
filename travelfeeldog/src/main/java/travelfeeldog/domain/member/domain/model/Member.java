@@ -21,7 +21,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import org.springframework.util.Assert;
-import travelfeeldog.domain.community.FeedLike.model.FeedLike;
+import travelfeeldog.domain.community.feedlike.model.FeedLike;
 import travelfeeldog.domain.community.feed.model.Feed;
 import travelfeeldog.domain.community.scrap.model.Scrap;
 import travelfeeldog.domain.review.review.model.Review;

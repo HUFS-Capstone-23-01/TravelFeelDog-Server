@@ -1,11 +1,11 @@
-package travelfeeldog.domain.community.tag.service;
+package travelfeeldog.domain.community.feed.service;
 
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import travelfeeldog.domain.community.tag.dao.TagRepository;
-import travelfeeldog.domain.community.tag.model.Tag;
+import travelfeeldog.domain.community.feed.dao.TagRepository;
+import travelfeeldog.domain.community.feed.model.Tag;
 
 import java.util.ArrayList;
 import java.util.List;

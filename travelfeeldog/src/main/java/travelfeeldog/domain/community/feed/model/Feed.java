@@ -2,6 +2,7 @@ package travelfeeldog.domain.community.feed.model;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
@@ -10,10 +11,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import org.hibernate.annotations.ColumnDefault;
-import travelfeeldog.domain.community.FeedLike.model.FeedLike;
+import travelfeeldog.domain.community.feedlike.model.FeedLike;
 import travelfeeldog.domain.community.comment.model.Comment;
 import travelfeeldog.domain.community.scrap.model.Scrap;
-import travelfeeldog.domain.community.tag.model.Tag;
 import travelfeeldog.domain.member.domain.model.Member;
 import travelfeeldog.global.common.domain.model.BaseTimeEntity;
 
@@ -66,11 +66,11 @@ public class Feed extends BaseTimeEntity {
 
     @Builder
     private Feed(Member member, int likeCount, int scrapCount, String title, String body) {
-        this.member = member;
+        this.member = Objects.requireNonNull(member);
         this.likeCount = likeCount;
         this.scrapCount = scrapCount;
-        this.title = title;
-        this.body = body;
+        this.title = Objects.requireNonNull(title);
+        this.body = Objects.requireNonNull(body);
     }
 
     public static Feed create(Member member,
@@ -102,13 +102,15 @@ public class Feed extends BaseTimeEntity {
         }
     }
     public void setFeedImages(List<String> feedImageUrls) {
+        if(feedImageUrls.isEmpty()) return;
         feedImageUrls.forEach(this::addFeedImage);
     }
 
     public void setTags(List<Tag> tags) {
+        if(tags.isEmpty()) return;
         tags.forEach(this::addTag);
     }
-    //==연관관계 메소드==//
+
     public void addFeedImage(String feedImageUrl) {
         FeedImages feedImage = new FeedImages(this, feedImageUrl);
         feedImage.setFeed(this);

@@ -1,14 +1,16 @@
-package travelfeeldog.domain.community.feed.api;
+package travelfeeldog.domain.community.feed.application.api;
 
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import travelfeeldog.domain.community.feed.application.usecase.CreateFeedUsecase;
 import travelfeeldog.domain.community.feed.dto.FeedDtos.FeedPostRequestDto;
-import travelfeeldog.domain.community.feed.dto.FeedDtos.FeedStaticResponseDto;
 import travelfeeldog.domain.community.feed.dto.FeedDtos.FeedListResponseDto;
 import travelfeeldog.domain.community.feed.model.Feed;
-import travelfeeldog.domain.community.feed.service.FeedService;
+import travelfeeldog.domain.community.feed.service.FeedReadService;
+
+import travelfeeldog.domain.community.feed.service.FeedWriteService;
 import travelfeeldog.global.common.dto.ApiResponse;
 
 import javax.validation.Valid;
@@ -22,17 +24,14 @@ import travelfeeldog.global.file.dto.ImageDtos.ImageDto;
 @RequestMapping("/feed")
 @RequiredArgsConstructor
 public class FeedApiController {
-    private final FeedService feedService;
+    private final FeedReadService feedReadService;
+    private final FeedWriteService feedWriteService;
+    private final CreateFeedUsecase createFeedUsecase;
     private final ImageFileService imageFileService;
 
     @PostMapping(value = "/post", produces = "application/json;charset=UTF-8")
-    public ApiResponse postFeed(@Valid @RequestBody FeedPostRequestDto feedPostRequestDto) throws Exception {
-        Feed feed = feedService.postFeed(feedPostRequestDto.getMemberToken(),
-                feedPostRequestDto.getTitle(),
-                feedPostRequestDto.getBody(),
-                feedPostRequestDto.getFeedImageUrls(),
-                feedPostRequestDto.getFeedTags());
-        return ApiResponse.success(new FeedStaticResponseDto(feed));
+    public ApiResponse postFeed(@Valid @RequestBody FeedPostRequestDto requestDto) {
+        return ApiResponse.success(createFeedUsecase.execute(requestDto));
     }
 
     @PostMapping(value = "/post/uploadImage", produces = "application/json;charset=UTF-8")
@@ -49,10 +48,10 @@ public class FeedApiController {
     @DeleteMapping(value = "/detail", produces = "application/json;charset=UTF-8")
     public ApiResponse deleteFeedById(@RequestHeader("Authorization") String firebaseToken,
                                       @RequestParam("feedId") Long id) {
-        Feed feed = feedService.getFeedDetailsById(id);
+        Feed feed = feedReadService.getFeedDetailsById(id);
 
         if(feed.getMember().getToken().equals(firebaseToken)) {
-            feedService.deleteFeed(id);
+            feedWriteService.deleteFeed(id);
             return ApiResponse.success(true);
         }
         return ApiResponse.invalidAccessToken();
@@ -61,7 +60,7 @@ public class FeedApiController {
     @GetMapping(value = "/list",produces = "application/json;charset=UTF-8")
     public ApiResponse getFeedList(@RequestParam("page") int page) {
         List<FeedListResponseDto> list = new ArrayList<>();
-        list.addAll(feedService.getListAll(page).stream().map(FeedListResponseDto::new).toList());
+        list.addAll(feedReadService.getListAll(page).stream().map(FeedListResponseDto::new).toList());
         return ApiResponse.success(list);
     }
 
@@ -69,7 +68,7 @@ public class FeedApiController {
     public ApiResponse getFeedListByNickName(
             @RequestParam("nickName") String nickName,
             @RequestParam("page") int page) {
-        List<Feed> feeds = feedService.getListByNickName(nickName, page);
+        List<Feed> feeds = feedReadService.getListByNickName(nickName, page);
         if(feeds.isEmpty()) {
             return ApiResponse.success(new ArrayList<>());
         }
@@ -81,7 +80,7 @@ public class FeedApiController {
     public ApiResponse getFeedStaticById(@RequestParam(value = "feedId") Long id,
                                          @RequestHeader("Authorization") String token) {
         try {
-            return ApiResponse.success(feedService.getFeedStaticsById(id, token));
+            return ApiResponse.success(feedReadService.getFeedStaticsById(id, token));
         } catch (NoSuchElementException e) {
             return ApiResponse.success(false);
         }

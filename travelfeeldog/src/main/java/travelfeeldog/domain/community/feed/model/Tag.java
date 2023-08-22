@@ -1,21 +1,26 @@
-package travelfeeldog.domain.community.tag.model;
+package travelfeeldog.domain.community.feed.model;
 
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import travelfeeldog.global.common.domain.model.BaseTimeEntity;
 
-import travelfeeldog.domain.community.feed.model.FeedTag;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Tag extends BaseTimeEntity {
 

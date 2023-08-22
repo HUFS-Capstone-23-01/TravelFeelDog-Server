@@ -1,16 +1,17 @@
-package travelfeeldog.domain.community.FeedLike.service;
+package travelfeeldog.domain.community.feedlike.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import travelfeeldog.domain.community.FeedLike.model.FeedLike;
+import travelfeeldog.domain.community.feed.service.FeedReadService;
+import travelfeeldog.domain.community.feedlike.model.FeedLike;
 import travelfeeldog.domain.member.domain.model.Member;
 import travelfeeldog.domain.member.domain.service.MemberService;
-import travelfeeldog.domain.community.FeedLike.dao.FeedLikeRepository;
-import travelfeeldog.domain.community.FeedLike.dto.FeedLikeDtos.FeedLikeRequestDto;
-import travelfeeldog.domain.community.FeedLike.dto.FeedLikeDtos.FeedLikesByMemberResponseDto;
+import travelfeeldog.domain.community.feedlike.dao.FeedLikeRepository;
+import travelfeeldog.domain.community.feedlike.dto.FeedLikeDtos.FeedLikeRequestDto;
+import travelfeeldog.domain.community.feedlike.dto.FeedLikeDtos.FeedLikesByMemberResponseDto;
 import travelfeeldog.domain.community.feed.model.Feed;
-import travelfeeldog.domain.community.feed.service.FeedService;
+
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.List;
 public class FeedLikeService {
     private final FeedLikeRepository feedLikeRepository;
     private final MemberService memberService;
-    private final FeedService feedService;
+    private final FeedReadService feedReadService;
     @Transactional
     public Boolean addNewScrap(String token, FeedLikeRequestDto requestDto) {
         Member member = memberService.findByToken(token);
@@ -32,7 +33,7 @@ public class FeedLikeService {
         if (!existingScraps.isEmpty()) {
             return false;
         }
-        Feed feed = feedService.findByFeedId(feedId);
+        Feed feed = feedReadService.findByFeedId(feedId);
         feed.updateFeedLikeCountPlus(true);
         FeedLike feedLike = new FeedLike(member, feed);
         feedLikeRepository.save(feedLike);

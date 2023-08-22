@@ -6,7 +6,7 @@ import travelfeeldog.domain.member.dto.MemberDto;
 import travelfeeldog.domain.member.dto.MemberNickNameHistoryDto;
 
 public interface MemberReadService {
-    Member findByToken(String firebaseToken);
+    Member  findByToken(String firebaseToken);
 
     Member findByNickName(String nickName);
 
