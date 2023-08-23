@@ -14,14 +14,14 @@ import travelfeeldog.global.common.domain.model.BaseTimeEntity;
 @NoArgsConstructor
 @Table(name = "member_nick_history")
 @Entity
-public class MemberNickNameHistory extends BaseTimeEntity {
+public class MemberNicknameHistory extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long memberId;
     private String nickName;
     @Builder
-    public MemberNickNameHistory(Long id,Long memberId, String nickName) {
+    public MemberNicknameHistory(Long id,Long memberId, String nickName) {
         this.id = id;
         this.memberId = memberId;
         this.nickName = nickName;

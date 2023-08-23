@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import travelfeeldog.domain.member.domain.model.Member;
 import travelfeeldog.domain.member.dto.MemberDto;
 import travelfeeldog.domain.member.dto.MemberDtos.MemberPostRequestDto;
+import travelfeeldog.domain.member.dto.MemberDtos.MemberPostResponseDto;
 import travelfeeldog.domain.member.dto.MemberDtos.MemberResponse;
 import travelfeeldog.domain.member.dto.MemberNickNameHistoryDto;
 
@@ -59,10 +60,12 @@ public class MemberReadWriteService implements MemberService {
         return memberReadService.getAllMemberHistory(memberId);
     }
 
-    // MemberWriteService
+    /*
+     Member Write Service
+     */
     @Override
-    public Member save(MemberPostRequestDto requestDto) {
-        return memberWriteService.save(requestDto);
+    public MemberPostResponseDto create(MemberPostRequestDto requestDto) {
+        return memberWriteService.create(requestDto);
     }
 
     @Override

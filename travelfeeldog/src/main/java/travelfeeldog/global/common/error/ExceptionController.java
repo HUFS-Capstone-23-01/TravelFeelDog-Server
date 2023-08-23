@@ -23,66 +23,66 @@ public class ExceptionController {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ApiResponse ServerException2(Exception e) {
         e.printStackTrace();
-        return ApiResponse.error("서버 로직 에러:" + e); // 500
+        return ApiResponse.error("서버 로직 에러",e.getMessage()); // 500
     }
 
     @ExceptionHandler(MissingRequestHeaderException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiResponse MissingRequestHeaderException(Exception e) {
         e.printStackTrace();
-        return ApiResponse.error("MissingRequestHeaderException"); // 400
+        return ApiResponse.error("MissingRequestHeaderException", e.getMessage()); // 400
     }
     @ExceptionHandler(MissingPathVariableException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiResponse MissingPathVariableException(Exception e) {
         e.printStackTrace();
-        return ApiResponse.error("잘못된 경로 입니다."); // 404
+        return ApiResponse.error("잘못된 경로 입니다.", e.getMessage()); // 404
     }
     @ExceptionHandler(SignatureException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiResponse SignatureException(Exception e) {
         e.printStackTrace();
-        return ApiResponse.error("SignatureException"); //404
+        return ApiResponse.error("SignatureException", e.getMessage()); //404
     }
     @ExceptionHandler(ServiceUnavailableException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ApiResponse ServiceUnavailableExpection(Exception e) {
         e.printStackTrace();
-        return ApiResponse.error("Service Unavailable");  //503
+        return ApiResponse.error("Service Unavailable", e.getMessage());  //503
     }
 
     @ExceptionHandler(MissingServletRequestPartException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiResponse MssingServletRequestPartException(Exception e) {
         e.printStackTrace();
-        return ApiResponse.error("파일 형식 혹은 파일 파라미터의 이름 오류 혹은 파일 없음"); // 405
+        return ApiResponse.error("파일 형식 혹은 파일 파라미터의 이름 오류 혹은 파일 없음", e.getMessage()); // 405
     }
 
     @ExceptionHandler(NoResultException.class)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ApiResponse NoContentExpection(Exception e) {
        e.printStackTrace();
-       return ApiResponse.error("No results content" ); // 400
+       return ApiResponse.error("No results content", e.getMessage() ); // 400
     }
     @ExceptionHandler(UnsupportedJwtException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiResponse UnsupportedJwtException(Exception e) {
         e.printStackTrace();
-        return ApiResponse.error("UnsupportedJwtException"); // 401
+        return ApiResponse.error("UnsupportedJwtException", e.getMessage()); // 401
     }
 
     @ExceptionHandler(MalformedJwtException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiResponse MalformedJwtException(Exception e) {
         e.printStackTrace();
-        return ApiResponse.error("MalformedJwtException");//402
+        return ApiResponse.error("MalformedJwtException",e.getMessage());//402
     }
 
     @ExceptionHandler(ExpiredJwtException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiResponse ExpiredJwtException(Exception e) {
         e.printStackTrace();
-        return ApiResponse.error("ExpiredJwtException"); // 403
+        return ApiResponse.error("ExpiredJwtException", e.getMessage()); // 403
     }
 
 }

@@ -29,8 +29,8 @@ public class ApiResponse<T> {
     public static <T> ApiResponse<T> success(HttpStatus httpStatus,T body) {
         return new ApiResponse(httpStatus.getReasonPhrase(), body);
     }
-    public static <T> ApiResponse<T> error(String message) {
-        return new ApiResponse(message,null);
+    public static <T> ApiResponse<T> error(String message,String data) {
+        return new ApiResponse(message,data);
     }
     public static <T> ApiResponse<T> error(HttpStatus httpStatus) {
         return new ApiResponse(httpStatus.getReasonPhrase(), null);

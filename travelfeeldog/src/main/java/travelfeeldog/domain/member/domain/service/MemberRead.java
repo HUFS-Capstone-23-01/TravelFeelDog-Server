@@ -8,12 +8,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import travelfeeldog.domain.member.domain.model.Member;
-
-import travelfeeldog.domain.member.domain.model.MemberNickNameHistory;
+import travelfeeldog.domain.member.domain.model.MemberNicknameHistory;
 import travelfeeldog.domain.member.dto.MemberDto;
 import travelfeeldog.domain.member.dto.MemberDtos.MemberResponse;
 import travelfeeldog.domain.member.dto.MemberNickNameHistoryDto;
-import travelfeeldog.domain.member.infrastructure.MemberNickNameHistoryRepository;
+
+import travelfeeldog.domain.member.infrastructure.MemberNicknameHistoryRepository;
 import travelfeeldog.domain.member.infrastructure.MemberRepository;
 
 @Service("memberReadService")
@@ -22,7 +22,7 @@ import travelfeeldog.domain.member.infrastructure.MemberRepository;
 public class MemberRead implements MemberReadService {
 
     private final MemberRepository memberRepository;
-    private final MemberNickNameHistoryRepository memberNickNameHistoryRepository;
+    private final MemberNicknameHistoryRepository memberNickNameHistoryRepository;
 
     @Override
     public MemberDto getMember(Long memberId) {
@@ -81,7 +81,7 @@ public class MemberRead implements MemberReadService {
         return new MemberDto(member.getId(), member.getNickName(), member.getEmail());
     }
 
-    private MemberNickNameHistoryDto toDto(MemberNickNameHistory history) {
+    private MemberNickNameHistoryDto toDto(MemberNicknameHistory history) {
         return new MemberNickNameHistoryDto(
                 history.getId(),
                 history.getMemberId(),

@@ -1,5 +1,10 @@
 package travelfeeldog.domain.member.application.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -9,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.RequiredArgsConstructor;
 
 import travelfeeldog.domain.member.dto.MemberDtos;
-import travelfeeldog.domain.member.dto.MemberDtos.MemberPostResponseDto;
 import travelfeeldog.domain.member.dto.MemberDtos.MemberResponse;
 import travelfeeldog.domain.member.dto.MemberDtos.MemberResponseExpDto;
 import travelfeeldog.domain.member.domain.model.Member;
@@ -32,33 +36,24 @@ public class MemberApiController {
 
     @PostMapping(produces = "application/json;charset=UTF-8")
     public ApiResponse postMember(@Valid @RequestBody MemberDtos.MemberPostRequestDto request) {
-        Member savedMember = memberService.save(request);
-        return ApiResponse.success(new MemberPostResponseDto(savedMember));
+        return ApiResponse.success(memberService.save(request));
     }
 
     @GetMapping(value = "/total", produces = "application/json;charset=UTF-8")
     public ApiResponse getAllMembers() {
         return ApiResponse.success(memberService.getAllMembers());
     }
-
     @GetMapping(produces = "application/json;charset=UTF-8")
     public ApiResponse getMemberByToken(@RequestHeader("Authorization") String firebaseToken) {
-        if (memberService.isTokenExist(firebaseToken)) {
-            Member member = memberService.findByToken(firebaseToken);
-            return ApiResponse.success(new MemberResponse(member));
-        } else {
-            return ApiResponse.invalidToken(null);
-        }
+        Member member = memberService.findByToken(firebaseToken);
+        return ApiResponse.success(new MemberResponse(member));
     }
 
     @DeleteMapping(produces = "application/json;charset=UTF-8")
     public ApiResponse deleteMemberByToken(@RequestHeader("Authorization") String firebaseToken) {
-        if (memberService.isTokenExist(firebaseToken)) {
-            memberService.deleteMember(memberService.findByToken(firebaseToken));
-            return ApiResponse.success("Delete Success");
-        } else {
-            return ApiResponse.invalidToken(false);
-        }
+        Member member = memberService.findByToken(firebaseToken);
+        memberService.deleteMember(member);
+        return ApiResponse.success("Delete Success");
     }
 
     @PutMapping(value = "/profile/image", produces = "application/json;charset=UTF-8")
@@ -105,7 +100,7 @@ public class MemberApiController {
     }
 
     @GetMapping(value = "/findNick",produces = "application/json;charset=UTF-8")
-    public ApiResponse GetMemberByNick(@RequestParam("nickName") String nickName) {
+    public ApiResponse getMemberByNick(@RequestParam("nickName") String nickName) {
         try {
             Member member = memberService.findByNickName(nickName);
             return ApiResponse.success(new MemberResponse(member));
@@ -114,8 +109,8 @@ public class MemberApiController {
         }
     }
 
-    @GetMapping(value = "/profile/getexp", produces = "application/json;charset=UTF-8")
-    public ApiResponse GetMemberExp(@RequestHeader("Authorization") String firebaseToken) {
+    @GetMapping(value = "/profile/exp", produces = "application/json;charset=UTF-8")
+    public ApiResponse getMemberExp(@RequestHeader("Authorization") String firebaseToken) {
         try {
             Member member = memberService.findByToken(firebaseToken);
             return ApiResponse.success(new MemberResponseExpDto(member));

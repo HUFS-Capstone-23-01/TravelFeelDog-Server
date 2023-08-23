@@ -76,4 +76,7 @@ public class FeedRepository {
                 .getResultList();
         return feeds;
     }
+
+    public void bulkInsert(List<Feed> posts) {
+    }
 }

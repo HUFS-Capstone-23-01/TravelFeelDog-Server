@@ -1,9 +1,9 @@
-package travelfeeldog.domain.member.domain.model;
+package travelfeeldog.domain.member;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import travelfeeldog.domain.member.domain.util.MemberFixtureFactory;
+import travelfeeldog.factory.MemberFixtureFactory;
 
 class MemberTest {
 
