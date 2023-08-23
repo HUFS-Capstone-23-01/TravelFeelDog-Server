@@ -36,13 +36,16 @@ public class PlaceService {
     private final LocationService locationService;
     private final MemberService memberService;
 
-    @Transactional
     public PlaceDetailDto addNewPlace(PlacePostRequestDto placePostRequestDto) {
         Category category = categoryService.getCategoryByName(placePostRequestDto.getCategoryName());
         Location location = locationService.getLocationByName(placePostRequestDto.getLocationName());
-        Place place = Place.RegisterNewPlace(placePostRequestDto,category,location);
-        placeRepository.save(place);
+        Place place = create(category,location,placePostRequestDto);
         return new PlaceDetailDto(place);
+    }
+    @Transactional
+    public Place create(Category category,Location location,PlacePostRequestDto request){
+        Place place = Place.RegisterNewPlace(request,category,location);
+        return placeRepository.save(place);
     }
 
     @Transactional
