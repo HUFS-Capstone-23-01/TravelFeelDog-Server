@@ -36,7 +36,7 @@ public class MemberApiController {
 
     @PostMapping(produces = "application/json;charset=UTF-8")
     public ApiResponse postMember(@Valid @RequestBody MemberDtos.MemberPostRequestDto request) {
-        return ApiResponse.success(memberService.save(request));
+        return ApiResponse.success(memberService.create(request));
     }
 
     @GetMapping(value = "/total", produces = "application/json;charset=UTF-8")

@@ -6,11 +6,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.StopWatch;
+import travelfeeldog.IntegrationTest;
 import travelfeeldog.domain.community.feed.dao.FeedRepository;
 import travelfeeldog.domain.community.feed.model.Feed;
 import travelfeeldog.factory.FeedFixtureFactory;
 
-@SpringBootTest
+@IntegrationTest
 public class FeedBulkInsertTest {
     @Autowired
     private FeedRepository feedRepository;
@@ -19,15 +20,15 @@ public class FeedBulkInsertTest {
     public void bulkInsert() {
         var easyRandom = FeedFixtureFactory.get(
                 4L,
-                LocalDate.of(1970, 1, 1),
-                LocalDate.of(2022, 2, 1)
+                LocalDate.of(1998, 12, 1),
+                LocalDate.of(2024, 2, 1)
         );
 
         var stopWatch = new StopWatch();
         stopWatch.start();
 
         int _1만 = 10000;
-        var posts = IntStream.range(0, _1만 * 1)
+        var posts = IntStream.range(0, _1만*1)
                 .parallel()
                 .mapToObj(i -> easyRandom.nextObject(Feed.class))
                 .toList();

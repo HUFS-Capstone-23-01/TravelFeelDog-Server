@@ -11,12 +11,10 @@ import org.springframework.dao.DuplicateKeyException;
 import travelfeeldog.IntegrationTest;
 import travelfeeldog.domain.member.domain.service.FollowWriteService;
 import travelfeeldog.domain.member.dto.MemberDto;
-import travelfeeldog.domain.member.infrastructure.MemberRepository;
+import travelfeeldog.factory.MemberFixtureFactory;
 
 @IntegrationTest
 public class FollowWriteServiceTest {
-    @Autowired
-    private MemberRepository memberRepository;
 
     @Autowired
     private FollowWriteService followWriteService;

@@ -14,19 +14,6 @@ import org.jeasy.random.randomizers.range.LongRangeRandomizer;
 import travelfeeldog.domain.community.feed.model.Feed;
 
 public class FeedFixtureFactory {
-    public static Feed create() {
-        EasyRandomParameters parameter = getEasyRandomParameters();
-        return new EasyRandom(parameter).nextObject(Feed.class);
-    }
-
-    public static Feed create(Long memberId, LocalDate createdDate) {
-        EasyRandomParameters parameter = getEasyRandomParameters();
-        parameter
-                .randomize(memberId(), () -> memberId)
-                .randomize(createdDate(), new LocalDateRangeRandomizer(createdDate, createdDate));
-
-        return new EasyRandom(parameter).nextObject(Feed.class);
-    }
 
     public static Feed create(Long memberId, LocalDate start, LocalDate end) {
         EasyRandomParameters parameter = getEasyRandomParameters();

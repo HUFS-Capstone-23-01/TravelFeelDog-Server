@@ -1,6 +1,10 @@
 package travelfeeldog.domain.community.feed.dao;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import travelfeeldog.domain.community.feed.model.Feed;
 
@@ -13,6 +17,9 @@ import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
 public class FeedRepository {
+
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
     @PersistenceContext
     private final EntityManager em;
     public Feed save(Feed feed) {
@@ -76,7 +83,25 @@ public class FeedRepository {
                 .getResultList();
         return feeds;
     }
+    public void bulkInsert(List<Feed> feeds) {
+        String sql = String.format(
+                "INSERT INTO %s (member_id, feed_title, feed_body, created_time, updated_time) " +
+                        "VALUES (:memberId, :title, :body, :createdTime, :updatedTime)",
+                "Feed");
 
-    public void bulkInsert(List<Feed> posts) {
+        SqlParameterSource[] params = feeds.stream()
+                //.map(BeanPropertySqlParameterSource::new) feed 에 member property 가 없어 사용 불가.
+                .map(feed -> {
+                    MapSqlParameterSource param = new MapSqlParameterSource();
+                    param.addValue("memberId", feed.getMember().getId());
+                    param.addValue("title", feed.getTitle());
+                    param.addValue("body", feed.getBody());
+                    param.addValue("createdTime", feed.getCreatedDateTime());
+                    param.addValue("updatedTime", feed.getUpdatedDateTime());
+                    return param;
+                })
+                .toArray(SqlParameterSource[]::new);
+
+        namedParameterJdbcTemplate.batchUpdate(sql, params);
     }
 }
