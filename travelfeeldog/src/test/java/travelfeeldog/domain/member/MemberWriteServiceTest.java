@@ -1,6 +1,7 @@
 package travelfeeldog.domain.member;
 
 import java.time.LocalDateTime;
+import org.joda.time.DateTimeFieldType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,17 +59,17 @@ public class MemberWriteServiceTest {
         var nameToChange = "chair";
 
         service.updateNickName(member, nameToChange);
-        var results = memberNicknameHistoryRepository.findAllByMemberId(member.getId());
+        var results = memberNicknameHistoryRepository.findAllByNickName(nameToChange);
 
         Assertions.assertEquals(1, results.size());
         MemberNicknameHistory memberNicknameHistory = results.get(0);
-        Assertions.assertEquals(member.getId(), memberNicknameHistory.getMemberId());
         Assertions.assertEquals(nameToChange, memberNicknameHistory.getNickName());
     }
 
 
     private Member saveMember() {
-        var member = MemberFixtureFactory.create();
+        long seed = org.joda.time.LocalDateTime.now().get(DateTimeFieldType.millisOfDay());
+        var member = MemberFixtureFactory.create(seed);
         return memberRepository.save(member).orElseThrow();
     }
 

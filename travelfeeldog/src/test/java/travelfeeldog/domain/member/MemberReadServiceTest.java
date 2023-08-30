@@ -1,6 +1,8 @@
 package travelfeeldog.domain.member;
 
 import java.util.NoSuchElementException;
+import org.joda.time.DateTimeFieldType;
+import org.joda.time.LocalDateTime;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,7 +24,8 @@ public class MemberReadServiceTest {
     @DisplayName("회원 조회 테스트")
     @Test
     public void testGetMember() {
-        var member = MemberFixtureFactory.create();
+        long seed = LocalDateTime.now().get(DateTimeFieldType.millisOfDay());
+        var member = MemberFixtureFactory.create(seed);
         var id = memberRepository.save(member).get().getId();
 
         var result = service.getMember(id);

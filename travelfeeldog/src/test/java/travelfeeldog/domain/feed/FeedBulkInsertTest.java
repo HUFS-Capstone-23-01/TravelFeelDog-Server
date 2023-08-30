@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.StopWatch;
 import travelfeeldog.IntegrationTest;
 import travelfeeldog.domain.community.feed.dao.FeedRepository;

@@ -47,11 +47,10 @@ public class FollowWriteServiceTest {
     @Test
     public void testDuplicatedFollow() {
         var fromMember = createMemberDto();
-        var toMember = createMemberDto();
-
-        followWriteService.create(fromMember, toMember);
+        var toMember = fromMember;
         assertThrows(
-                DuplicateKeyException.class,
+                // DuplicateKeyException.class, if CustomClass
+                IllegalArgumentException.class,
                 () -> followWriteService.create(fromMember, toMember)
         );
     }

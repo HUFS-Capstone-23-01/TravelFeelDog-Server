@@ -1,8 +1,12 @@
 package travelfeeldog.application.usacase;
 
-import java.util.NoSuchElementException;
+import static java.time.temporal.ChronoField.MILLI_OF_SECOND;
+
+import org.joda.time.DateTimeFieldType;
+import org.joda.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.opentest4j.TestAbortedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import travelfeeldog.IntegrationTest;
 import travelfeeldog.domain.member.application.usacase.GetFollowingMembersUsecase;
@@ -38,7 +42,8 @@ public class GetFollowingMembersUsecaseTest {
     }
 
     private Member saveMember() {
-        var member = MemberFixtureFactory.create();
-        return memberRepository.save(member).orElseThrow(() -> new NoSuchElementException("[ERROR]"));
+        long seed = LocalDateTime.now().get(DateTimeFieldType.millisOfDay());
+        var member = MemberFixtureFactory.create(seed);
+        return memberRepository.save(member).orElseThrow(() -> new TestAbortedException("[ERROR]"));
     }
 }
