@@ -76,6 +76,8 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Feed> feeds = new ArrayList<>();
 
+    private final static Integer USER_MAX_EXP = 100;
+
     @Builder
     private Member(String nickName,
             String email,
@@ -108,10 +110,10 @@ public class Member extends BaseTimeEntity {
 
     public void updateExpAndLevel(int addingExp) {
         int changedExp = this.exp + addingExp;
-        if (changedExp / 100 == 0) {
+        if (changedExp / USER_MAX_EXP == 0) {
             this.exp = changedExp;
         } else {
-            this.exp = changedExp % 100;
+            this.exp = changedExp % USER_MAX_EXP;
             this.level = this.level + 1;
         }
     }

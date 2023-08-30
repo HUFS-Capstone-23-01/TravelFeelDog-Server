@@ -11,6 +11,7 @@ import travelfeeldog.domain.community.feed.dao.FeedRepository;
 import travelfeeldog.domain.community.feed.model.Feed;
 import travelfeeldog.factory.FeedFixtureFactory;
 
+//@SpringBootTest  // used only for insert data
 @IntegrationTest
 public class FeedBulkInsertTest {
     @Autowired

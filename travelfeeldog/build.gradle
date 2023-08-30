@@ -37,6 +37,7 @@ dependencies {
     /**test */
     implementation group: 'org.jeasy', name: 'easy-random-core', version: '5.0.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'com.tngtech.archunit:archunit-junit5:1.1.0'
     testImplementation 'org.springframework.security:spring-security-test'
 
     /**DB */
