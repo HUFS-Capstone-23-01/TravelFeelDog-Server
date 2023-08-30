@@ -87,7 +87,7 @@ public class FeedRepository {
         String sql = String.format(
                 "INSERT INTO %s (member_id, feed_title, feed_body, created_time, updated_time) " +
                         "VALUES (:memberId, :title, :body, :createdTime, :updatedTime)",
-                "Feed");
+                "feed");
 
         SqlParameterSource[] params = feeds.stream()
                 //.map(BeanPropertySqlParameterSource::new) feed 에 member property 가 없어 사용 불가.
