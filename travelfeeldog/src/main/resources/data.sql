@@ -1,4 +1,4 @@
-INSERT INTO Member
+INSERT INTO member
 (member_nickname, member_email, member_level, member_exp, member_token, member_image_url, member_delete, member_block, created_time, updated_time)
 VALUES
     (SUBSTRING(MD5(RAND()), 1, 10),
@@ -9,10 +9,9 @@ VALUES
      '/base/baseLogo.png',
      FALSE,
      FALSE,
-     NOW(),  -- for created_time
-     NOW()  -- for updated_time
+     NOW(),
+     NOW()
     );
-
 
 -- update query for insert time
 

@@ -2,6 +2,7 @@ server:
   port: 8080
   servlet:
     context-path: /api/v1
+
 spring:
   datasource:
     url: jdbc:mysql://${Db_URL}:${Db_PORT}/${Db_Name}?rewriteBatchedStatements=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&profileSQL=true&logger=Slf4JLogger&maxQuerySizeToLog=999999
@@ -19,14 +20,14 @@ spring:
       ddl-auto: ${DDL_AUTO_MODE}
     properties:
       hibernate:
-#        show_sql: true
-#        format_sql: true
+        show_sql: true
+        format_sql: true
         default_batch_fetch_size: 500
     #        dialect: org.hibernate.spatial.dialect.mysql.MySQL8SpatialDialect
     #    database-platform: org.hibernate.spatial.dialect.mysql.MySQL8SpatialDialect
     database: mysql
-    generate-ddl: true
-    defer-datasource-initialization: true
+    generate-ddl: false
+    defer-datasource-initialization: false
 
   sql:
     init:

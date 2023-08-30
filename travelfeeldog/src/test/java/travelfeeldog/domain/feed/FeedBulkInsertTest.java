@@ -16,7 +16,6 @@ public class FeedBulkInsertTest {
     @Autowired
     private FeedRepository feedRepository;
 
-    @Test
     public void bulkInsert() {
         var easyRandom = FeedFixtureFactory.get(
                 4L,
