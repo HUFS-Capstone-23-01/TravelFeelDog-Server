@@ -10,9 +10,14 @@ import travelfeeldog.domain.community.feed.dao.FeedRepository;
 import travelfeeldog.domain.community.feed.model.Feed;
 import travelfeeldog.factory.FeedFixtureFactory;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 //@SpringBootTest  // used only for insert data
 @IntegrationTest
 public class FeedBulkInsertTest {
+    private final Logger logger = LoggerFactory.getLogger(FeedBulkInsertTest.class);
+
     @Autowired
     private FeedRepository feedRepository;
     @Test
@@ -33,7 +38,7 @@ public class FeedBulkInsertTest {
                 .toList();
 
         stopWatch.stop();
-        System.out.println("객체 생성 시간 : " + stopWatch.getTotalTimeSeconds());
+        logger.info("객체 생성 시간 : {}" ,stopWatch.getTotalTimeSeconds());
 
         var queryStopWatch = new StopWatch();
         queryStopWatch.start();
@@ -41,6 +46,6 @@ public class FeedBulkInsertTest {
         feedRepository.bulkInsert(posts);
 
         queryStopWatch.stop();
-        System.out.println("DB 인서트 시간 : " + queryStopWatch.getTotalTimeSeconds());
+        logger.info("DB 인서트 시간 : {} " , queryStopWatch.getTotalTimeSeconds());
     }
 }
