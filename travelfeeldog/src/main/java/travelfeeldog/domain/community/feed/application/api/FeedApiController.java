@@ -54,7 +54,7 @@ public class FeedApiController {
             feedWriteService.deleteFeed(id);
             return ApiResponse.success(true);
         }
-        return ApiResponse.invalidAccessToken();
+        return ApiResponse.invalidAccessToken(firebaseToken);
     }
 
     @GetMapping(value = "/list",produces = "application/json;charset=UTF-8")

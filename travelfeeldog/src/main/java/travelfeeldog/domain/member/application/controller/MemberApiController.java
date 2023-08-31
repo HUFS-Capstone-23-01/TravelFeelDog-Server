@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.RequiredArgsConstructor;
 
 import travelfeeldog.domain.member.dto.MemberDtos;
+import travelfeeldog.domain.member.dto.MemberDtos.MemberPostResponseDto;
 import travelfeeldog.domain.member.dto.MemberDtos.MemberResponse;
 import travelfeeldog.domain.member.dto.MemberDtos.MemberResponseExpDto;
 import travelfeeldog.domain.member.domain.model.Member;
@@ -35,16 +36,17 @@ public class MemberApiController {
     private final ImageFileService imageFileService;
 
     @PostMapping(produces = "application/json;charset=UTF-8")
-    public ApiResponse postMember(@Valid @RequestBody MemberDtos.MemberPostRequestDto request) {
+    public ApiResponse<MemberPostResponseDto> postMember(@Valid @RequestBody MemberDtos.MemberPostRequestDto request) {
         return ApiResponse.success(memberService.create(request));
     }
 
     @GetMapping(value = "/total", produces = "application/json;charset=UTF-8")
-    public ApiResponse getAllMembers() {
+    public ApiResponse<List<MemberResponse>> getAllMembers() {
         return ApiResponse.success(memberService.getAllMembers());
     }
+
     @GetMapping(produces = "application/json;charset=UTF-8")
-    public ApiResponse getMemberByToken(@RequestHeader("Authorization") String firebaseToken) {
+    public ApiResponse<MemberResponse> getMemberByToken(@RequestHeader("Authorization") String firebaseToken) {
         Member member = memberService.findByToken(firebaseToken);
         return ApiResponse.success(new MemberResponse(member));
     }
@@ -63,7 +65,7 @@ public class MemberApiController {
             Member result = memberService.updateImageUrl(memberService.findByToken(firebaseToken), profileImageUrl);
             return ApiResponse.success(new MemberResponse(result));
         } else {
-            return ApiResponse.invalidToken(false);
+            return ApiResponse.invalidAccessToken(false);
         }
     }
 
@@ -74,7 +76,7 @@ public class MemberApiController {
                     .updateNickName(memberService.findByToken(memberPutNickNameDto.getFirebaseToken()),
                         memberPutNickNameDto.getNickName())));
         } else {
-            return ApiResponse.invalidToken(false);
+            return ApiResponse.invalidAccessToken(false);
         }
     }
 
@@ -85,7 +87,7 @@ public class MemberApiController {
             Member result = memberService.updateExpAndLevel(memberService.findByToken(memberPutExpDto.getFirebaseToken()), addingValue);
             return ApiResponse.success(new MemberResponse(result));
         } else {
-            return ApiResponse.invalidToken(false);
+            return ApiResponse.invalidAccessToken(false);
         }
     }
 
@@ -115,7 +117,7 @@ public class MemberApiController {
             Member member = memberService.findByToken(firebaseToken);
             return ApiResponse.success(new MemberResponseExpDto(member));
         } catch (NoSuchElementException e){
-            return ApiResponse.invalidToken(false);
+            return ApiResponse.invalidAccessToken(false);
         }
     }
     @GetMapping(value = "/{memberId}/history/total")
