@@ -28,6 +28,11 @@ public class FeedReadService {
                 .orElseThrow(() -> new NoSuchElementException("Feed details loading is failed."));
     }
 
+    public Boolean isFeedOwner(Long feedId, String requestMemberToken) {
+        String givenFeedOwnerToken = getFeedDetailsById(feedId).getMember().getToken();
+        return givenFeedOwnerToken.equals(requestMemberToken);
+    }
+
     public FeedStaticResponseDto getFeedStaticsById(Long id, String token) {
         Member member = memberService.findByToken(token);
 
@@ -35,8 +40,10 @@ public class FeedReadService {
                 .orElseThrow(() -> new NoSuchElementException("Feed details loading is failed."));
         FeedStaticResponseDto feedStaticResponseDto = new FeedStaticResponseDto(feed);
 
-        List<FeedLikesByMemberResponseDto> allMemberFeedLike = member.getFeedLikes().stream().map(FeedLikesByMemberResponseDto::new).toList();
-        List<ScrapByMemberResponseDto> allMemberScrap = member.getScraps().stream().map(ScrapByMemberResponseDto::new).toList();
+        List<FeedLikesByMemberResponseDto> allMemberFeedLike = member.getFeedLikes().stream()
+                .map(FeedLikesByMemberResponseDto::new).toList();
+        List<ScrapByMemberResponseDto> allMemberScrap = member.getScraps().stream()
+                .map(ScrapByMemberResponseDto::new).toList();
 
         Optional<ScrapByMemberResponseDto> doScrap = allMemberScrap.stream()
                 .filter(scrapByMemberResponseDto ->
@@ -47,27 +54,28 @@ public class FeedReadService {
                         feedLikesByMemberResponseDto.getFeedId().equals(feed.getId()))
                 .findFirst();
         System.out.println("doScrap : " + doScrap + ", doLike : " + doLike);
-        if(doScrap.isPresent()) {
+        if (doScrap.isPresent()) {
             feedStaticResponseDto.setFeedScrapId(doScrap.get().getScrapId());
         }
-        if(doLike.isPresent()) {
+        if (doLike.isPresent()) {
             feedStaticResponseDto.setFeedLikeId(doLike.get().getFeedLikeId());
         }
         return feedStaticResponseDto;
     }
+
     public List<Feed> getListAll(int page) {
-        int offset = (page-1) * 6;
+        int offset = (page - 1) * 6;
         List<Feed> feeds = feedRepository.getListAll(offset);
         return feeds;
     }
 
     public List<Feed> getListByNickName(String nickName, int page) {
-        int offset = (page-1) * 6;
+        int offset = (page - 1) * 6;
         List<Feed> feeds = feedRepository.findListByNickName(nickName, offset);
         return feeds;
     }
 
-    public Feed findByFeedId(Long feedId){
+    public Feed findByFeedId(Long feedId) {
         return feedRepository.findById(feedId)
                 .orElseThrow(() -> new EntityNotFoundException("Feed not found with ID"));
     }
