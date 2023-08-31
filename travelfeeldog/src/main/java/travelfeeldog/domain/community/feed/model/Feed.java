@@ -39,6 +39,9 @@ public class Feed extends BaseTimeEntity {
     @ColumnDefault("0")
     private int likeCount;
 
+    @Column(name = "feed_deleted")
+    private Boolean delete;
+
     @Column(name = "feed_scrap_count")
     @ColumnDefault("0")
     private int scrapCount;
@@ -65,49 +68,52 @@ public class Feed extends BaseTimeEntity {
     private List<FeedLike> feedLikes = new ArrayList<>();
 
     @Builder
-    private Feed(Member member, int likeCount, int scrapCount, String title, String body) {
+    private Feed(Member member, String title, String body, int likeCount, int scrapCount) {
         this.member = Objects.requireNonNull(member);
-        this.likeCount = likeCount;
-        this.scrapCount = scrapCount;
         this.title = Objects.requireNonNull(title);
         this.body = Objects.requireNonNull(body);
+        this.likeCount = likeCount;
+        this.scrapCount = scrapCount;
+        this.delete = false;
     }
 
-    public static Feed create(Member member,
-                              String title,
-                              String body) {
-        return  Feed.builder()
-            .member(member)
-            .title(title)
-            .body(body)
-            .likeCount(0)
-            .scrapCount(0)
-            .build();
+    public static Feed create(Member member, String feedTitle, String feedBody) {
+        return Feed.builder()
+                .member(member)
+                .title(feedTitle)
+                .body(feedBody)
+                .likeCount(0)
+                .scrapCount(0)
+                .build();
     }
+
     public void updateFeedLikeCountPlus(boolean add) {
-        if(add) {
+        if (add) {
             this.likeCount += 1;
-        }
-        else {
+        } else {
             this.likeCount -= 1;
         }
     }
 
     public void updateScrapCountPlus(boolean add) {
-        if(add) {
+        if (add) {
             this.scrapCount += 1;
-        }
-        else {
+        } else {
             this.scrapCount -= 1;
         }
     }
+
     public void setFeedImages(List<String> feedImageUrls) {
-        if(feedImageUrls.isEmpty()) return;
+        if (feedImageUrls.isEmpty()) {
+            return;
+        }
         feedImageUrls.forEach(this::addFeedImage);
     }
 
     public void setTags(List<Tag> tags) {
-        if(tags.isEmpty()) return;
+        if (tags.isEmpty()) {
+            return;
+        }
         tags.forEach(this::addTag);
     }
 
@@ -127,21 +133,26 @@ public class Feed extends BaseTimeEntity {
             return Collections.singleton("/feed/Base.png");
         }
         return this.feedImages.stream()
-            .map(FeedImages::getFeedImageUrl)
-            .collect(Collectors.toSet());
+                .map(FeedImages::getFeedImageUrl)
+                .collect(Collectors.toSet());
     }
+
     public Set<String> getFeedTagsContent() {
         return this.feedTags.stream()
-            .map(f -> f.getTag().getTagContent())
-            .collect(Collectors.toSet());
+                .map(f -> f.getTag().getTagContent())
+                .collect(Collectors.toSet());
     }
+
     public String getFeedImageUrl() {
         if (this.feedImages.isEmpty()) {
             return ("/feed/Base.png");
         }
         return this.feedImages.stream()
-            .map(FeedImages::getFeedImageUrl)
-            .toList().get(0);
+                .map(FeedImages::getFeedImageUrl)
+                .toList().get(0);
     }
 
+    public void deleteFeed() {
+        this.delete = true;
+    }
 }

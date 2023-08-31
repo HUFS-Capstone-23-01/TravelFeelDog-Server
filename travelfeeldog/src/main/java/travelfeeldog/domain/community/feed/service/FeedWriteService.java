@@ -17,16 +17,15 @@ public class FeedWriteService {
 
     private final FeedRepository feedRepository;
     public Feed postFeed(FeedPostRequestDto requestDto, Member writer, List<Tag> tags) {
-
-        Feed feed = Feed.create(writer, requestDto.getTitle(), requestDto.getBody());
+        Feed feed = Feed.create(writer,requestDto.getTitle(),requestDto.getBody());
         feed.setFeedImages(requestDto.getFeedImageUrls());
         feed.setTags(tags);
 
         return feedRepository.save(feed);
     }
-
-    public void deleteFeed(Long id) {
-        feedRepository.deleteById(id);
+    public void deleteFeed(Long feedId) {
+        Feed feed = feedRepository.findById(feedId).orElseThrow();
+        feed.deleteFeed();
     }
 
 }

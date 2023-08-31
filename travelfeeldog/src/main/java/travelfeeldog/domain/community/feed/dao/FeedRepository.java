@@ -26,11 +26,6 @@ public class FeedRepository {
         em.persist(feed);
         return feed;
     }
-    public void deleteById(Long id) {
-        Feed feed = findById(id).orElseThrow(() -> new IllegalStateException("Memeber cannot delete this."));
-        em.remove(feed);
-    }
-
     public List<Feed> findListByNickName(String nickName, int offset) {
         List<Feed> feeds = em.createQuery("select f from Feed f " +
                         "where f.member.nickName = :nickName " +

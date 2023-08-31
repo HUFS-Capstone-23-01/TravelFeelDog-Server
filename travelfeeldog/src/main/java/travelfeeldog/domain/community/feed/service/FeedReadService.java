@@ -53,7 +53,6 @@ public class FeedReadService {
                 .filter(feedLikesByMemberResponseDto ->
                         feedLikesByMemberResponseDto.getFeedId().equals(feed.getId()))
                 .findFirst();
-        System.out.println("doScrap : " + doScrap + ", doLike : " + doLike);
         if (doScrap.isPresent()) {
             feedStaticResponseDto.setFeedScrapId(doScrap.get().getScrapId());
         }

@@ -1,10 +1,6 @@
 package travelfeeldog.global.common.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.springframework.http.HttpStatus;
-
-@Getter
 
 public record ApiResponse<T>(String message, T body) {
 

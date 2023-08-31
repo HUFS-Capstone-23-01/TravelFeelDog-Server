@@ -15,13 +15,15 @@ import travelfeeldog.domain.member.domain.service.MemberService;
 @Service
 @RequiredArgsConstructor
 public class CreateFeedUsecase {
+
     private final MemberService memberService;
     private final FeedTagService feedTagService;
     private final FeedWriteService feedWriteService;
-    public FeedStaticResponseDto execute(FeedPostRequestDto requestDto){
+
+    public FeedStaticResponseDto execute(FeedPostRequestDto requestDto) {
         Member writer = memberService.findByToken(requestDto.getMemberToken());
         List<Tag> tags = feedTagService.getTagsByContents(requestDto.getFeedTags());
-        Feed feed = feedWriteService.postFeed(requestDto,writer,tags);
+        Feed feed = feedWriteService.postFeed(requestDto, writer, tags);
         return new FeedStaticResponseDto(feed);
     }
 

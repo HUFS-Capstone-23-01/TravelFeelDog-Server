@@ -48,10 +48,11 @@ public class FeedApiController {
     @DeleteMapping(value = "/detail", produces = "application/json;charset=UTF-8")
     public ApiResponse<Boolean> deleteFeedById(@RequestHeader("Authorization") String fireBaseToken,
                                       @RequestParam("feedId") Long feedId) {
-        if(feedReadService.isFeedOwner(feedId,fireBaseToken)) {
+        Boolean properFeedOwner = feedReadService.isFeedOwner(feedId,fireBaseToken);
+        if(properFeedOwner) {
             feedWriteService.deleteFeed(feedId);
         }
-        return ApiResponse.success(true);
+        return ApiResponse.success(properFeedOwner);
     }
 
     @GetMapping(value = "/list",produces = "application/json;charset=UTF-8")
