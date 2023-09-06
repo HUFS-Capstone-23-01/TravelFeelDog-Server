@@ -49,6 +49,10 @@ dependencies {
     /**Docs */
     implementation 'org.springdoc:springdoc-openapi-ui:1.6.15'
 
+    /** metric */
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+
     // Common
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
