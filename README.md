@@ -36,14 +36,14 @@
 | Category       | stack                    |
 | -------------- | ------------------------ |
 | Language       | Java 17                  |
-| Framework      | Spring Boot 2.7.7        |
+| Framework      | Spring Boot 2.7.7 -> 3.1.0 |
 | ORM            | JPA/Hibernate , Data JPA |
 | Test           | JUnit 5                  |
 | Database       | MySQL 8.0.               |
 | Build          | Gradle 7.5               |
-| Infra          | AWS EC2 ,S3 ,Rds ,Nginx  |
+| Infra          | AWS ,Nginx , redis       |
 | Third Part API | OpenAi text-davinci-003  |
-| etc            | ubuntu 22 ,openjdk 17    |
+| etc            | ubuntu 22 , t4g.small(arm64)|
 
 ### Communication
 
