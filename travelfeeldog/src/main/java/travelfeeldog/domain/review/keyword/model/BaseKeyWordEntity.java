@@ -1,6 +1,6 @@
 package travelfeeldog.domain.review.keyword.model;
 
-import javax.persistence.MappedSuperclass;
+import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
 

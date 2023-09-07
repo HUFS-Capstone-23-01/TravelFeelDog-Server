@@ -23,7 +23,7 @@ import travelfeeldog.domain.member.dto.MemberNickNameHistoryDto;
 import travelfeeldog.global.common.dto.ApiResponse;
 
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import travelfeeldog.global.file.domain.application.ImageFileService;
 
 

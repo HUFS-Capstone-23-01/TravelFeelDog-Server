@@ -13,7 +13,7 @@ import travelfeeldog.domain.community.feedlike.dto.FeedLikeDtos.FeedLikesByMembe
 import travelfeeldog.domain.community.feed.model.Feed;
 
 
-import javax.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Transactional(readOnly = true)

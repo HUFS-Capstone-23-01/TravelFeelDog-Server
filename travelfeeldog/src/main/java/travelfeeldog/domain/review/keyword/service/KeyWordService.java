@@ -2,7 +2,7 @@ package travelfeeldog.domain.review.keyword.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import travelfeeldog.domain.place.category.model.Category;

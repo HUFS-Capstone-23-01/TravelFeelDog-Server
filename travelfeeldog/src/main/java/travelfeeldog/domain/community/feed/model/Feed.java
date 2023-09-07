@@ -17,7 +17,7 @@ import travelfeeldog.domain.community.scrap.model.Scrap;
 import travelfeeldog.domain.member.domain.model.Member;
 import travelfeeldog.global.common.domain.model.BaseTimeEntity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -13,7 +13,7 @@ import travelfeeldog.domain.community.feed.service.FeedReadService;
 import travelfeeldog.domain.community.feed.service.FeedWriteService;
 import travelfeeldog.global.common.dto.ApiResponse;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;

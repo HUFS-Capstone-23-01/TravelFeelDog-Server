@@ -7,8 +7,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import travelfeeldog.domain.member.domain.model.Member;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

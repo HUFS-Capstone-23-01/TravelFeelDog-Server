@@ -8,7 +8,7 @@ import travelfeeldog.domain.member.domain.model.Member;
 import travelfeeldog.domain.community.feed.model.Feed;
 import travelfeeldog.global.common.domain.model.BaseTimeEntity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Getter

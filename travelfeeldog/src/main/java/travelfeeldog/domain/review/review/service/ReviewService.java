@@ -1,6 +1,6 @@
 package travelfeeldog.domain.review.review.service;
 
-import javax.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 

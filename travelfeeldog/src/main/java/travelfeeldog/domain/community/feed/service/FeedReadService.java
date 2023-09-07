@@ -3,7 +3,7 @@ package travelfeeldog.domain.community.feed.service;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import javax.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
