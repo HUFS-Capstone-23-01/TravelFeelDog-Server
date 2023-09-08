@@ -16,6 +16,8 @@ spring:
       max-request-size: 10MB
 
   jpa:
+    database: mysql
+    database-platform: org.hibernate.spatial.dialect.mysql.MySQL8SpatialDialect
     hibernate:
       ddl-auto: ${DDL_AUTO_MODE}
     properties:
@@ -23,9 +25,7 @@ spring:
         show_sql: true
         format_sql: true
         default_batch_fetch_size: 500
-    #        dialect: org.hibernate.spatial.dialect.mysql.MySQL8SpatialDialect
-    #    database-platform: org.hibernate.spatial.dialect.mysql.MySQL8SpatialDialect
-    database: mysql
+        dialect: org.hibernate.dialect.MySQLDialect
     generate-ddl: false
     defer-datasource-initialization: false
 
@@ -47,8 +47,13 @@ spring:
 
 logging:
   level:
-    org.hibernate.SQL: debug
-    org.hibernate.type: trace
+    org:
+      hibernate:
+      SQL: debug
+      type: trace
+      springframework:
+        core.LocalVariableTableParameterNameDiscoverer : error
+
 
 gpt:
   key: ${GPT_KEY}
