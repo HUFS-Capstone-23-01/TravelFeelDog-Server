@@ -32,7 +32,7 @@ dependencies {
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
 
     /**auth */
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.7.5'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
     /**test */
@@ -43,6 +43,9 @@ dependencies {
 
     /**DB */
     runtimeOnly 'com.mysql:mysql-connector-j'
+
+    /**Redis*/
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     /**Cloud */
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'

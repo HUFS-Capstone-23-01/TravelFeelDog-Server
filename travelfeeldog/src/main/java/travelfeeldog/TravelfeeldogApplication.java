@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableJpaAuditing
 
 @SpringBootApplication
-//@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 public class TravelfeeldogApplication {
     public static void main(String[] args) {
         SpringApplication.run(TravelfeeldogApplication.class, args);

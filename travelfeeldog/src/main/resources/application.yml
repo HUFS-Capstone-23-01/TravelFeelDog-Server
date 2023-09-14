@@ -4,6 +4,14 @@ server:
     context-path: /api/v1
 
 spring:
+  cache:
+    type: redis
+    redis:
+      time-to-live: 3600 # 데이터 유지 시간(sec)
+      cache-null-values: true # null 캐싱 여부
+      host: localhost
+      port: 6379
+
   datasource:
     url: jdbc:mysql://${Db_URL}:${Db_PORT}/${Db_Name}?rewriteBatchedStatements=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&profileSQL=true&logger=Slf4JLogger&maxQuerySizeToLog=999999
     username: ${Db_User_Name}
