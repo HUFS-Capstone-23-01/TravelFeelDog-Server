@@ -147,4 +147,7 @@ public class Member extends BaseTimeEntity {
     private void validateEmail(String email) {
         Assert.isTrue(email.length() <= EMAIL_MAX_LENGTH, "최대 길이를 초과했습니다.");
     }
+    public void setWriterId(Long id){
+        this.id= id;
+    }
 }

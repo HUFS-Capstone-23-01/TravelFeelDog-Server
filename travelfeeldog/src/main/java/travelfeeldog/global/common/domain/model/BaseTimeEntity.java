@@ -25,7 +25,7 @@ public abstract class BaseTimeEntity implements Serializable {
 
     @LastModifiedDate
     @Column(name="updated_time")
-    private LocalDateTime updatedDateTime;
+    private LocalDateTime  updatedDateTime;
 
     protected BaseTimeEntity(){}
 
@@ -40,5 +40,7 @@ public abstract class BaseTimeEntity implements Serializable {
     public void preUpdate(){
         updatedDateTime = LocalDateTime.now();
     }
-
+    public void syncUpdateTimeToCreatedTime(){
+        updatedDateTime = this.createdDateTime;
+    }
 }

@@ -40,6 +40,7 @@ public class Feed extends BaseTimeEntity {
     private int likeCount;
 
     @Column(name = "feed_deleted")
+    @ColumnDefault("false")
     private Boolean delete;
 
     @Column(name = "feed_scrap_count")
