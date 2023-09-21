@@ -4,6 +4,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
 import travelfeeldog.domain.member.domain.model.Member;
 
 import jakarta.persistence.EntityManager;
@@ -23,34 +24,41 @@ public class MemberRepositoryImpl implements MemberRepository {
     @Override
     public Optional<Member> save(Member member) {
         try {
-            em.persist(member);
+            Assert.notNull(member, "member must not be null");
+            Member existingMember = null;
+            if (member.getId() != null) {
+                existingMember = em.find(Member.class, member.getId());
+            }
+            if (existingMember == null) {
+                em.persist(member);
+            } else {
+                em.merge(member);
+            }
             return Optional.of(member);
-        } catch (IllegalStateException e) {
-            log.info("{}",e);
+        } catch (IllegalArgumentException e) {
             return Optional.empty();
         }
     }
 
     @Override
-    public Optional<Member> save(String nickName, String email, int level, int exp, String token) {
+    public Optional<Member> save(String nickName, String email, int level, int exp) {
         try {
-            findByToken(token).ifPresent(m -> {
+            findByEmail(email).ifPresent(m -> {
                 throw new IllegalStateException("가입되어 있습니다.");
             });
-            Member member = Member.register(nickName, email, level, exp, token);
+            Member member = Member.register(nickName, email, level, exp);
             em.persist(member);
             return Optional.of(member);
         } catch (IllegalStateException e) {
             return Optional.empty();
         }
     }
-
     @Override
-    public Optional<Member> findByToken(String token) {
+    public Optional<Member> findByEmail(String email) {
         try {
-            Member member = em.createQuery("SELECT m FROM Member m WHERE m.token = :token",
+            Member member = em.createQuery("SELECT m FROM Member m WHERE m.email = :email",
                             Member.class)
-                    .setParameter("token", token)
+                    .setParameter("email", email)
                     .getSingleResult();
             return Optional.of(member);
         } catch (NoResultException e) {

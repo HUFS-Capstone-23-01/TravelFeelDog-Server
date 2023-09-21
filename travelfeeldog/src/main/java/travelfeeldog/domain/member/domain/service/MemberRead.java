@@ -48,7 +48,7 @@ public class MemberRead implements MemberReadService {
 
     @Override
     public Member findByToken(String firebaseToken) {
-        return memberRepository.findByToken(firebaseToken)
+        return memberRepository.findByToken(firebaseToken) // add access exchange logi
                 .orElseThrow(() -> new NoSuchElementException(
                         "Member not found by token:" + firebaseToken));
     }

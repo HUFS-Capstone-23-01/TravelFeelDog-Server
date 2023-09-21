@@ -1,5 +1,7 @@
 package travelfeeldog.domain.member.domain.model;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,14 +57,15 @@ public class Member extends BaseTimeEntity {
     @Column(name = "member_image_url")
     private String imageUrl;
 
-    @Column(name = "member_token", unique = true)
-    private String token;
-
     @Column(name = "member_delete")
     private boolean delete;
 
     @Column(name = "member_block")
     private boolean block;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FeedLike> feedLikes = new ArrayList<>();
@@ -82,6 +85,19 @@ public class Member extends BaseTimeEntity {
     private Member(String nickName,
             String email,
             int level,
+            int exp) {
+        validateNickname(nickName);
+        validateEmail(email);
+        this.nickName = nickName;
+        this.level = level;
+        this.email = Objects.requireNonNull(email,
+                "Email cannot be null"); // Initialize 'email' field
+        this.exp = exp;
+    }
+    @Builder(builderClassName = "ByAccountBuilder", builderMethodName = "ByAccountBuilder")
+    public Member(String nickName,
+            String email,
+            int level,
             int exp,
             String token) {
         validateNickname(nickName);
@@ -91,20 +107,17 @@ public class Member extends BaseTimeEntity {
         this.email = Objects.requireNonNull(email,
                 "Email cannot be null"); // Initialize 'email' field
         this.exp = exp;
-        this.token = token;
     }
 
     public static Member register(String nickName,
             String email,
             int level,
-            int exp,
-            String token) {
+            int exp) {
         return Member.builder()
                 .nickName(nickName)
                 .email(email)
                 .level(level)
                 .exp(exp)
-                .token(token)
                 .build();
     }
 
@@ -123,7 +136,11 @@ public class Member extends BaseTimeEntity {
         validateNickname(to);
         this.nickName = to;
     }
-
+    public Member updateMemberNickNameAndImage(String nickName,String imageUrl) {
+        this.nickName = nickName;
+        this.imageUrl = imageUrl;
+        return this;
+    }
     public void blockMember() {
         this.block = true;
     }
@@ -135,7 +152,12 @@ public class Member extends BaseTimeEntity {
     public void deleteMember() {
         this.delete = true;
     }
-
+    public void setWriterId(Long id){
+        this.id= id;
+    }
+    public String getRoleKey() {
+        return this.role.getKey();
+    }
     public void updateMemberImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
@@ -146,8 +168,5 @@ public class Member extends BaseTimeEntity {
 
     private void validateEmail(String email) {
         Assert.isTrue(email.length() <= EMAIL_MAX_LENGTH, "최대 길이를 초과했습니다.");
-    }
-    public void setWriterId(Long id){
-        this.id= id;
     }
 }

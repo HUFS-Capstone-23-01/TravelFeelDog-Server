@@ -1,4 +1,4 @@
-package travelfeeldog.global.secure.config;
+package travelfeeldog.global.secure.auth;
 
 import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +19,8 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SpringSecurityConfig {
+//    private final JWTProvider jwtProvider;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -34,14 +36,17 @@ public class SpringSecurityConfig {
                 )
                 .authorizeHttpRequests(request -> request
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .requestMatchers("/status", "/images/**", "/view/join", "/auth/join").permitAll()
+                        .requestMatchers("/status", "/images/**", "/view/join", "/auth/join",
+                                "/swagger-ui/**","/usage","/test/**"
+                                ,"/actuator/health").permitAll()
+//                        .requestMatchers("/api/v1/**").hasRole(Role.USER.name())
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
-                        .loginPage("/view/login")
-                        .loginProcessingUrl("/login-process")
-                        .usernameParameter("userid")
-                        .passwordParameter("pw")
+//                        .loginPage("/view/login") add  when custom login // custom login page 를 이용하는 경우
+//                        .loginProcessingUrl("/login-process")
+//                        .usernameParameter("userid")
+//                        .passwordParameter("pw")
                         .defaultSuccessUrl("/view/dashboard", true)
                         .permitAll()
                 )
@@ -49,6 +54,7 @@ public class SpringSecurityConfig {
 
         return http.build();
     }
+
 }
 
 

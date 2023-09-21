@@ -1,4 +1,4 @@
-package travelfeeldog.domain.place.place.dao;
+package travelfeeldog.domain.place.place.model;
 
 import java.util.List;
 

@@ -5,7 +5,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import travelfeeldog.domain.place.location.dao.LocationRepository;
+import travelfeeldog.domain.place.location.model.LocationRepository;
 import travelfeeldog.domain.place.location.dto.LocationDtos.RequestLocationDto;
 import travelfeeldog.domain.place.location.model.Location;
 

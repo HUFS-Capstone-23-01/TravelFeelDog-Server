@@ -23,7 +23,7 @@ import travelfeeldog.domain.place.place.model.PlaceStatistic;
 import travelfeeldog.domain.place.location.model.Location;
 import travelfeeldog.domain.place.location.service.LocationService;
 import travelfeeldog.domain.member.domain.service.MemberService;
-import travelfeeldog.domain.place.place.dao.PlaceRepository;
+import travelfeeldog.domain.place.place.model.PlaceRepository;
 import travelfeeldog.domain.review.review.dto.ReviewDtos.ReviewPostRequestDto;
 import travelfeeldog.domain.review.review.model.Review;
 

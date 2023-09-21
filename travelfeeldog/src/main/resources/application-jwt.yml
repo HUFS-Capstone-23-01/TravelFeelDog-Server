@@ -1,6 +1,4 @@
-security:
-  jwt:
-    token:
-      secret-key: ${JWT_KEY}
-      expire-length: 36000000
-      expire-length-refresh: 5184000000
+jwt:
+  secret: ${JWT_KEY}
+  expiration-duration: 36000000
+  refresh-expiration-duration: 5184000000

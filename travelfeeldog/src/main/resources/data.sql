@@ -13,13 +13,12 @@ VALUES
      NOW()
     );
 INSERT INTO member
-(member_nickname, member_email, member_level, member_exp, member_token, member_image_url, member_delete, member_block, created_time, updated_time)
+(member_nickname, member_email, member_level, member_exp, member_image_url, member_delete, member_block, created_time, updated_time)
 VALUES
     (SUBSTRING(MD5(RAND()), 1, 10),
      CONCAT(SUBSTRING(MD5(RAND()), 1, 10), '@gmail.com'),
      FLOOR(RAND() * 10),
      FLOOR(RAND() * 100),
-     MD5(RAND()),
      '/base/baseLogo.png',
      FALSE,
      FALSE,
@@ -28,13 +27,12 @@ VALUES
     );
 
 INSERT INTO member
-(member_nickname, member_email, member_level, member_exp, member_token, member_image_url, member_delete, member_block, created_time, updated_time)
+(member_nickname, member_email, member_level, member_exp,member_image_url, member_delete, member_block, created_time, updated_time)
 VALUES
     (SUBSTRING(MD5(RAND()), 1, 10),
      CONCAT(SUBSTRING(MD5(RAND()), 1, 10), '@gmail.com'),
      FLOOR(RAND() * 10),
      FLOOR(RAND() * 100),
-     MD5(RAND()),
      '/base/baseLogo.png',
      FALSE,
      FALSE,
