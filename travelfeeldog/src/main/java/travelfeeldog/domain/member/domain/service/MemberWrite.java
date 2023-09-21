@@ -23,8 +23,7 @@ public class MemberWrite implements MemberWriteService {
 
     @Override
     public MemberPostResponseDto create(MemberPostRequestDto requestDto) {
-        var member =  memberRepository.save(requestDto.getNickName(), requestDto.getEmail(), 1, 0,
-                        requestDto.getFirebaseToken())
+        var member =  memberRepository.save(requestDto.getNickName(), requestDto.getEmail(), 1, 0)
                 .orElseThrow(() -> new RuntimeException("Member not saved"));
         saveNickNameHistory(member);
         return new MemberPostResponseDto(member);

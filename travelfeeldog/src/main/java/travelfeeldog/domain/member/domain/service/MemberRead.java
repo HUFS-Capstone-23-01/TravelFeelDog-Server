@@ -46,21 +46,21 @@ public class MemberRead implements MemberReadService {
                         "Member not found by nickName :" + nickName));
     }
 
-    @Override
+    @Override  // fix point
     public Member findByToken(String firebaseToken) {
-        return memberRepository.findByToken(firebaseToken) // add access exchange logi
-                .orElseThrow(() -> new NoSuchElementException(
-                        "Member not found by token:" + firebaseToken));
+//        return memberRepository.findByToken(firebaseToken) // add access exchange logi
+//                .orElseThrow(() -> new NoSuchElementException(
+//                        "Member not found by token:" + firebaseToken));
+        return null;
     }
-
+    @Override  // fix point
+    public boolean isTokenExist(String firebaseToken) {
+        return true;
+//        return memberRepository.findByToken(firebaseToken).isPresent();
+    }
     @Override
     public boolean isNickRedundant(String nickName) {
         return memberRepository.findByNickName(nickName).isPresent();
-    }
-
-    @Override
-    public boolean isTokenExist(String firebaseToken) {
-        return memberRepository.findByToken(firebaseToken).isPresent();
     }
     public List<Member> getAll() {
         return memberRepository.findAll();

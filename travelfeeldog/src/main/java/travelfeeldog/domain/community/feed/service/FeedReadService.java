@@ -28,8 +28,9 @@ public class FeedReadService {
                 .orElseThrow(() -> new NoSuchElementException("Feed details loading is failed."));
     }
 
+    // fix point
     public Boolean isFeedOwner(Long feedId, String requestMemberToken) {
-        String givenFeedOwnerToken = getFeedDetailsById(feedId).getMember().getToken();
+        String givenFeedOwnerToken = getFeedDetailsById(feedId).getMember().getRoleKey();
         return givenFeedOwnerToken.equals(requestMemberToken);
     }
 

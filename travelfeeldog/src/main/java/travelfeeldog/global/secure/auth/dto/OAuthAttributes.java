@@ -55,10 +55,10 @@ public class OAuthAttributes {
     }
 
     public Member toEntity() {
-        return Member.builder()
-                .name(name)
+        return Member.ByAccountBuilder()
+                .nickName(name)
                 .email(email)
-                .picture(picture)
+                .imageUrl(picture)
                 .role(Role.GUEST)
                 .build();
     }

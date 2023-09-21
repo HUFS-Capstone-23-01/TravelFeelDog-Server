@@ -9,3 +9,6 @@ spring:
             scope:
               - email
               - profile
+      jwt:
+        secret: ${JWT_KEY}
+        jws-algorithms: RS512

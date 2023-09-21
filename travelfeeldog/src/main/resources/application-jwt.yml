@@ -1,4 +1,0 @@
-jwt:
-  secret: ${JWT_KEY}
-  expiration-duration: 36000000
-  refresh-expiration-duration: 5184000000

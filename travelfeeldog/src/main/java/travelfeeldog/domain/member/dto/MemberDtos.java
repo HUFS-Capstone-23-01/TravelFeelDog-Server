@@ -81,7 +81,7 @@ public class MemberDtos {
         private int exp;
         private String imageUrl;
         private String token;
-
+        // fix point
         public MemberResponse(Member member) {
             this(
                     member.getId(),
@@ -89,7 +89,7 @@ public class MemberDtos {
                     member.getLevel(),
                     member.getExp(),
                     member.getImageUrl(),
-                    member.getToken()
+                    member.getRoleKey() // fix point
             );
         }
 
@@ -119,7 +119,7 @@ public class MemberDtos {
                 member.getLevel(),
                 member.getExp(),
                 "/base/baseLogo.png",
-                member.getToken()
+                member.getRoleKey()  // fix point
             );
         }
         public MemberPostResponseDto(Long id, String nickName, int level, int exp, String imageUrl, String token) {
