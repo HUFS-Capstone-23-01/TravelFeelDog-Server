@@ -1,4 +1,4 @@
-package travelfeeldog.global.common.config;
+package travelfeeldog.web.config;
 
 
 import java.util.List;

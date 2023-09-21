@@ -4,11 +4,12 @@ spring:
       client:
         registration:
           google:
+            redirect-uri: http://localhost:8080/login/oauth2/code/google
             client-id : ${Google_Client_Id}
             client-secret: ${Google_Client_Secret}
             scope:
               - email
               - profile
-      jwt:
-        secret: ${JWT_KEY}
-        jws-algorithms: RS512
+#      jwt:
+#        secret: ${JWT_KEY}
+#        jws-algorithms: RS512
