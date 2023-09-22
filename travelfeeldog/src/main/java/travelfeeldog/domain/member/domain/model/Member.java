@@ -42,11 +42,11 @@ public class Member extends BaseTimeEntity {
 
     @Column(name = "member_nickname", unique = true)
     private String nickName;
-    final private static Long NICK_NAME_MAX_LENGTH = 10L;
+    final private static Long NICK_NAME_MAX_LENGTH = 30L;
 
     @Column(name = "member_email", unique = true)
     private String email;
-    final private static Long EMAIL_MAX_LENGTH = 20L;
+    final private static Long EMAIL_MAX_LENGTH = 320L;
 
     @Column(name = "member_level")
     private int level;
@@ -162,10 +162,10 @@ public class Member extends BaseTimeEntity {
     }
 
     private void validateNickname(String nickname) {
-        Assert.isTrue(nickname.length() <= NICK_NAME_MAX_LENGTH, "최대 길이를 초과했습니다.");
+        Assert.isTrue(nickname.length() <= NICK_NAME_MAX_LENGTH, "닉네임 최대 길이를 초과했습니다.");
     }
 
     private void validateEmail(String email) {
-        Assert.isTrue(email.length() <= EMAIL_MAX_LENGTH, "최대 길이를 초과했습니다.");
+        Assert.isTrue(email.length() <= EMAIL_MAX_LENGTH, "이메일 최대 길이를 초과했습니다.");
     }
 }

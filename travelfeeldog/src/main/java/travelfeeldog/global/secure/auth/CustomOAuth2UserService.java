@@ -1,8 +1,7 @@
 package travelfeeldog.global.secure.auth;
 
-
 import java.util.Collections;
-import java.util.NoSuchElementException;
+
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -50,8 +49,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         return userRepository.save(user).orElseThrow(() -> new IllegalArgumentException("Save Or Update Error"));
     }
     public Member getByEmail(OAuthAttributes attributes) {
-        return  userRepository.findByEmail(attributes.getEmail())
-//                .map(entity -> entity.updateMemberNickNameAndImage(attributes.getName(), attributes.getPicture()))
-                .orElse(attributes.toEntity());
+        return  userRepository.findByEmailForEndPoint(attributes.getEmail()).orElse(attributes.toEntity());
     }
 }
