@@ -11,18 +11,25 @@ spring:
       cache-null-values: true # null 캐싱 여부
       host: localhost
       port: 6379
-
   datasource:
     url: jdbc:mysql://${Db_URL}:${Db_PORT}/${Db_Name}?rewriteBatchedStatements=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&profileSQL=true&logger=Slf4JLogger&maxQuerySizeToLog=999999
     username: ${Db_User_Name}
     password: ${Db_User_PassWord}
     driver-class-name: com.mysql.cj.jdbc.Driver
-
+    hikari:
+      connectionTimeout: 30000
+      maximumPoolSize: 10
+      maxLifetime: 1800000
+      minimum-idle: 5 # 유휴 커넥션을 유지할 최소한의 커넥션 수 설정
+      idle-timeout: 600000  # 유휴 커넥션의 최대 유지 시간 설정 (ms)
+      poolName: TravelFeelDogHikariCP
+      data-source-properties:
+        dataSource.logWriter: # 로그 작성 구현체 지정
+        dataSource.logUnclosedConnections: true  # 사용하지 않은 커넥션의 로깅 여부 지
   servlet:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
-
   jpa:
     database: mysql
     database-platform: org.hibernate.spatial.dialect.mysql.MySQL8SpatialDialect
@@ -42,6 +49,16 @@ spring:
     init:
       mode: ${SQL_INIT_MODE}
 
+#  metrics:
+#    enabled: true  # HikariCP 메트릭스 활성화
+#    export:
+#      reporter:
+#        - prometheus  # 사용할 메트릭스 리포터 설정
+#      prometheus:
+#        enabled: true  # Prometheus 메트릭스 리포터 활성화 여부
+#        step: 60s  # 측정 간격
+
+
   mvc:
     path match:
       matching-strategy: ant_path_matcher
@@ -56,8 +73,8 @@ spring:
 
 logging:
   level:
-    org:
-      hibernate:
+    com.zaxxer.hikari: DEBUG
+    org.hibernate:
       SQL: debug
       type: trace
       springframework:

@@ -20,13 +20,13 @@ public class MemberRepositoryImpl implements MemberRepository {
 
     @PersistenceContext
     private final EntityManager em;
-
+    // save only , save(save and update)
     @Override
     public Optional<Member> save(Member member) {
         try {
             Assert.notNull(member, "member must not be null");
             Member existingMember = null;
-            if (member.getId() != null) {
+            if (member.getId() != null) { //could be change shorter
                 existingMember = em.find(Member.class, member.getId());
             }
             if (existingMember == null) {
