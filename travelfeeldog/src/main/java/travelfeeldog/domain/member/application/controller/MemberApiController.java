@@ -1,10 +1,5 @@
 package travelfeeldog.domain.member.application.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import java.util.NoSuchElementException;
 
