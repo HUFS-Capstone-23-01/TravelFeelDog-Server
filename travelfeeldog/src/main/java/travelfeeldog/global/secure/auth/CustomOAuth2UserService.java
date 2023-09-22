@@ -49,6 +49,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         return userRepository.save(user).orElseThrow(() -> new IllegalArgumentException("Save Or Update Error"));
     }
     public Member getByEmail(OAuthAttributes attributes) {
-        return  userRepository.findByEmailForEndPoint(attributes.getEmail()).orElse(attributes.toEntity());
+        return  userRepository.findMemberForLogin(attributes.getEmail()).orElse(attributes.toEntity());
     }
 }

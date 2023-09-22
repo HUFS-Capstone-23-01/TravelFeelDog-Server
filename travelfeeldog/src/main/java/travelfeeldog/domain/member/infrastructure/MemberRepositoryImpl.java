@@ -67,16 +67,8 @@ public class MemberRepositoryImpl implements MemberRepository {
     }
 
     @Override
-    public Optional<Member> findByEmailForEndPoint(String email) {
-        try {
-            Member member = em.createQuery("SELECT m FROM Member m WHERE m.email = :email",
-                            Member.class)
-                    .setParameter("email", email)
-                    .getSingleResult();
-            return Optional.of(member);
-        } catch (NoResultException e) {
-            return Optional.empty();
-        }
+    public Optional<Member> findMemberForLogin(String email) {
+        return findByEmail(email);
     }
 
     @Override
