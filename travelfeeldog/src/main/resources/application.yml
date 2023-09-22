@@ -1,6 +1,8 @@
 server:
   port: 8080
-#  servlet:
+  servlet:
+    encoding:
+      force: true
 #    context-path: /api/v1
 
 spring:

@@ -1,12 +1,12 @@
 {{>layout/header}}
 
-<h1>스프링부트로 시작하는 웹 로그인 따라하기</h1>
+<h1>SpringBoot Login</h1>
 <div class="col-md-12">
   <div class="row">
     <div class="col-md-6">
-      <a href="/posts/save" role="button" class="btn btn-primary">글 등록</a>
       {{#userName}}
         Logged in as: <span id="user">{{userName}}</span>
+        Role: <span id="role">{{userRole}}</span>   <!-- 역할 정보 추가 -->
         <a href="/logout" class="btn btn-info active" role="button">Logout</a>
       {{/userName}}
       {{^userName}}
@@ -15,28 +15,10 @@
       {{/userName}}
     </div>
   </div>
+  <!-- ... 나머지 코드는 동일 ... -->
+
   <br>
   <!-- 목록 출력 영역 -->
-  <table class="table table-horizontal table-bordered">
-    <thead class="thead-strong">
-    <tr>
-      <th>게시글번호</th>
-      <th>제목</th>
-      <th>작성자</th>
-      <th>최종수정일</th>
-    </tr>
-    </thead>
-    <tbody id="tbody">
-    {{#posts}}
-      <tr>
-        <td>{{id}}</td>
-        <td><a href="/posts/update/{{id}}">{{title}}</a></td>
-        <td>{{author}}</td>
-        <td>{{modifiedDate}}</td>
-      </tr>
-    {{/posts}}
-    </tbody>
-  </table>
 </div>
 
 {{>layout/footer}}
