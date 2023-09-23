@@ -90,8 +90,8 @@ public class Member extends BaseTimeEntity {
         validateEmail(email);
         this.nickName = nickName;
         this.level = level;
-        this.email = Objects.requireNonNull(email,
-                "Email cannot be null"); // Initialize 'email' field
+        this.email = Objects.requireNonNull(email, "Email cannot be null"); // Initialize 'email' field
+        this.role = Role.GUEST;
         this.exp = exp;
     }
     @Builder(builderClassName = "ByAccountBuilder", builderMethodName = "ByAccountBuilder")
