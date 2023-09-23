@@ -32,16 +32,13 @@ public class FeedBulkInsertTest {
                 LocalDate.of(2024,2,6)
 
         );
-
+        int _10만 = 100000;
         var stopWatch = new StopWatch();
         stopWatch.start();
-
-        int _10만 = 100000;
         List<Feed> posts = IntStream.range(0, _10만*2)
                 .parallel()
                 .mapToObj(i -> easyRandom.nextObject(Feed.class))
                 .toList();
-
         posts.forEach(i->{
             i.getMember().setWriterId(2L);
             i.syncUpdateTimeToCreatedTime();

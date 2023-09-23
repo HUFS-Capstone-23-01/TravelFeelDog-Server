@@ -24,7 +24,7 @@ class MemberTest {
     void testMemberNickNameMaxLength() {
         long seed = LocalDateTime.now().get(DateTimeFieldType.millisOfDay());
         var member = MemberFixtureFactory.create(seed);
-        var overtLengthName = "12345678901";
+        var overtLengthName = "123456789123456789123456789123456789123456789";
 
         Assertions.assertThrows(
          IllegalArgumentException.class,

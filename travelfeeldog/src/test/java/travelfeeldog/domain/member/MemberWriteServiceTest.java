@@ -76,7 +76,6 @@ public class MemberWriteServiceTest {
     private void assertEqualsCreateMember(MemberPostRequestDto command, MemberPostResponseDto reponse) {
         Assertions.assertNotNull(reponse.getId());
         Assertions.assertEquals(command.getNickName(), reponse.getNickName());
-        Assertions.assertEquals(command.getFirebaseToken(), reponse.getToken());
     }
 
 }

@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import travelfeeldog.IntegrationTest;
 import travelfeeldog.domain.member.domain.service.FollowWriteService;
 import travelfeeldog.domain.member.dto.MemberDto;
@@ -49,7 +48,6 @@ public class FollowWriteServiceTest {
         var fromMember = createMemberDto();
         var toMember = fromMember;
         assertThrows(
-                // DuplicateKeyException.class, if CustomClass
                 IllegalArgumentException.class,
                 () -> followWriteService.create(fromMember, toMember)
         );
