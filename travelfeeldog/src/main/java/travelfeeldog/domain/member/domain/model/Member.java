@@ -81,7 +81,7 @@ public class Member extends BaseTimeEntity {
 
     private final static Integer USER_MAX_EXP = 100;
 
-    @Builder
+    @Builder(builderClassName = "ByRegisterBuilder", builderMethodName = "ByRegisterBuilder")
     private Member(String nickName,
             String email,
             int level,
@@ -104,22 +104,20 @@ public class Member extends BaseTimeEntity {
         this.role = role;
         this.nickName = nickName;
         this.imageUrl = imageUrl ;
-        this.email = Objects.requireNonNull(email,
-                "Email cannot be null"); // Initialize 'email' field
+        this.email = Objects.requireNonNull(email, "Email cannot be null"); // Initialize 'email' field
     }
 
     public static Member register(String nickName,
             String email,
             int level,
             int exp) {
-        return Member.builder()
+        return Member.ByRegisterBuilder()
                 .nickName(nickName)
                 .email(email)
                 .level(level)
                 .exp(exp)
                 .build();
     }
-
     public void updateExpAndLevel(int addingExp) {
         int changedExp = this.exp + addingExp;
         if (changedExp / USER_MAX_EXP == 0) {
@@ -150,6 +148,9 @@ public class Member extends BaseTimeEntity {
 
     public void deleteMember() {
         this.delete = true;
+    }
+    public  void setAdminRole() {
+        this.role = Role.ADMIN;
     }
     public void setWriterId(Long id){
         this.id= id;
