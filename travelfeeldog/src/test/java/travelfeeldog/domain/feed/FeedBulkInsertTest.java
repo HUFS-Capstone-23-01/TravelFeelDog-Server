@@ -6,8 +6,8 @@ import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StopWatch;
-import travelfeeldog.aggregate.community.feed.repository.FeedRepository;
-import travelfeeldog.aggregate.community.feed.domain.model.Feed;
+import travelfeeldog.community.feed.repository.FeedRepository;
+import travelfeeldog.community.feed.domain.model.Feed;
 import travelfeeldog.factory.FeedFixtureFactory;
 
 import org.slf4j.Logger;

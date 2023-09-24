@@ -6,8 +6,8 @@ import org.jeasy.random.EasyRandom;
 import org.jeasy.random.EasyRandomParameters;
 import org.jeasy.random.randomizers.range.LongRangeRandomizer;
 import org.jeasy.random.randomizers.text.StringRandomizer;
-import travelfeeldog.aggregate.member.domain.model.Member;
-import travelfeeldog.aggregate.member.dto.MemberDto;
+import travelfeeldog.member.domain.model.Member;
+import travelfeeldog.member.dto.MemberDto;
 
 public class MemberFixtureFactory {
 

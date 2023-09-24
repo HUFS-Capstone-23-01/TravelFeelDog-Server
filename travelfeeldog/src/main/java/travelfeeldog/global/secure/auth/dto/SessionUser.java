@@ -2,7 +2,7 @@ package travelfeeldog.global.secure.auth.dto;
 
 import java.io.Serializable;
 import lombok.Getter;
-import travelfeeldog.aggregate.member.domain.model.Member;
+import travelfeeldog.member.domain.model.Member;
 
 @Getter
 public class SessionUser implements Serializable {
