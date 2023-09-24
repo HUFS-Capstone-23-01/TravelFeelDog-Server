@@ -6,15 +6,14 @@ import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StopWatch;
-import travelfeeldog.domain.community.feed.dao.FeedRepository;
-import travelfeeldog.domain.community.feed.model.Feed;
+import travelfeeldog.aggregate.community.feed.repository.FeedRepository;
+import travelfeeldog.aggregate.community.feed.domain.model.Feed;
 import travelfeeldog.factory.FeedFixtureFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import travelfeeldog.IntegrationTest;
-import org.springframework.boot.test.context.SpringBootTest;
 
 // used only for insert data
 //@SpringBootTest

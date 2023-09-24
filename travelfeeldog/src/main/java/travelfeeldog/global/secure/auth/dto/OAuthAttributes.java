@@ -4,8 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.util.Map;
-import travelfeeldog.domain.member.domain.model.Member;
-import travelfeeldog.domain.member.domain.model.Role;
+import travelfeeldog.aggregate.member.domain.model.Member;
+import travelfeeldog.aggregate.member.domain.model.Role;
 
 @Getter
 public class OAuthAttributes {

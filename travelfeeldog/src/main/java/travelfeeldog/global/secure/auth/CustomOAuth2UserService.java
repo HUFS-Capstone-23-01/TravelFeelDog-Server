@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.transaction.annotation.Transactional;
-import travelfeeldog.domain.member.domain.model.Member;
-import travelfeeldog.domain.member.infrastructure.MemberRepository;
+import travelfeeldog.aggregate.member.domain.model.Member;
+import travelfeeldog.aggregate.member.repository.MemberRepository;
 import travelfeeldog.global.secure.auth.dto.OAuthAttributes;
 import travelfeeldog.global.secure.auth.dto.SessionUser;
 

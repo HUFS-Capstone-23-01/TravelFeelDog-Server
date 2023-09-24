@@ -1,7 +1,5 @@
 package travelfeeldog.application.usacase;
 
-import static java.time.temporal.ChronoField.MILLI_OF_SECOND;
-
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
@@ -9,11 +7,11 @@ import org.junit.jupiter.api.Test;
 import org.opentest4j.TestAbortedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import travelfeeldog.IntegrationTest;
-import travelfeeldog.domain.member.application.usacase.GetFollowingMembersUsecase;
-import travelfeeldog.domain.member.domain.model.Follow;
-import travelfeeldog.domain.member.domain.model.Member;
-import travelfeeldog.domain.member.infrastructure.FollowRepository;
-import travelfeeldog.domain.member.infrastructure.MemberRepository;
+import travelfeeldog.aggregate.member.domain.application.usecase.GetFollowingMembersUsecase;
+import travelfeeldog.aggregate.member.domain.model.Follow;
+import travelfeeldog.aggregate.member.domain.model.Member;
+import travelfeeldog.aggregate.member.repository.FollowRepository;
+import travelfeeldog.aggregate.member.repository.MemberRepository;
 import travelfeeldog.factory.MemberFixtureFactory;
 
 @IntegrationTest

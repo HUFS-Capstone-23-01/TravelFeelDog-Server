@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import travelfeeldog.domain.member.domain.model.Role;
+import travelfeeldog.aggregate.member.domain.model.Role;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 

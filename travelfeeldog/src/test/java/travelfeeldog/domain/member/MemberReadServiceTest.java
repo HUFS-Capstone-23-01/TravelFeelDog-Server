@@ -8,8 +8,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import travelfeeldog.IntegrationTest;
-import travelfeeldog.domain.member.domain.service.MemberRead;
-import travelfeeldog.domain.member.infrastructure.MemberRepository;
+import travelfeeldog.aggregate.member.domain.application.service.MemberRead;
+import travelfeeldog.aggregate.member.repository.MemberRepository;
 import travelfeeldog.factory.MemberFixtureFactory;
 
 @IntegrationTest
