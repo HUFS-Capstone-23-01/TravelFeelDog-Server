@@ -95,15 +95,11 @@ public class Member extends BaseTimeEntity {
         this.exp = exp;
     }
     @Builder(builderClassName = "ByAccountBuilder", builderMethodName = "ByAccountBuilder")
-    public Member(String nickName,
-            String email,
-            String imageUrl,
-            Role role) {
+    public Member(String nickName, String email) {
         validateNickname(nickName);
         validateEmail(email);
-        this.role = role;
+        this.role = Role.GUEST;
         this.nickName = nickName;
-        this.imageUrl = imageUrl ;
         this.email = Objects.requireNonNull(email, "Email cannot be null"); // Initialize 'email' field
     }
 

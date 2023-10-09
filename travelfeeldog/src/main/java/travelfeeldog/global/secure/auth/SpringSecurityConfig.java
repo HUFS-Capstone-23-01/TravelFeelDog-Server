@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import travelfeeldog.member.domain.model.Role;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -20,9 +19,8 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SpringSecurityConfig {
-//    private final JWTProvider jwtProvider;
-    private final CustomOAuth2UserService customOAuth2UserService;
 
+    private final CustomOAuth2UserService customOAuth2UserService;
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -38,10 +36,11 @@ public class SpringSecurityConfig {
                 )
                 .authorizeHttpRequests(request -> request
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .requestMatchers("/", "/test/**" ,"/actuator/health" // for test and init page
+                        .requestMatchers("/", "/test/**" ,"/actuator/health"
+                                ,"api/v1/redis/**"
                                 ,"/swagger-ui/**","/usage" // for swagger
                                 ).permitAll()
-                        .requestMatchers("/api/v1/**").hasRole(Role.USER.name())
+//                        .requestMatchers("/api/v1/**").hasRole(Role.USER.name())
                         .anyRequest().authenticated()
                 )
                 .logout(withDefaults())

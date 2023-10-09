@@ -58,8 +58,6 @@ public class OAuthAttributes {
         return Member.ByAccountBuilder()
                 .nickName(name)
                 .email(email)
-                .imageUrl(picture)
-                .role(Role.GUEST)
                 .build();
     }
 }
