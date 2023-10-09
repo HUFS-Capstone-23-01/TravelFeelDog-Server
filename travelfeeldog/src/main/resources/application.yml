@@ -3,7 +3,6 @@ server:
   servlet:
     encoding:
       force: true
-#    context-path: /api/v1
 
 spring:
   cache:
@@ -28,10 +27,6 @@ spring:
       data-source-properties:
         dataSource.logWriter: # 로그 작성 구현체 지정
         dataSource.logUnclosedConnections: true  # 사용하지 않은 커넥션의 로깅 여부 지
-  servlet:
-    multipart:
-      max-file-size: 10MB
-      max-request-size: 10MB
   jpa:
     database: mysql
     database-platform: org.hibernate.spatial.dialect.mysql.MySQL8SpatialDialect
