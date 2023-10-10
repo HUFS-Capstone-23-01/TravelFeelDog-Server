@@ -11,9 +11,10 @@ public class JwtSecretKey {
 
     @Value("${security.jwt.secretKey}")
     private  String jwtSecretKey;
-    @Value("${security.jwt.validityTime}")
-    private  Long jwtValidityTime;
-
+    @Value("${security.jwt.validityAccessTime}")
+    private  Long jwtValidityAccessTime;
+    @Value("${security.jwt.validityRefreshTime}")
+    private  Long jwtValidityRefreshTime;
     private final Key key;
     public JwtSecretKey(){
         byte[] keyBytes = Decoders.BASE64.decode(jwtSecretKey);

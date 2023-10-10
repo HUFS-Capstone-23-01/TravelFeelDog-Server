@@ -29,7 +29,7 @@ public class JwtProvider {
     public String createAccessToken(String payload) {
         Claims claims = Jwts.claims().setSubject(payload);
         Date now = new Date();
-        Date validityTime = new Date(now.getTime() + jwtSecretKey.getJwtValidityTime());
+        Date validityTime = new Date(now.getTime() + jwtSecretKey.getJwtValidityAccessTime());
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
@@ -41,7 +41,7 @@ public class JwtProvider {
     public Map<String, String> createRefreshToken(String payload) {
         Claims claims = Jwts.claims().setSubject(payload);
         Date now = new Date();
-        Date validityTime = new Date(now.getTime() + jwtSecretKey.getJwtValidityTime());
+        Date validityTime = new Date(now.getTime() + jwtSecretKey.getJwtValidityRefreshTime());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
         String refreshTokenExpirationAt = simpleDateFormat.format(validityTime);
 

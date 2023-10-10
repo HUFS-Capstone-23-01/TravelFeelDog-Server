@@ -2,5 +2,6 @@
 security:
   jwt:
     secretKey: ${JWT_KEY}
-    validityTime: 36000000
+    validityAccessTime: 36000000
+    validityRefreshTime: 7200000000
 
