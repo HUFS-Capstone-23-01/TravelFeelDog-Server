@@ -26,16 +26,19 @@ import travelfeeldog.global.auth.CustomUserDetailService;
 public class JwtProvider {
     JwtSecretKey jwtSecretKey;
     private  CustomUserDetailService customUserDetailService;
-    public String createAccessToken(String payload) {
+    public Map<String, String> createAccessToken(String payload) {
         Claims claims = Jwts.claims().setSubject(payload);
         Date now = new Date();
         Date validityTime = new Date(now.getTime() + jwtSecretKey.getJwtValidityAccessTime());
-        return Jwts.builder()
+        String jwt =  Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(validityTime)
                 .signWith(jwtSecretKey.getKey(),SignatureAlgorithm.HS256)
                 .compact();
+        Map<String, String> result = new HashMap<>();
+        result.put("AccessToken", jwt);
+        return result;
     }
 
     public Map<String, String> createRefreshToken(String payload) {
