@@ -25,9 +25,9 @@ import travelfeeldog.global.secure.auth.CustomUserDetailService;
 @RequiredArgsConstructor
 @Service
 public class JwtProvider {
-    @Value("${jwt.secretKey}")
+    @Value("${security.jwt.secretKey}")
     private  String jwtSecretKey;
-    @Value("${jwt.validityTime}")
+    @Value("${security.jwt.validityTime}")
     private  Long jwtValidityTime;
     private  CustomUserDetailService customUserDetailService;
     public String createAccessToken(String payload) {
