@@ -11,6 +11,7 @@ import travelfeeldog.global.secure.auth.LoginUserArgumentResolver;
 @RequiredArgsConstructor
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+
     private final LoginUserArgumentResolver loginUserArgumentResolver;
 
     @Override

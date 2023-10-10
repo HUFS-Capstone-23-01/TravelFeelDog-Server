@@ -5,6 +5,19 @@ server:
       force: true
 
 spring:
+
+  mvc:
+    path match:
+      matching-strategy: ant_path_matcher
+  config.import: classpath:application-credentials.yml
+  profiles:
+    active: credentials
+    include:
+      - aws
+      - credentials
+      - jwt
+      - oauth
+
   cache:
     type: redis
     redis:
@@ -54,19 +67,6 @@ spring:
 #      prometheus:
 #        enabled: true  # Prometheus 메트릭스 리포터 활성화 여부
 #        step: 60s  # 측정 간격
-
-
-  mvc:
-    path match:
-      matching-strategy: ant_path_matcher
-  config.import: classpath:application-credentials.yml
-  profiles:
-    active: credentials
-    include:
-      - aws
-      - credentials
-      - jwt
-      - oauth
 
 logging:
   level:

@@ -1,0 +1,6 @@
+#application-jwt.yml
+security:
+  jwt:
+    secretKey: ${JWT_KEY}
+    validityTime: 36000000
+

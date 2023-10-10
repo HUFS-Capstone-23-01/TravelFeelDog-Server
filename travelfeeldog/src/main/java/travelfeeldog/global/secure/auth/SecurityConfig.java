@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import travelfeeldog.member.domain.model.Role;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -18,7 +19,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableMethodSecurity
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SpringSecurityConfig {
+public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
     @Bean
@@ -40,8 +41,9 @@ public class SpringSecurityConfig {
                                 ,"api/v1/redis/**"
                                 ,"/swagger-ui/**","/usage" // for swagger
                                 ).permitAll()
-//                        .requestMatchers("/api/v1/**").hasRole(Role.USER.name())
-                        .anyRequest().authenticated()
+                        .requestMatchers("/api/v1/**").hasRole(Role.USER.name())
+                        .anyRequest()
+                        .authenticated()
                 )
                 .logout(withDefaults())
                 .oauth2Login(request -> request

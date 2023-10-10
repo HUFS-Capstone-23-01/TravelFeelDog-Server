@@ -1,0 +1,18 @@
+package travelfeeldog.global.secure.jwt;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@RequiredArgsConstructor
+@Service
+public class JwtService {
+    private final JwtProvider jwtProvider;
+
+    public String findEmailByToken(String token) {
+        return jwtProvider.extractEmail(token);
+    }
+
+    public boolean validateJwtToken(String authentication) {
+        return jwtProvider.validateJwtToken(authentication);
+    }
+}

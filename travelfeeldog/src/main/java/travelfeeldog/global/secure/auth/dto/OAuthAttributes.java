@@ -5,7 +5,6 @@ import lombok.Getter;
 
 import java.util.Map;
 import travelfeeldog.member.domain.model.Member;
-import travelfeeldog.member.domain.model.Role;
 
 @Getter
 public class OAuthAttributes {

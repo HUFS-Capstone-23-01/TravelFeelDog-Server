@@ -1,5 +1,7 @@
 package travelfeeldog.global.secure.auth;
 
+import jakarta.servlet.http.HttpServletRequest;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -7,25 +9,26 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
+import travelfeeldog.global.secure.jwt.JwtService;
 
-import jakarta.servlet.http.HttpSession;
-import travelfeeldog.global.secure.auth.dto.SessionUser;
 
 @RequiredArgsConstructor
 @Component
 public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver {
 
-    private final HttpSession httpSession;
-
+    private final JwtService jwtService;
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        boolean isLoginUserAnnotation = parameter.getParameterAnnotation(LoginUser.class) != null;
-        boolean isUserClass = SessionUser.class.equals(parameter.getParameterType());
-        return isLoginUserAnnotation && isUserClass;
+        return parameter.hasParameterAnnotation(LoginUser.class);
+
     }
 
     @Override
-    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        return httpSession.getAttribute("user");
+    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
+            NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
+
+        HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
+        String token = AuthorizationExtractor.extract(Objects.requireNonNull(request));
+        return jwtService.findEmailByToken(token);
     }
 }
