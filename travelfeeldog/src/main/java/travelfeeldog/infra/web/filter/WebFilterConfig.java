@@ -1,4 +1,4 @@
-package travelfeeldog.web.filter;
+package travelfeeldog.infra.web.filter;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

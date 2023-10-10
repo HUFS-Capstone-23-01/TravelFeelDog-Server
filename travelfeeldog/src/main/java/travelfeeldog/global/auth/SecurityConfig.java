@@ -1,4 +1,4 @@
-package travelfeeldog.global.secure.auth;
+package travelfeeldog.global.auth;
 
 import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import travelfeeldog.infra.oauth2.service.CustomOAuth2UserService;
 import travelfeeldog.member.domain.model.Role;
 
 import static org.springframework.security.config.Customizer.withDefaults;

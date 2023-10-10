@@ -12,7 +12,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import travelfeeldog.global.common.domain.model.BaseTimeEntity;
+import travelfeeldog.global.common.domain.basetime.BaseTimeEntity;
 
 
 @Getter

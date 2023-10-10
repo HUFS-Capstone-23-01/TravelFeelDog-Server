@@ -1,4 +1,4 @@
-package travelfeeldog.global.secure.jwt;
+package travelfeeldog.global.auth.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
@@ -15,37 +15,33 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import travelfeeldog.global.secure.auth.CustomUserDetailService;
+import travelfeeldog.global.auth.CustomUserDetailService;
 
 @RequiredArgsConstructor
 @Service
 public class JwtProvider {
-    @Value("${security.jwt.secretKey}")
-    private  String jwtSecretKey;
-    @Value("${security.jwt.validityTime}")
-    private  Long jwtValidityTime;
+    JwtSecretKey jwtSecretKey;
     private  CustomUserDetailService customUserDetailService;
     public String createAccessToken(String payload) {
         Claims claims = Jwts.claims().setSubject(payload);
         Date now = new Date();
-        Date validityTime = new Date(now.getTime() + jwtValidityTime);
+        Date validityTime = new Date(now.getTime() + jwtSecretKey.getJwtValidityTime());
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(validityTime)
-                .signWith(SignatureAlgorithm.HS256,jwtSecretKey)
+                .signWith(jwtSecretKey.getKey(),SignatureAlgorithm.HS256)
                 .compact();
     }
 
     public Map<String, String> createRefreshToken(String payload) {
         Claims claims = Jwts.claims().setSubject(payload);
         Date now = new Date();
-        Date validityTime = new Date(now.getTime() + jwtValidityTime);
+        Date validityTime = new Date(now.getTime() + jwtSecretKey.getJwtValidityTime());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
         String refreshTokenExpirationAt = simpleDateFormat.format(validityTime);
 
@@ -53,7 +49,7 @@ public class JwtProvider {
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(validityTime)
-                .signWith(SignatureAlgorithm.HS256, jwtSecretKey)
+                .signWith(jwtSecretKey.getKey(),SignatureAlgorithm.HS256)
                 .compact();
 
         Map<String, String> result = new HashMap<>();
@@ -68,8 +64,12 @@ public class JwtProvider {
     }
 
     public String extractEmail(String token) {
-        return (String) Jwts.parser().setSigningKey(jwtSecretKey)
-                .parseClaimsJws(token).getBody().get("sub");
+        return (String) Jwts.parserBuilder().
+                setSigningKey(jwtSecretKey.getKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .get("sub");
     }
 
     public String resolveToken(HttpServletRequest request) {
@@ -82,7 +82,9 @@ public class JwtProvider {
 
     public boolean validateJwtToken(String token) {
         try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey(jwtSecretKey)
+            Jws<Claims> claims = Jwts.parserBuilder().
+                    setSigningKey(jwtSecretKey.getKey())
+                    .build()
                     .parseClaimsJws(token);
             return !claims.getBody().getExpiration().before(new Date());
         } catch (JwtException | IllegalArgumentException e) {
@@ -97,8 +99,7 @@ public class JwtProvider {
         String payload = new String(decoder.decode(parts[1]));
 
         try {
-            Map exp = mapper.readValue(payload, Map.class);
-            return ((Number) exp.get("exp")).longValue();
+            return ((Number) mapper.readValue(payload, Map.class).get("exp")).longValue();
         } catch (IOException err) {
             throw new RuntimeException(err);
         }

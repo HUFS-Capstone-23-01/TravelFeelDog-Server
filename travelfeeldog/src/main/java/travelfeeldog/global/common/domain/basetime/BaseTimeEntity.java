@@ -1,4 +1,4 @@
-package travelfeeldog.global.common.domain.model;
+package travelfeeldog.global.common.domain.basetime;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

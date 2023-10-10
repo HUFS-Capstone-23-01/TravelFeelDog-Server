@@ -1,4 +1,4 @@
-package travelfeeldog.global.secure.jwt;
+package travelfeeldog.global.auth.jwt;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

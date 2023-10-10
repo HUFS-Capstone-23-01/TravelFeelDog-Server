@@ -1,4 +1,4 @@
-package travelfeeldog.global.secure.auth;
+package travelfeeldog.infra.oauth2.service;
 
 import java.util.Collections;
 
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import travelfeeldog.member.domain.model.Member;
 import travelfeeldog.member.repository.MemberRepository;
-import travelfeeldog.global.secure.auth.dto.OAuthAttributes;
+import travelfeeldog.infra.oauth2.dto.OAuthAttributes;
 
 @RequiredArgsConstructor
 @Service

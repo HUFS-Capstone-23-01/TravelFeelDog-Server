@@ -15,7 +15,7 @@ import travelfeeldog.community.feedlike.domain.model.FeedLike;
 import travelfeeldog.member.domain.model.Member;
 import travelfeeldog.community.comment.domain.model.Comment;
 import travelfeeldog.community.scrap.domain.model.Scrap;
-import travelfeeldog.global.common.domain.model.BaseTimeEntity;
+import travelfeeldog.global.common.domain.basetime.BaseTimeEntity;
 
 import jakarta.persistence.*;
 import java.util.ArrayList;

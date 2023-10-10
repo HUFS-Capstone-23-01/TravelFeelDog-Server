@@ -15,7 +15,7 @@ import lombok.Setter;
 
 import travelfeeldog.community.feed.domain.model.Feed;
 import travelfeeldog.member.domain.model.Member;
-import travelfeeldog.global.common.domain.model.BaseTimeEntity;
+import travelfeeldog.global.common.domain.basetime.BaseTimeEntity;
 
 @Setter
 @Getter

@@ -16,7 +16,7 @@ import jakarta.persistence.ManyToOne;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.util.Assert;
-import travelfeeldog.global.common.domain.model.BaseTimeEntity;
+import travelfeeldog.global.common.domain.basetime.BaseTimeEntity;
 
 
 

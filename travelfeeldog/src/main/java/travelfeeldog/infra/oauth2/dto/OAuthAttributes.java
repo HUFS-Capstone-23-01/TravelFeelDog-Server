@@ -1,4 +1,4 @@
-package travelfeeldog.global.secure.auth.dto;
+package travelfeeldog.infra.oauth2.dto;
 
 import lombok.Builder;
 import lombok.Getter;

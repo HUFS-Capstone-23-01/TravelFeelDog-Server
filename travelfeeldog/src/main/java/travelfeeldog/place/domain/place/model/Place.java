@@ -32,7 +32,7 @@ import travelfeeldog.review.domain.review.model.Review;
 import travelfeeldog.place.domain.location.model.Location;
 import travelfeeldog.place.dto.PlaceDtos.PlacePostRequestDto;
 
-import travelfeeldog.global.common.domain.model.BaseTimeEntity;
+import travelfeeldog.global.common.domain.basetime.BaseTimeEntity;
 
 
 @DynamicInsert

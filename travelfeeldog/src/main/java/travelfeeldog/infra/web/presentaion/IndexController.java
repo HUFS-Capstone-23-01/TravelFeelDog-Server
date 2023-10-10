@@ -1,10 +1,10 @@
-package travelfeeldog.web.presentaion;
+package travelfeeldog.infra.web.presentaion;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import travelfeeldog.global.secure.auth.LoginUser;
+import travelfeeldog.global.auth.LoginUser;
 import travelfeeldog.member.domain.model.Member;
 
 

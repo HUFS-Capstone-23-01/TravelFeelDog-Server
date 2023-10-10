@@ -22,7 +22,7 @@ import travelfeeldog.member.domain.model.Member;
 import travelfeeldog.review.dto.ReviewDtos.ReviewPostRequestDto;
 import travelfeeldog.review.domain.reviewkeyword.model.ReviewGoodKeyWord;
 import travelfeeldog.place.domain.place.model.Place;
-import travelfeeldog.global.common.domain.model.BaseTimeEntity;
+import travelfeeldog.global.common.domain.basetime.BaseTimeEntity;
 
 @Getter
 @Entity

@@ -1,4 +1,4 @@
-package travelfeeldog.web.filter;
+package travelfeeldog.infra.web.filter;
 
 
 import jakarta.servlet.Filter;

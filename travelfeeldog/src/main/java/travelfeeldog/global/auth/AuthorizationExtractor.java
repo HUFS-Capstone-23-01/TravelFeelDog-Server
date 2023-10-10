@@ -1,4 +1,4 @@
-package travelfeeldog.global.secure.auth;
+package travelfeeldog.global.auth;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
