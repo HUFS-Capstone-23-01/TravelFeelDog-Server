@@ -1,9 +1,13 @@
 package travelfeeldog.member.domain.application.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import travelfeeldog.global.auth.jwt.JwtProvider;
+import travelfeeldog.global.auth.jwt.TokenResponse;
 import travelfeeldog.member.dto.MemberDto;
 import travelfeeldog.member.dto.MemberNickNameHistoryDto;
 import travelfeeldog.member.domain.model.Member;
@@ -20,6 +24,8 @@ public class MemberReadWriteService implements MemberService {
 
     @Qualifier("memberWrite")
     private final MemberWriteService memberWriteService;
+
+    private final JwtProvider jwtProvider;
 
     @Override
     public Member findByToken(String firebaseToken) {
@@ -63,6 +69,19 @@ public class MemberReadWriteService implements MemberService {
     /*
      Member Write Service
      */
+    public Map<MemberPostResponseDto, TokenResponse> register(MemberPostRequestDto requestDto) {
+        MemberPostResponseDto result = create(requestDto);
+        TokenResponse tokenResponse = createTokenReturn(result);
+        Map<MemberPostResponseDto, TokenResponse> resultMap = new HashMap<>();
+        resultMap.put(result, tokenResponse);
+        return resultMap;
+    }
+
+    private TokenResponse createTokenReturn(MemberPostResponseDto result) {
+        String accessToken = jwtProvider.createAccessToken(result.getEmail()).get("accessToken");
+        String refreshToken = jwtProvider.createRefreshToken(result.getEmail()).get("refreshToken");
+        return new TokenResponse(accessToken,refreshToken);
+    }
     @Override
     public MemberPostResponseDto create(MemberPostRequestDto requestDto) {
         return memberWriteService.create(requestDto);

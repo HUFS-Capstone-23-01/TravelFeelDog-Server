@@ -2,6 +2,7 @@ package travelfeeldog.member.dto;
 
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import travelfeeldog.member.domain.model.Member;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import travelfeeldog.member.domain.model.Role;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -102,33 +104,36 @@ public class MemberDtos {
             this.token = token;
         }
     }
-    @Data
+    @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class MemberPostResponseDto {
         private Long id;
         private String nickName;
+        private String email;
         private int level;
         private int exp;
         private String imageUrl;
-        private String token;
+        private String role;
 
         public MemberPostResponseDto(Member member) {
             this(
                 member.getId(),
                 member.getNickName(),
+                member.getImageUrl(),
+                member.getEmail(),
                 member.getLevel(),
                 member.getExp(),
-                "/base/baseLogo.png",
                 member.getRoleKey()  // fix point
             );
         }
-        public MemberPostResponseDto(Long id, String nickName, int level, int exp, String imageUrl, String token) {
+        public MemberPostResponseDto(Long id, String nickName,String imageUrl,String email, int level, int exp,String  roleKey) {
             this.id = id;
+            this.email = email;
             this.nickName = nickName;
             this.level = level;
             this.exp = exp;
             this.imageUrl = imageUrl;
-            this.token = token;
+            this.role = roleKey;
         }
     }
 }
