@@ -28,38 +28,33 @@ public class JwtProvider {
     private final JwtSecretKey jwtSecretKey;
     private CustomUserDetailService customUserDetailService;
 
-    public Map<String, String> createAccessToken(String payload) {
+    public Map<String, String> createToken(String payload, long validityDuration, String tokenKey) {
         Claims claims = Jwts.claims().setSubject(payload);
         Date now = new Date();
-        Date validityTime = new Date(now.getTime() + jwtSecretKey.getJwtValidityAccessTime());
+        Date validityTime = new Date(now.getTime() + validityDuration);
         String jwt = Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(validityTime)
                 .signWith(jwtSecretKey.getKey(), SignatureAlgorithm.HS256)
                 .compact();
+
         Map<String, String> result = new HashMap<>();
-        result.put("accessToken", jwt);
+        result.put(tokenKey, jwt);
         return result;
     }
 
+    public Map<String, String> createAccessToken(String payload) {
+        return createToken(payload, jwtSecretKey.getJwtValidityAccessTime(), "accessToken");
+    }
+
     public Map<String, String> createRefreshToken(String payload) {
-        Claims claims = Jwts.claims().setSubject(payload);
-        Date now = new Date();
-        Date validityTime = new Date(now.getTime() + jwtSecretKey.getJwtValidityRefreshTime());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
-                Locale.ENGLISH);
+        Map<String, String> result = createToken(payload, jwtSecretKey.getJwtValidityRefreshTime(), "refreshToken");
+
+        Date validityTime = new Date(new Date().getTime() + jwtSecretKey.getJwtValidityRefreshTime());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
         String refreshTokenExpirationAt = simpleDateFormat.format(validityTime);
 
-        String jwt = Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(now)
-                .setExpiration(validityTime)
-                .signWith(jwtSecretKey.getKey(), SignatureAlgorithm.HS256)
-                .compact();
-
-        Map<String, String> result = new HashMap<>();
-        result.put("refreshToken", jwt);
         result.put("refreshTokenExpirationAt", refreshTokenExpirationAt);
         return result;
     }
