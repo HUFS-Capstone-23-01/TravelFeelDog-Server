@@ -26,7 +26,7 @@ import travelfeeldog.global.file.domain.application.ImageFileService;
 
 
 @RestController
-@RequestMapping(value = "/member")
+@RequestMapping(value = "api/v1/member")
 @RequiredArgsConstructor
 public class MemberApiController {
 

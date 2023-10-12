@@ -40,6 +40,7 @@ public class SecurityConfig {
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
                         .requestMatchers("/", "/test/**" ,"/actuator/health"
                                 ,"api/v1/redis/**"
+                                ,"api/v1/member/**"
                                 ,"/swagger-ui/**","/usage" // for swagger
                                 ).permitAll()
                         .requestMatchers("/api/v1/**").hasRole(Role.USER.name())

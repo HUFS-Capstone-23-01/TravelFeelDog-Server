@@ -26,9 +26,6 @@ public class MemberDtos {
         private String nickName;
         @NonNull
         private String email;
-        @NonNull
-        @NotBlank(message = "Token value is Empty or just Blank")
-        private String firebaseToken;
     }
 
     @Data

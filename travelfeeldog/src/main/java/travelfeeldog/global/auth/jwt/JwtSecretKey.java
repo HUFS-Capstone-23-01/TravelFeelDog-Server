@@ -4,19 +4,17 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Value;
-
 @Getter
 public class JwtSecretKey {
 
-    @Value("${security.jwt.secretKey}")
     private  String jwtSecretKey;
-    @Value("${security.jwt.validityAccessTime}")
     private  Long jwtValidityAccessTime;
-    @Value("${security.jwt.validityRefreshTime}")
     private  Long jwtValidityRefreshTime;
     private final Key key;
-    public JwtSecretKey(){
+    public JwtSecretKey(String jwtSecretKey, Long jwtValidityAccessTime, Long jwtValidityRefreshTime) {
+        this.jwtSecretKey = jwtSecretKey;
+        this.jwtValidityAccessTime = jwtValidityAccessTime;
+        this.jwtValidityRefreshTime = jwtValidityRefreshTime;
         byte[] keyBytes = Decoders.BASE64.decode(jwtSecretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }

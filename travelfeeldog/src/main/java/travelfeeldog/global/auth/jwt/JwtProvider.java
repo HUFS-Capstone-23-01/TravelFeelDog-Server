@@ -24,20 +24,22 @@ import travelfeeldog.global.auth.CustomUserDetailService;
 @RequiredArgsConstructor
 @Service
 public class JwtProvider {
-    JwtSecretKey jwtSecretKey;
-    private  CustomUserDetailService customUserDetailService;
+
+    private final JwtSecretKey jwtSecretKey;
+    private CustomUserDetailService customUserDetailService;
+
     public Map<String, String> createAccessToken(String payload) {
         Claims claims = Jwts.claims().setSubject(payload);
         Date now = new Date();
         Date validityTime = new Date(now.getTime() + jwtSecretKey.getJwtValidityAccessTime());
-        String jwt =  Jwts.builder()
+        String jwt = Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(validityTime)
-                .signWith(jwtSecretKey.getKey(),SignatureAlgorithm.HS256)
+                .signWith(jwtSecretKey.getKey(), SignatureAlgorithm.HS256)
                 .compact();
         Map<String, String> result = new HashMap<>();
-        result.put("AccessToken", jwt);
+        result.put("accessToken", jwt);
         return result;
     }
 
@@ -45,14 +47,15 @@ public class JwtProvider {
         Claims claims = Jwts.claims().setSubject(payload);
         Date now = new Date();
         Date validityTime = new Date(now.getTime() + jwtSecretKey.getJwtValidityRefreshTime());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
+                Locale.ENGLISH);
         String refreshTokenExpirationAt = simpleDateFormat.format(validityTime);
 
         String jwt = Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(validityTime)
-                .signWith(jwtSecretKey.getKey(),SignatureAlgorithm.HS256)
+                .signWith(jwtSecretKey.getKey(), SignatureAlgorithm.HS256)
                 .compact();
 
         Map<String, String> result = new HashMap<>();
@@ -62,8 +65,10 @@ public class JwtProvider {
     }
 
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = customUserDetailService.loadUserByUsername(this.extractEmail(token));
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        UserDetails userDetails = customUserDetailService.loadUserByUsername(
+                this.extractEmail(token));
+        return new UsernamePasswordAuthenticationToken(userDetails, "",
+                userDetails.getAuthorities());
     }
 
     public String extractEmail(String token) {
