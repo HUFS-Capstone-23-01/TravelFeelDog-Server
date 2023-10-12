@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import travelfeeldog.global.auth.jwt.TokenResponse;
 import travelfeeldog.member.domain.model.Member;
 
 import jakarta.validation.constraints.NotBlank;
@@ -101,6 +102,17 @@ public class MemberDtos {
             this.token = token;
         }
     }
+    @Getter
+    public static class MemberRegisterResponse{
+        private final MemberPostResponseDto memberPostResponseDto;
+        private final TokenResponse tokenResponse;
+        public MemberRegisterResponse(MemberPostResponseDto memberPostResponseDto,
+                TokenResponse tokenResponse){
+            this.memberPostResponseDto = memberPostResponseDto;
+            this.tokenResponse = tokenResponse;
+        }
+    }
+
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class MemberPostResponseDto {

@@ -1,19 +1,16 @@
 package travelfeeldog.member.domain.application.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import travelfeeldog.global.auth.jwt.JwtProvider;
 import travelfeeldog.global.auth.jwt.TokenResponse;
 import travelfeeldog.member.dto.MemberDto;
+import travelfeeldog.member.dto.MemberDtos.*;
 import travelfeeldog.member.dto.MemberNickNameHistoryDto;
 import travelfeeldog.member.domain.model.Member;
-import travelfeeldog.member.dto.MemberDtos.MemberPostRequestDto;
-import travelfeeldog.member.dto.MemberDtos.MemberPostResponseDto;
-import travelfeeldog.member.dto.MemberDtos.MemberResponse;
 
 @Service
 @RequiredArgsConstructor
@@ -69,12 +66,10 @@ public class MemberReadWriteService implements MemberService {
     /*
      Member Write Service
      */
-    public Map<MemberPostResponseDto, TokenResponse> register(MemberPostRequestDto requestDto) {
+    public MemberRegisterResponse register(MemberPostRequestDto requestDto) {
         TokenResponse tokenResponse = createTokenReturn(requestDto);
         MemberPostResponseDto result = create(requestDto,tokenResponse);
-        Map<MemberPostResponseDto, TokenResponse> resultMap = new HashMap<>();
-        resultMap.put(result, tokenResponse);
-        return resultMap;
+        return new MemberRegisterResponse(result,tokenResponse);
     }
 
     private TokenResponse  createTokenReturn(MemberPostRequestDto request) {

@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import travelfeeldog.global.auth.jwt.TokenResponse;
 import travelfeeldog.member.domain.application.service.MemberReadWriteService;
 import travelfeeldog.member.domain.application.service.MemberService;
+import travelfeeldog.member.dto.MemberDtos.MemberRegisterResponse;
 import travelfeeldog.member.dto.MemberNickNameHistoryDto;
 import travelfeeldog.member.dto.MemberDtos;
 import travelfeeldog.member.dto.MemberDtos.MemberPostResponseDto;
@@ -35,7 +36,7 @@ public class MemberApiController {
     private final ImageFileService imageFileService;
 
     @PostMapping(produces = "application/json;charset=UTF-8")
-    public ApiResponse<Map<MemberPostResponseDto, TokenResponse>> postMember(@Valid @RequestBody MemberDtos.MemberPostRequestDto request) {
+    public ApiResponse<MemberRegisterResponse> postMember(@Valid @RequestBody MemberDtos.MemberPostRequestDto request) {
         return ApiResponse.success(memberReadWriteService.register(request));
     }
 
