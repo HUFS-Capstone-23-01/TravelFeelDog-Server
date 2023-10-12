@@ -70,21 +70,22 @@ public class MemberReadWriteService implements MemberService {
      Member Write Service
      */
     public Map<MemberPostResponseDto, TokenResponse> register(MemberPostRequestDto requestDto) {
-        MemberPostResponseDto result = create(requestDto);
-        TokenResponse tokenResponse = createTokenReturn(result);
+        TokenResponse tokenResponse = createTokenReturn(requestDto);
+        MemberPostResponseDto result = create(requestDto,tokenResponse);
         Map<MemberPostResponseDto, TokenResponse> resultMap = new HashMap<>();
         resultMap.put(result, tokenResponse);
         return resultMap;
     }
 
-    private TokenResponse createTokenReturn(MemberPostResponseDto result) {
-        String accessToken = jwtProvider.createAccessToken(result.getEmail()).get("accessToken");
-        String refreshToken = jwtProvider.createRefreshToken(result.getEmail()).get("refreshToken");
+    private TokenResponse  createTokenReturn(MemberPostRequestDto request) {
+        String accessToken = jwtProvider.createAccessToken(request.getEmail()).get("accessToken");
+        String refreshToken = jwtProvider.createRefreshToken(request.getEmail()).get("refreshToken");
         return new TokenResponse(accessToken,refreshToken);
     }
+
     @Override
-    public MemberPostResponseDto create(MemberPostRequestDto requestDto) {
-        return memberWriteService.create(requestDto);
+    public MemberPostResponseDto create(MemberPostRequestDto requestDto, TokenResponse tokenResponse) {
+        return memberWriteService.create(requestDto,tokenResponse);
     }
 
     @Override

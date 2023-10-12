@@ -6,7 +6,7 @@ import travelfeeldog.member.domain.model.Member;
 
 public interface MemberRepository {
 
-    Optional<Member> save(String nickName, String email, int level, int exp);
+    Optional<Member> save(String nickName, String email, int level, int exp, String atk,String rtk);
     Optional<Member> save(Member member);
     Optional<Member> findById(Long id);
     Optional<Member> findByNickName(String nickName);

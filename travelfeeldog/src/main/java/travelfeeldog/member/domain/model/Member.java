@@ -35,6 +35,10 @@ import travelfeeldog.global.common.domain.basetime.BaseTimeEntity;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseTimeEntity {
 
+    final private static Long NICK_NAME_MAX_LENGTH = 30L;
+    final private static Long EMAIL_MAX_LENGTH = 320L;
+    private final static Integer USER_MAX_EXP = 100;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
@@ -42,11 +46,9 @@ public class Member extends BaseTimeEntity {
 
     @Column(name = "member_nickname", unique = true)
     private String nickName;
-    final private static Long NICK_NAME_MAX_LENGTH = 30L;
 
     @Column(name = "member_email", unique = true)
     private String email;
-    final private static Long EMAIL_MAX_LENGTH = 320L;
 
     @Column(name = "member_level")
     private int level;
@@ -62,6 +64,12 @@ public class Member extends BaseTimeEntity {
 
     @Column(name = "member_block")
     private boolean block;
+
+    @Column(name = "member_atk")
+    private String accessToken;
+
+    @Column(name = "member_rtk")
+    private String refreshToken;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -79,13 +87,13 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Feed> feeds = new ArrayList<>();
 
-    private final static Integer USER_MAX_EXP = 100;
-
     @Builder(builderClassName = "ByRegisterBuilder", builderMethodName = "ByRegisterBuilder")
     private Member(String nickName,
             String email,
             int level,
-            int exp) {
+            int exp,
+            String atk,
+            String rtk) {
         validateNickname(nickName);
         validateEmail(email);
         this.nickName = nickName;
@@ -93,6 +101,8 @@ public class Member extends BaseTimeEntity {
         this.email = Objects.requireNonNull(email, "Email cannot be null"); // Initialize 'email' field
         this.role = Role.GUEST;
         this.exp = exp;
+        this.accessToken = atk;
+        this.refreshToken = rtk;
     }
     @Builder(builderClassName = "ByAccountBuilder", builderMethodName = "ByAccountBuilder")
     public Member(String nickName, String email) {
@@ -106,12 +116,16 @@ public class Member extends BaseTimeEntity {
     public static Member register(String nickName,
             String email,
             int level,
-            int exp) {
+            int exp,
+            String atk,
+            String rtk) {
         return Member.ByRegisterBuilder()
                 .nickName(nickName)
                 .email(email)
                 .level(level)
                 .exp(exp)
+                .atk(atk)
+                .rtk(rtk)
                 .build();
     }
     public void updateExpAndLevel(int addingExp) {

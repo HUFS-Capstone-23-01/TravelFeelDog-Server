@@ -41,12 +41,13 @@ public class MemberRepositoryImpl implements MemberRepository {
     }
 
     @Override
-    public Optional<Member> save(String nickName, String email, int level, int exp) {
+    public Optional<Member> save(String nickName, String email, int level, int exp,
+            String atk,String rtk) {
         try {
             findByEmail(email).ifPresent(m -> {
                 throw new IllegalStateException("가입되어 있습니다.");
             });
-            Member member = Member.register(nickName, email, level, exp);
+            Member member = Member.register(nickName, email, level, exp,atk,rtk);
             em.persist(member);
             return Optional.of(member);
         } catch (IllegalStateException e) {

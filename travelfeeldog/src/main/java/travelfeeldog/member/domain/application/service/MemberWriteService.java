@@ -1,10 +1,11 @@
 package travelfeeldog.member.domain.application.service;
 
+import travelfeeldog.global.auth.jwt.TokenResponse;
 import travelfeeldog.member.domain.model.Member;
 import travelfeeldog.member.dto.MemberDtos.MemberPostRequestDto;
 import travelfeeldog.member.dto.MemberDtos.MemberPostResponseDto;
 public interface MemberWriteService {
-    MemberPostResponseDto create(MemberPostRequestDto requestDto);
+    MemberPostResponseDto create(MemberPostRequestDto requestDto, TokenResponse tokenResponse);
 
     void deleteMember(Member member);
 

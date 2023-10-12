@@ -1,6 +1,7 @@
 package travelfeeldog.member.presntation.api;
 
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import org.springframework.web.bind.annotation.*;
@@ -8,6 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 
+import travelfeeldog.global.auth.jwt.TokenResponse;
+import travelfeeldog.member.domain.application.service.MemberReadWriteService;
 import travelfeeldog.member.domain.application.service.MemberService;
 import travelfeeldog.member.dto.MemberNickNameHistoryDto;
 import travelfeeldog.member.dto.MemberDtos;
@@ -28,11 +31,12 @@ import travelfeeldog.global.file.domain.application.ImageFileService;
 public class MemberApiController {
 
     private final MemberService memberService;
+    private final MemberReadWriteService memberReadWriteService;
     private final ImageFileService imageFileService;
 
     @PostMapping(produces = "application/json;charset=UTF-8")
-    public ApiResponse<MemberPostResponseDto> postMember(@Valid @RequestBody MemberDtos.MemberPostRequestDto request) {
-        return ApiResponse.success(memberService.create(request));
+    public ApiResponse<Map<MemberPostResponseDto, TokenResponse>> postMember(@Valid @RequestBody MemberDtos.MemberPostRequestDto request) {
+        return ApiResponse.success(memberReadWriteService.register(request));
     }
 
     @GetMapping(value = "/total", produces = "application/json;charset=UTF-8")

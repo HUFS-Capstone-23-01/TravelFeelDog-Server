@@ -3,6 +3,7 @@ package travelfeeldog.member.domain.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import travelfeeldog.global.auth.jwt.TokenResponse;
 import travelfeeldog.member.domain.model.MemberNicknameHistory;
 import travelfeeldog.member.repository.MemberNicknameHistoryRepository;
 import travelfeeldog.member.domain.model.Member;
@@ -22,8 +23,10 @@ public class MemberWrite implements MemberWriteService {
     private final MemberNicknameHistoryRepository memberNickNameHistoryRepository;
 
     @Override
-    public MemberPostResponseDto create(MemberPostRequestDto requestDto) {
-        var member =  memberRepository.save(requestDto.getNickName(), requestDto.getEmail(), 1, 0)
+    public MemberPostResponseDto create(MemberPostRequestDto requestDto, TokenResponse tokenResponse) {
+        var member =  memberRepository.save(requestDto.getNickName(), requestDto.getEmail(), 1, 0,
+                        tokenResponse.getAccessToken(),
+                        tokenResponse.getRefreshToken())
                 .orElseThrow(() -> new RuntimeException("Member not saved"));
         saveNickNameHistory(member);
         return new MemberPostResponseDto(member);
