@@ -1,4 +1,4 @@
-package travelfeeldog.global.auth;
+package travelfeeldog.global.auth.secure;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

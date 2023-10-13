@@ -1,4 +1,4 @@
-package travelfeeldog.global.auth;
+package travelfeeldog.global.auth.secure;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
