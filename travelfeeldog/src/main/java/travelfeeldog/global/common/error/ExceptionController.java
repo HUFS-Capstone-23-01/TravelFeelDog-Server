@@ -3,6 +3,7 @@ package travelfeeldog.global.common.error;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
+import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.web.bind.MissingPathVariableException;
 import travelfeeldog.global.common.dto.ApiResponse;
 import java.security.SignatureException;
@@ -83,6 +84,11 @@ public class ExceptionController {
     public ApiResponse ExpiredJwtException(Exception e) {
         e.printStackTrace();
         return ApiResponse.error("ExpiredJwtException", e.getMessage()); // 403
+    }
+    @ExceptionHandler(JwtException.class)
+    public ApiResponse JwtException(Exception e) {
+        e.printStackTrace();
+        return ApiResponse.error("JWTException", e.getMessage()); // 403
     }
 
 }

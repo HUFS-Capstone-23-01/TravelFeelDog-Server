@@ -32,7 +32,7 @@ public class MemberApiController {
     private final MemberReadWriteService memberReadWriteService;
     private final ImageFileService imageFileService;
 
-    @PostMapping(produces = "application/json;charset=UTF-8")
+    @PostMapping(value = "/register",produces = "application/json;charset=UTF-8")
     public ApiResponse<MemberRegisterResponse> postMember(@Valid @RequestBody MemberDtos.MemberPostRequestDto request) {
         return ApiResponse.success(memberReadWriteService.register(request));
     }
