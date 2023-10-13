@@ -1,12 +1,17 @@
 package travelfeeldog.domain.member;
 
-import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import org.joda.time.DateTimeFieldType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import travelfeeldog.IntegrationTest;
+import travelfeeldog.global.auth.jwt.TokenResponse;
+
+import travelfeeldog.infra.oauth2.dto.OAuthAttributes;
+import travelfeeldog.infra.oauth2.service.CustomOAuth2UserService;
 import travelfeeldog.member.domain.model.Member;
 import travelfeeldog.member.domain.model.MemberNicknameHistory;
 import travelfeeldog.member.domain.application.service.MemberWriteService;
@@ -30,14 +35,27 @@ public class MemberWriteServiceTest {
     @Autowired
     private MemberNicknameHistoryRepository memberNicknameHistoryRepository;
 
+    @Autowired
+    private CustomOAuth2UserService customOAuth2UserService;
     @DisplayName("회원정보 등록 테스트")
     @Test
     public void testRegister() {
-        var command = new MemberPostRequestDto("cho12", "pnu@fastcampus.com", "thisIsToken"+ LocalDateTime.now());
+        String userEmail = "newOne@gmail.com";
+        String userNickName = "cho12";
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("name",userNickName );
+        attributes.put("email",userEmail);
 
-        var member = service.create(command);
+        OAuthAttributes authAttributes = OAuthAttributes.of("gogole",userNickName,attributes);
+        Member member = authAttributes.toEntity();
+        customOAuth2UserService.saveOrUpdate(member);
+        var command = new MemberPostRequestDto("cho12",userEmail);
 
-        assertEqualsCreateMember(command, member);
+        // Register after google login auth complete
+        var tokenResponse = new TokenResponse("accTk","rctk");
+        member = memberRepository.save(command.getEmail(),tokenResponse.getAccessToken(),tokenResponse.getRefreshToken());
+        var result =  new MemberPostResponseDto(member);
+        assertEqualsCreateMember(command, result);
     }
 
     @DisplayName("회원정보 이름 변경 테스트")
