@@ -87,47 +87,23 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Feed> feeds = new ArrayList<>();
 
-    @Builder(builderClassName = "ByRegisterBuilder", builderMethodName = "ByRegisterBuilder")
-    private Member(String nickName,
-            String email,
-            int level,
-            int exp,
-            String atk,
-            String rtk) {
-        validateNickname(nickName);
-        validateEmail(email);
-        this.nickName = nickName;
-        this.level = level;
-        this.email = Objects.requireNonNull(email, "Email cannot be null"); // Initialize 'email' field
-        this.role = Role.GUEST;
-        this.exp = exp;
-        this.accessToken = atk;
-        this.refreshToken = rtk;
-    }
     @Builder(builderClassName = "ByAccountBuilder", builderMethodName = "ByAccountBuilder")
     public Member(String nickName, String email) {
         validateNickname(nickName);
         validateEmail(email);
         this.role = Role.GUEST;
         this.nickName = nickName;
-        this.email = Objects.requireNonNull(email, "Email cannot be null"); // Initialize 'email' field
+        this.email = Objects.requireNonNull(email,
+                "Email cannot be null"); // Initialize 'email' field
     }
 
-    public static Member register(String nickName,
-            String email,
-            int level,
-            int exp,
-            String atk,
-            String rtk) {
-        return Member.ByRegisterBuilder()
-                .nickName(nickName)
-                .email(email)
-                .level(level)
-                .exp(exp)
-                .atk(atk)
-                .rtk(rtk)
-                .build();
+    public void register(String atk, String rtk) {
+        this.level = 1;
+        this.accessToken = atk;
+        this.refreshToken = rtk;
+        this.role = Role.USER;
     }
+
     public void updateExpAndLevel(int addingExp) {
         int changedExp = this.exp + addingExp;
         if (changedExp / USER_MAX_EXP == 0) {
@@ -143,11 +119,13 @@ public class Member extends BaseTimeEntity {
         validateNickname(to);
         this.nickName = to;
     }
-    public Member updateMemberNickNameAndImage(String nickName,String imageUrl) {
+
+    public Member updateMemberNickNameAndImage(String nickName, String imageUrl) {
         this.nickName = nickName;
         this.imageUrl = imageUrl;
         return this;
     }
+
     public void blockMember() {
         this.block = true;
     }
@@ -159,15 +137,19 @@ public class Member extends BaseTimeEntity {
     public void deleteMember() {
         this.delete = true;
     }
-    public  void setAdminRole() {
+
+    public void setAdminRole() {
         this.role = Role.ADMIN;
     }
-    public void setWriterId(Long id){
-        this.id= id;
+
+    public void setWriterId(Long id) {
+        this.id = id;
     }
+
     public String getRoleKey() {
         return this.role.getKey();
     }
+
     public void updateMemberImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }

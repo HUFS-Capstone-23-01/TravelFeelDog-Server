@@ -7,12 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class JwtService {
     private final JwtProvider jwtProvider;
-
     public String findEmailByToken(String token) {
         return jwtProvider.extractEmail(token);
-    }
-
-    public boolean validateJwtToken(String authentication) {
-        return jwtProvider.validateJwtToken(authentication);
     }
 }

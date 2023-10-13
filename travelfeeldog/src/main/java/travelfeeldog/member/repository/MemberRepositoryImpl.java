@@ -12,6 +12,7 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
+import travelfeeldog.member.domain.model.Role;
 
 @Slf4j
 @Repository
@@ -20,7 +21,7 @@ public class MemberRepositoryImpl implements MemberRepository {
 
     @PersistenceContext
     private final EntityManager em;
-    // save only , save(save and update)
+
     @Override
     public Optional<Member> save(Member member) {
         try {
@@ -41,19 +42,17 @@ public class MemberRepositoryImpl implements MemberRepository {
     }
 
     @Override
-    public Optional<Member> save(String nickName, String email, int level, int exp,
-            String atk,String rtk) {
-        try {
-            findByEmail(email).ifPresent(m -> {
-                throw new IllegalStateException("가입되어 있습니다.");
-            });
-            Member member = Member.register(nickName, email, level, exp,atk,rtk);
-            em.persist(member);
-            return Optional.of(member);
-        } catch (IllegalStateException e) {
-            return Optional.empty();
+    public Member save(String email, String atk, String rtk) {
+        Member member = findByEmail(email).orElseThrow(
+                () -> new IllegalStateException("No memberInfo"));
+        if (member.getRole() != Role.GUEST) {
+            throw new IllegalStateException("Wrong type of Member");
         }
+        member.register(atk, rtk);
+        em.merge(member);
+        return member;
     }
+
     @Override
     public Optional<Member> findByEmail(String email) {
         try {
@@ -84,6 +83,7 @@ public class MemberRepositoryImpl implements MemberRepository {
             return Optional.empty();
         }
     }
+
     @Override
     public Optional<Member> findById(Long id) {
         try {
@@ -96,9 +96,11 @@ public class MemberRepositoryImpl implements MemberRepository {
             return Optional.empty();
         }
     }
+
     public Optional<Member> findById(AtomicLong atomicLong) {
         return findById(atomicLong.get());
     }
+
     @Override
     public void deleteMember(Member member) {
         em.remove(member);

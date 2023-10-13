@@ -23,11 +23,10 @@ public class MemberWrite implements MemberWriteService {
     private final MemberNicknameHistoryRepository memberNickNameHistoryRepository;
 
     @Override
-    public MemberPostResponseDto create(MemberPostRequestDto requestDto, TokenResponse tokenResponse) {
-        var member =  memberRepository.save(requestDto.getNickName(), requestDto.getEmail(), 1, 0,
-                        tokenResponse.getAccessToken(),
-                        tokenResponse.getRefreshToken())
-                .orElseThrow(() -> new RuntimeException("Member not saved"));
+    public MemberPostResponseDto create(MemberPostRequestDto requestDto,
+            TokenResponse tokenResponse) {
+        var member = memberRepository.save(requestDto.getEmail(), tokenResponse.getAccessToken(),
+                tokenResponse.getRefreshToken());
         saveNickNameHistory(member);
         return new MemberPostResponseDto(member);
     }
@@ -49,6 +48,7 @@ public class MemberWrite implements MemberWriteService {
         saveNickNameHistory(member);
         return member;
     }
+
     private void saveNickNameHistory(Member member) {
         var histroy = MemberNicknameHistory
                 .builder()

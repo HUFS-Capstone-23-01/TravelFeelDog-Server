@@ -6,7 +6,8 @@
     <div class="col-md-6">
       {{#userName}}
         Logged in as: <span id="user">{{userName}}</span>
-        Role: <span id="role">{{userRole}}</span>
+        Role: <span id="role">{{userRole}}
+      </span>
         <a href="/logout" class="btn btn-info active" role="button">Logout</a>
       {{/userName}}
       {{^userName}}
@@ -15,10 +16,7 @@
       {{/userName}}
     </div>
   </div>
-  <!-- ... 나머지 코드는 동일 ... -->
-
   <br>
-  <!-- 목록 출력 영역 -->
 </div>
 
 {{>layout/footer}}

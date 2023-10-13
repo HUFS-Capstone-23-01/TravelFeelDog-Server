@@ -2,6 +2,7 @@ package travelfeeldog.infra.oauth2.service;
 
 import java.util.Collections;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -20,6 +21,7 @@ import travelfeeldog.infra.oauth2.dto.OAuthAttributes;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 @Transactional
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
@@ -36,9 +38,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName,
                 oAuth2User.getAttributes());
-
         Member member = getByEmail(attributes);
-        /// member = saveOrUpdate(member);
+        member = saveOrUpdate(member);
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(member.getRoleKey())),
                 attributes.getAttributes(),

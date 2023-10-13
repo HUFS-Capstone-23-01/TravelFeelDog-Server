@@ -1,7 +1,6 @@
 package travelfeeldog.member.presntation.api;
 
 import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
 
 import org.springframework.web.bind.annotation.*;
@@ -9,13 +8,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 
-import travelfeeldog.global.auth.jwt.TokenResponse;
 import travelfeeldog.member.domain.application.service.MemberReadWriteService;
 import travelfeeldog.member.domain.application.service.MemberService;
 import travelfeeldog.member.dto.MemberDtos.MemberRegisterResponse;
 import travelfeeldog.member.dto.MemberNickNameHistoryDto;
 import travelfeeldog.member.dto.MemberDtos;
-import travelfeeldog.member.dto.MemberDtos.MemberPostResponseDto;
 import travelfeeldog.member.dto.MemberDtos.MemberResponse;
 import travelfeeldog.member.dto.MemberDtos.MemberResponseExpDto;
 import travelfeeldog.member.domain.model.Member;

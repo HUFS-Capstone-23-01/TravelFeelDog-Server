@@ -104,11 +104,11 @@ public class MemberDtos {
     }
     @Getter
     public static class MemberRegisterResponse{
-        private final MemberPostResponseDto memberPostResponseDto;
+        private final MemberPostResponseDto memberRegisterResponse;
         private final TokenResponse tokenResponse;
         public MemberRegisterResponse(MemberPostResponseDto memberPostResponseDto,
                 TokenResponse tokenResponse){
-            this.memberPostResponseDto = memberPostResponseDto;
+            this.memberRegisterResponse = memberPostResponseDto;
             this.tokenResponse = tokenResponse;
         }
     }

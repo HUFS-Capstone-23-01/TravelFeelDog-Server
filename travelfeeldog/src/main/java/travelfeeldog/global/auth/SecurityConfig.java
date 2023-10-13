@@ -48,9 +48,7 @@ public class SecurityConfig {
                         .authenticated()
                 )
                 .logout(withDefaults())
-                .oauth2Login(request -> request
-                        .userInfoEndpoint(userInfoEndpointConfig ->
-                                userInfoEndpointConfig.userService(customOAuth2UserService)));
+                .oauth2Login(request -> request.userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig.userService(customOAuth2UserService)));
 
         return httpSecurity.build();
     }
