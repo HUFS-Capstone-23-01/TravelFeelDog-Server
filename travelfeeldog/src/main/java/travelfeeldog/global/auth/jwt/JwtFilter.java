@@ -29,7 +29,6 @@ public class JwtFilter extends OncePerRequestFilter {
             final String token = request.getHeader(AUTHORIZATION_HEADER);
             Member member = jwtService.findMemberByToken(token);
             saveAuthentication(member);
-            return;
         }
         filterChain.doFilter(request, response);
     }
