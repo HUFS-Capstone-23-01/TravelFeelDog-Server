@@ -25,4 +25,8 @@ public class JwtService {
         String email = findEmailByToken(token);
         return memberReadService.findByEmail(email);
     }
+    public TokenResponse updateToken(TokenResponse token,String email) {
+        TokenResponse newToken = jwtProvider.updateToken(token,email);
+        return new TokenResponse(newToken);
+    }
 }

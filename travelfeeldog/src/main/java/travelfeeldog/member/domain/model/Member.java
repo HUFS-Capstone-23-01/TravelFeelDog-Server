@@ -26,6 +26,7 @@ import org.springframework.util.Assert;
 import travelfeeldog.community.feedlike.domain.model.FeedLike;
 import travelfeeldog.community.feed.domain.model.Feed;
 import travelfeeldog.community.scrap.domain.model.Scrap;
+import travelfeeldog.global.auth.jwt.TokenResponse;
 import travelfeeldog.review.domain.review.model.Review;
 import travelfeeldog.global.common.domain.basetime.BaseTimeEntity;
 
@@ -160,5 +161,9 @@ public class Member extends BaseTimeEntity {
 
     private void validateEmail(String email) {
         Assert.isTrue(email.length() <= EMAIL_MAX_LENGTH, "이메일 최대 길이를 초과했습니다.");
+    }
+    public void updateToken(String accessToken,String refreshToken) {
+        this.accessToken =accessToken;
+        this.refreshToken = refreshToken;
     }
 }

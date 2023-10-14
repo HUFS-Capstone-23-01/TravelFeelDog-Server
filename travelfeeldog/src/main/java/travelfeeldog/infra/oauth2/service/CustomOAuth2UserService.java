@@ -15,7 +15,10 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import travelfeeldog.global.auth.jwt.JwtService;
+import travelfeeldog.global.auth.jwt.TokenResponse;
 import travelfeeldog.member.domain.model.Member;
+import travelfeeldog.member.domain.model.Role;
 import travelfeeldog.member.repository.MemberRepository;
 import travelfeeldog.infra.oauth2.dto.OAuthAttributes;
 
@@ -26,6 +29,7 @@ import travelfeeldog.infra.oauth2.dto.OAuthAttributes;
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final MemberRepository memberRepository;
+    private final JwtService jwtService;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -39,15 +43,25 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName,
                 oAuth2User.getAttributes());
         Member member = getByEmail(attributes);
-        member = saveOrUpdate(member);
+        tokenUpdateCheck(member);
+        saveOrUpdate(member);
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(member.getRoleKey())),
                 attributes.getAttributes(),
                 attributes.getNameAttributeKey());
     }
 
-    public Member saveOrUpdate(Member user) {
-        return memberRepository.save(user)
+    private void tokenUpdateCheck(Member member) {
+        if (member.getRole() != Role.GUEST) {
+            TokenResponse token = new TokenResponse(member.getAccessToken(),
+                    member.getRefreshToken());
+            token = jwtService.updateToken(token, member.getEmail());
+            member.updateToken(token.getAccessToken(), token.getRefreshToken());
+        }
+    }
+
+    public void saveOrUpdate(Member user) {
+        memberRepository.save(user)
                 .orElseThrow(() -> new IllegalArgumentException("Save Or Update Error"));
     }
 

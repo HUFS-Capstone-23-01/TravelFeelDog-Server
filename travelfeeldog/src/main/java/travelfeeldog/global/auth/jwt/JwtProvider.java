@@ -23,6 +23,8 @@ import travelfeeldog.global.auth.jwt.exception.InvalidTokenException;
 public class JwtProvider {
 
     private final JwtSecretKey jwtSecretKey;
+    private final static String ACCESS_TOKEN_KEY = "accessToken";
+    private final static String REFRESH_TOKEN_KEY = "refreshToken";
 
     public Map<String, String> createToken(String payload, long validityDuration, String tokenKey) {
         Claims claims = Jwts.claims().setSubject(payload);
@@ -41,19 +43,23 @@ public class JwtProvider {
     }
 
     public Map<String, String> createAccessToken(String payload) {
-        return createToken(payload, jwtSecretKey.getJwtValidityAccessTime(), "accessToken");
+        return createToken(payload, jwtSecretKey.getJwtValidityAccessTime(), ACCESS_TOKEN_KEY);
     }
 
     public Map<String, String> createRefreshToken(String payload) {
-        Map<String, String> result = createToken(payload, jwtSecretKey.getJwtValidityRefreshTime(), "refreshToken");
+        Map<String, String> result = createToken(payload, jwtSecretKey.getJwtValidityRefreshTime(),
+                REFRESH_TOKEN_KEY);
 
-        Date validityTime = new Date(new Date().getTime() + jwtSecretKey.getJwtValidityRefreshTime());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+        Date validityTime = new Date(
+                new Date().getTime() + jwtSecretKey.getJwtValidityRefreshTime());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
+                Locale.ENGLISH);
         String refreshTokenExpirationAt = simpleDateFormat.format(validityTime);
 
         result.put("refreshTokenExpirationAt", refreshTokenExpirationAt);
         return result;
     }
+
     public Claims extractClaims(String token) throws JwtException {
         try {
             return Jwts.parserBuilder()
@@ -85,4 +91,31 @@ public class JwtProvider {
         return false;
     }
 
+    public boolean isTokenExpire(String token) {
+        try {
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(jwtSecretKey.getKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+            Date expiration = claims.getExpiration();
+            return expiration.before(new Date());
+        } catch (ExpiredJwtException e) {
+            return true;
+        } catch (JwtException e) {
+            throw new InvalidTokenException("Failed to check expiration status of the token", e);
+        }
+    }
+
+    public TokenResponse updateToken(TokenResponse token, String email) {
+        String atk = token.getAccessToken();
+        String rtk = token.getAccessToken();
+        if (isTokenExpire(atk)) {
+            atk = createAccessToken(email).get(ACCESS_TOKEN_KEY);
+        }
+        if (isTokenExpire(rtk)) {
+            rtk = createRefreshToken(email).get(ACCESS_TOKEN_KEY);
+        }
+        return new TokenResponse(atk, rtk);
+    }
 }
