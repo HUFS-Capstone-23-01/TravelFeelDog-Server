@@ -28,8 +28,8 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
-    private final JwtProvider jwtProvider;
     private final JwtService jwtService;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -45,18 +45,19 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(request -> request
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .requestMatchers("/","/actuator/health"
-                                ,"/api/v1/redis/**"
-                                ,"/api/v1/member/**"
-                                ,"/swagger-ui/**","/usage" // for swagger
-                                ).permitAll()
+                        .requestMatchers("/", "/actuator/health"
+                                , "/api/v1/redis/**"
+                                , "/api/v1/member/**"
+                                , "/swagger-ui/**", "/usage" // for swagger
+                        ).permitAll()
                         .anyRequest()
                         .authenticated()
                 )
                 .logout(withDefaults())
-                .oauth2Login(request -> request.userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig.userService(customOAuth2UserService)));
-        httpSecurity.addFilterAfter(new JwtFilter(jwtProvider, jwtService),LogoutFilter.class);
-
+                .oauth2Login(request -> request.userInfoEndpoint(
+                        userInfoEndpointConfig -> userInfoEndpointConfig.userService(
+                                customOAuth2UserService)));
+        httpSecurity.addFilterAfter(new JwtFilter(jwtService), LogoutFilter.class);
 
         return httpSecurity.build();
     }
