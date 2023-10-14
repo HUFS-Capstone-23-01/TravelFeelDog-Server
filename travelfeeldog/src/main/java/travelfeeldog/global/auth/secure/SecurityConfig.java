@@ -1,6 +1,5 @@
 package travelfeeldog.global.auth.secure;
 
-import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,8 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
-import travelfeeldog.global.auth.jwt.JwtFilter;
-import travelfeeldog.global.auth.jwt.JwtService;
+import travelfeeldog.global.auth.jwt.filter.JwtFilter;
+import travelfeeldog.global.auth.jwt.service.JwtService;
 import travelfeeldog.infra.oauth2.service.CustomOAuth2UserService;
 
 import static org.springframework.security.config.Customizer.withDefaults;

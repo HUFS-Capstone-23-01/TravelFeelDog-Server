@@ -15,8 +15,8 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import travelfeeldog.global.auth.jwt.JwtService;
-import travelfeeldog.global.auth.jwt.TokenResponse;
+import travelfeeldog.global.auth.jwt.service.JwtService;
+import travelfeeldog.global.auth.jwt.response.TokenResponse;
 import travelfeeldog.member.domain.model.Member;
 import travelfeeldog.member.domain.model.Role;
 import travelfeeldog.member.repository.MemberRepository;

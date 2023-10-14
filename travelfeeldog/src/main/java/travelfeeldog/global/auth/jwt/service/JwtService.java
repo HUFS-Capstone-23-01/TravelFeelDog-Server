@@ -1,9 +1,10 @@
-package travelfeeldog.global.auth.jwt;
+package travelfeeldog.global.auth.jwt.service;
 
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.stereotype.Service;
+import travelfeeldog.global.auth.jwt.response.TokenResponse;
 import travelfeeldog.global.auth.jwt.exception.InvalidTokenException;
 import travelfeeldog.member.domain.application.service.MemberRead;
 import travelfeeldog.member.domain.model.Member;

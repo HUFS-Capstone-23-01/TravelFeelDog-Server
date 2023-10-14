@@ -1,4 +1,4 @@
-package travelfeeldog.global.auth.jwt;
+package travelfeeldog.global.auth.jwt.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import org.springframework.web.filter.OncePerRequestFilter;
+import travelfeeldog.global.auth.jwt.service.JwtService;
 import travelfeeldog.member.domain.model.Member;
 
 @RequiredArgsConstructor

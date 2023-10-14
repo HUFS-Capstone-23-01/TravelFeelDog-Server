@@ -1,4 +1,4 @@
-package travelfeeldog.global.auth.jwt;
+package travelfeeldog.global.auth.jwt.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.stereotype.Service;
+import travelfeeldog.global.auth.jwt.config.JwtSecretKey;
+import travelfeeldog.global.auth.jwt.response.TokenResponse;
 import travelfeeldog.global.auth.jwt.exception.InvalidTokenException;
 
 @RequiredArgsConstructor

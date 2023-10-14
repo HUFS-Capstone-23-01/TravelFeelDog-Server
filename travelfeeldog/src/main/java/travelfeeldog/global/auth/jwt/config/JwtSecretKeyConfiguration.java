@@ -1,4 +1,4 @@
-package travelfeeldog.global.auth.jwt;
+package travelfeeldog.global.auth.jwt.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

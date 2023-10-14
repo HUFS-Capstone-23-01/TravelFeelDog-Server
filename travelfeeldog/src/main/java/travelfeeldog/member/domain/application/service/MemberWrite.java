@@ -3,7 +3,7 @@ package travelfeeldog.member.domain.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import travelfeeldog.global.auth.jwt.TokenResponse;
+import travelfeeldog.global.auth.jwt.response.TokenResponse;
 import travelfeeldog.member.domain.model.MemberNicknameHistory;
 import travelfeeldog.member.repository.MemberNicknameHistoryRepository;
 import travelfeeldog.member.domain.model.Member;

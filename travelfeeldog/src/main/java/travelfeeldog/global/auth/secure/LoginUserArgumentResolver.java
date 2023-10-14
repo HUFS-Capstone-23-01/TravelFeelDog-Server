@@ -10,7 +10,7 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
-import travelfeeldog.global.auth.jwt.JwtService;
+import travelfeeldog.global.auth.jwt.service.JwtService;
 
 
 @RequiredArgsConstructor

@@ -1,4 +1,4 @@
-package travelfeeldog.global.auth.jwt;
+package travelfeeldog.global.auth.jwt.response;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
