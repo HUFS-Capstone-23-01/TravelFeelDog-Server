@@ -13,11 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import travelfeeldog.global.auth.jwt.JwtFilter;
-import travelfeeldog.global.auth.jwt.JwtProvider;
 import travelfeeldog.global.auth.jwt.JwtService;
 import travelfeeldog.infra.oauth2.service.CustomOAuth2UserService;
-import travelfeeldog.member.domain.model.Role;
-
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -42,16 +39,6 @@ public class SecurityConfig {
                         AbstractHttpConfigurer::disable
                 ).cors(
                         AbstractHttpConfigurer::disable
-                )
-                .authorizeHttpRequests(request -> request
-                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .requestMatchers("/", "/actuator/health"
-                                , "/api/v1/redis/**"
-                                , "/api/v1/member/**"
-                                , "/swagger-ui/**", "/usage" // for swagger
-                        ).permitAll()
-                        .anyRequest()
-                        .authenticated()
                 )
                 .logout(withDefaults())
                 .oauth2Login(request -> request.userInfoEndpoint(
