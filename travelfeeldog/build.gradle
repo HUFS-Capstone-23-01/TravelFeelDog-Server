@@ -25,9 +25,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-configuration-processor'
     implementation  group: 'jakarta.ws.rs', name: 'jakarta.ws.rs-api', version: '3.0.0-M1'
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 
     /**jwt */
     implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
+    testImplementation 'org.projectlombok:lombok:1.18.26'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
 

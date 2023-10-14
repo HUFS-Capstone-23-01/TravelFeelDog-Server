@@ -30,4 +30,7 @@ public class JwtService {
         TokenResponse newToken = jwtProvider.updateToken(token,email);
         return new TokenResponse(newToken);
     }
+    public void validateToken(String token){
+        jwtProvider.validateToken(token);
+    }
 }
