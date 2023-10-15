@@ -16,7 +16,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import org.springframework.web.filter.OncePerRequestFilter;
-import travelfeeldog.global.auth.jwt.exception.ExceptionCode;
 import travelfeeldog.global.auth.jwt.exception.InvalidTokenException;
 import travelfeeldog.global.auth.jwt.service.JwtService;
 import travelfeeldog.member.domain.model.Member;
@@ -33,12 +32,12 @@ public class JwtFilter extends OncePerRequestFilter {
         if (request.getRequestURI().contains("/api/v1")) {
             final String token = request.getHeader(AUTHORIZATION_HEADER);
             try{
-
                 jwtService.validateToken(token);
                 Member member = jwtService.findMemberByToken(token);
                 saveAuthentication(member);
             }catch (InvalidTokenException e){
-                request.setAttribute("exception", ExceptionCode.EXPIRED_TOKEN.getCode());
+                log.error("[ERROR] : "+e);
+                request.setAttribute("exception", e);
             }
         }
         filterChain.doFilter(request, response);
