@@ -94,6 +94,6 @@ public class ExceptionController {
     @ExceptionHandler(InvalidTokenException.class)
     public ApiResponse JwtInvalidException(Exception e) {
         e.printStackTrace();
-        return ApiResponse.error("JWT INVALID",e.getMessage());
+        return ApiResponse.error("JWT 에러 터짐",e.getMessage());
     }
 }
