@@ -29,21 +29,25 @@ import travelfeeldog.infra.oauth2.dto.OAuthAttributes;
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final MemberRepository memberRepository;
-    private final JwtService jwtService;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+
         OAuth2UserService delegate = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = delegate.loadUser(userRequest);
 
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
-        String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails()
-                .getUserInfoEndpoint().getUserNameAttributeName();
+
+        String userNameAttributeName = userRequest.getClientRegistration()
+                .getProviderDetails()
+                .getUserInfoEndpoint()
+                .getUserNameAttributeName();
 
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName,
                 oAuth2User.getAttributes());
         Member member = getByEmail(attributes);
-        tokenUpdateCheck(member);
+
+        // jwtService.tokenUpdateCheck(member);
         saveOrUpdate(member);
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(member.getRoleKey())),
@@ -51,17 +55,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 attributes.getNameAttributeKey());
     }
 
-    private void tokenUpdateCheck(Member member) {
-        if (member.getRole() != Role.GUEST) {
-            TokenResponse token = new TokenResponse(member.getAccessToken(),
-                    member.getRefreshToken());
-            token = jwtService.updateToken(token, member.getEmail());
-            member.updateToken(token.getAccessToken(), token.getRefreshToken());
-        }
-    }
-
-    public void saveOrUpdate(Member user) {
-        memberRepository.save(user)
+    public void saveOrUpdate(Member member) {
+        memberRepository.save(member)
                 .orElseThrow(() -> new IllegalArgumentException("Save Or Update Error"));
     }
 

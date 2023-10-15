@@ -10,3 +10,6 @@ spring:
             scope:
               - email
               - profile
+
+# request login url : http://localhost:8080/oauth2/authorization/google
+# success login url :  http://localhost:8080/login/oauth2/code/google

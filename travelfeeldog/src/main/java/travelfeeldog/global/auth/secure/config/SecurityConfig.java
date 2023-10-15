@@ -12,9 +12,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import travelfeeldog.global.auth.jwt.filter.JwtFilter;
 import travelfeeldog.global.auth.jwt.service.JwtService;
+import travelfeeldog.infra.oauth2.handler.LoginSuccessHandler;
 import travelfeeldog.infra.oauth2.service.CustomOAuth2UserService;
 
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableMethodSecurity
@@ -30,9 +30,9 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf(AbstractHttpConfigurer::disable).cors(AbstractHttpConfigurer::disable);
         httpSecurity.logout(request -> request.logoutSuccessUrl("/"));
-        httpSecurity.oauth2Login(request -> request.userInfoEndpoint(
-                        userInfoEndpointConfig -> userInfoEndpointConfig.userService(
-                                customOAuth2UserService)));
+        httpSecurity.oauth2Login(request -> request
+                .successHandler(new LoginSuccessHandler(jwtService))
+                .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig.userService(customOAuth2UserService)));
         httpSecurity.addFilterAfter(new JwtFilter(jwtService), LogoutFilter.class);
         httpSecurity.exceptionHandling((exception)-> exception.authenticationEntryPoint(authenticationEntryPoint));
 
