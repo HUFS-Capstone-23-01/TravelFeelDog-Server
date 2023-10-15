@@ -5,6 +5,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.web.bind.MissingPathVariableException;
+import travelfeeldog.global.auth.jwt.exception.InvalidTokenException;
 import travelfeeldog.global.common.dto.ApiResponse;
 import java.security.SignatureException;
 import jakarta.ws.rs.ServiceUnavailableException;
@@ -90,5 +91,9 @@ public class ExceptionController {
         e.printStackTrace();
         return ApiResponse.error("JWTException", e.getMessage()); // 403
     }
-
+    @ExceptionHandler(InvalidTokenException.class)
+    public ApiResponse JwtInvalidException(Exception e) {
+        e.printStackTrace();
+        return ApiResponse.error("JWT 에러 터짐",e.getMessage());
+    }
 }

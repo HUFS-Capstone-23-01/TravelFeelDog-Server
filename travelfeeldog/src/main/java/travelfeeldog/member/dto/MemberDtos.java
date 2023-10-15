@@ -6,12 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import travelfeeldog.global.auth.jwt.TokenResponse;
+import travelfeeldog.global.auth.jwt.response.TokenResponse;
 import travelfeeldog.member.domain.model.Member;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import travelfeeldog.member.domain.model.Role;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

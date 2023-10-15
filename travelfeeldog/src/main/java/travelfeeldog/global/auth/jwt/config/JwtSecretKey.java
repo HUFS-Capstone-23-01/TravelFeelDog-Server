@@ -1,4 +1,4 @@
-package travelfeeldog.global.auth.jwt;
+package travelfeeldog.global.auth.jwt.config;
 
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

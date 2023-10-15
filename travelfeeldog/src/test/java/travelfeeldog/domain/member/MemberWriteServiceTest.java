@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import travelfeeldog.IntegrationTest;
-import travelfeeldog.global.auth.jwt.TokenResponse;
+import travelfeeldog.global.auth.jwt.response.TokenResponse;
 
 import travelfeeldog.infra.oauth2.dto.OAuthAttributes;
 import travelfeeldog.infra.oauth2.service.CustomOAuth2UserService;
