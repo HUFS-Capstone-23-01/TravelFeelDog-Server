@@ -29,7 +29,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf(AbstractHttpConfigurer::disable).cors(AbstractHttpConfigurer::disable);
-        httpSecurity.logout(withDefaults());
+        httpSecurity.logout(request -> request.logoutSuccessUrl("/"));
         httpSecurity.oauth2Login(request -> request.userInfoEndpoint(
                         userInfoEndpointConfig -> userInfoEndpointConfig.userService(
                                 customOAuth2UserService)));
