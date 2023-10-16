@@ -44,7 +44,7 @@ public class Member extends BaseTimeEntity {
     @Column(name = "member_id")
     private Long id;
 
-    @Column(name = "member_nickname", unique = true)
+    @Column(name = "member_nickname")
     private String nickName;
 
     @Column(name = "member_email", unique = true)
