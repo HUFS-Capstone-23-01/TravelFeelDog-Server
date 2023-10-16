@@ -25,6 +25,7 @@ import travelfeeldog.global.auth.jwt.exception.InvalidTokenException;
 public class JwtProvider {
 
     private final JwtSecretKey jwtSecretKey;
+    private final static String AUTH_TOKEN_KEY = "authToken";
     private final static String ACCESS_TOKEN_KEY = "accessToken";
     private final static String REFRESH_TOKEN_KEY = "refreshToken";
 
@@ -43,7 +44,10 @@ public class JwtProvider {
         result.put(tokenKey, jwt);
         return result;
     }
-
+    public String createAuthorizationToken(String payload){
+        long fiveMin = 300000L;
+        return createToken(payload,fiveMin,AUTH_TOKEN_KEY).get(AUTH_TOKEN_KEY);
+    }
     public Map<String, String> createAccessToken(String payload) {
         return createToken(payload, jwtSecretKey.getJwtValidityAccessTime(), ACCESS_TOKEN_KEY);
     }

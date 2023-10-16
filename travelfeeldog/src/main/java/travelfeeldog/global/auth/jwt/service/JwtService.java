@@ -50,6 +50,9 @@ public class JwtService {
         }
         return null;
     }
+    public String getAuthTokenByEmail(String email) {
+        return jwtProvider.createAuthorizationToken(email);
+    }
 
     public String getAccessTokenByEmail(String email) {
         Member member = memberReadService.findByEmail(email);

@@ -36,8 +36,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     }
     private String getRedirectUrl(String email) {
         return UriComponentsBuilder.fromUriString(REDIRECT_URL)
-                .queryParam("Access", jwtService.getAccessTokenByEmail(email))
-                .queryParam("Refresh", jwtService.getRefreshTokenByEmail(email))
+                .queryParam("Authorization", jwtService.getAuthTokenByEmail(email))
                 .build().toUriString();
     }
 }
