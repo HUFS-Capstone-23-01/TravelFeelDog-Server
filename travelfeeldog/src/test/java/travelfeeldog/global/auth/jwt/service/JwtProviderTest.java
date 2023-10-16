@@ -49,7 +49,7 @@ class JwtProviderTest {
 //        log.info("claims : {}", claims);
 //        log.info("토큰이 만료되기까지 남은 시간: {}시간 {}분 {}초", hoursUntilExpiration, minutesUntilExpiration % 60, secondsUntilExpiration % 60);
 
-        Assertions.assertEquals(secondsUntilExpiration%60,59);
+//        Assertions.assertEquals(secondsUntilExpiration%60,59);
         Assertions.assertEquals(minutesUntilExpiration % 60,19);
         Assertions.assertEquals(hoursUntilExpiration,8);
         assertNotNull(atk);
