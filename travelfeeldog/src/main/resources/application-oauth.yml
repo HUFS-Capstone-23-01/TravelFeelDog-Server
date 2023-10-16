@@ -4,7 +4,7 @@ spring:
       client:
         registration:
           google:
-            redirect-uri: http://localhost:8080/login/oauth2/code/google
+            redirect-uri: ${Google_Client_REDIRECT_URI}
             client-id : ${Google_Client_Id}
             client-secret: ${Google_Client_Secret}
             scope:
