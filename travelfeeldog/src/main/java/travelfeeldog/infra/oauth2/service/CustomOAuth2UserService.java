@@ -1,26 +1,22 @@
 package travelfeeldog.infra.oauth2.service;
 
 import java.util.Collections;
-
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
-import lombok.RequiredArgsConstructor;
-
 import org.springframework.transaction.annotation.Transactional;
 
-import travelfeeldog.global.auth.jwt.service.JwtService;
-import travelfeeldog.global.auth.jwt.response.TokenResponse;
 import travelfeeldog.member.domain.model.Member;
-import travelfeeldog.member.domain.model.Role;
 import travelfeeldog.member.repository.MemberRepository;
 import travelfeeldog.infra.oauth2.dto.OAuthAttributes;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
 @Service
@@ -46,8 +42,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName,
                 oAuth2User.getAttributes());
         Member member = getByEmail(attributes);
-
-        // jwtService.tokenUpdateCheck(member);
         saveOrUpdate(member);
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(member.getRoleKey())),
