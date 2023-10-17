@@ -17,12 +17,14 @@ import travelfeeldog.global.auth.secure.LoginUser;
 @AllArgsConstructor
 //@Slf4j
 public class ConnectionCheckApi {
-    @GetMapping(value="{testNumber}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Long> getConnectAdminTestNumber(@PathVariable Long testNumber) {
-  //      log.info("email : {}",email);
-        return ResponseEntity.ok(testNumber);
-    }
+
+//    @GetMapping(value="/{testNumber}")
+//    @ResponseStatus(HttpStatus.OK)
+//    public ResponseEntity<Long> getConnectAdminTestNumber(@PathVariable Long testNumber) {
+//  //      log.info("email : {}",email);
+//        return ResponseEntity.ok(testNumber);
+//    }
+
     @GetMapping(value="/{testNumber}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Long> getConnectUserTestNumber(@PathVariable Long testNumber){
