@@ -73,10 +73,18 @@
 - 커뮤니티 서비스를 통한 소통의 장 제공
 - 커뮤니케이션을 통한 반려동물 시장 활성화
 
+---
+
 ### ERD Table (https://www.erdcloud.com/d/kypw5wju6a9c3rq2g)
 
 ![TravelFeelDog](https://github.com/HUFS-Capstone-23-01/TravelFeelDog-Server/assets/37647483/903242e9-fdfa-4aed-ad5f-758b340e5040)
 
+
+### API
+
+https://sunghyun98.com/usage
+
+----
 
 ### UI
 
