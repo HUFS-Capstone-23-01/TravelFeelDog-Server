@@ -77,6 +77,38 @@
 
 ![TravelFeelDog](https://github.com/HUFS-Capstone-23-01/TravelFeelDog-Server/assets/37647483/903242e9-fdfa-4aed-ad5f-758b340e5040)
 
+
+### UI
+
+- App
+  
+<img width="996" alt="m2" src="https://github.com/HUFS-Capstone-23-01/TravelFeelDog-Server/assets/37647483/63645b53-2d68-4bde-b481-0594033ad3b5">
+
+<img width="1438" alt="m1" src="https://github.com/HUFS-Capstone-23-01/TravelFeelDog-Server/assets/37647483/048fcd48-bf3b-4ac9-aa3a-488524830b5e">
+
+<img width="950" alt="m3" src="https://github.com/HUFS-Capstone-23-01/TravelFeelDog-Server/assets/37647483/876fdcef-f14a-4a02-8661-0065366c7634">
+
+<img width="947" alt="m4" src="https://github.com/HUFS-Capstone-23-01/TravelFeelDog-Server/assets/37647483/0fd20f84-95a2-424b-b9ac-78c704a12c62">
+
+<img width="1211" alt="m5" src="https://github.com/HUFS-Capstone-23-01/TravelFeelDog-Server/assets/37647483/86b4cb79-d3ca-4800-a77b-4f43d0f24084">
+
+<img width="940" alt="m6" src="https://github.com/HUFS-Capstone-23-01/TravelFeelDog-Server/assets/37647483/fb012ce6-49b3-48d3-ab94-766420fe84b7">
+
+<img width="1171" alt="m7" src="https://github.com/HUFS-Capstone-23-01/TravelFeelDog-Server/assets/37647483/13f844e4-fbb3-444d-be6f-290028a95298">
+
+<img width="1283" alt="m8" src="https://github.com/HUFS-Capstone-23-01/TravelFeelDog-Server/assets/37647483/2ed7a0b4-2c08-4acf-a8e3-a67f143549c9">
+
+- WEB
+
+  <img width="1421" alt="w1" src="https://github.com/HUFS-Capstone-23-01/TravelFeelDog-Server/assets/37647483/c4c83829-1738-477a-a006-e4fbc5eaa1c0">
+  
+<img width="1283" alt="w2" src="https://github.com/HUFS-Capstone-23-01/TravelFeelDog-Server/assets/37647483/e04d32aa-f1e2-48a0-b1fd-ff0bfd33d3fd">
+
+<img width="1263" alt="w3" src="https://github.com/HUFS-Capstone-23-01/TravelFeelDog-Server/assets/37647483/d8c0ec3d-696f-4062-ad9c-d57960b87d75">
+
+
+
+
 ### 브랜치 관리 전략
 
 - Git Flow를 사용하여 브랜치를 관리합니다.
