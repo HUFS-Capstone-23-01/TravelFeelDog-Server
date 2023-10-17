@@ -82,9 +82,9 @@
 
 - App
   
-<img width="996" alt="m2" src="https://github.com/HUFS-Capstone-23-01/TravelFeelDog-Server/assets/37647483/63645b53-2d68-4bde-b481-0594033ad3b5">
-
 <img width="1438" alt="m1" src="https://github.com/HUFS-Capstone-23-01/TravelFeelDog-Server/assets/37647483/048fcd48-bf3b-4ac9-aa3a-488524830b5e">
+
+<img width="882" alt="gpt" src="https://github.com/HUFS-Capstone-23-01/TravelFeelDog-Server/assets/37647483/4710ef97-f9ca-428f-8e4e-9b9f6d928d59">
 
 <img width="950" alt="m3" src="https://github.com/HUFS-Capstone-23-01/TravelFeelDog-Server/assets/37647483/876fdcef-f14a-4a02-8661-0065366c7634">
 
