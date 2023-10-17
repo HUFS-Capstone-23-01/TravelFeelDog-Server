@@ -15,18 +15,18 @@ import travelfeeldog.global.auth.secure.LoginUser;
 @RestController
 @RequestMapping("/api/v1/test")
 @AllArgsConstructor
-@Slf4j
+//@Slf4j
 public class ConnectionCheckApi {
-    @GetMapping(value="/admin/{testNumber}")
+    @GetMapping(value="{testNumber}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Long> getConnectAdminTestNumber(@PathVariable Long testNumber , @LoginUser String email){
-        log.info("email : {}",email);
+    public ResponseEntity<Long> getConnectAdminTestNumber(@PathVariable Long testNumber) {
+  //      log.info("email : {}",email);
         return ResponseEntity.ok(testNumber);
     }
-    @GetMapping(value="/user/{testNumber}")
+    @GetMapping(value="/{testNumber}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Long> getConnectUserTestNumber(@PathVariable Long testNumber , @LoginUser String email){
-        log.info("email : {}",email);
+    public ResponseEntity<Long> getConnectUserTestNumber(@PathVariable Long testNumber){
+//        log.info("email : {}",email);
         return ResponseEntity.ok(testNumber);
     }
 }
