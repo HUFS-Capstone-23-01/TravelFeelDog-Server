@@ -2,7 +2,7 @@ package travelfeeldog.global.common.dto;
 
 import org.springframework.http.HttpStatus;
 
-public record ApiResponse<T>(String message, T body) {
+public record ApiResponse<T>(String message, T data) {
 
     private static final String SUCCESS_MESSAGE = "SUCCESS";
     private static final String NOT_FOUND_MESSAGE = "NOT FOUND";
@@ -13,9 +13,9 @@ public record ApiResponse<T>(String message, T body) {
     private static final String NAME_REDUNDANT = "중복된 닉네임입니다. 다른 닉네임으로 시도해주세요.";
     private static final String TOKEN_BLANK = "토큰이 존재하지 않습니다.";
 
-    public ApiResponse(String message, T body) {
+    public ApiResponse(String message, T data) {
         this.message = message;
-        this.body = body;
+        this.data = data;
     }
 
     public static <T> ApiResponse<T> success(T body) {
