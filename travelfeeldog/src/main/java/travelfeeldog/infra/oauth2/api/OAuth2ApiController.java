@@ -15,16 +15,20 @@ import travelfeeldog.member.domain.model.Member;
 @RequiredArgsConstructor
 @RequestMapping("/login")
 public class OAuth2ApiController {
+
     private final GoogleLoginService googleLoginService;
     private final JwtService jwtService;
+
     @PostMapping("/oauth2/token")
-    public ApiResponse<TokenLoginResponse> googleAuthenticationLogin(@RequestBody TokenLoginRequest request) {
+    public ApiResponse<TokenLoginResponse> googleAuthenticationLogin(
+            @RequestBody TokenLoginRequest request) {
         Member member = jwtService.findMemberByToken(request.token());
         return ApiResponse.success(jwtService.getTokenLoginResponseByMember(member));
     }
 
-    @PostMapping("/oauth2/google/token")
-    public ApiResponse<TokenLoginResponse> mobileGoogleAuthenticationLogin(@RequestBody TokenLoginRequest request) {
+    @PostMapping("/mobile/oauth2/google")
+    public ApiResponse<TokenLoginResponse> mobileGoogleAuthenticationLogin(
+            @RequestBody TokenLoginRequest request) {
         Member member = googleLoginService.loginGoogleOAuthWithIdToken(request.token());
         return ApiResponse.success(jwtService.getTokenLoginResponseByMember(member));
     }

@@ -22,24 +22,27 @@ public class GoogleLoginService {
 
     @Value("${spring.security.oauth2.client.registration.google.client-id}")
     String clientId;
-    private final GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new JacksonFactory())
+    private final GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
+            new NetHttpTransport(), new JacksonFactory())
             .setAudience(Collections.singletonList(clientId))
             .build();
     private final MemberWriteService memberWrite;
+
     public Member loginGoogleOAuthWithIdToken(String idToken) {
         OAuthAttributes attributes = verifyGoogleIDToken(idToken);
         Member member = memberWrite.saveByAttributes(attributes);
         memberWrite.save(member);
         return member;
     }
-    public OAuthAttributes verifyGoogleIDToken(String idToken) { // 최 초 진입 회원 가입 갈라야함
+
+    public OAuthAttributes verifyGoogleIDToken(String idToken) {
         try {
             GoogleIdToken idTokenObj = verifier.verify(idToken);
             if (idTokenObj == null) {
                 return null;
             }
             Payload payload = idTokenObj.getPayload();
-            OAuthAttributes attributes = OAuthAttributes.ofGoogle("sub",payload);
+            OAuthAttributes attributes = OAuthAttributes.ofGoogle("sub", payload);
             return attributes;
         } catch (GeneralSecurityException | IOException e) {
             throw new IllegalArgumentException("Wrong In IdToken"); // new custom exception
