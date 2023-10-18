@@ -35,8 +35,6 @@ public class MemberWriteServiceTest {
     @Autowired
     private MemberNicknameHistoryRepository memberNicknameHistoryRepository;
 
-    @Autowired
-    private CustomOAuth2UserService customOAuth2UserService;
     @DisplayName("회원정보 등록 테스트")
     @Test
     public void testRegister() {
@@ -48,7 +46,7 @@ public class MemberWriteServiceTest {
 
         OAuthAttributes authAttributes = OAuthAttributes.of("gogole",userNickName,attributes);
         Member member = authAttributes.toEntity();
-        customOAuth2UserService.saveOrUpdate(member);
+        memberRepository.save(member);
         var command = new MemberPostRequestDto("cho12",userEmail);
 
         // Register after google login auth complete
