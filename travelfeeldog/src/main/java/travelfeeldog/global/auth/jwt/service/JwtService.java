@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import travelfeeldog.global.auth.jwt.response.TokenResponse;
 import travelfeeldog.global.auth.jwt.exception.InvalidTokenException;
+import travelfeeldog.infra.oauth2.api.TokenLoginResponse;
 import travelfeeldog.member.domain.application.service.MemberRead;
 import travelfeeldog.member.domain.application.service.MemberReadService;
 import travelfeeldog.member.domain.model.Member;
@@ -27,6 +28,11 @@ public class JwtService {
         } catch (RuntimeException e) {
             throw new InvalidTokenException("Invalid token", e);
         }
+    }
+    public TokenLoginResponse getTokenLoginResponseByMember(Member member){
+        String atk = getAccessTokenByEmail(member.getEmail());
+        String rtk = getRefreshTokenByEmail(member.getEmail());
+        return new TokenLoginResponse(member.getEmail(),member.getRole().getKey(),new TokenResponse(atk,rtk));
     }
     public Member findMemberByToken(String token) {
         String email = findEmailByToken(token);

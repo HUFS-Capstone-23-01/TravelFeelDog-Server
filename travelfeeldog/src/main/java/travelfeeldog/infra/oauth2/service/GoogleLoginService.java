@@ -5,13 +5,11 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import travelfeeldog.infra.oauth2.dto.OAuthAttributes;
@@ -28,11 +26,11 @@ public class GoogleLoginService {
             .setAudience(Collections.singletonList(clientId))
             .build();
     private final MemberWriteService memberWrite;
-    public String loginGoogleOAuthWithIdToken(String idToken) {
+    public Member loginGoogleOAuthWithIdToken(String idToken) {
         OAuthAttributes attributes = verifyGoogleIDToken(idToken);
         Member member = memberWrite.saveByAttributes(attributes);
         memberWrite.save(member);
-        return attributes.getEmail();
+        return member;
     }
     public OAuthAttributes verifyGoogleIDToken(String idToken) { // 최 초 진입 회원 가입 갈라야함
         try {
