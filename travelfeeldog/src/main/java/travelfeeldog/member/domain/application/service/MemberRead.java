@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import travelfeeldog.infra.oauth2.dto.OAuthAttributes;
 import travelfeeldog.member.domain.model.MemberNicknameHistory;
 import travelfeeldog.member.dto.MemberDto;
 import travelfeeldog.member.dto.MemberNickNameHistoryDto;
@@ -91,6 +92,11 @@ public class MemberRead implements MemberReadService {
                 history.getNickName(),
                 history.getCreatedDateTime()
         );
+    }
+
+    public Member getByEmail(OAuthAttributes attributes) {
+        return memberRepository.findMemberForLogin(attributes.getEmail())
+                .orElse(attributes.toEntity());
     }
 }
 

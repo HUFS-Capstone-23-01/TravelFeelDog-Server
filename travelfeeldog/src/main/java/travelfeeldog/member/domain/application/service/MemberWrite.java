@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import travelfeeldog.global.auth.jwt.response.TokenResponse;
+import travelfeeldog.infra.oauth2.dto.OAuthAttributes;
 import travelfeeldog.member.domain.model.MemberNicknameHistory;
 import travelfeeldog.member.repository.MemberNicknameHistoryRepository;
 import travelfeeldog.member.domain.model.Member;
@@ -21,7 +22,17 @@ public class MemberWrite implements MemberWriteService {
     private final MemberRepository memberRepository;
 
     private final MemberNicknameHistoryRepository memberNickNameHistoryRepository;
+    public void save(Member member){
+        memberRepository.save(member).orElseThrow(()->new IllegalStateException(""));
+    }
 
+    @Override
+    public Member saveByAttributes(OAuthAttributes attributes) {
+        Member member = memberRepository.findMemberForLogin(attributes.getEmail())
+                .orElse(attributes.toEntity());
+        save(member);
+        return member;
+    }
     @Override
     public MemberPostResponseDto create(MemberPostRequestDto requestDto,
             TokenResponse tokenResponse) {

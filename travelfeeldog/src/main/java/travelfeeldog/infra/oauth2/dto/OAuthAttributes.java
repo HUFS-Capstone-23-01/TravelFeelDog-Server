@@ -1,5 +1,6 @@
 package travelfeeldog.infra.oauth2.dto;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -30,8 +31,7 @@ public class OAuthAttributes {
 
         return ofGoogle(userNameAttributeName, attributes);
     }
-
-    private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
+    public static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
         return OAuthAttributes.builder()
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))

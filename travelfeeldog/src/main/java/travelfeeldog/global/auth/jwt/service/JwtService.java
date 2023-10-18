@@ -1,31 +1,30 @@
 package travelfeeldog.global.auth.jwt.service;
 
 import io.jsonwebtoken.Claims;
-import jakarta.servlet.http.HttpServletResponse;
+
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import travelfeeldog.global.auth.jwt.response.TokenResponse;
 import travelfeeldog.global.auth.jwt.exception.InvalidTokenException;
 import travelfeeldog.member.domain.application.service.MemberRead;
+import travelfeeldog.member.domain.application.service.MemberReadService;
 import travelfeeldog.member.domain.model.Member;
 import travelfeeldog.member.domain.model.Role;
 
 @RequiredArgsConstructor
 @Service
 @Transactional
-@Slf4j
 public class JwtService {
     private final JwtProvider jwtProvider;
-    private final MemberRead memberReadService;
+    private final MemberReadService memberReadService;
     public String findEmailByToken(String token) throws JwtException {
         try {
             Claims claims = jwtProvider.extractClaims(token);
             return claims.getSubject();
         } catch (RuntimeException e) {
-            log.info("[ERROR] " + e);
             throw new InvalidTokenException("Invalid token", e);
         }
     }

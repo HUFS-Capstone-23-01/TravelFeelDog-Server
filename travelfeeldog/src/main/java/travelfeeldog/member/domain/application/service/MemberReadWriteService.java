@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import travelfeeldog.global.auth.jwt.service.JwtProvider;
 import travelfeeldog.global.auth.jwt.response.TokenResponse;
+import travelfeeldog.infra.oauth2.dto.OAuthAttributes;
 import travelfeeldog.member.dto.MemberDto;
 import travelfeeldog.member.dto.MemberDtos.*;
 import travelfeeldog.member.dto.MemberNickNameHistoryDto;
@@ -35,6 +36,16 @@ public class MemberReadWriteService implements MemberService {
     @Override
     public List<MemberDto> getMembers(List<Long> followingMemberIds){
         return memberReadService.getMembers(followingMemberIds);
+    }
+
+    @Override
+    public Member getByEmail(OAuthAttributes attributes) {
+        return memberReadService.getByEmail(attributes);
+    }
+
+    @Override
+    public Member findByEmail(String email) {
+        return memberReadService.findByEmail(email);
     }
 
     @Override
@@ -101,5 +112,15 @@ public class MemberReadWriteService implements MemberService {
     @Override
     public Member updateExpAndLevel(Member member, int addExpValue) {
         return memberWriteService.updateExpAndLevel(member, addExpValue);
+    }
+
+    @Override
+    public void save(Member member) {
+        memberWriteService.save(member);
+    }
+
+    @Override
+    public Member saveByAttributes(OAuthAttributes attributes) {
+        return memberWriteService.saveByAttributes(attributes);
     }
 }
