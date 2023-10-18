@@ -20,7 +20,7 @@ import travelfeeldog.member.domain.model.Member;
 @RequiredArgsConstructor
 public class GoogleLoginService {
 
-    @Value("${spring.security.oauth2.client.registration.google.client-id}")
+    @Value("${spring.security.oauth2.client.registration.google-mobile.client-id}")
     String clientId;
     private final GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
             new NetHttpTransport(), new JacksonFactory())

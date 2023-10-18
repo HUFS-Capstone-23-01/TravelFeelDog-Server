@@ -3,13 +3,22 @@ spring:
     oauth2:
       client:
         registration:
-          google:
+          google-web:
+            provider: google
             redirect-uri: ${Google_Client_REDIRECT_URI}
-            client-id : ${Google_Client_Id}
+            client-id : ${Google_WEB_Client_Id}
             client-secret: ${Google_Client_Secret}
             scope:
               - email
               - profile
-
+          google-mobile:
+            provider: google
+            redirect-uri: ${Google_Client_REDIRECT_URI}
+            client-id: ${Google_ANDROID_Client_Id}
+            client-secret: ${Google_Client_Secret}
+            scope:
+              - email
+              - profile
+              -
 # request login url : http://localhost:8080/oauth2/authorization/google
 # success login url :  http://localhost:8080/login/oauth2/code/google
