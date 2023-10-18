@@ -30,9 +30,7 @@ public class GoogleLoginService {
 
     public Member loginGoogleOAuthWithIdToken(String idToken) {
         OAuthAttributes attributes = verifyGoogleIDToken(idToken);
-        Member member = memberWrite.saveByAttributes(attributes);
-        memberWrite.save(member);
-        return member;
+        return memberWrite.saveByAttributes(attributes);
     }
 
     public OAuthAttributes verifyGoogleIDToken(String idToken) {

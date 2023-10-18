@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import travelfeeldog.global.auth.jwt.response.TokenResponse;
 import travelfeeldog.global.auth.jwt.exception.InvalidTokenException;
 import travelfeeldog.infra.oauth2.api.TokenLoginResponse;
-import travelfeeldog.member.domain.application.service.MemberRead;
 import travelfeeldog.member.domain.application.service.MemberReadService;
 import travelfeeldog.member.domain.model.Member;
 import travelfeeldog.member.domain.model.Role;
@@ -21,6 +20,7 @@ import travelfeeldog.member.domain.model.Role;
 public class JwtService {
     private final JwtProvider jwtProvider;
     private final MemberReadService memberReadService;
+    private final static String GUEST_TOKEN = "GUESTGUESTGUEST";
     public String findEmailByToken(String token) throws JwtException {
         try {
             Claims claims = jwtProvider.extractClaims(token);
@@ -29,9 +29,14 @@ public class JwtService {
             throw new InvalidTokenException("Invalid token", e);
         }
     }
-    public TokenLoginResponse getTokenLoginResponseByMember(Member member){
-        String atk = getAccessTokenByEmail(member.getEmail());
-        String rtk = getRefreshTokenByEmail(member.getEmail());
+    public TokenLoginResponse getTokenLoginResponseByMember(Member member) {
+        String atk = GUEST_TOKEN;
+        String rtk = GUEST_TOKEN;
+        if (member.getRole() != Role.GUEST){
+            atk = member.getAccessToken();
+            rtk = member.getRefreshToken();
+        }
+
         return new TokenLoginResponse(member.getEmail(),member.getRole().getKey(),new TokenResponse(atk,rtk));
     }
     public Member findMemberByToken(String token) {
@@ -57,18 +62,6 @@ public class JwtService {
     }
     public String getAuthTokenByEmail(String email) {
         return jwtProvider.createAuthorizationToken(email);
-    }
-
-    public String getAccessTokenByEmail(String email) {
-        Member member = memberReadService.findByEmail(email);
-        if (member.getRole() != Role.GUEST) return member.getAccessToken();
-        return "GUESTGUESTGUEST";
-    }
-
-    public String getRefreshTokenByEmail(String email) {
-        Member member = memberReadService.findByEmail(email);
-        if (member.getRole() != Role.GUEST) return member.getRefreshToken();
-        return "GUESTGUESTGUEST";
     }
 
 }
