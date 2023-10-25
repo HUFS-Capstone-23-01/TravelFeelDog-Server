@@ -44,10 +44,12 @@ public class JwtProvider {
         result.put(tokenKey, jwt);
         return result;
     }
-    public String createAuthorizationToken(String payload){
+
+    public String createAuthorizationToken(String payload) {
         long fiveMin = 300000L;
-        return createToken(payload,fiveMin,AUTH_TOKEN_KEY).get(AUTH_TOKEN_KEY);
+        return createToken(payload, fiveMin, AUTH_TOKEN_KEY).get(AUTH_TOKEN_KEY);
     }
+
     public Map<String, String> createAccessToken(String payload) {
         return createToken(payload, jwtSecretKey.getJwtValidityAccessTime(), ACCESS_TOKEN_KEY);
     }
@@ -76,6 +78,7 @@ public class JwtProvider {
             throw new InvalidTokenException("Failed to extract claims from token", e);
         }
     }
+
     public void validateToken(String token) {
         try {
             Claims claims = Jwts.parserBuilder()
@@ -117,10 +120,10 @@ public class JwtProvider {
     public TokenResponse updateToken(TokenResponse token, String email) {
         String atk = token.getAccessToken();
         String rtk = token.getAccessToken();
-        if (isTokenExpire(atk)) {
+        if (atk == null || isTokenExpire(atk)) {
             atk = createAccessToken(email).get(ACCESS_TOKEN_KEY);
         }
-        if (isTokenExpire(rtk)) {
+        if (rtk == null || isTokenExpire(rtk)) {
             rtk = createRefreshToken(email).get(ACCESS_TOKEN_KEY);
         }
         return new TokenResponse(atk, rtk);

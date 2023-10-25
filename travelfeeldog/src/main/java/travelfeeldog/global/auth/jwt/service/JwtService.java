@@ -21,6 +21,7 @@ public class JwtService {
     private final JwtProvider jwtProvider;
     private final MemberReadService memberReadService;
     private final static String GUEST_TOKEN = "GUESTGUESTGUEST";
+
     public String findEmailByToken(String token) throws JwtException {
         try {
             Claims claims = jwtProvider.extractClaims(token);
@@ -29,27 +30,32 @@ public class JwtService {
             throw new InvalidTokenException("Invalid token", e);
         }
     }
+
     public TokenLoginResponse getTokenLoginResponseByMember(Member member) {
         String atk = GUEST_TOKEN;
         String rtk = GUEST_TOKEN;
-        if (member.getRole() != Role.GUEST){
-            atk = member.getAccessToken();
-            rtk = member.getRefreshToken();
+        if (member.getRole() != Role.GUEST) {
+            return new TokenLoginResponse(member.getEmail(), member.getRole().getKey(),
+                    tokenUpdateCheck(member.getEmail()));
         }
 
-        return new TokenLoginResponse(member.getEmail(),member.getRole().getKey(),new TokenResponse(atk,rtk));
+        return new TokenLoginResponse(member.getEmail(), member.getRole().getKey(), new TokenResponse(atk, rtk));
     }
+
     public Member findMemberByToken(String token) {
         String email = findEmailByToken(token);
         return memberReadService.findByEmail(email);
     }
-    public TokenResponse updateToken(TokenResponse token,String email) {
-        TokenResponse newToken = jwtProvider.updateToken(token,email);
+
+    public TokenResponse updateToken(TokenResponse token, String email) {
+        TokenResponse newToken = jwtProvider.updateToken(token, email);
         return new TokenResponse(newToken);
     }
-    public void validateToken(String token){
+
+    public void validateToken(String token) {
         jwtProvider.validateToken(token);
     }
+
     public TokenResponse tokenUpdateCheck(String email) {
         Member member = memberReadService.findByEmail(email);
         if (member.getRole() != Role.GUEST) {
@@ -60,6 +66,7 @@ public class JwtService {
         }
         return null;
     }
+
     public String getAuthTokenByEmail(String email) {
         return jwtProvider.createAuthorizationToken(email);
     }
