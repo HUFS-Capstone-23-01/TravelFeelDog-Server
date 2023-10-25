@@ -34,12 +34,11 @@ public class JwtService {
     public TokenLoginResponse getTokenLoginResponseByMember(Member member) {
         String atk = GUEST_TOKEN;
         String rtk = GUEST_TOKEN;
+        TokenResponse tokenResponse = new TokenResponse(atk, rtk);
         if (member.getRole() != Role.GUEST) {
-            return new TokenLoginResponse(member.getEmail(), member.getRole().getKey(),
-                    tokenUpdateCheck(member.getEmail()));
+            tokenResponse = tokenUpdateCheck(member.getEmail());
         }
-
-        return new TokenLoginResponse(member.getEmail(), member.getRole().getKey(), new TokenResponse(atk, rtk));
+        return new TokenLoginResponse(member.getEmail(), member.getRole().getKey(), tokenResponse);
     }
 
     public Member findMemberByToken(String token) {
