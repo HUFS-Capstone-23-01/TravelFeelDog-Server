@@ -1,22 +1,23 @@
 {{>layout/header}}
 
 <div class="login-container mt-5"> <!-- 여기에 mt-5 클래스 추가 -->
-  <h1 class="text-center">SpringBoot Login</h1>
-  <div class="col-md-12 text-center">
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        {{#userName}}
-          <p>Logged in as: <span id="user">{{userName}}</span></p>
-          <p>Role: <span id="role">{{userRole}}</span></p>
-          <a href="/logout" class="btn btn-info active" role="button">Logout</a>
-        {{/userName}}
-        {{^userName}}
-          <a href="/oauth2/authorization/google-web" class="btn btn-success active" role="button">Google Login</a>
-        {{/userName}}
-      </div>
+    <h1 class="text-center">SpringBoot Login</h1>
+    <div class="col-md-12 text-center">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                {{#userName}}
+                    <p>Logged in as: <span id="user">{{userName}}</span></p>
+                    <p>Role: <span id="role">{{userRole}}</span></p>
+                    <a href="/logout" class="btn btn-info active" role="button">Logout</a>
+                {{/userName}}
+                {{^userName}}
+                    <a href="/oauth2/authorization/google-web-test" class="btn btn-success active" role="button">Google
+                        Login</a>
+                {{/userName}}
+            </div>
+        </div>
+        <br>
     </div>
-    <br>
-  </div>
 </div>
 
 {{>layout/footer}}
