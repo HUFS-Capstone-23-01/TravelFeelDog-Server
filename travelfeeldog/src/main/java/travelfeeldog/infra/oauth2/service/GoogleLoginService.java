@@ -34,17 +34,18 @@ public class GoogleLoginService {
     }
 
     public OAuthAttributes verifyGoogleIDToken(String idToken) {
+        GoogleIdToken idTokenObj;
         try {
-            GoogleIdToken idTokenObj = verifier.verify(idToken);
-            if (idTokenObj == null) {
-                return null;
-            }
-            Payload payload = idTokenObj.getPayload();
-            OAuthAttributes attributes = OAuthAttributes.ofGoogle("sub", payload);
-            return attributes;
-        } catch (GeneralSecurityException | IOException e) {
-            throw new IllegalArgumentException("Wrong In IdToken"); // new custom exception
+            idTokenObj = verifier.verify(idToken);
+        } catch (GeneralSecurityException | IOException | RuntimeException e) {
+            throw new IllegalArgumentException("Wrong In verify IdToken");
         }
+        Payload payload = idTokenObj.getPayload();
+        OAuthAttributes attributes = OAuthAttributes.ofGoogle("sub", payload);
+        if (attributes == null) {
+            throw new IllegalArgumentException("Wrong In IdToken payload");
+        }
+        return attributes;
     }
 
 }
