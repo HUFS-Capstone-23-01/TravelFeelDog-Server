@@ -1,15 +1,14 @@
 package travelfeeldog.place.domain.place.repository;
 
-import java.util.List;
-
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import travelfeeldog.place.domain.place.model.Place;
+import travelfeeldog.place.domain.place.model.Places;
 
 @Repository
-public interface PlaceRepository extends JpaRepository<Place,Long> {
+public interface PlaceRepository extends JpaRepository<Place, Long> {
 
     @Query("SELECT DISTINCT p " +
             "FROM Place p " +
@@ -19,7 +18,7 @@ public interface PlaceRepository extends JpaRepository<Place,Long> {
             "WHERE " +
             "c.name = :categoryName " +
             "AND l.name = :locationName ")
-    List<Place> findPlacesByLocationNameAndCategoryName(String categoryName, String locationName);
+    Places findPlacesByLocationNameAndCategoryName(String categoryName, String locationName);
 
 
     @Query("SELECT DISTINCT p " +
@@ -30,7 +29,7 @@ public interface PlaceRepository extends JpaRepository<Place,Long> {
             "LEFT JOIN r.reviewGoodKeyWords gk " +
             "LEFT JOIN gk.goodKeyWord gkw " +
             "WHERE " + "l.name = :locationName " + "AND c.name = :categoryName ")
-    List<Place> findPlacesByLocationNameAndCategoryNameCallKey(
+    Places findPlacesByLocationNameAndCategoryNameCallKey(
             @Param("categoryName") String categoryName,
             @Param("locationName") String locationName);
 
@@ -42,5 +41,5 @@ public interface PlaceRepository extends JpaRepository<Place,Long> {
             "WHERE " +
             "l.name = :locationName ")
         // join fetch , place and member and review to call
-    List<Place> findPlacesByLocationName(@Param("locationName") String locationName);
+    Places findPlacesByLocationName(@Param("locationName") String locationName);
 }

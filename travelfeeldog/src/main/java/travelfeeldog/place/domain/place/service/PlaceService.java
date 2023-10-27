@@ -1,31 +1,26 @@
 package travelfeeldog.place.domain.place.service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-
 import jakarta.persistence.EntityNotFoundException;
-
+import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import lombok.RequiredArgsConstructor;
 import travelfeeldog.member.domain.application.service.MemberService;
 import travelfeeldog.place.domain.category.model.Category;
 import travelfeeldog.place.domain.category.service.CategoryService;
+import travelfeeldog.place.domain.location.model.Location;
+import travelfeeldog.place.domain.location.service.LocationService;
+import travelfeeldog.place.domain.place.model.KeyWord;
+import travelfeeldog.place.domain.place.model.Place;
+import travelfeeldog.place.domain.place.model.Places;
 import travelfeeldog.place.domain.place.repository.PlaceRepository;
-import travelfeeldog.review.dto.ReviewDtos.ReviewPostRequestDto;
 import travelfeeldog.place.dto.PlaceDtos.PlaceDetailDto;
 import travelfeeldog.place.dto.PlaceDtos.PlacePostRequestDto;
 import travelfeeldog.place.dto.PlaceDtos.PlaceResponseDetailDto;
 import travelfeeldog.place.dto.PlaceDtos.PlaceResponseRecommendDetailDto;
 import travelfeeldog.place.dto.PlaceDtos.PlaceReviewCountSortResponseDto;
 import travelfeeldog.place.dto.PlaceDtos.PlaceSearchResponseDto;
-import travelfeeldog.place.domain.place.model.Place;
-import travelfeeldog.place.domain.place.model.PlaceStatistic;
-import travelfeeldog.place.domain.location.model.Location;
-import travelfeeldog.place.domain.location.service.LocationService;
-import travelfeeldog.review.domain.review.model.Review;
+import travelfeeldog.review.dto.ReviewDtos.ReviewPostRequestDto;
 
 @Transactional(readOnly = true)
 @Service
@@ -39,12 +34,13 @@ public class PlaceService {
     public PlaceDetailDto addNewPlace(PlacePostRequestDto placePostRequestDto) {
         Category category = categoryService.getCategoryByName(placePostRequestDto.getCategoryName());
         Location location = locationService.getLocationByName(placePostRequestDto.getLocationName());
-        Place place = create(category,location,placePostRequestDto);
+        Place place = create(category, location, placePostRequestDto);
         return new PlaceDetailDto(place);
     }
+
     @Transactional
-    public Place create(Category category,Location location,PlacePostRequestDto request){
-        Place place = Place.RegisterNewPlace(request,category,location);
+    public Place create(Category category, Location location, PlacePostRequestDto request) {
+        Place place = Place.RegisterNewPlace(request, category, location);
         return placeRepository.save(place);
     }
 
@@ -54,19 +50,19 @@ public class PlaceService {
         place.modifyPlaceImageUrl(imageUrl);
         return place;
     }
+
     public Place getPlaceById(Long placeId) {
         return placeRepository.findById(placeId)
                 .orElseThrow(() -> new EntityNotFoundException("Place not found with ID: " + placeId));
     }
+
     public Place getPlaceById(ReviewPostRequestDto request) {
         return getPlaceById(request.getPlaceId());
     }
 
-    public PlaceResponseDetailDto getPlaceDetailById(Long placeId, String token) {
-        memberService.findByToken(token);
+    public PlaceResponseDetailDto getPlaceDetailById(Long placeId) {
         Place place = getPlaceById(placeId);
         place.upCountPlaceViewCount();
-
         return new PlaceResponseDetailDto(place, place.getPlaceStatistic());
     }
 
@@ -74,70 +70,30 @@ public class PlaceService {
         return placeRepository.findAll();
     }
 
-    public List<PlaceResponseRecommendDetailDto> getResponseRecommend(String categoryName, String locationName,
-                                                                      String token) {
-        memberService.findByToken(token);
-        List<Place> places = placeRepository.findPlacesByLocationNameAndCategoryName(categoryName, locationName);
-        return  places.stream().sorted(Comparator.comparing(Place::getViewCount).reversed())
-            .limit(6)
-            .map(PlaceResponseRecommendDetailDto::new)
-            .toList();
+    public List<PlaceResponseRecommendDetailDto> getResponseRecommend(String categoryName, String locationName) {
+        Places places = placeRepository.findPlacesByLocationNameAndCategoryName(categoryName, locationName);
+        return places.sortByViewCountLimit6();
     }
-    public List<PlaceReviewCountSortResponseDto> getMostReviewPlace(String locationName, String token) {
-        memberService.findByToken(token);
-        List<Place> placeSorted = placeRepository.findPlacesByLocationName(locationName)
-                .stream()
-                .map(Place::getPlaceStatistic)
-                .sorted(Comparator.comparing(PlaceStatistic::getReviewCount).reversed())
-                .map(PlaceStatistic::getPlace)
-                .toList();
-        List<Place> places = new ArrayList<>();
-        for(Place place : placeSorted) {
-            List<Review> reviews = place.getReviews();
-            for(Review review: reviews) {
-                if(!review.getAdditionalScript().isEmpty()) {
-                    places.add(place);
-                    break;
-                }
-            }
-        }
-        if(places.size() ==0) {
+
+    public List<PlaceReviewCountSortResponseDto> getMostReviewPlace(String locationName) {
+        Places placeSorted = placeRepository.findPlacesByLocationName(locationName).getPlacesSortByReviewCount();
+        Places places = placeSorted.getFilterdPlacesByMostViews();
+        if (places.isEmpty()) {
             places = placeSorted;
         }
-        return places.stream()
-                .limit(6)
-                .map(PlaceReviewCountSortResponseDto::new)
-                .toList();
+        return places.getMostReviewPlacesDto(6);
     }
-    public List<PlaceSearchResponseDto> getResponseSearch(String categoryName, String locationName, String keyWord,
-                                                          String token) {
-        memberService.findByToken(token);
-        List<Place> places = placeRepository.findPlacesByLocationNameAndCategoryNameCallKey(categoryName, locationName);
-        if(keyWord.trim().length() != 0) {
 
-            String normalizedKeyword = keyWord.trim().toLowerCase();
-
-            List<Place> filteredPlaces = new java.util.ArrayList<>(places.stream()
-                    .filter(place -> place.getReviews().stream()
-                            .flatMap(review -> review.getReviewGoodKeyWords().stream())
-                            .map(reviewGoodKeyword -> reviewGoodKeyword.getGoodKeyWord().getKeyWordName().toLowerCase())
-                            .anyMatch(keyword -> keyword.contains(normalizedKeyword)))
-                    .toList());
-            List<Place> filteredPlacesByName = places.stream()
-                    .filter(place -> place.getName().contains(normalizedKeyword))
-                    .toList();
-
-            filteredPlaces.addAll(filteredPlacesByName);
-
-            return filteredPlaces.stream()
-                    .map(PlaceSearchResponseDto::new)
-                    .limit(10)
-                    .toList();
+    public List<PlaceSearchResponseDto> getResponseSearch(String categoryName, String locationName, KeyWord keyWord) {
+        Places places = placeRepository.findPlacesByLocationNameAndCategoryNameCallKey(categoryName, locationName);
+        if (keyWord.isKeyWordIsEmpty()) {
+            String normalizedKeyword = keyWord.getNoramalizedKeyWord();
+            Places filteredPlaces = places.getFilterdPlaceByKeyWord(normalizedKeyword);
+            Places filteredPlacesByName = places.getKeyWordMatchSamePlaces(normalizedKeyword);
+            filteredPlaces.addALLPlaces(filteredPlacesByName);
+            return filteredPlaces.getPlaceSearchByKeyWord(10);
         }
 
-        return places.stream()
-                .map(PlaceSearchResponseDto::new)
-                .limit(10)
-                .toList();
+        return places.getPlaceSearchByKeyWord(10);
     }
 }
