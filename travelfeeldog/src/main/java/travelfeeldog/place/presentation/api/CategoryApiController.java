@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import travelfeeldog.place.dto.CategoryDtos.CategoryResponseDto;
 import travelfeeldog.place.dto.CategoryDtos.RequestCategoryDto;
-import travelfeeldog.place.domain.category.model.Category;
-import travelfeeldog.place.domain.category.service.CategoryService;
+import travelfeeldog.place.domain.information.category.model.Category;
+import travelfeeldog.place.domain.information.category.service.CategoryService;
 import travelfeeldog.global.common.dto.ApiResponse;
 
 @RestController
@@ -29,11 +29,13 @@ public class CategoryApiController {
         List<Category> categories = categoryService.getAllCategories();
         return ApiResponse.success(categories.stream().map(CategoryResponseDto::new).collect(Collectors.toList()));
     }
+
     @GetMapping(value = "/all/names", produces = "application/json;charset=UTF-8")
     public ApiResponse<List<String>> getAllCategoryNames() {
         List<Category> categories = categoryService.getAllCategories();
         return ApiResponse.success(categories.stream().map(Category::getName).collect(Collectors.toList()));
     }
+
     @PostMapping(consumes = "application/json", produces = "application/json;charset=UTF-8")
     public ApiResponse<Category> createCategory(@RequestBody RequestCategoryDto request) {
         Category createdCategory = categoryService.saveCategory(request);

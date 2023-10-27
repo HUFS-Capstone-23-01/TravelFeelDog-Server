@@ -12,19 +12,19 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
-import travelfeeldog.place.domain.category.model.Category;
+import travelfeeldog.place.domain.information.category.model.Category;
 
 
 @Setter
 @Getter
 @Entity
-public class GoodKeyWord extends BaseKeyWordEntity{
+public class GoodKeyWord extends BaseKeyWordEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="good_key_word_id")
+    @Column(name = "good_key_word_id")
     private Long id;
 
-    @ManyToOne(fetch = LAZY,cascade= CascadeType.PERSIST)
-    @JoinColumn(name="category_id")
+    @ManyToOne(fetch = LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "category_id")
     private Category category;
 }

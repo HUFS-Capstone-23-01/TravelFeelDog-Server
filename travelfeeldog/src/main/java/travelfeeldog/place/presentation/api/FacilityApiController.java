@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import travelfeeldog.place.domain.facility.model.Facility;
-import travelfeeldog.place.domain.facility.service.FacilityService;
+import travelfeeldog.place.domain.information.facility.model.Facility;
+import travelfeeldog.place.domain.information.facility.service.FacilityService;
 import travelfeeldog.global.common.dto.ApiResponse;
 
 @RestController
@@ -28,7 +28,7 @@ public class FacilityApiController {
         return ApiResponse.success(facility);
     }
 
-    @GetMapping(value = "/ids",produces = "application/json;charset=UTF-8")
+    @GetMapping(value = "/ids", produces = "application/json;charset=UTF-8")
     public ApiResponse<List<Facility>> getFacilitiesByIds(@RequestParam List<Long> ids) {
         List<Facility> facilities = facilityService.getFacilitiesByIds(ids);
         return ApiResponse.success(facilities);
@@ -40,7 +40,7 @@ public class FacilityApiController {
         return ApiResponse.success(facilities);
     }
 
-    @GetMapping(value = "/all",produces = "application/json;charset=UTF-8")
+    @GetMapping(value = "/all", produces = "application/json;charset=UTF-8")
     public ApiResponse<List<Facility>> getAllFacilities() {
         List<Facility> facilities = facilityService.getAllFacilities();
         return ApiResponse.success(facilities);

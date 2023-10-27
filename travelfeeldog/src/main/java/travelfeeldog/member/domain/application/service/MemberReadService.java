@@ -6,16 +6,15 @@ import travelfeeldog.member.domain.model.Member;
 import travelfeeldog.member.dto.MemberDto;
 import travelfeeldog.member.dto.MemberDtos.MemberResponse;
 import travelfeeldog.member.dto.MemberNickNameHistoryDto;
+
 public interface MemberReadService {
-    Member  findByToken(String firebaseToken);
+    Member findByToken(String firebaseToken);
 
     Member findByNickName(String nickName);
 
     boolean isNickRedundant(String nickName);
 
-    boolean isTokenExist(String firebaseToken);
-
-    List<MemberResponse> getAllMembers() ;
+    List<MemberResponse> getAllMembers();
 
     List<MemberNickNameHistoryDto> getAllMemberHistory(Long memberId);
 

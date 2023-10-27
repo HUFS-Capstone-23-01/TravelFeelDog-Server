@@ -1,4 +1,4 @@
-package travelfeeldog.place.domain.location.model;
+package travelfeeldog.place.domain.information.location.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +20,12 @@ import travelfeeldog.place.domain.place.model.Place;
 public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="location_id")
+    @Column(name = "location_id")
     private Long id;
 
     private String name;
 
-    @OneToMany(mappedBy = "location" ,cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "location", cascade = CascadeType.PERSIST)
     private List<Place> places = new ArrayList<>();
 
     public Location(String name) {

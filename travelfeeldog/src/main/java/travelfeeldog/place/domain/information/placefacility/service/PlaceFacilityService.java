@@ -1,10 +1,10 @@
-package travelfeeldog.place.domain.placefacility.service;
+package travelfeeldog.place.domain.information.placefacility.service;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import travelfeeldog.place.domain.facility.model.Facility;
-import travelfeeldog.place.domain.placefacility.repository.PlaceFacilityRepository;
+import travelfeeldog.place.domain.information.facility.model.Facility;
+import travelfeeldog.place.domain.information.placefacility.repository.PlaceFacilityRepository;
 import travelfeeldog.place.domain.place.model.Place;
 
 @Service

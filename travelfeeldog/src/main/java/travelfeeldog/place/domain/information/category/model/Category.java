@@ -1,4 +1,4 @@
-package travelfeeldog.place.domain.category.model;
+package travelfeeldog.place.domain.information.category.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,27 +23,28 @@ import travelfeeldog.place.domain.place.model.Place;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="category_id")
+    @Column(name = "category_id")
     private Long id;
 
     private String name;
 
-    @OneToMany(mappedBy = "category" ,cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST)
     private List<Place> places = new ArrayList<>();
 
-    @OneToMany(mappedBy = "category" ,cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST)
     private List<GoodKeyWord> goodKeyWords = new ArrayList<>();
 
-    @OneToMany(mappedBy = "category" ,cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST)
     private List<BadKeyWord> badKeyWords = new ArrayList<>();
+
     public Category(String name) {
         this.name = name;
     }
 
-    public List<PlaceDetailDto> getPlaceDetails(){
+    public List<PlaceDetailDto> getPlaceDetails() {
         return this.getPlaces()
-            .stream()
-            .map(PlaceDetailDto::new).collect(Collectors.toList());
+                .stream()
+                .map(PlaceDetailDto::new).collect(Collectors.toList());
     }
 
 }

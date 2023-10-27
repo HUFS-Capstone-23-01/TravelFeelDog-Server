@@ -1,4 +1,4 @@
-package travelfeeldog.place.domain.facility.model;
+package travelfeeldog.place.domain.information.facility.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,10 +15,11 @@ import lombok.NoArgsConstructor;
 public class Facility {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="facility_id")
+    @Column(name = "facility_id")
     private Long id;
     private String name;
-    public Facility(String name){
+
+    public Facility(String name) {
         this.name = name;
     }
 

@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import travelfeeldog.place.dto.LocationDtos.RequestLocationDto;
 import travelfeeldog.place.dto.LocationDtos.ResponseLocationDto;
-import travelfeeldog.place.domain.location.model.Location;
-import travelfeeldog.place.domain.location.service.LocationService;
+import travelfeeldog.place.domain.information.location.model.Location;
+import travelfeeldog.place.domain.information.location.service.LocationService;
 import travelfeeldog.global.common.dto.ApiResponse;
 
 @RestController
@@ -27,10 +27,12 @@ public class LocationApiController {
 
     @GetMapping(value = "/all", produces = "application/json;charset=UTF-8")
     public ApiResponse<List<ResponseLocationDto>> getAllLocations() {
-        List<ResponseLocationDto> locations = locationService.getAllLocations().stream().map(ResponseLocationDto::new).collect(
-                Collectors.toList());
+        List<ResponseLocationDto> locations = locationService.getAllLocations().stream().map(ResponseLocationDto::new)
+                .collect(
+                        Collectors.toList());
         return ApiResponse.success(locations);
     }
+
     @GetMapping(value = "/{locationId}", produces = "application/json;charset=UTF-8")
     public ApiResponse<ResponseLocationDto> getLocationById(@PathVariable Long locationId) {
         Location location = locationService.getLocationById(locationId);

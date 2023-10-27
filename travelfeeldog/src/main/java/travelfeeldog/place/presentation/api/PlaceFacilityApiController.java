@@ -9,12 +9,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import travelfeeldog.place.domain.facility.model.Facility;
-import travelfeeldog.place.domain.facility.service.FacilityService;
+import travelfeeldog.place.domain.information.facility.model.Facility;
+import travelfeeldog.place.domain.information.facility.service.FacilityService;
 import travelfeeldog.place.dto.PlaceDtos.PlaceDetailDto;
 import travelfeeldog.place.domain.place.model.Place;
 import travelfeeldog.place.domain.place.service.PlaceService;
-import travelfeeldog.place.domain.placefacility.service.PlaceFacilityService;
+import travelfeeldog.place.domain.information.placefacility.service.PlaceFacilityService;
 import travelfeeldog.global.common.dto.ApiResponse;
 
 @RestController

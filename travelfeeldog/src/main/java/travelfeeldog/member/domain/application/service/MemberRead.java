@@ -54,21 +54,21 @@ public class MemberRead implements MemberReadService {
 //                        "Member not found by token:" + firebaseToken));
         return null;
     }
-    public Member findByEmail(String email){
-        return memberRepository.findByEmail(email).orElseThrow(()->new IllegalStateException("no member find by email"));
+
+    public Member findByEmail(String email) {
+        return memberRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalStateException("no member find by email"));
     }
-    @Override  // fix point
-    public boolean isTokenExist(String firebaseToken) {
-        return true;
-//        return memberRepository.findByToken(firebaseToken).isPresent();
-    }
+
     @Override
     public boolean isNickRedundant(String nickName) {
         return memberRepository.findByNickName(nickName).isPresent();
     }
+
     public List<Member> getAll() {
         return memberRepository.findAll();
     }
+
     @Override
     public List<MemberResponse> getAllMembers() {
         return getAll().stream().map(MemberResponse::new).collect(Collectors.toList());

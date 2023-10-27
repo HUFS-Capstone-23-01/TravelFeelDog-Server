@@ -29,12 +29,14 @@ public class MemberReadWriteService implements MemberService {
     public Member findByToken(String firebaseToken) {
         return memberReadService.findByToken(firebaseToken);
     }
+
     @Override
     public MemberDto getMember(Long memberId) {
         return memberReadService.getMember(memberId);
     }
+
     @Override
-    public List<MemberDto> getMembers(List<Long> followingMemberIds){
+    public List<MemberDto> getMembers(List<Long> followingMemberIds) {
         return memberReadService.getMembers(followingMemberIds);
     }
 
@@ -50,18 +52,12 @@ public class MemberReadWriteService implements MemberService {
 
     @Override
     public Member findByNickName(String nickName) {
-        return memberReadService.findByNickName(
-                nickName); // corrected from findByToken to findByNickName
+        return memberReadService.findByNickName(nickName);
     }
 
     @Override
     public boolean isNickRedundant(String nickName) {
         return memberReadService.isNickRedundant(nickName);
-    }
-
-    @Override
-    public boolean isTokenExist(String firebaseToken) {
-        return memberReadService.isTokenExist(firebaseToken);
     }
 
     @Override
@@ -79,19 +75,19 @@ public class MemberReadWriteService implements MemberService {
      */
     public MemberRegisterResponse register(MemberPostRequestDto requestDto) {
         TokenResponse tokenResponse = createTokenReturn(requestDto);
-        MemberPostResponseDto result = create(requestDto,tokenResponse);
-        return new MemberRegisterResponse(result,tokenResponse);
+        MemberPostResponseDto result = create(requestDto, tokenResponse);
+        return new MemberRegisterResponse(result, tokenResponse);
     }
 
-    private TokenResponse  createTokenReturn(MemberPostRequestDto request) {
+    private TokenResponse createTokenReturn(MemberPostRequestDto request) {
         String accessToken = jwtProvider.createAccessToken(request.getEmail()).get("accessToken");
         String refreshToken = jwtProvider.createRefreshToken(request.getEmail()).get("refreshToken");
-        return new TokenResponse(accessToken,refreshToken);
+        return new TokenResponse(accessToken, refreshToken);
     }
 
     @Override
     public MemberPostResponseDto create(MemberPostRequestDto requestDto, TokenResponse tokenResponse) {
-        return memberWriteService.create(requestDto,tokenResponse);
+        return memberWriteService.create(requestDto, tokenResponse);
     }
 
     @Override
