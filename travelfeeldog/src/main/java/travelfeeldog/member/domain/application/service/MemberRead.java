@@ -2,6 +2,7 @@ package travelfeeldog.member.domain.application.service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import travelfeeldog.infra.oauth2.dto.OAuthAttributes;
 import travelfeeldog.member.domain.model.MemberNicknameHistory;
+import travelfeeldog.member.domain.model.Role;
 import travelfeeldog.member.dto.MemberDto;
 import travelfeeldog.member.dto.MemberNickNameHistoryDto;
 import travelfeeldog.member.repository.MemberNicknameHistoryRepository;
@@ -62,7 +64,11 @@ public class MemberRead implements MemberReadService {
 
     @Override
     public boolean isNickRedundant(String nickName) {
-        return memberRepository.findByNickName(nickName).isPresent();
+        Optional<Member> member = memberRepository.findByNickName(nickName);
+        if (member != null) {
+            return member.get().getRole() != Role.GUEST;
+        }
+        return true; // there is no member which was wind by nickName
     }
 
     public List<Member> getAll() {
