@@ -65,10 +65,8 @@ public class MemberRead implements MemberReadService {
     @Override
     public boolean isNickRedundant(String nickName) {
         Optional<Member> member = memberRepository.findByNickName(nickName);
-        if (member != null) {
-            return member.get().getRole() != Role.GUEST;
-        }
-        return true; // there is no member which was wind by nickName
+        // there is no member which was wind by nickName
+        return member.map(value -> value.getRole() != Role.GUEST).orElse(true);
     }
 
     public List<Member> getAll() {
