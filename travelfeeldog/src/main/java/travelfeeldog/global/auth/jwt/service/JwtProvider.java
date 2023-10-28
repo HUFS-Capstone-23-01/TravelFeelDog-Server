@@ -45,26 +45,25 @@ public class JwtProvider {
         return result;
     }
 
-    public String createAuthorizationToken(String payload) {
-        long fiveMin = 300000L;
-        return createToken(payload, fiveMin, AUTH_TOKEN_KEY).get(AUTH_TOKEN_KEY);
-    }
-
     public Map<String, String> createAccessToken(String payload) {
         return createToken(payload, jwtSecretKey.getJwtValidityAccessTime(), ACCESS_TOKEN_KEY);
     }
 
+    public String getNewAccessToken(String payload) {
+        return createAccessToken(payload).get(ACCESS_TOKEN_KEY);
+    }
+
     public Map<String, String> createRefreshToken(String payload) {
-        Map<String, String> result = createToken(payload, jwtSecretKey.getJwtValidityRefreshTime(),
-                REFRESH_TOKEN_KEY);
-
+        Map<String, String> result = createToken(payload, jwtSecretKey.getJwtValidityRefreshTime(), REFRESH_TOKEN_KEY);
         Date validityTime = new Date(new Date().getTime() + jwtSecretKey.getJwtValidityRefreshTime());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
-                Locale.ENGLISH);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
         String refreshTokenExpirationAt = simpleDateFormat.format(validityTime);
-
         result.put("refreshTokenExpirationAt", refreshTokenExpirationAt);
         return result;
+    }
+
+    public String getNewRefreshToken(String payload) {
+        return createRefreshToken(payload).get(REFRESH_TOKEN_KEY);
     }
 
     public Claims extractClaims(String token) throws JwtException {
@@ -120,12 +119,20 @@ public class JwtProvider {
     public TokenResponse updateToken(TokenResponse token, String email) {
         String atk = token.accessToken();
         String rtk = token.refreshToken();
-        if (atk == null || isTokenExpire(atk)) {
-            atk = createAccessToken(email).get(ACCESS_TOKEN_KEY);
+
+        if (isTokenExpire(atk)) {
+            atk = getNewAccessToken(email);
         }
-        if (rtk == null || isTokenExpire(rtk)) {
-            rtk = createRefreshToken(email).get(ACCESS_TOKEN_KEY);
+        if (isTokenExpire(rtk)) {
+            rtk = getNewRefreshToken(email);
         }
+
         return new TokenResponse(atk, rtk);
     }
+
+    public String createAuthorizationToken(String payload) {
+        long fiveMin = 300000L;
+        return createToken(payload, fiveMin, AUTH_TOKEN_KEY).get(AUTH_TOKEN_KEY);
+    }
+
 }

@@ -80,8 +80,8 @@ public class MemberReadWriteService implements MemberService {
     }
 
     private TokenResponse createTokenReturn(MemberPostRequestDto request) {
-        String accessToken = jwtProvider.createAccessToken(request.getEmail()).get("accessToken");
-        String refreshToken = jwtProvider.createRefreshToken(request.getEmail()).get("refreshToken");
+        String accessToken = jwtProvider.getNewAccessToken(request.getEmail());
+        String refreshToken = jwtProvider.getNewRefreshToken(request.getEmail());
         return new TokenResponse(accessToken, refreshToken);
     }
 
