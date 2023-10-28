@@ -21,11 +21,12 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private static final String REDIRECT_URL = "/";
     private final JwtService jwtService;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-            Authentication authentication) throws IOException {
+                                        Authentication authentication) throws IOException {
         String email = extractUsername(authentication);
-        jwtService.tokenUpdateCheck(email);
+        jwtService.tokenUpdateCheckByEmail(email);
         getRedirectStrategy().sendRedirect(request, response, getRedirectUrl(email));
     }
 
@@ -34,9 +35,10 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         Map<String, Object> attributes = oAuth2User.getAttributes();
         return (String) attributes.get("email");
     }
+
     private String getRedirectUrl(String email) {
         return UriComponentsBuilder.fromUriString(REDIRECT_URL)
-                .queryParam("Authorization", jwtService.getAuthTokenByEmail(email))
+                .queryParam("Authorization", jwtService.getNewAuthTokenByEmail(email))
                 .build().toUriString();
     }
 }

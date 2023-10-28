@@ -161,8 +161,17 @@ public class Member extends BaseTimeEntity {
     private void validateEmail(String email) {
         Assert.isTrue(email.length() <= EMAIL_MAX_LENGTH, "이메일 최대 길이를 초과했습니다.");
     }
-    public void updateToken(String accessToken,String refreshToken) {
-        this.accessToken =accessToken;
+
+    public void updateToken(String accessToken, String refreshToken) {
+        this.accessToken = accessToken;
         this.refreshToken = refreshToken;
+    }
+
+    public boolean isNotGuest() {
+        return getRole() != Role.GUEST;
+    }
+
+    public boolean isGuest() {
+        return getRole() == Role.GUEST;
     }
 }

@@ -41,7 +41,7 @@ public class OAuth2ApiController {
     }
 
     // mobile 에서 구글 ID 토큰을 통한 회원 정보 호출  :  회원 이메일 타입, jwt
-    @PostMapping("/mobile/oauth2/google")
+    @PostMapping("/mobile/oauth2/google/idToken")
     public ApiResponse<TokenLoginResponse> mobileGoogleAuthenticationLogin(
             @RequestBody TokenLoginRequest request) {
         Member member = googleLoginService.loginGoogleOAuthWithMobileIdToken(request.token());

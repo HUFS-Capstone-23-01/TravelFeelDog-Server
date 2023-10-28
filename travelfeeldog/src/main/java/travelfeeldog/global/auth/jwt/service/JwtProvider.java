@@ -81,7 +81,7 @@ public class JwtProvider {
 
     public void validateToken(String token) {
         try {
-            Claims claims = Jwts.parserBuilder()
+            Jwts.parserBuilder()
                     .setSigningKey(jwtSecretKey.getKey())
                     .build()
                     .parseClaimsJws(token)
@@ -118,8 +118,8 @@ public class JwtProvider {
     }
 
     public TokenResponse updateToken(TokenResponse token, String email) {
-        String atk = token.getAccessToken();
-        String rtk = token.getAccessToken();
+        String atk = token.accessToken();
+        String rtk = token.refreshToken();
         if (atk == null || isTokenExpire(atk)) {
             atk = createAccessToken(email).get(ACCESS_TOKEN_KEY);
         }

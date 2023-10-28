@@ -11,7 +11,6 @@ import travelfeeldog.IntegrationTest;
 import travelfeeldog.global.auth.jwt.response.TokenResponse;
 
 import travelfeeldog.infra.oauth2.dto.OAuthAttributes;
-import travelfeeldog.infra.oauth2.service.CustomOAuth2UserService;
 import travelfeeldog.member.domain.model.Member;
 import travelfeeldog.member.domain.model.MemberNicknameHistory;
 import travelfeeldog.member.domain.application.service.MemberWriteService;
@@ -41,18 +40,18 @@ public class MemberWriteServiceTest {
         String userEmail = "newOne@gmail.com";
         String userNickName = "cho12";
         Map<String, Object> attributes = new HashMap<>();
-        attributes.put("name",userNickName );
-        attributes.put("email",userEmail);
+        attributes.put("name", userNickName);
+        attributes.put("email", userEmail);
 
-        OAuthAttributes authAttributes = OAuthAttributes.of("gogole",userNickName,attributes);
+        OAuthAttributes authAttributes = OAuthAttributes.of("gogole", userNickName, attributes);
         Member member = authAttributes.toEntity();
         memberRepository.save(member);
-        var command = new MemberPostRequestDto("cho12",userEmail);
+        var command = new MemberPostRequestDto("cho12", userEmail);
 
         // Register after google login auth complete
-        var tokenResponse = new TokenResponse("accTk","rctk");
-        member = memberRepository.save(command.getEmail(),tokenResponse.getAccessToken(),tokenResponse.getRefreshToken());
-        var result =  new MemberPostResponseDto(member);
+        var tokenResponse = new TokenResponse("accTk", "rctk");
+        member = memberRepository.save(command.getEmail(), tokenResponse.accessToken(), tokenResponse.refreshToken());
+        var result = new MemberPostResponseDto(member);
         assertEqualsCreateMember(command, result);
     }
 

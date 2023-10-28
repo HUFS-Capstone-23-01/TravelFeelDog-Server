@@ -1,18 +1,15 @@
 package travelfeeldog.global.auth.jwt.service;
 
 import io.jsonwebtoken.Claims;
-
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import travelfeeldog.global.auth.jwt.response.TokenResponse;
 import travelfeeldog.global.auth.jwt.exception.InvalidTokenException;
+import travelfeeldog.global.auth.jwt.response.TokenResponse;
 import travelfeeldog.infra.oauth2.api.TokenLoginResponse;
 import travelfeeldog.member.domain.application.service.MemberReadService;
 import travelfeeldog.member.domain.model.Member;
-import travelfeeldog.member.domain.model.Role;
 
 @RequiredArgsConstructor
 @Service
@@ -22,7 +19,7 @@ public class JwtService {
     private final MemberReadService memberReadService;
     private final static String GUEST_TOKEN = "GUESTGUESTGUEST";
 
-    public String findEmailByToken(String token) throws JwtException {
+    public String findEmailByExtractToken(String token) throws JwtException {
         try {
             Claims claims = jwtProvider.extractClaims(token);
             return claims.getSubject();
@@ -31,42 +28,40 @@ public class JwtService {
         }
     }
 
-    public TokenLoginResponse getTokenLoginResponseByMember(Member member) {
-        String atk = GUEST_TOKEN;
-        String rtk = GUEST_TOKEN;
-        TokenResponse tokenResponse = new TokenResponse(atk, rtk);
-        if (member.getRole() != Role.GUEST) {
-            tokenResponse = tokenUpdateCheck(member.getEmail());
-        }
-        return new TokenLoginResponse(member.getEmail(), member.getRole().getKey(), tokenResponse);
-    }
-
     public Member findMemberByToken(String token) {
-        String email = findEmailByToken(token);
+        String email = findEmailByExtractToken(token);
         return memberReadService.findByEmail(email);
     }
 
+    public TokenLoginResponse getTokenLoginResponseByMember(Member member) {
+        TokenResponse tokenResponse = tokenUpdateCheckByMember(member);
+        return new TokenLoginResponse(member.getEmail(), member.getRole().getKey(), tokenResponse);
+    }
+
     public TokenResponse updateToken(TokenResponse token, String email) {
-        TokenResponse newToken = jwtProvider.updateToken(token, email);
-        return new TokenResponse(newToken);
+        return jwtProvider.updateToken(token, email);
     }
 
     public void validateToken(String token) {
         jwtProvider.validateToken(token);
     }
 
-    public TokenResponse tokenUpdateCheck(String email) {
-        Member member = memberReadService.findByEmail(email);
-        if (member.getRole() != Role.GUEST) {
-            TokenResponse token = new TokenResponse(member.getAccessToken(), member.getRefreshToken());
-            token = updateToken(token, member.getEmail());
-            member.updateToken(token.getAccessToken(), token.getRefreshToken());
-            return token;
+    private TokenResponse tokenUpdateCheckByMember(Member member) {
+        if (member.isNotGuest()) {
+            TokenResponse memberToken = new TokenResponse(member.getAccessToken(), member.getRefreshToken());
+            memberToken = updateToken(memberToken, member.getEmail());
+            member.updateToken(memberToken.accessToken(), memberToken.refreshToken());
+            return memberToken;
         }
-        return null;
+        return new TokenResponse(GUEST_TOKEN, GUEST_TOKEN);
     }
 
-    public String getAuthTokenByEmail(String email) {
+    public void tokenUpdateCheckByEmail(String email) {
+        Member member = memberReadService.findByEmail(email);
+        tokenUpdateCheckByMember(member);
+    }
+
+    public String getNewAuthTokenByEmail(String email) {
         return jwtProvider.createAuthorizationToken(email);
     }
 

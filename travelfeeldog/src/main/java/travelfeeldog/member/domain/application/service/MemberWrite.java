@@ -22,8 +22,9 @@ public class MemberWrite implements MemberWriteService {
     private final MemberRepository memberRepository;
 
     private final MemberNicknameHistoryRepository memberNickNameHistoryRepository;
-    public void save(Member member){
-        memberRepository.save(member).orElseThrow(()->new IllegalStateException(""));
+
+    public void save(Member member) {
+        memberRepository.save(member).orElseThrow(() -> new IllegalStateException(""));
     }
 
     @Override
@@ -33,11 +34,12 @@ public class MemberWrite implements MemberWriteService {
         save(member);
         return member;
     }
+
     @Override
     public MemberPostResponseDto create(MemberPostRequestDto requestDto,
-            TokenResponse tokenResponse) {
-        var member = memberRepository.save(requestDto.getEmail(), tokenResponse.getAccessToken(),
-                tokenResponse.getRefreshToken());
+                                        TokenResponse tokenResponse) {
+        var member = memberRepository.save(requestDto.getEmail(), tokenResponse.accessToken(),
+                tokenResponse.refreshToken());
         saveNickNameHistory(member);
         return new MemberPostResponseDto(member);
     }

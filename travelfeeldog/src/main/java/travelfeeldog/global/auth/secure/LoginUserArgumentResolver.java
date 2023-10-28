@@ -17,6 +17,7 @@ import travelfeeldog.global.auth.jwt.service.JwtService;
 public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final JwtService jwtService;
+
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return parameter.hasParameterAnnotation(LoginUser.class);
@@ -24,12 +25,13 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
     }
 
     @Override
-    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
+    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
+                                  NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
         String token = AuthorizationExtractor.extract(Objects.requireNonNull(request));
         if (token == null || token.trim().isEmpty()) {
             return null;
         }
-        return jwtService.findEmailByToken(token);
+        return jwtService.findEmailByExtractToken(token);
     }
 }
