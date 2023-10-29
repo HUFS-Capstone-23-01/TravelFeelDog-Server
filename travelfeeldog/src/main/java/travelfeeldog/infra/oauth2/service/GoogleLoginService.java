@@ -13,6 +13,7 @@ import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import travelfeeldog.member.domain.application.service.MemberWriteService;
 import travelfeeldog.member.domain.model.Member;
 
 @Service
+@Slf4j
 public class GoogleLoginService {
 
     private final String mobileClientId;
@@ -74,11 +76,13 @@ public class GoogleLoginService {
         try {
             idTokenObj = verifier.verify(idToken);
         } catch (GeneralSecurityException | IOException e) {
+            log.info("[ERROR] : ", e);
             throw new IllegalArgumentException("Wrong In verify IdToken", e);
         }
         Payload payload = idTokenObj.getPayload();
         OAuthAttributes attributes = OAuthAttributes.ofGoogle("sub", payload);
         if (attributes == null) {
+            log.info("[ERROR] : no Attributes");
             throw new IllegalArgumentException("Wrong In IdToken payload");
         }
         return attributes;
