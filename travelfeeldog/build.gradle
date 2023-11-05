@@ -69,8 +69,17 @@ dependencies {
 }
 
 tasks.named('test') {
-    useJUnitPlatform()
+    useJUnitPlatform {
+        excludeTags 'BulkDataTest'
+    }
     maxHeapSize = "1650m"
+
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+        showStandardStreams = true
+        exceptionFormat = 'full'
+        outputs.upToDateWhen { false }
+    }
 }
 
 

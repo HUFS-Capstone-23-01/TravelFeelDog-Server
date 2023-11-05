@@ -1,27 +1,22 @@
 package travelfeeldog.domain.feed;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StopWatch;
-import travelfeeldog.IntegrationTest;
 import travelfeeldog.community.feed.domain.model.Feed;
 import travelfeeldog.community.feed.repository.FeedRepository;
 import travelfeeldog.factory.FeedFixtureFactory;
 
 
-//@SpringBootTest
-@IntegrationTest
+@BulkDataTest
 public class FeedBulkInsertTest {
     private final Logger logger = LoggerFactory.getLogger(FeedBulkInsertTest.class);
-    List<Feed> posts = new ArrayList<>();
     @Autowired
     private FeedRepository feedRepository;
 
@@ -55,10 +50,5 @@ public class FeedBulkInsertTest {
 
         queryStopWatch.stop();
         logger.info("DB 인서트 시간 : {} ", queryStopWatch.getTotalTimeSeconds());
-    }
-
-    @AfterEach
-    void clearList() {
-        posts = null;
     }
 }
