@@ -1,18 +1,17 @@
 package travelfeeldog.review.domain.keyword.service;
 
-import java.util.List;
-import java.util.stream.Collectors;
 import jakarta.persistence.EntityNotFoundException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import travelfeeldog.place.domain.information.category.model.Category;
 import travelfeeldog.place.domain.information.category.service.CategoryService;
 import travelfeeldog.review.domain.keyword.model.BadKeyWord;
 import travelfeeldog.review.domain.keyword.model.GoodKeyWord;
+import travelfeeldog.review.domain.keyword.repository.BadKeyWordRepository;
 import travelfeeldog.review.domain.keyword.repository.GoodKeyWordRepository;
 import travelfeeldog.review.dto.KeyWordDtos.KeyWordResponseByCategoryDto;
 import travelfeeldog.review.dto.KeyWordDtos.KeyWordResponseDto;
-import travelfeeldog.review.domain.keyword.repository.BadKeyWordRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -32,30 +31,25 @@ public class KeyWordService {
     }
 
     public KeyWordResponseDto saveBadKeyWord(String keyWord, String categoryName) {
-        BadKeyWord badKeyWord = new BadKeyWord();
         Category category = categoryService.getCategoryByName(categoryName);
-        badKeyWord.setCategory(category);
-        badKeyWord.setKeyWordName(keyWord);
+        BadKeyWord badKeyWord = new BadKeyWord(category, keyWord);
         badKeyWordRepository.save(badKeyWord);
         return new KeyWordResponseDto(badKeyWord);
     }
 
     public KeyWordResponseDto saveGoodKeyWord(String keyWord, String categoryName) {
-        GoodKeyWord goodKeyWord = new GoodKeyWord();
         Category category = categoryService.getCategoryByName(categoryName);
-        goodKeyWord.setCategory(category);
-        goodKeyWord.setKeyWordName(keyWord);
+        GoodKeyWord goodKeyWord = new GoodKeyWord(category, keyWord);
         goodKeyWordRepository.save(goodKeyWord);
-
         return new KeyWordResponseDto(goodKeyWord);
     }
 
     public List<KeyWordResponseDto> getAllBadKeyWords() {
-        return badKeyWordRepository.findAll().stream().map(KeyWordResponseDto::new).collect(Collectors.toList());
+        return badKeyWordRepository.findAll().stream().map(KeyWordResponseDto::new).toList();
     }
 
     public List<KeyWordResponseDto> getAllGoodKeyWords() {
-        return goodKeyWordRepository.findAll().stream().map(KeyWordResponseDto::new).collect(Collectors.toList());
+        return goodKeyWordRepository.findAll().stream().map(KeyWordResponseDto::new).toList();
     }
 
     public KeyWordResponseByCategoryDto getAllKeyWordsByCategory(Long categoryId) {

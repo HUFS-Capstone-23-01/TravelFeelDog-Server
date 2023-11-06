@@ -1,32 +1,37 @@
 package travelfeeldog.review.dto;
 
 import java.util.List;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import travelfeeldog.review.dto.KeyWordDtos.BadKeyWordResponseDto;
 import travelfeeldog.review.dto.KeyWordDtos.GoodKeyWordResponseDto;
 
 public class ReviewKeyWordDtos {
-    @Data
+    @Getter
+    @Setter
     public static class ReviewKeyWordResponseDto {
-        private Long keyWordId;
-        private String keyWordName;
+        private final Long keyWordId;
+        private final String keyWordName;
         private int keyWordCount;
-        public ReviewKeyWordResponseDto(GoodKeyWordResponseDto goodKeyWord){
-            this.keyWordId =goodKeyWord.getGoodKeyWordId();
+
+        public ReviewKeyWordResponseDto(GoodKeyWordResponseDto goodKeyWord) {
+            this.keyWordId = goodKeyWord.getGoodKeyWordId();
             this.keyWordName = goodKeyWord.getGoodKeyWordName();
-            keyWordCount = 0;
+            this.keyWordCount = 0;
         }
-        public ReviewKeyWordResponseDto(BadKeyWordResponseDto badKeyWord){
+
+        public ReviewKeyWordResponseDto(BadKeyWordResponseDto badKeyWord) {
             this.keyWordId = badKeyWord.getBadKeyWordId();
             this.keyWordName = badKeyWord.getBadKeyWordName();
-            keyWordCount = 0;
+            this.keyWordCount = 0;
         }
     }
 
-    @Data
-    public static class ReviewKeyWordResponseByCategoryDto{
+    @Getter
+    public static class ReviewKeyWordResponseByCategoryDto {
         private List<ReviewKeyWordResponseDto> keyWords;
-        public ReviewKeyWordResponseByCategoryDto ( List<ReviewKeyWordResponseDto> reviewKeyWordResponseDto){
+
+        public ReviewKeyWordResponseByCategoryDto(List<ReviewKeyWordResponseDto> reviewKeyWordResponseDto) {
             this.keyWords = reviewKeyWordResponseDto;
         }
     }

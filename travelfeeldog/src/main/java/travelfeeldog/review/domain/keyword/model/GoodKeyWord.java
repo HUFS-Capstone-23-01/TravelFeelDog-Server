@@ -11,11 +11,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
-import lombok.Setter;
 import travelfeeldog.place.domain.information.category.model.Category;
 
 
-@Setter
 @Getter
 @Entity
 public class GoodKeyWord extends BaseKeyWordEntity {
@@ -27,4 +25,14 @@ public class GoodKeyWord extends BaseKeyWordEntity {
     @ManyToOne(fetch = LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "category_id")
     private Category category;
+
+    public GoodKeyWord(Category category, String keyWord) {
+        super();
+        this.category = category;
+        this.setKeyWordName(keyWord);
+    }
+
+    public GoodKeyWord() {
+
+    }
 }

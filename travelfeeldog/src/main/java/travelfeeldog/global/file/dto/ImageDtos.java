@@ -1,11 +1,11 @@
 package travelfeeldog.global.file.dto;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import travelfeeldog.global.file.domain.model.ImageFile;
 
 public class ImageDtos {
-    @Data
+    @Getter
     @NoArgsConstructor
     public static class ImageDto {
         private String fileName;
@@ -20,10 +20,11 @@ public class ImageDtos {
             this.fileSize = image.getFileSize();
         }
     }
-    @Data
+
     @NoArgsConstructor
     public static class ImagesResponseDto {
         private String fileName;
+
         public ImagesResponseDto(ImageDto imageDto) {
             this.fileName = imageDto.getFileName();
         }

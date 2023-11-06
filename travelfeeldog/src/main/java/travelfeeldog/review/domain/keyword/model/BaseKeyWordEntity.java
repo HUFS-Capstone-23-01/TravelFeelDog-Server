@@ -2,10 +2,13 @@ package travelfeeldog.review.domain.keyword.model;
 
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
-import lombok.Setter;
 
-@Getter @Setter
+@Getter
 @MappedSuperclass
 public abstract class BaseKeyWordEntity {
-    private String keyWordName;
+    protected String keyWordName;
+
+    protected void setKeyWordName(final String keyWordName) {
+        this.keyWordName = keyWordName;
+    }
 }

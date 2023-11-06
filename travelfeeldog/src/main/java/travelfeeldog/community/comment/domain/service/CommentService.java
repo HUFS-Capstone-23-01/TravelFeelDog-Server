@@ -25,8 +25,9 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final MemberService memberService;
     private final FeedReadService feedReadService;
+
     @Transactional
-    public CommentResponseDto postComment(String token, CommentRequestDto requestDto){
+    public CommentResponseDto postComment(String token, CommentRequestDto requestDto) {
         Member member = memberService.findByToken(token);
         Feed feed = feedReadService.findByFeedId(requestDto.getFeedId());
         Comment comment = new Comment();
@@ -36,24 +37,25 @@ public class CommentService {
         commentRepository.save(comment);
         return new CommentResponseDto(comment);
     }
+
     @Transactional
-    public Boolean deleteComment(String token, Long commentId){
+    public Boolean deleteComment(String token, Long commentId) {
         Member member = memberService.findByToken(token);
-        try{
-        Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new EntityNotFoundException("Comment not found with ID"));
-        if (Objects.equals(comment.getMember().getId(), member.getId())){
-            commentRepository.delete(comment);
-            return true;
-        }
-        else {
-            return false;
-        }
-        }catch (EntityNotFoundException e){
+        try {
+            Comment comment = commentRepository.findById(commentId)
+                    .orElseThrow(() -> new EntityNotFoundException("Comment not found with ID"));
+            if (Objects.equals(comment.getMember().getId(), member.getId())) {
+                commentRepository.delete(comment);
+                return true;
+            } else {
+                return false;
+            }
+        } catch (EntityNotFoundException e) {
             return false;
         }
     }
-    public List<CommentResponseDto> getAllCommentByFeedId(String token , Long feedId){
+
+    public List<CommentResponseDto> getAllCommentByFeedId(String token, Long feedId) {
         memberService.findByToken(token);
         List<Comment> comments = commentRepository.findAllByFeedId(feedId)
                 .stream()

@@ -45,13 +45,14 @@ public class ReviewService {
         return reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new EntityNotFoundException("Review not found with id: " + reviewId));
     }
-    public ReviewMemberPageResponseDto getReviewMemberPageByReviewId(Long reviewId){
+
+    public ReviewMemberPageResponseDto getReviewMemberPageByReviewId(Long reviewId) {
         Review review = getReviewById(reviewId);
         return new ReviewMemberPageResponseDto(review);
     }
 
     @Transactional
-    public ReviewPageResponseDto saveReview(String token , ReviewPostRequestDto request) {
+    public ReviewPageResponseDto saveReview(String token, ReviewPostRequestDto request) {
         Member member = memberService.findByToken(token);
         Place place = placeService.getPlaceById(request);
         Review review = Review.AddReview(member, place, request);
@@ -59,10 +60,11 @@ public class ReviewService {
         member.updateExpAndLevel(20);
         place.updatePlaceStatistic(request);
 
-        reviewKeyWordService.saveReviewKeyWords(request,review);
+        reviewKeyWordService.saveReviewKeyWords(request, review);
 
         return new ReviewPageResponseDto(review);
     }
+
     @Transactional
     public void deleteReviewById(Long id) {
         reviewRepository.deleteById(id);
@@ -75,11 +77,12 @@ public class ReviewService {
                 .collect(Collectors.toList());
     }
 
-    public List<ReviewPageResponseDto> getReviewsByQuery(String token ,Long placeId,String request) {
+    public List<ReviewPageResponseDto> getReviewsByQuery(String token, Long placeId, String request) {
         Member member = memberService.findByToken(token);
         List<Review> reviews = "TIME".equalsIgnoreCase(request)
                 ? reviewRepository.findAllByPlaceIdOrderByCreatedDateTimeDesc(placeId)
-                : reviewRepository.findByPlaceIdAndRecommendStatus(placeId, RecommendStatus.valueOf(request.toUpperCase()));
+                : reviewRepository.findByPlaceIdAndRecommendStatus(placeId,
+                        RecommendStatus.valueOf(request.toUpperCase()));
         return reviews
                 .stream()
                 .map(ReviewPageResponseDto::new)
@@ -93,12 +96,15 @@ public class ReviewService {
                 .map(ReviewMemberPageResponseDto::new)
                 .collect(Collectors.toList());
     }
+
     @Transactional
     public String updateReviewImage(String token, UpdateReviewImageDto reviewImageDto) {
         memberService.findByToken(token);
-        ReviewImage reviewImage = reviewImageRepository.findByReviewId(reviewImageDto.getReviewId())
-            .orElseThrow(() -> new EntityNotFoundException("Review not found with id: " +reviewImageDto.getReviewId()));;
-        reviewImage.updateImage(reviewImageDto.getImageUrl());
-        return reviewImageDto.getImageUrl();
+        ReviewImage reviewImage = reviewImageRepository.findByReviewId(reviewImageDto.reviewId())
+                .orElseThrow(
+                        () -> new EntityNotFoundException("Review not found with id: " + reviewImageDto.reviewId()));
+        ;
+        reviewImage.updateImage(reviewImageDto.imageUrl());
+        return reviewImageDto.imageUrl();
     }
 }
