@@ -35,4 +35,8 @@ public class GoodKeyWord extends BaseKeyWordEntity {
     public GoodKeyWord() {
 
     }
+
+    public Boolean isSameId(Long keyWordId) {
+        return this.id.equals(keyWordId);
+    }
 }

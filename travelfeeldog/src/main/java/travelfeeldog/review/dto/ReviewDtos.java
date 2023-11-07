@@ -27,7 +27,7 @@ public class ReviewDtos {
     public static class ReviewPostRequestDto {
         private final Long placeId;
         private final String additionalScript;
-        private final RecommendStatus recommendStatus; // GOOD,IDK,BAD
+        private final RecommendStatus recommendStatus;
         private final int smallDogNumber;
         private final int mediumDogNumber;
         private final int largeDogNumber;

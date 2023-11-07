@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import travelfeeldog.review.dto.ReviewKeyWordDtos.ReviewKeyWordResponseByCategoryDto;
-import travelfeeldog.review.domain.reviewkeyword.service.ReviewKeyWordService;
 import travelfeeldog.global.common.dto.ApiResponse;
+import travelfeeldog.review.domain.reviewkeyword.service.ReviewKeyWordService;
+import travelfeeldog.review.dto.ReviewKeyWordResponseByCategoryDto;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,10 +18,10 @@ public class ReviewKeyWordApiController {
 
     private final ReviewKeyWordService reviewKeyWordService;
 
-    @GetMapping(value ="/{placeId}",produces = "application/json;charset=UTF-8")
+    @GetMapping(value = "/{placeId}", produces = "application/json;charset=UTF-8")
     public ApiResponse<ReviewKeyWordResponseByCategoryDto> getGoodOrBadKeyWordsByPlace(@PathVariable Long placeId,
                                                                                        @RequestParam("keyWord") String keyWord,
                                                                                        @RequestHeader("Authorization") String token) {
-        return ApiResponse.success(reviewKeyWordService.getGoodOrBadKeyWordsByPlace(placeId,keyWord,token));
+        return ApiResponse.success(reviewKeyWordService.getGoodOrBadKeyWordsByPlace(placeId, keyWord, token));
     }
 }

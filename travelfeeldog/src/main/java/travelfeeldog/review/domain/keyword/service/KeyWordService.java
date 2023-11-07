@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import travelfeeldog.place.domain.information.category.model.Category;
 import travelfeeldog.place.domain.information.category.service.CategoryService;
 import travelfeeldog.review.domain.keyword.model.BadKeyWord;
+import travelfeeldog.review.domain.keyword.model.BadKeyWords;
 import travelfeeldog.review.domain.keyword.model.GoodKeyWord;
+import travelfeeldog.review.domain.keyword.model.GoodKeyWords;
 import travelfeeldog.review.domain.keyword.repository.BadKeyWordRepository;
 import travelfeeldog.review.domain.keyword.repository.GoodKeyWordRepository;
 import travelfeeldog.review.dto.KeyWordDtos.KeyWordResponseByCategoryDto;
@@ -53,8 +55,17 @@ public class KeyWordService {
     }
 
     public KeyWordResponseByCategoryDto getAllKeyWordsByCategory(Long categoryId) {
+        return new KeyWordResponseByCategoryDto(getGoodKeyWordByCategoryId(categoryId).getGoodKeyWords(),
+                getBadKeyWordByCategoryId(categoryId).getBadKeyWords());
+    }
+
+    public GoodKeyWords getGoodKeyWordByCategoryId(Long categoryId) {
         List<GoodKeyWord> goodKeyWords = goodKeyWordRepository.findAllByCategoryId(categoryId);
+        return new GoodKeyWords(goodKeyWords);
+    }
+
+    public BadKeyWords getBadKeyWordByCategoryId(Long categoryId) {
         List<BadKeyWord> badKeyWords = badKeyWordRepository.findAllByCategoryId(categoryId);
-        return new KeyWordResponseByCategoryDto(goodKeyWords, badKeyWords);
+        return new BadKeyWords(badKeyWords);
     }
 }

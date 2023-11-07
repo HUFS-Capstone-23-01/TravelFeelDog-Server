@@ -1,7 +1,6 @@
 package travelfeeldog.review.dto;
 
 import java.util.List;
-import lombok.Data;
 import lombok.Getter;
 import travelfeeldog.review.domain.keyword.model.BadKeyWord;
 import travelfeeldog.review.domain.keyword.model.GoodKeyWord;
@@ -35,7 +34,6 @@ public class KeyWordDtos {
     }
 
     @Getter
-    @Data
     public static class BadKeyWordResponseDto {
         private final Long badKeyWordId;
         private final String badKeyWordName;
