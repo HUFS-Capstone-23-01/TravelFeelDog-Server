@@ -17,7 +17,7 @@ import travelfeeldog.member.domain.application.service.MemberWriteService;
 import travelfeeldog.member.dto.MemberDtos.MemberPostRequestDto;
 import travelfeeldog.member.dto.MemberDtos.MemberPostResponseDto;
 import travelfeeldog.member.repository.MemberNicknameHistoryRepository;
-import travelfeeldog.member.repository.MemberRepository;
+import travelfeeldog.member.domain.MemberRepository;
 import org.junit.jupiter.api.Assertions;
 
 import travelfeeldog.factory.MemberFixtureFactory;

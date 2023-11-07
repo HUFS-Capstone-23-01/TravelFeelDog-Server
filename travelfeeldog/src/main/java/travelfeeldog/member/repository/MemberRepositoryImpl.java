@@ -13,6 +13,7 @@ import jakarta.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 import travelfeeldog.member.domain.model.Role;
+import travelfeeldog.member.domain.MemberRepository;
 
 @Slf4j
 @Repository

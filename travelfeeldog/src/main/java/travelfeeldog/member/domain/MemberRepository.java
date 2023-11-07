@@ -1,4 +1,4 @@
-package travelfeeldog.member.repository;
+package travelfeeldog.member.domain;
 
 import java.util.List;
 import java.util.Optional;

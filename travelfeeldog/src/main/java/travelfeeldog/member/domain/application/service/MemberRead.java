@@ -17,7 +17,7 @@ import travelfeeldog.member.repository.MemberNicknameHistoryRepository;
 import travelfeeldog.member.domain.model.Member;
 import travelfeeldog.member.dto.MemberDtos.MemberResponse;
 
-import travelfeeldog.member.repository.MemberRepository;
+import travelfeeldog.member.domain.MemberRepository;
 
 @Service("memberReadService")
 @RequiredArgsConstructor

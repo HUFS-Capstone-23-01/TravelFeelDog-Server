@@ -12,7 +12,7 @@ import travelfeeldog.member.domain.model.Member;
 import travelfeeldog.member.dto.MemberDtos.MemberPostRequestDto;
 import travelfeeldog.member.dto.MemberDtos.MemberPostResponseDto;
 
-import travelfeeldog.member.repository.MemberRepository;
+import travelfeeldog.member.domain.MemberRepository;
 
 @Service
 @RequiredArgsConstructor

@@ -11,7 +11,7 @@ import travelfeeldog.member.domain.application.usecase.GetFollowingMembersUsecas
 import travelfeeldog.member.domain.model.Follow;
 import travelfeeldog.member.domain.model.Member;
 import travelfeeldog.member.repository.FollowRepository;
-import travelfeeldog.member.repository.MemberRepository;
+import travelfeeldog.member.domain.MemberRepository;
 import travelfeeldog.factory.MemberFixtureFactory;
 
 @IntegrationTest
