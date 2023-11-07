@@ -2,6 +2,7 @@ package travelfeeldog.review.presentation;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,45 +25,54 @@ import travelfeeldog.global.common.dto.ApiResponse;
 @RequiredArgsConstructor
 public class ReviewApiController {
     private final ReviewService reviewService;
-    @GetMapping(value = "/test",produces = "application/json;charset=UTF-8")
+
+    @GetMapping(value = "/test", produces = "application/json;charset=UTF-8")
     public ApiResponse<List<ReviewMemberPageResponseDto>> getAllReviews() {
         List<ReviewMemberPageResponseDto> reviews = reviewService.getAllReviews();
         return ApiResponse.success(reviews);
     }
 
-    @GetMapping(value = "/{reviewId}",produces = "application/json;charset=UTF-8")
-    public ApiResponse<ReviewMemberPageResponseDto> getReviewByReviewId(@PathVariable Long reviewId,@RequestHeader("Authorization") String token) {
+    @GetMapping(value = "/{reviewId}", produces = "application/json;charset=UTF-8")
+    public ApiResponse<ReviewMemberPageResponseDto> getReviewByReviewId(@PathVariable Long reviewId,
+                                                                        @RequestHeader("Authorization") String token) {
         ReviewMemberPageResponseDto review = reviewService.getReviewMemberPageByReviewId(reviewId);
         return ApiResponse.success(review);
     }
 
     @PostMapping(produces = "application/json;charset=UTF-8")
-    public ApiResponse<ReviewPageResponseDto> saveReview(@RequestBody ReviewPostRequestDto request, @RequestHeader("Authorization") String token) {
-        ReviewPageResponseDto savedReview = reviewService.saveReview(token,request);
+    public ApiResponse<ReviewPageResponseDto> saveReview(@RequestBody ReviewPostRequestDto request,
+                                                         @RequestHeader("Authorization") String token) {
+        ReviewPageResponseDto savedReview = reviewService.saveReview(token, request);
         return ApiResponse.success(savedReview);
     }
 
-    @DeleteMapping(value = "/{reviewId}",produces = "application/json;charset=UTF-8")
-    public ApiResponse<Void> deleteReviewById(@PathVariable Long reviewId , @RequestHeader("Authorization") String token) {
+    @DeleteMapping(value = "/{reviewId}", produces = "application/json;charset=UTF-8")
+    public ApiResponse<Void> deleteReviewById(@PathVariable Long reviewId,
+                                              @RequestHeader("Authorization") String token) {
         reviewService.deleteReviewById(reviewId);
-        return ApiResponse.success(null);
+        return ApiResponse.success(HttpStatus.OK);
     }
 
-    @GetMapping(value = "/place/{placeId}",produces = "application/json;charset=UTF-8")
-    public ApiResponse<List<ReviewPageResponseDto>> getReviewsByPlaceIdAndQuery(@RequestHeader("Authorization") String token,
-                                                                                @PathVariable Long placeId,
-                                                                                @RequestParam("request") String request) {
-        List<ReviewPageResponseDto> reviews = reviewService.getReviewsByQuery(token,placeId,request);
+    @GetMapping(value = "/place/{placeId}", produces = "application/json;charset=UTF-8")
+    public ApiResponse<List<ReviewPageResponseDto>> getReviewsByPlaceIdAndQuery(
+            @RequestHeader("Authorization") String token,
+            @PathVariable Long placeId,
+            @RequestParam("request") String request) {
+        List<ReviewPageResponseDto> reviews = reviewService.getReviewsByQuery(placeId, request);
         return ApiResponse.success(reviews);
     }
-    @GetMapping(value = "/member/page",produces = "application/json;charset=UTF-8")
-    public ApiResponse<List<ReviewMemberPageResponseDto>> getReviewsByMemberId(@RequestHeader("Authorization") String token) {
+
+    @GetMapping(value = "/member/page", produces = "application/json;charset=UTF-8")
+    public ApiResponse<List<ReviewMemberPageResponseDto>> getReviewsByMemberId(
+            @RequestHeader("Authorization") String token) {
         List<ReviewMemberPageResponseDto> reviews = reviewService.getReviewsByMemberId(token);
         return ApiResponse.success(reviews);
     }
-    @PutMapping (value = "/image",produces = "application/json;charset=UTF-8")
-    public ApiResponse updateReviewImageUrl(@RequestHeader("Authorization") String token,@RequestBody UpdateReviewImageDto reviewImageDto) {
-        return ApiResponse.success(reviewService.updateReviewImage(token,reviewImageDto));
+
+    @PutMapping(value = "/image", produces = "application/json;charset=UTF-8")
+    public ApiResponse updateReviewImageUrl(@RequestHeader("Authorization") String token,
+                                            @RequestBody UpdateReviewImageDto reviewImageDto) {
+        return ApiResponse.success(reviewService.updateReviewImage(reviewImageDto));
     }
 
 }

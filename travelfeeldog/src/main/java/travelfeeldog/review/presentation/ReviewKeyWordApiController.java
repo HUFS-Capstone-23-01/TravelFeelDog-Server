@@ -22,6 +22,6 @@ public class ReviewKeyWordApiController {
     public ApiResponse<ReviewKeyWordResponseByCategoryDto> getGoodOrBadKeyWordsByPlace(@PathVariable Long placeId,
                                                                                        @RequestParam("keyWord") String keyWord,
                                                                                        @RequestHeader("Authorization") String token) {
-        return ApiResponse.success(reviewKeyWordService.getGoodOrBadKeyWordsByPlace(placeId, keyWord, token));
+        return ApiResponse.success(reviewKeyWordService.getGoodOrBadKeyWordsByPlace(placeId, keyWord));
     }
 }
