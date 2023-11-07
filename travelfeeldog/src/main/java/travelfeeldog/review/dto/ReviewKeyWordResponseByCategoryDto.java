@@ -6,9 +6,9 @@ import travelfeeldog.review.domain.keyword.model.ReviewKeyWordInfo;
 
 @Getter
 public class ReviewKeyWordResponseByCategoryDto {
-    private List<ReviewKeyWordInfo> keyWords;
+    private final List<ReviewKeyWordInfo> keyWords;
 
-    public ReviewKeyWordResponseByCategoryDto(List<ReviewKeyWordInfo> reviewKeyWordResponseDto) {
+    public ReviewKeyWordResponseByCategoryDto(final List<ReviewKeyWordInfo> reviewKeyWordResponseDto) {
         this.keyWords = reviewKeyWordResponseDto;
     }
 }
