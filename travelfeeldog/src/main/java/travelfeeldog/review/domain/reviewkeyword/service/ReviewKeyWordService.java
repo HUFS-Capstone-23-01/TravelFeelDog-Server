@@ -4,7 +4,6 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import travelfeeldog.member.domain.application.service.MemberService;
 import travelfeeldog.place.domain.place.model.Place;
 import travelfeeldog.place.domain.place.service.PlaceService;
 import travelfeeldog.review.domain.keyword.model.BadKeyWords;
@@ -27,7 +26,6 @@ public class ReviewKeyWordService {
     private final ReviewGoodKeyWordRepository reviewGoodKeyWordRepository;
     private final KeyWordService keyWordService;
     private final PlaceService placeService;
-    private final MemberService memberService;
 
     @Transactional
     public void saveReviewKeyWords(List<Long> badKeyWordIds, List<Long> goodKeyWordIds, Review review) {
@@ -41,32 +39,33 @@ public class ReviewKeyWordService {
         saveReviewKeyWords(request.getBadKeyWordIds(), request.getGoodKeyWordIds(), review);
     }
 
-    public ReviewKeyWordResponseByCategoryDto getGoodOrBadKeyWordsByPlace(Long placeId, String givenKeyWord,
-                                                                          String token) {
-        memberService.findByToken(token);
+    public ReviewKeyWordResponseByCategoryDto getGoodOrBadKeyWordsByPlace(Long placeId, String givenKeyWord) {
         Place place = placeService.getPlaceById(placeId);
         List<Long> reviewIds = place.getReviews().stream().map(Review::getId).toList();
-
         Long categoryId = place.getCategory().getId();
-
         if (givenKeyWord.equals("GOOD")) {
-            GoodKeyWords goodKeyWords = keyWordService.getGoodKeyWordByCategoryId(categoryId);
-            List<List<Long>> keyWordsIds = reviewIds.stream().map(reviewBadKeyWordRepository::getAllBadKeyWordIds)
-                    .toList();
-            List<ReviewKeyWordInfo> keyWords = goodKeyWords.getReviewTotalInfo(
-                    keyWordsIds.stream().flatMap(List::stream).toList());
-            return new ReviewKeyWordResponseByCategoryDto(keyWords);
+            return getGoodReviewResponse(reviewIds, categoryId);
         }
-
-        BadKeyWords badKeyWords = keyWordService.getBadKeyWordByCategoryId(categoryId);
-        List<List<Long>> keyWordsIds = reviewIds.stream().map(reviewGoodKeyWordRepository::getAllGoodKeyWordIds)
-                .toList();
-        List<ReviewKeyWordInfo> keyWords = badKeyWords.getReviewTotalInfo(
-                keyWordsIds.stream().flatMap(List::stream).toList());
-        return new ReviewKeyWordResponseByCategoryDto(keyWords);
-
+        return getBadReviewResponse(reviewIds, categoryId);
     }
 
+    public ReviewKeyWordResponseByCategoryDto getGoodReviewResponse(List<Long> reviewIds, Long categoryId) {
+        GoodKeyWords goodKeyWords = keyWordService.getGoodKeyWordByCategoryId(categoryId);
+        List<List<Long>> keyWordsIdsByBadKeyWordsIdsFromReviews = reviewIds.stream()
+                .map(reviewBadKeyWordRepository::getAllBadKeyWordIds).toList();
+        List<ReviewKeyWordInfo> keyWords = goodKeyWords.getReviewTotalInfo(
+                keyWordsIdsByBadKeyWordsIdsFromReviews.stream().flatMap(List::stream).toList());
+        return new ReviewKeyWordResponseByCategoryDto(keyWords);
+    }
+
+    public ReviewKeyWordResponseByCategoryDto getBadReviewResponse(List<Long> reviewIds, Long categoryId) {
+        BadKeyWords badKeyWords = keyWordService.getBadKeyWordByCategoryId(categoryId);
+        List<List<Long>> keyWordsIdsByGoodKeyWordsIdsFromReviews = reviewIds.stream()
+                .map(reviewGoodKeyWordRepository::getAllGoodKeyWordIds).toList();
+        List<ReviewKeyWordInfo> keyWords = badKeyWords.getReviewTotalInfo(
+                keyWordsIdsByGoodKeyWordsIdsFromReviews.stream().flatMap(List::stream).toList());
+        return new ReviewKeyWordResponseByCategoryDto(keyWords);
+    }
 }
 
 
