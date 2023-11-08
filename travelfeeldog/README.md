@@ -1,19 +1,30 @@
-
 SpringBoot Application Software Architecture
 ---
-[ Intro ]
-1. 일반적인 Layerd Architecture 는 다음과 같다. (마틴파울러 DDD)
 
-Presentation : Controller
 
-Application : Service , Usecase , Dto mapper
+Layerd Architecture 는 다음과 같다. (마틴파울러 DDD)
 
-Domain : Entity , VO
+Presentation :
 
-Infrastructure : Repository ,Dao
+- API Controller
+- Controller
 
-2. 도메인 모델 패턴을 이용한다. (엔터프라이즈 애플리케이션 아키텍처 패턴 (PEAA), 마틴 파울러)
+Service(Application) :
 
+- @Service
+- Usecase
+- Dto Mapper
+
+Domain :
+
+- model : @Entity , ValueObject
+- Interface : Entity Repository - extends JPA Repository
+
+Infrastructure :
+
+- @Repository
+
+도메인 모델 패턴을 이용한다. (엔터프라이즈 애플리케이션 아키텍처 패턴 (PEAA), 마틴 파울러)
 
 ---
 [ Package Structure ]
@@ -24,7 +35,7 @@ Infrastructure : Repository ,Dao
 
     - member : 회원 관련 영역
 
-    - place : 여행필독서 모바일 앱 서비스에서 여행지 관련 영역
+    - place information: 여행필독서 모바일 앱 서비스에서 여행지 관련 영역
 
     - review : 여행필독서 모바일 앱 서비스에서 여행지에 대한 회원들의 리뷰 관련 영역
 
@@ -32,7 +43,8 @@ Infrastructure : Repository ,Dao
 
     - infra
         - aws s3
+        - oauth2
         - redis
         - swagger
-      
-    - web : 테스트를 위한 웹페이지 관련 영역
+        - test api
+        - web
