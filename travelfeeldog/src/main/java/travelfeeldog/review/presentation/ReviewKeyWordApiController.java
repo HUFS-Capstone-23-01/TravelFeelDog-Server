@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import travelfeeldog.global.common.dto.ApiResponse;
-import travelfeeldog.review.domain.reviewkeyword.service.ReviewKeyWordService;
+import travelfeeldog.review.reviewkeyword.service.ReviewKeyWordService;
 import travelfeeldog.review.dto.ReviewKeyWordResponseByCategoryDto;
 
 @RestController

@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
-import travelfeeldog.review.domain.review.model.RecommendStatus;
-import travelfeeldog.review.domain.review.model.Review;
+import travelfeeldog.review.reviewpost.domain.model.RecommendStatus;
+import travelfeeldog.review.reviewpost.domain.model.Review;
 
 public class ReviewDtos {
     public record UpdateReviewImageDto(Long reviewId, String imageUrl) {

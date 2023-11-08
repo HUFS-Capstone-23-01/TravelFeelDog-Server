@@ -2,8 +2,8 @@ package travelfeeldog.review.dto;
 
 import java.util.List;
 import lombok.Getter;
-import travelfeeldog.review.domain.keyword.model.BadKeyWord;
-import travelfeeldog.review.domain.keyword.model.GoodKeyWord;
+import travelfeeldog.review.keyword.domain.model.BadKeyWord;
+import travelfeeldog.review.keyword.domain.model.GoodKeyWord;
 
 public class KeyWordDtos {
     @Getter

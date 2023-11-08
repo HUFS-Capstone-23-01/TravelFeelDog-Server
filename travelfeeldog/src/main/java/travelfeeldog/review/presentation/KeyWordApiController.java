@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import travelfeeldog.review.dto.KeyWordDtos.KeyWordResponseByCategoryDto;
 import travelfeeldog.review.dto.KeyWordDtos.KeyWordResponseDto;
-import travelfeeldog.review.domain.keyword.service.KeyWordService;
+import travelfeeldog.review.keyword.service.KeyWordService;
 import travelfeeldog.global.common.dto.ApiResponse;
 
 @RestController
@@ -21,7 +21,7 @@ import travelfeeldog.global.common.dto.ApiResponse;
 public class KeyWordApiController {
     private final KeyWordService keyWordService;
 
-    @PostMapping(value = "/{type}",produces = "application/json;charset=UTF-8")
+    @PostMapping(value = "/{type}", produces = "application/json;charset=UTF-8")
     public ResponseEntity<KeyWordResponseDto> addKeyWord(@PathVariable String type,
                                                          @RequestParam String keyWord,
                                                          @RequestParam String categoryName) {
@@ -36,18 +36,20 @@ public class KeyWordApiController {
         }
     }
 
-    @GetMapping(value = "/good",produces = "application/json;charset=UTF-8")
+    @GetMapping(value = "/good", produces = "application/json;charset=UTF-8")
     public ResponseEntity<List<KeyWordResponseDto>> getAllGoodKeyWords() {
         List<KeyWordResponseDto> goodKeyWords = keyWordService.getAllGoodKeyWords();
         return ResponseEntity.ok(goodKeyWords);
     }
+
     @GetMapping(value = "/bad")
     public ResponseEntity<List<KeyWordResponseDto>> getAllBadKeyWords() {
         List<KeyWordResponseDto> badKeyWords = keyWordService.getAllBadKeyWords();
         return ResponseEntity.ok(badKeyWords);
     }
+
     @GetMapping(value = "/{categoryId}", produces = "application/json;charset=UTF-8")
-    ApiResponse<KeyWordResponseByCategoryDto> getAllKeyWordsByCategory(@PathVariable Long categoryId){
+    ApiResponse<KeyWordResponseByCategoryDto> getAllKeyWordsByCategory(@PathVariable Long categoryId) {
         return ApiResponse.success(keyWordService.getAllKeyWordsByCategory(categoryId));
     }
 }

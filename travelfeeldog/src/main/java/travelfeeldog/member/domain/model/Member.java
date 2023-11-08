@@ -26,7 +26,7 @@ import org.springframework.util.Assert;
 import travelfeeldog.community.feedlike.domain.model.FeedLike;
 import travelfeeldog.community.feed.domain.model.Feed;
 import travelfeeldog.community.scrap.domain.model.Scrap;
-import travelfeeldog.review.domain.review.model.Review;
+import travelfeeldog.review.reviewpost.domain.model.Review;
 import travelfeeldog.global.common.domain.basetime.BaseTimeEntity;
 
 @Getter

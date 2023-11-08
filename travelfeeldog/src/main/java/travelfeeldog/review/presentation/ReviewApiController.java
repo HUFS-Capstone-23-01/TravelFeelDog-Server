@@ -17,7 +17,7 @@ import travelfeeldog.review.dto.ReviewDtos.ReviewMemberPageResponseDto;
 import travelfeeldog.review.dto.ReviewDtos.ReviewPageResponseDto;
 import travelfeeldog.review.dto.ReviewDtos.ReviewPostRequestDto;
 import travelfeeldog.review.dto.ReviewDtos.UpdateReviewImageDto;
-import travelfeeldog.review.domain.review.service.ReviewService;
+import travelfeeldog.review.reviewpost.service.ReviewService;
 import travelfeeldog.global.common.dto.ApiResponse;
 
 @RestController

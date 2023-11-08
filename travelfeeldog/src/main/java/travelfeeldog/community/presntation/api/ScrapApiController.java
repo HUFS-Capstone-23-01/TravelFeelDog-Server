@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import travelfeeldog.community.dto.ScrapDtos.ScrapByMemberResponseDto;
 import travelfeeldog.community.dto.ScrapDtos.ScrapRequestDto;
-import travelfeeldog.community.scrap.domain.service.ScrapService;
+import travelfeeldog.community.scrap.service.ScrapService;
 import travelfeeldog.global.common.dto.ApiResponse;
 
 @RestController
@@ -22,15 +22,19 @@ public class ScrapApiController {
     private final ScrapService scrapService;
 
     @PostMapping(produces = "application/json;charset=UTF-8")
-    public ApiResponse<Boolean> postScrap(@RequestHeader("Authorization") String token,@RequestBody ScrapRequestDto requestDto) {
+    public ApiResponse<Boolean> postScrap(@RequestHeader("Authorization") String token,
+                                          @RequestBody ScrapRequestDto requestDto) {
         return ApiResponse.success(scrapService.addNewScrap(token, requestDto));
     }
-    @GetMapping(value = "/all",produces = "application/json;charset=UTF-8")
+
+    @GetMapping(value = "/all", produces = "application/json;charset=UTF-8")
     public ApiResponse<List<ScrapByMemberResponseDto>> getScrapsByMember(@RequestHeader("Authorization") String token) {
         return ApiResponse.success(scrapService.getAllMemberScrap(token));
     }
+
     @DeleteMapping(produces = "application/json;charset=UTF-8")
-    public ApiResponse<Boolean> deleteScrap(@RequestHeader("Authorization") String token, @RequestParam("scrapId") Long scrapId) {
-        return ApiResponse.success(scrapService.deleteScrap(token,scrapId));
+    public ApiResponse<Boolean> deleteScrap(@RequestHeader("Authorization") String token,
+                                            @RequestParam("scrapId") Long scrapId) {
+        return ApiResponse.success(scrapService.deleteScrap(token, scrapId));
     }
 }

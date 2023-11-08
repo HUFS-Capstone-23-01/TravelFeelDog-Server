@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StopWatch;
 import travelfeeldog.community.feed.domain.model.Feed;
-import travelfeeldog.community.feed.repository.FeedRepository;
+import travelfeeldog.community.feed.infrastructure.FeedRepository;
 import travelfeeldog.factory.FeedFixtureFactory;
 
 

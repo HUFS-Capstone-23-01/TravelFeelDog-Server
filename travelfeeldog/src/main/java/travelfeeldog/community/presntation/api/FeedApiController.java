@@ -4,13 +4,13 @@ package travelfeeldog.community.presntation.api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import travelfeeldog.community.feed.domain.application.usecase.CreateFeedUsecase;
+import travelfeeldog.community.feed.application.usecase.CreateFeedUsecase;
 import travelfeeldog.community.dto.FeedDtos.FeedPostRequestDto;
 import travelfeeldog.community.dto.FeedDtos.FeedListResponseDto;
 import travelfeeldog.community.feed.domain.model.Feed;
-import travelfeeldog.community.feed.domain.application.service.FeedReadService;
+import travelfeeldog.community.feed.application.service.FeedReadService;
 
-import travelfeeldog.community.feed.domain.application.service.FeedWriteService;
+import travelfeeldog.community.feed.application.service.FeedWriteService;
 import travelfeeldog.global.common.dto.ApiResponse;
 
 import jakarta.validation.Valid;
@@ -47,15 +47,15 @@ public class FeedApiController {
 
     @DeleteMapping(value = "/detail", produces = "application/json;charset=UTF-8")
     public ApiResponse<Boolean> deleteFeedById(@RequestHeader("Authorization") String fireBaseToken,
-                                      @RequestParam("feedId") Long feedId) {
-        Boolean properFeedOwner = feedReadService.isFeedOwner(feedId,fireBaseToken);
-        if(properFeedOwner) {
+                                               @RequestParam("feedId") Long feedId) {
+        Boolean properFeedOwner = feedReadService.isFeedOwner(feedId, fireBaseToken);
+        if (properFeedOwner) {
             feedWriteService.deleteFeed(feedId);
         }
         return ApiResponse.success(properFeedOwner);
     }
 
-    @GetMapping(value = "/list",produces = "application/json;charset=UTF-8")
+    @GetMapping(value = "/list", produces = "application/json;charset=UTF-8")
     public ApiResponse getFeedList(@RequestParam("page") int page) {
         List<FeedListResponseDto> list = new ArrayList<>();
         list.addAll(feedReadService.getListAll(page).stream().map(FeedListResponseDto::new).toList());
@@ -67,7 +67,7 @@ public class FeedApiController {
             @RequestParam("nickName") String nickName,
             @RequestParam("page") int page) {
         List<Feed> feeds = feedReadService.getListByNickName(nickName, page);
-        if(feeds.isEmpty()) {
+        if (feeds.isEmpty()) {
             return ApiResponse.success(new ArrayList<>());
         }
         List<FeedListResponseDto> result = feeds.stream().map(FeedListResponseDto::new).toList();
