@@ -11,7 +11,7 @@ import travelfeeldog.community.scrap.repository.ScrapRepository;
 import travelfeeldog.community.dto.ScrapDtos.ScrapByMemberResponseDto;
 import travelfeeldog.community.dto.ScrapDtos.ScrapRequestDto;
 import travelfeeldog.member.domain.model.Member;
-import travelfeeldog.member.domain.application.service.MemberService;
+import travelfeeldog.member.application.service.MemberService;
 import travelfeeldog.community.scrap.domain.model.Scrap;
 
 
@@ -22,6 +22,7 @@ public class ScrapService {
     private final ScrapRepository scrapRepository;
     private final MemberService memberService;
     private final FeedReadService feedReadService;
+
     @Transactional
     public Boolean addNewScrap(String token, ScrapRequestDto requestDto) {
         Member member = memberService.findByToken(token);
@@ -44,17 +45,18 @@ public class ScrapService {
         Member member = memberService.findByToken(token);
         return scrapRepository.findAllByMemberId(member.getId()).stream().map(ScrapByMemberResponseDto::new).toList();
     }
+
     @Transactional
-    public Boolean deleteScrap(String token,Long scrapId) {
+    public Boolean deleteScrap(String token, Long scrapId) {
         Member member = memberService.findByToken(token);
-        Scrap  scrap = scrapRepository.findById(scrapId)
-                .orElseThrow(() -> new EntityNotFoundException("Scrap not found with ID"+scrapId));
+        Scrap scrap = scrapRepository.findById(scrapId)
+                .orElseThrow(() -> new EntityNotFoundException("Scrap not found with ID" + scrapId));
         scrap.getFeed().updateScrapCountPlus(false);
-        if(scrap.checkMember(member)) {
+        if (scrap.checkMember(member)) {
             scrapRepository.delete(scrap);
             return true;
-        }else {
+        } else {
             return false;
         }
-   }
+    }
 }

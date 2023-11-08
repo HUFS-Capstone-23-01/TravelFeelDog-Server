@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import travelfeeldog.infra.oauth2.dto.OAuthAttributes;
-import travelfeeldog.member.domain.application.service.MemberWriteService;
+import travelfeeldog.member.application.service.MemberWriteService;
 import travelfeeldog.member.domain.model.Member;
 
 @Service

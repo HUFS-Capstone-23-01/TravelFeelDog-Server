@@ -13,7 +13,7 @@ import travelfeeldog.community.dto.FeedDtos.FeedStaticResponseDto;
 import travelfeeldog.community.feed.domain.model.Feed;
 import travelfeeldog.community.dto.FeedLikeDtos.FeedLikesByMemberResponseDto;
 import travelfeeldog.member.domain.model.Member;
-import travelfeeldog.member.domain.application.service.MemberService;
+import travelfeeldog.member.application.service.MemberService;
 
 @Transactional(readOnly = true)
 @Service

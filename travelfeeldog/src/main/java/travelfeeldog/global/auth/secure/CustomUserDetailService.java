@@ -3,7 +3,7 @@ package travelfeeldog.global.auth.secure;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import travelfeeldog.member.domain.application.service.MemberService;
+import travelfeeldog.member.application.service.MemberService;
 
 @RequiredArgsConstructor
 @Service

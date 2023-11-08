@@ -8,7 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import travelfeeldog.IntegrationTest;
-import travelfeeldog.member.domain.application.service.FollowWriteService;
+import travelfeeldog.member.application.service.FollowWriteService;
 import travelfeeldog.member.dto.MemberDto;
 import travelfeeldog.factory.MemberFixtureFactory;
 

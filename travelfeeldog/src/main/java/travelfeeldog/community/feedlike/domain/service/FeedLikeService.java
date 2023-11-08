@@ -10,7 +10,7 @@ import travelfeeldog.community.dto.FeedLikeDtos.FeedLikeRequestDto;
 import travelfeeldog.community.dto.FeedLikeDtos.FeedLikesByMemberResponseDto;
 import travelfeeldog.community.feedlike.domain.model.FeedLike;
 import travelfeeldog.member.domain.model.Member;
-import travelfeeldog.member.domain.application.service.MemberService;
+import travelfeeldog.member.application.service.MemberService;
 
 
 import jakarta.persistence.EntityNotFoundException;
@@ -23,6 +23,7 @@ public class FeedLikeService {
     private final FeedLikeRepository feedLikeRepository;
     private final MemberService memberService;
     private final FeedReadService feedReadService;
+
     @Transactional
     public Boolean addNewScrap(String token, FeedLikeRequestDto requestDto) {
         Member member = memberService.findByToken(token);
@@ -46,18 +47,18 @@ public class FeedLikeService {
         return feedLikeRepository.findAllByMemberId(member.getId()).stream()
                 .map(FeedLikesByMemberResponseDto::new).toList();
     }
+
     @Transactional
-    public Boolean deleteFeedLike(String token,Long feedLikeId){
+    public Boolean deleteFeedLike(String token, Long feedLikeId) {
         Member member = memberService.findByToken(token);
-        FeedLike  feedLike = feedLikeRepository.findById(feedLikeId)
-                .orElseThrow(() -> new EntityNotFoundException("Scrap not found with ID"+feedLikeId));
+        FeedLike feedLike = feedLikeRepository.findById(feedLikeId)
+                .orElseThrow(() -> new EntityNotFoundException("Scrap not found with ID" + feedLikeId));
         feedLike.getFeed().updateFeedLikeCountPlus(false);
-        if(member.getId().equals(feedLike.getMember().getId())) {
+        if (member.getId().equals(feedLike.getMember().getId())) {
             feedLikeRepository.delete(feedLike);
             return true;
-        }
-        else{
+        } else {
             return false;
         }
-   }
+    }
 }

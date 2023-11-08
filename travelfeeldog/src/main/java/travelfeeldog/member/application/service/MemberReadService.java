@@ -1,4 +1,4 @@
-package travelfeeldog.member.domain.application.service;
+package travelfeeldog.member.application.service;
 
 import java.util.List;
 import travelfeeldog.infra.oauth2.dto.OAuthAttributes;

@@ -1,10 +1,11 @@
-package travelfeeldog.member.domain.application.service;
+package travelfeeldog.member.application.service;
 
 import travelfeeldog.global.auth.jwt.response.TokenResponse;
 import travelfeeldog.infra.oauth2.dto.OAuthAttributes;
 import travelfeeldog.member.domain.model.Member;
 import travelfeeldog.member.dto.MemberDtos.MemberPostRequestDto;
 import travelfeeldog.member.dto.MemberDtos.MemberPostResponseDto;
+
 public interface MemberWriteService {
     MemberPostResponseDto create(MemberPostRequestDto requestDto, TokenResponse tokenResponse);
 

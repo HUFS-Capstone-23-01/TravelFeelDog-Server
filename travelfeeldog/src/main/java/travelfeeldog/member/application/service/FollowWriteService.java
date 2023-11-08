@@ -1,11 +1,11 @@
-package travelfeeldog.member.domain.application.service;
+package travelfeeldog.member.application.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import travelfeeldog.member.domain.model.Follow;
 import travelfeeldog.member.dto.MemberDto;
-import travelfeeldog.member.repository.FollowRepository;
+import travelfeeldog.member.domain.FollowRepository;
 
 @RequiredArgsConstructor
 @Service

@@ -13,10 +13,10 @@ import travelfeeldog.global.auth.jwt.response.TokenResponse;
 import travelfeeldog.infra.oauth2.dto.OAuthAttributes;
 import travelfeeldog.member.domain.model.Member;
 import travelfeeldog.member.domain.model.MemberNicknameHistory;
-import travelfeeldog.member.domain.application.service.MemberWriteService;
+import travelfeeldog.member.application.service.MemberWriteService;
 import travelfeeldog.member.dto.MemberDtos.MemberPostRequestDto;
 import travelfeeldog.member.dto.MemberDtos.MemberPostResponseDto;
-import travelfeeldog.member.repository.MemberNicknameHistoryRepository;
+import travelfeeldog.member.domain.MemberNicknameHistoryRepository;
 import travelfeeldog.member.domain.MemberRepository;
 import org.junit.jupiter.api.Assertions;
 

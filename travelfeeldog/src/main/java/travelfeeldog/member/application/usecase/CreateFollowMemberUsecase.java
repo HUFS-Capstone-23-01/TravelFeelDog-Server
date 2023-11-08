@@ -1,9 +1,9 @@
-package travelfeeldog.member.domain.application.usecase;
+package travelfeeldog.member.application.usecase;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import travelfeeldog.member.domain.application.service.MemberReadService;
-import travelfeeldog.member.domain.application.service.FollowWriteService;
+import travelfeeldog.member.application.service.MemberReadService;
+import travelfeeldog.member.application.service.FollowWriteService;
 
 
 @Service
@@ -11,6 +11,7 @@ import travelfeeldog.member.domain.application.service.FollowWriteService;
 public class CreateFollowMemberUsecase {
     private final MemberReadService memberReadService;
     private final FollowWriteService followWriteService;
+
     public void execute(Long fromMemberId, Long toMemberId) {
         var fromMember = memberReadService.getMember(fromMemberId);
         var toMember = memberReadService.getMember(toMemberId);

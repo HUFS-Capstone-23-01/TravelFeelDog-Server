@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import travelfeeldog.community.feed.domain.application.service.FeedWriteService;
 import travelfeeldog.community.feed.domain.application.service.FeedTagService;
-import travelfeeldog.member.domain.application.service.MemberService;
+import travelfeeldog.member.application.service.MemberService;
 import travelfeeldog.community.dto.FeedDtos.FeedPostRequestDto;
 import travelfeeldog.community.dto.FeedDtos.FeedStaticResponseDto;
 import travelfeeldog.community.feed.domain.model.Feed;

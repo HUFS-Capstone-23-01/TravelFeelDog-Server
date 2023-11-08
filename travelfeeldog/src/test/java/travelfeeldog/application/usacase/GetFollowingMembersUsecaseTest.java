@@ -7,10 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.opentest4j.TestAbortedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import travelfeeldog.IntegrationTest;
-import travelfeeldog.member.domain.application.usecase.GetFollowingMembersUsecase;
+import travelfeeldog.member.application.usecase.GetFollowingMembersUsecase;
 import travelfeeldog.member.domain.model.Follow;
 import travelfeeldog.member.domain.model.Member;
-import travelfeeldog.member.repository.FollowRepository;
+import travelfeeldog.member.domain.FollowRepository;
 import travelfeeldog.member.domain.MemberRepository;
 import travelfeeldog.factory.MemberFixtureFactory;
 

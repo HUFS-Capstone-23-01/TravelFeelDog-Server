@@ -1,13 +1,13 @@
-package travelfeeldog.member.domain.application.usecase;
+package travelfeeldog.member.application.usecase;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import travelfeeldog.member.domain.application.service.MemberReadService;
+import travelfeeldog.member.application.service.MemberReadService;
 import travelfeeldog.member.dto.MemberDto;
 import travelfeeldog.member.domain.model.Follow;
-import travelfeeldog.member.domain.application.service.FollowReadService;
+import travelfeeldog.member.application.service.FollowReadService;
 
 @RequiredArgsConstructor
 @Service

@@ -1,4 +1,4 @@
-package travelfeeldog.member.domain.application.service;
+package travelfeeldog.member.application.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import travelfeeldog.global.auth.jwt.response.TokenResponse;
 import travelfeeldog.infra.oauth2.dto.OAuthAttributes;
 import travelfeeldog.member.domain.model.MemberNicknameHistory;
-import travelfeeldog.member.repository.MemberNicknameHistoryRepository;
+import travelfeeldog.member.domain.MemberNicknameHistoryRepository;
 import travelfeeldog.member.domain.model.Member;
 
 import travelfeeldog.member.dto.MemberDtos.MemberPostRequestDto;

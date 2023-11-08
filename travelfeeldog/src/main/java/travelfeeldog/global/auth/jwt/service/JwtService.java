@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import travelfeeldog.global.auth.jwt.exception.InvalidTokenException;
 import travelfeeldog.global.auth.jwt.response.TokenResponse;
 import travelfeeldog.infra.oauth2.api.TokenLoginResponse;
-import travelfeeldog.member.domain.application.service.MemberReadService;
+import travelfeeldog.member.application.service.MemberReadService;
 import travelfeeldog.member.domain.model.Member;
 
 @RequiredArgsConstructor

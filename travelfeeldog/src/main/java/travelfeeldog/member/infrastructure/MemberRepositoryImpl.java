@@ -1,4 +1,4 @@
-package travelfeeldog.member.repository;
+package travelfeeldog.member.infrastructure;
 
 import java.util.concurrent.atomic.AtomicLong;
 import lombok.RequiredArgsConstructor;

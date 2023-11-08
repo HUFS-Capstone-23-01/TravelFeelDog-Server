@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import travelfeeldog.member.dto.MemberDto;
-import travelfeeldog.member.domain.application.usecase.CreateFollowMemberUsecase;
-import travelfeeldog.member.domain.application.usecase.GetFollowingMembersUsecase;
+import travelfeeldog.member.application.usecase.CreateFollowMemberUsecase;
+import travelfeeldog.member.application.usecase.GetFollowingMembersUsecase;
 
 @Tag(name = "팔로우 정보")
 @RequiredArgsConstructor

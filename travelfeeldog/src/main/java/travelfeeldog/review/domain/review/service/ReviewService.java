@@ -5,7 +5,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import travelfeeldog.member.domain.application.service.MemberService;
+import travelfeeldog.member.application.service.MemberService;
 import travelfeeldog.member.domain.model.Member;
 import travelfeeldog.place.domain.place.model.Place;
 import travelfeeldog.place.domain.place.service.PlaceService;

@@ -1,10 +1,10 @@
-package travelfeeldog.member.repository;
+package travelfeeldog.member.domain;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import travelfeeldog.member.domain.model.Follow;
 
-public interface FollowRepository extends JpaRepository<Follow,Long> {
+public interface FollowRepository extends JpaRepository<Follow, Long> {
 
     List<Follow> findAllByFromMemberId(Long memberId);
 
