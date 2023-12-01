@@ -39,6 +39,12 @@ public class MemberApiController {
         return ApiResponse.success(memberReadWriteService.register(request));
     }
 
+    @PostMapping(value = "/oauth/register", produces = "application/json;charset=UTF-8")
+    public ApiResponse<MemberRegisterResponse> oauthRegisterMember(
+            @Valid @RequestBody MemberDtos.MemberOAuthRegisterRequestDto request) {
+        return ApiResponse.success(memberReadWriteService.oauthRegister(request));
+    }
+
     @PostMapping(value = "/login", produces = "application/json;charset=UTF-8")
     public ApiResponse<TokenLoginResponse> LoginMember(
             @Valid @RequestBody MemberDtos.MemberLoginRequestDto request) {

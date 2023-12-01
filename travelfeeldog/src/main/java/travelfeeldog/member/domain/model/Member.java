@@ -96,6 +96,7 @@ public class Member extends BaseTimeEntity {
         this.password = email;
     }
 
+    // 일반 로그인용
     public Member(String nickName, String email, String password) {
         validateNickname(nickName);
         validateEmail(email);
@@ -103,6 +104,7 @@ public class Member extends BaseTimeEntity {
         this.nickName = nickName;
         this.email = Objects.requireNonNull(email, "Email cannot be null");
         this.password = password;
+        this.imageUrl = "/base/baseLogo.png";
     }
 
     public void register(String atk, String rtk) {

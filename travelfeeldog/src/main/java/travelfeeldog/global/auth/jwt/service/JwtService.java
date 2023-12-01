@@ -35,7 +35,8 @@ public class JwtService {
 
     public TokenLoginResponse getTokenLoginResponseByMember(Member member) {
         TokenResponse tokenResponse = tokenUpdateCheckByMember(member);
-        return new TokenLoginResponse(member.getEmail(), member.getRole().getKey(), tokenResponse);
+        return new TokenLoginResponse(member.getEmail(), member.getRole().getKey(), member.getNickName(),
+                tokenResponse);
     }
 
     public TokenResponse updateToken(TokenResponse token, String email) {

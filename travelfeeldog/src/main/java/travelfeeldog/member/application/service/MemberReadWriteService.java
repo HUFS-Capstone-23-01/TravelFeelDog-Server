@@ -83,19 +83,19 @@ public class MemberReadWriteService implements MemberService {
      Member Write Service
      */
     public MemberRegisterResponse register(MemberPostRequestDto requestDto) {
-        TokenResponse tokenResponse = createTokenReturn(requestDto);
+        TokenResponse tokenResponse = createTokenReturn(requestDto.getEmail());
         MemberPostResponseDto result = createWithPassword(requestDto, tokenResponse);
         return new MemberRegisterResponse(result, tokenResponse);
     }
 
-    private TokenResponse createTokenReturn(MemberPostRequestDto request) {
-        String accessToken = jwtProvider.getNewAccessToken(request.getEmail());
-        String refreshToken = jwtProvider.getNewRefreshToken(request.getEmail());
+    private TokenResponse createTokenReturn(String email) {
+        String accessToken = jwtProvider.getNewAccessToken(email);
+        String refreshToken = jwtProvider.getNewRefreshToken(email);
         return new TokenResponse(accessToken, refreshToken);
     }
 
     @Override
-    public MemberPostResponseDto create(MemberPostRequestDto requestDto, TokenResponse tokenResponse) {
+    public MemberPostResponseDto create(MemberOAuthRegisterRequestDto requestDto, TokenResponse tokenResponse) {
         return memberWriteService.create(requestDto, tokenResponse);
     }
 
@@ -142,4 +142,9 @@ public class MemberReadWriteService implements MemberService {
         return response;
     }
 
+    public MemberRegisterResponse oauthRegister(MemberOAuthRegisterRequestDto requestDto) {
+        TokenResponse tokenResponse = createTokenReturn(requestDto.getEmail());
+        var result = create(requestDto, tokenResponse);
+        return new MemberRegisterResponse(result, tokenResponse);
+    }
 }

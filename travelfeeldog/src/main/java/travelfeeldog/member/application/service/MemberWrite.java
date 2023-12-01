@@ -9,6 +9,7 @@ import travelfeeldog.member.domain.MemberNicknameHistoryRepository;
 import travelfeeldog.member.domain.MemberRepository;
 import travelfeeldog.member.domain.model.Member;
 import travelfeeldog.member.domain.model.MemberNicknameHistory;
+import travelfeeldog.member.dto.MemberDtos.MemberOAuthRegisterRequestDto;
 import travelfeeldog.member.dto.MemberDtos.MemberPostRequestDto;
 import travelfeeldog.member.dto.MemberDtos.MemberPostResponseDto;
 
@@ -34,7 +35,7 @@ public class MemberWrite implements MemberWriteService {
     }
 
     @Override
-    public MemberPostResponseDto create(MemberPostRequestDto requestDto, TokenResponse tokenResponse) {
+    public MemberPostResponseDto create(MemberOAuthRegisterRequestDto requestDto, TokenResponse tokenResponse) {
         var member = memberRepository.save(requestDto.getEmail(), tokenResponse.accessToken(),
                 tokenResponse.refreshToken());
         saveNickNameHistory(member);

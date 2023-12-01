@@ -27,10 +27,26 @@ public class MemberDtos {
         @NonNull
         private String email;
         @NonNull
-        private String passWord;
+        private String password;
 
         public Member toEntity() {
-            return new Member(nickName, email, passWord);
+            return new Member(nickName, email, password);
+        }
+    }
+
+    @Getter
+    @NoArgsConstructor
+    @RequiredArgsConstructor
+    public static class MemberOAuthRegisterRequestDto {
+        @NonNull
+        @NotBlank(message = "NickName value is Empty or just Blank")
+        @Size(min = 2, max = 16, message = "닉네임은 2~16자리로 입력해주세요.")
+        private String nickName;
+        @NonNull
+        private String email;
+
+        public Member toEntity() {
+            return new Member(nickName, email);
         }
     }
 
@@ -41,11 +57,7 @@ public class MemberDtos {
         @NonNull
         private String email;
         @NonNull
-        private String passWord;
-
-        public Member toEntity() {
-            return new Member(email, passWord);
-        }
+        private String password;
     }
 
     @Getter

@@ -62,7 +62,7 @@ public class MemberRead implements MemberReadService {
     public Member loginWithPasswordRequest(MemberLoginRequestDto request) {
         Member member = memberRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalStateException("no member find by email"));
-        member.checkPassword(request.getPassWord());
+        member.checkPassword(request.getPassword());
         return member;
     }
 
