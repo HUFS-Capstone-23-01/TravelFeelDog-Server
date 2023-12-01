@@ -1,5 +1,6 @@
 package travelfeeldog.member.presntation.api;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -33,18 +34,21 @@ public class MemberApiController {
     private final MemberReadWriteService memberReadWriteService;
     private final ImageFileService imageFileService;
 
+    @Operation(summary = "일반 회원 가입")
     @PostMapping(value = "/register", produces = "application/json;charset=UTF-8")
     public ApiResponse<MemberRegisterResponse> registerMember(
             @Valid @RequestBody MemberDtos.MemberPostRequestDto request) {
         return ApiResponse.success(memberReadWriteService.register(request));
     }
 
+    @Operation(summary = "SNS 로그인시 사용하는  회원 가입")
     @PostMapping(value = "/oauth/register", produces = "application/json;charset=UTF-8")
     public ApiResponse<MemberRegisterResponse> oauthRegisterMember(
             @Valid @RequestBody MemberDtos.MemberOAuthRegisterRequestDto request) {
         return ApiResponse.success(memberReadWriteService.oauthRegister(request));
     }
 
+    @Operation(summary = "일반 로그인")
     @PostMapping(value = "/login", produces = "application/json;charset=UTF-8")
     public ApiResponse<TokenLoginResponse> LoginMember(
             @Valid @RequestBody MemberDtos.MemberLoginRequestDto request) {
