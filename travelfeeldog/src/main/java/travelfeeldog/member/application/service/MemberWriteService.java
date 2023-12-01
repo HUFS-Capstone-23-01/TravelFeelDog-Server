@@ -9,6 +9,8 @@ import travelfeeldog.member.dto.MemberDtos.MemberPostResponseDto;
 public interface MemberWriteService {
     MemberPostResponseDto create(MemberPostRequestDto requestDto, TokenResponse tokenResponse);
 
+    MemberPostResponseDto createWithPassword(MemberPostRequestDto requestDto, TokenResponse tokenResponse);
+
     void deleteMember(Member member);
 
     Member updateImageUrl(Member member, String imageUrl);

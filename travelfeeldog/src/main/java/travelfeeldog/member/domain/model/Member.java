@@ -1,33 +1,29 @@
 package travelfeeldog.member.domain.model;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import java.util.ArrayList;
-import java.util.List;
-
-import java.util.Objects;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
-
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
-
 import org.springframework.util.Assert;
-import travelfeeldog.community.feedlike.domain.model.FeedLike;
 import travelfeeldog.community.feed.domain.model.Feed;
+import travelfeeldog.community.feedlike.domain.model.FeedLike;
 import travelfeeldog.community.scrap.domain.model.Scrap;
-import travelfeeldog.review.reviewpost.domain.model.Review;
 import travelfeeldog.global.common.domain.basetime.BaseTimeEntity;
+import travelfeeldog.review.reviewpost.domain.model.Review;
 
 @Getter
 @Entity
@@ -49,6 +45,9 @@ public class Member extends BaseTimeEntity {
 
     @Column(name = "member_email", unique = true)
     private String email;
+
+    @Column(name = "member_password")
+    private String password;
 
     @Column(name = "member_level")
     private int level;
@@ -93,8 +92,17 @@ public class Member extends BaseTimeEntity {
         validateEmail(email);
         this.role = Role.GUEST;
         this.nickName = nickName;
-        this.email = Objects.requireNonNull(email,
-                "Email cannot be null"); // Initialize 'email' field
+        this.email = Objects.requireNonNull(email, "Email cannot be null");
+        this.password = email;
+    }
+
+    public Member(String nickName, String email, String password) {
+        validateNickname(nickName);
+        validateEmail(email);
+        this.role = Role.USER;
+        this.nickName = nickName;
+        this.email = Objects.requireNonNull(email, "Email cannot be null");
+        this.password = password;
     }
 
     public void register(String atk, String rtk) {
@@ -173,5 +181,9 @@ public class Member extends BaseTimeEntity {
 
     public boolean isGuest() {
         return getRole() == Role.GUEST;
+    }
+
+    public void checkPassword(String passWord) {
+        Assert.isTrue(this.password.equals(passWord), "비밀번호가 틀렸습니다.");
     }
 }

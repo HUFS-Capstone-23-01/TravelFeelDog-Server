@@ -5,8 +5,11 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import travelfeeldog.global.auth.jwt.service.JwtProvider;
 import travelfeeldog.global.auth.jwt.response.TokenResponse;
+import travelfeeldog.global.auth.jwt.service.JwtService;
+import travelfeeldog.infra.oauth2.api.TokenLoginResponse;
 import travelfeeldog.infra.oauth2.dto.OAuthAttributes;
 import travelfeeldog.member.dto.MemberDto;
 import travelfeeldog.member.dto.MemberDtos.*;
@@ -24,6 +27,7 @@ public class MemberReadWriteService implements MemberService {
     private final MemberWriteService memberWriteService;
 
     private final JwtProvider jwtProvider;
+    private final JwtService jwtService;
 
     @Override
     public Member findByToken(String firebaseToken) {
@@ -51,6 +55,11 @@ public class MemberReadWriteService implements MemberService {
     }
 
     @Override
+    public Member loginWithPasswordRequest(MemberLoginRequestDto request) {
+        return null;
+    }
+
+    @Override
     public Member findByNickName(String nickName) {
         return memberReadService.findByNickName(nickName);
     }
@@ -75,7 +84,7 @@ public class MemberReadWriteService implements MemberService {
      */
     public MemberRegisterResponse register(MemberPostRequestDto requestDto) {
         TokenResponse tokenResponse = createTokenReturn(requestDto);
-        MemberPostResponseDto result = create(requestDto, tokenResponse);
+        MemberPostResponseDto result = createWithPassword(requestDto, tokenResponse);
         return new MemberRegisterResponse(result, tokenResponse);
     }
 
@@ -88,6 +97,11 @@ public class MemberReadWriteService implements MemberService {
     @Override
     public MemberPostResponseDto create(MemberPostRequestDto requestDto, TokenResponse tokenResponse) {
         return memberWriteService.create(requestDto, tokenResponse);
+    }
+
+    @Override
+    public MemberPostResponseDto createWithPassword(MemberPostRequestDto requestDto, TokenResponse tokenResponse) {
+        return memberWriteService.createWithPassword(requestDto, tokenResponse);
     }
 
     @Override
@@ -119,4 +133,13 @@ public class MemberReadWriteService implements MemberService {
     public Member saveByAttributes(OAuthAttributes attributes) {
         return memberWriteService.saveByAttributes(attributes);
     }
+
+    @Transactional
+    public TokenLoginResponse loginWithPassword(MemberLoginRequestDto request) {
+        Member member = memberReadService.loginWithPasswordRequest(request);
+        var response = jwtService.getTokenLoginResponseByMember(member);
+        member.updateToken(response.tokenResponse().accessToken(), response.tokenResponse().refreshToken());
+        return response;
+    }
+
 }

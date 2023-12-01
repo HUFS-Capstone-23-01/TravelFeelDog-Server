@@ -44,11 +44,19 @@ public class MemberRepositoryImpl implements MemberRepository {
 
     @Override
     public Member save(String email, String atk, String rtk) {
-        Member member = findByEmail(email).orElseThrow(
-                () -> new IllegalStateException("No memberInfo"));
+        Member member = findByEmail(email).orElseThrow(() -> new IllegalStateException("No memberInfo"));
         if (member.getRole() != Role.GUEST) {
             throw new IllegalStateException("Wrong type of Member");
         }
+        member.register(atk, rtk);
+        em.merge(member);
+        return member;
+    }
+
+    @Override
+    public Member saveWithPassWord(Member givenMember, String atk, String rtk) {
+        Member member = save(givenMember).orElseThrow(
+                () -> new IllegalStateException("[ERROR] save error in register with password"));
         member.register(atk, rtk);
         em.merge(member);
         return member;

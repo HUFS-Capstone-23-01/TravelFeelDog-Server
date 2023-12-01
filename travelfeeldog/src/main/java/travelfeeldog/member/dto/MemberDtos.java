@@ -16,7 +16,7 @@ import jakarta.validation.constraints.Size;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberDtos {
 
-    @Data
+    @Getter
     @NoArgsConstructor
     @RequiredArgsConstructor
     public static class MemberPostRequestDto {
@@ -26,9 +26,29 @@ public class MemberDtos {
         private String nickName;
         @NonNull
         private String email;
+        @NonNull
+        private String passWord;
+
+        public Member toEntity() {
+            return new Member(nickName, email, passWord);
+        }
     }
 
-    @Data
+    @Getter
+    @NoArgsConstructor
+    @RequiredArgsConstructor
+    public static class MemberLoginRequestDto {
+        @NonNull
+        private String email;
+        @NonNull
+        private String passWord;
+
+        public Member toEntity() {
+            return new Member(email, passWord);
+        }
+    }
+
+    @Getter
     @NoArgsConstructor
     public static class MemberPutNickNameDto {
         @NotBlank(message = "NickName value is Empty or just Blank")
@@ -38,18 +58,22 @@ public class MemberDtos {
         String firebaseToken;
     }
 
-    @Data
+    @Getter
     @NotBlank(message = "Id value for found is Empty or just Blank")
     @NoArgsConstructor
-    public static class MemberGetIdDto { String id; }
+    public static class MemberGetIdDto {
+        String id;
+    }
 
-    @Data
+    @Getter
     @NotBlank(message = "NickName value is Empty or just Blank")
     @Size(min = 2, max = 16, message = "닉네임은 2~16자리로 입력해주세요.")
     @NoArgsConstructor
-    public static class MemberGetNickDto { String nickName; }
+    public static class MemberGetNickDto {
+        String nickName;
+    }
 
-    @Data
+    @Getter
     @NoArgsConstructor
     public static class MemberResponseExpDto {
         String level;
@@ -62,7 +86,7 @@ public class MemberDtos {
     }
 
 
-    @Data
+    @Getter
     @NoArgsConstructor
     public static class MemberPutExpDto {
         @NotBlank(message = "value for add is Empty or just Blank")
@@ -71,7 +95,7 @@ public class MemberDtos {
         String firebaseToken;
     }
 
-    @Data
+    @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class MemberResponse {
         private Long id;
@@ -80,7 +104,7 @@ public class MemberDtos {
         private int exp;
         private String imageUrl;
         private String token;
-        // fix point
+
         public MemberResponse(Member member) {
             this(
                     member.getId(),
@@ -101,12 +125,13 @@ public class MemberDtos {
             this.token = token;
         }
     }
+
     @Getter
-    public static class MemberRegisterResponse{
+    public static class MemberRegisterResponse {
         private final MemberPostResponseDto memberRegisterResponse;
         private final TokenResponse tokenResponse;
-        public MemberRegisterResponse(MemberPostResponseDto memberPostResponseDto,
-                TokenResponse tokenResponse){
+
+        public MemberRegisterResponse(MemberPostResponseDto memberPostResponseDto, TokenResponse tokenResponse) {
             this.memberRegisterResponse = memberPostResponseDto;
             this.tokenResponse = tokenResponse;
         }
@@ -125,16 +150,18 @@ public class MemberDtos {
 
         public MemberPostResponseDto(Member member) {
             this(
-                member.getId(),
-                member.getNickName(),
-                member.getImageUrl(),
-                member.getEmail(),
-                member.getLevel(),
-                member.getExp(),
-                member.getRoleKey()  // fix point
+                    member.getId(),
+                    member.getNickName(),
+                    member.getImageUrl(),
+                    member.getEmail(),
+                    member.getLevel(),
+                    member.getExp(),
+                    member.getRoleKey()  // fix point
             );
         }
-        public MemberPostResponseDto(Long id, String nickName,String imageUrl,String email, int level, int exp,String  roleKey) {
+
+        public MemberPostResponseDto(Long id, String nickName, String imageUrl, String email, int level, int exp,
+                                     String roleKey) {
             this.id = id;
             this.email = email;
             this.nickName = nickName;

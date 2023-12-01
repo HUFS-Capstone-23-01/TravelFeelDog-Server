@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import travelfeeldog.global.common.dto.ApiResponse;
 import travelfeeldog.global.file.domain.application.ImageFileService;
+import travelfeeldog.infra.oauth2.api.TokenLoginResponse;
 import travelfeeldog.member.application.service.MemberReadWriteService;
 import travelfeeldog.member.application.service.MemberService;
 import travelfeeldog.member.domain.model.Member;
@@ -33,8 +34,15 @@ public class MemberApiController {
     private final ImageFileService imageFileService;
 
     @PostMapping(value = "/register", produces = "application/json;charset=UTF-8")
-    public ApiResponse<MemberRegisterResponse> postMember(@Valid @RequestBody MemberDtos.MemberPostRequestDto request) {
+    public ApiResponse<MemberRegisterResponse> registerMember(
+            @Valid @RequestBody MemberDtos.MemberPostRequestDto request) {
         return ApiResponse.success(memberReadWriteService.register(request));
+    }
+
+    @PostMapping(value = "/login", produces = "application/json;charset=UTF-8")
+    public ApiResponse<TokenLoginResponse> LoginMember(
+            @Valid @RequestBody MemberDtos.MemberLoginRequestDto request) {
+        return ApiResponse.success(memberReadWriteService.loginWithPassword(request));
     }
 
     @GetMapping(value = "/register/nick/duplicate", produces = "application/json;charset=UTF-8")

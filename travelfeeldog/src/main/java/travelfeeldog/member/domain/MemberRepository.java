@@ -8,6 +8,8 @@ public interface MemberRepository {
 
     Member save(String email, String atk, String rtk);
 
+    Member saveWithPassWord(Member member, String atk, String rtk);
+
     Optional<Member> save(Member member);
 
     Optional<Member> findById(Long id);

@@ -12,6 +12,7 @@ import travelfeeldog.infra.oauth2.dto.OAuthAttributes;
 import travelfeeldog.member.domain.model.MemberNicknameHistory;
 import travelfeeldog.member.domain.model.Role;
 import travelfeeldog.member.dto.MemberDto;
+import travelfeeldog.member.dto.MemberDtos.MemberLoginRequestDto;
 import travelfeeldog.member.dto.MemberNickNameHistoryDto;
 import travelfeeldog.member.domain.MemberNicknameHistoryRepository;
 import travelfeeldog.member.domain.model.Member;
@@ -30,8 +31,7 @@ public class MemberRead implements MemberReadService {
     @Override
     public MemberDto getMember(Long memberId) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new NoSuchElementException(
-                        "Member not found by memberId" + memberId));
+                .orElseThrow(() -> new NoSuchElementException("Member not found by memberId" + memberId));
         return toDto(member);
     }
 
@@ -43,18 +43,14 @@ public class MemberRead implements MemberReadService {
     }
 
     @Override
-    public Member findByNickName(String nickName) {
-        return memberRepository.findByNickName(nickName)
-                .orElseThrow(() -> new NoSuchElementException(
-                        "Member not found by nickName :" + nickName));
+    public Member findByToken(String accessToken) {
+        return null;
     }
 
-    @Override  // fix point
-    public Member findByToken(String firebaseToken) {
-//        return memberRepository.findByToken(firebaseToken) // add access exchange logi
-//                .orElseThrow(() -> new NoSuchElementException(
-//                        "Member not found by token:" + firebaseToken));
-        return null;
+    @Override
+    public Member findByNickName(String nickName) {
+        return memberRepository.findByNickName(nickName)
+                .orElseThrow(() -> new NoSuchElementException("Member not found by nickName :" + nickName));
     }
 
     public Member findByEmail(String email) {
@@ -63,9 +59,16 @@ public class MemberRead implements MemberReadService {
     }
 
     @Override
+    public Member loginWithPasswordRequest(MemberLoginRequestDto request) {
+        Member member = memberRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new IllegalStateException("no member find by email"));
+        member.checkPassword(request.getPassWord());
+        return member;
+    }
+
+    @Override
     public boolean isNickRedundant(String nickName) {
         Optional<Member> member = memberRepository.findByNickName(nickName);
-        // there is no member which was wind by nickName
         return member.map(value -> value.getRole() != Role.GUEST).orElse(false);
     }
 
