@@ -44,7 +44,6 @@ src/main/resources/application-credentials.yml
 ~/*.DS_Store
 
 ### JAVA ###
-*.jar
 *.war
 *.nar
 *.ear
