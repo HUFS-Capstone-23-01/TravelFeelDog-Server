@@ -46,7 +46,7 @@ public class MemberWriteServiceTest {
         OAuthAttributes authAttributes = OAuthAttributes.of("gogole", userNickName, attributes);
         Member member = authAttributes.toEntity();
         memberRepository.save(member);
-        var command = new MemberPostRequestDto("cho12", userEmail);
+        var command = new MemberPostRequestDto("cho12", userEmail, userEmail);
 
         // Register after google login auth complete
         var tokenResponse = new TokenResponse("accTk", "rctk");
