@@ -54,7 +54,7 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
     /**Docs */
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
 
     /** metric */
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
